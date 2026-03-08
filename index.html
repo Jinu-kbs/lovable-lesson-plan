@@ -24,153 +24,512 @@
 <!-- 일반 메타 -->
 <meta name="description" content="러버블, 커서, 안티그래비티 등 바이브코딩 도구별 수준별 맞춤 가이드. 초보자·중급자·개발자 교안 제공">
 <style>
+/* === Reset & Variables === */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#5A4ED9;--primary-light:#C5BFFB;--bg:#F5F5F5;--card-bg:#FAFAFA;--text:#1A1A1A;--text-light:#555555;--border:#CCCCCC;--accent-green:#00B894;--accent-blue:#0984E3;--accent-orange:#E17055}
+:root{
+  --primary:#5A4ED9;--primary-light:#C5BFFB;
+  --bg:#F5F5F5;--card-bg:#FAFAFA;--text:#1A1A1A;--text-light:#555;--border:#CCC;
+  --lovable:#E91E63;--lovable-bg:#FCE4EC;
+  --antigravity:#9C27B0;--antigravity-bg:#F3E5F5;
+  --cursor-c:#2196F3;--cursor-bg:#E3F2FD;
+  --aistudio:#4CAF50;--aistudio-bg:#E8F5E9;
+  --claude-code:#FF9800;--claude-code-bg:#FFF3E0;
+}
 body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+/* === Top Navigation === */
+.topnav{background:#FFF;border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:200}
+.topnav .brand{font-weight:700;color:var(--text);margin-right:auto;font-size:1rem;text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links>a{text-decoration:none;color:var(--text-light);font-size:.9rem;font-weight:500;padding:8px 14px;border-radius:8px;transition:background .15s}
+.nav-links>a:hover{background:#F0F0F0;color:var(--text)}
+
+/* Dropdown */
+.nav-dropdown{position:relative}
+.nav-dropdown-btn{text-decoration:none;color:var(--text-light);font-size:.9rem;font-weight:500;padding:8px 14px;border-radius:8px;cursor:pointer;display:inline-block;transition:background .15s}
+.nav-dropdown-btn:hover{background:#F0F0F0;color:var(--text)}
+.dropdown-content{display:none;position:absolute;top:100%;right:0;background:#FFF;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:340px;padding:12px;z-index:300;margin-top:4px}
+.nav-dropdown:hover .dropdown-content{display:block}
+.dropdown-tool{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;transition:background .15s}
+.dropdown-tool:hover{background:var(--bg)}
+.dropdown-tool-name{font-weight:600;font-size:.9rem;display:flex;align-items:center;gap:8px}
+.dropdown-tool-levels{display:flex;gap:6px;font-size:.8rem}
+.dropdown-tool-levels a{text-decoration:none;color:var(--primary);font-weight:500;padding:2px 8px;border-radius:6px;transition:background .15s}
+.dropdown-tool-levels a:hover{background:var(--primary);color:#FFF}
+.badge-soon{color:var(--text-light);font-size:.8rem;font-style:italic}
+
+/* Hamburger (mobile) */
+.hamburger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;padding:4px 8px;color:var(--text)}
+.mobile-menu{display:none;background:#FFF;border-bottom:1px solid var(--border);padding:12px 20px;position:sticky;top:56px;z-index:199}
+.mobile-menu.open{display:block}
+.mobile-menu-tool{padding:10px 0;border-bottom:1px solid #EEE}
+.mobile-menu-tool:last-child{border-bottom:none}
+.mobile-menu-tool-name{font-weight:600;font-size:.95rem;margin-bottom:4px}
+.mobile-menu-tool-links{display:flex;gap:8px;flex-wrap:wrap}
+.mobile-menu-tool-links a{text-decoration:none;color:var(--primary);font-size:.85rem;padding:2px 10px;border:1px solid var(--primary);border-radius:6px}
+.mobile-menu-tool-links .soon{color:var(--text-light);border-color:var(--border);font-style:italic}
+.mobile-menu-bottom{padding-top:10px;margin-top:4px}
+.mobile-menu-bottom a{display:block;text-decoration:none;color:var(--text);font-weight:500;padding:8px 0;font-size:.95rem}
+
+/* === Hero === */
 .hero{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:80px 20px;text-align:center}
+.hero img{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:20px;border:3px solid rgba(255,255,255,.8);box-shadow:0 8px 16px rgba(0,0,0,.1)}
 .hero h1{font-size:2.5rem;margin-bottom:16px;font-weight:800}
 .hero p{font-size:1.15rem;opacity:.9;max-width:600px;margin:0 auto 12px}
+.hero .social-links{margin-top:10px}
+.hero .social-links a{color:rgba(255,255,255,.85);text-decoration:underline;margin:0 5px}
 .hero .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.85rem;margin-top:8px}
-.container{max-width:1000px;margin:0 auto;padding:40px 20px}
+
+/* === Container === */
+.container{max-width:1040px;margin:0 auto;padding:40px 20px}
 .section-title{text-align:center;font-size:1.6rem;font-weight:700;margin-bottom:12px}
 .section-desc{text-align:center;color:var(--text-light);margin-bottom:40px;font-size:1rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:60px}
-.card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px 28px;transition:transform .2s,box-shadow .2s;cursor:pointer;text-decoration:none;color:var(--text);display:flex;flex-direction:column}
-.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
-.card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:20px}
-.card-icon.green{background:#E8F8F5;color:var(--accent-green)}
-.card-icon.blue{background:#E3F2FD;color:var(--accent-blue)}
-.card-icon.orange{background:#FDEBD0;color:var(--accent-orange)}
-.card h3{font-size:1.25rem;margin-bottom:8px;font-weight:700}
-.card .level{font-size:.8rem;color:var(--primary);font-weight:600;margin-bottom:12px}
-.card p{color:var(--text-light);font-size:.95rem;flex:1}
-.card .tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
-.card .tag{background:#F0F0F0;padding:4px 10px;border-radius:8px;font-size:.75rem;color:var(--text-light)}
-.card .cta{display:inline-block;margin-top:20px;color:var(--primary);font-weight:600;font-size:.9rem}
-.card .cta::after{content:' →'}
-.self-check{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:60px}
-.self-check h2{font-size:1.3rem;margin-bottom:20px;font-weight:700}
-.check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.check-item{background:var(--bg);border-radius:12px;padding:20px;border:1px solid var(--border)}
-.check-item .q{font-weight:600;margin-bottom:8px;font-size:.95rem}
-.check-item .a{font-size:.85rem;color:var(--text-light)}
-.check-item .a span{color:var(--primary);font-weight:600}
+
+/* === Interactive Quiz === */
+.quiz-section{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:60px}
+.quiz-section>h2{font-size:1.3rem;margin-bottom:4px;font-weight:700;text-align:center}
+.quiz-subtitle{text-align:center;color:var(--text-light);font-size:.9rem;margin-bottom:24px}
+.quiz-step{display:none}
+.quiz-step.active{display:block}
+.quiz-question{font-weight:600;font-size:1.05rem;margin-bottom:16px;text-align:center}
+.quiz-progress{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.quiz-progress span{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.quiz-progress span.filled{background:var(--primary)}
+.quiz-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.quiz-option{display:flex;flex-direction:column;align-items:center;padding:20px 12px;border:2px solid var(--border);border-radius:12px;background:#FFF;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
+.quiz-option:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.quiz-option-icon{font-size:1.8rem;margin-bottom:8px}
+.quiz-option-label{font-weight:600;font-size:.9rem;margin-bottom:4px}
+.quiz-option-desc{font-size:.78rem;color:var(--text-light)}
+.quiz-result-card{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;border-radius:16px;padding:32px;text-align:center;margin-bottom:16px}
+.quiz-result-card .result-icon{font-size:2.5rem;margin-bottom:12px}
+.quiz-result-card .result-tool{font-size:1.4rem;font-weight:700;margin-bottom:4px}
+.quiz-result-card .result-level{font-size:1rem;opacity:.9;margin-bottom:16px}
+.quiz-result-card .result-desc{font-size:.95rem;opacity:.85;margin-bottom:20px}
+.quiz-result-card .result-link{display:inline-block;background:#FFF;color:var(--primary);padding:10px 24px;border-radius:10px;font-weight:600;text-decoration:none;font-size:.95rem;transition:transform .15s}
+.quiz-result-card .result-link:hover{transform:scale(1.05)}
+.quiz-result-card .result-soon{display:inline-block;background:rgba(255,255,255,.2);padding:10px 24px;border-radius:10px;font-size:.95rem}
+.quiz-reset{display:block;margin:0 auto;background:none;border:2px solid var(--border);border-radius:10px;padding:8px 20px;cursor:pointer;font-size:.9rem;color:var(--text-light);font-family:inherit;transition:all .15s}
+.quiz-reset:hover{border-color:var(--primary);color:var(--primary)}
+
+/* === Tool Cards === */
+.tool-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-bottom:60px}
+.tool-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.tool-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.tool-card-accent{height:6px}
+.tool-card-body{padding:28px 24px;flex:1;display:flex;flex-direction:column}
+.tool-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.tool-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.tool-card-title{font-size:1.15rem;font-weight:700}
+.tool-card-subtitle{font-size:.8rem;color:var(--text-light);font-weight:400}
+.tool-card-desc{color:var(--text-light);font-size:.9rem;margin-bottom:16px;flex:1}
+.tool-card-levels{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tool-card-levels a{text-decoration:none;font-size:.8rem;padding:4px 12px;border-radius:8px;font-weight:500;transition:all .15s}
+.tool-card-levels .soon-badge{font-size:.8rem;padding:4px 12px;border-radius:8px;color:var(--text-light);background:#F0F0F0}
+.tool-card-cta{font-size:.9rem;font-weight:600;text-decoration:none;display:inline-block}
+.tool-card-cta::after{content:' \2192'}
+.tool-card.coming-soon{opacity:.7}
+.tool-card.coming-soon:hover{transform:none;box-shadow:none}
+.tool-card.coming-soon .tool-card-cta{color:var(--text-light)}
+.tool-card.coming-soon .tool-card-cta::after{content:''}
+
+/* === Comparison Table === */
+.compare-section{margin-bottom:60px}
+.compare-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:16px;background:var(--card-bg)}
+.compare-table{width:100%;min-width:680px;border-collapse:collapse}
+.compare-table th{background:var(--primary);color:#FFF;padding:12px 14px;font-size:.85rem;font-weight:600;text-align:center;white-space:nowrap}
+.compare-table th:first-child{text-align:left;border-radius:0}
+.compare-table td{padding:10px 14px;font-size:.85rem;text-align:center;border-bottom:1px solid #EEE}
+.compare-table td:first-child{text-align:left;font-weight:600;color:var(--text);white-space:nowrap}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:#F9F9FF}
+.compare-table .highlight{background:#FFF9C4;font-weight:600}
+
+/* === Event Banner === */
 .event-banner{background:linear-gradient(135deg,#FFEAA7,#FDCB6E);border-radius:16px;padding:32px;text-align:center;margin-bottom:60px}
 .event-banner h2{font-size:1.3rem;margin-bottom:12px;color:#2D3436}
 .event-banner p{color:#636E72;font-size:.95rem;margin-bottom:8px}
 .event-banner .benefits{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px}
 .event-banner .benefit{background:rgba(255,255,255,.7);padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600}
-/* TOPNAV */
-.topnav{background:#FFF;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
-.topnav a{text-decoration:none;color:var(--text-light);font-size:.9rem;font-weight:500}
-.topnav a:hover{color:var(--text)}
-.topnav .brand{font-weight:700;color:var(--text);margin-right:auto}
-.topnav .active{color:var(--primary);font-weight:700}
+
+/* === Bulletin Board === */
+.bulletin-board{margin:40px auto;max-width:800px;padding:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px}
+.bulletin-board .bb-form{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.bulletin-board textarea{resize:vertical;padding:8px;border:1px solid var(--border);border-radius:6px;font-family:inherit}
+.bulletin-board button{align-self:flex-start;background:var(--primary);color:#fff;border:none;padding:6px 12px;border-radius:6px;cursor:pointer}
+.bulletin-board button:hover{background:var(--primary-light)}
+.bulletin-board .bb-posts{list-style:none;padding:0;margin:0}
+.bulletin-board .bb-posts li{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;font-size:.95rem}
+.bulletin-board .bb-empty{color:var(--text-light);text-align:center;padding:20px;font-size:.9rem}
+
+/* === Footer === */
 footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border)}
-@media(max-width:600px){.hero h1{font-size:1.7rem}.hero p{font-size:1rem}.cards{grid-template-columns:1fr}.check-grid{grid-template-columns:1fr}}
-.bulletin-board {margin: 40px auto; max-width: 800px; padding: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;}
-.bulletin-board .bb-form {display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;}
-.bulletin-board textarea {resize: vertical; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;}
-.bulletin-board button {align-self: flex-start; background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;}
-.bulletin-board button:hover {background: var(--primary-light);}
-.bulletin-board .bb-posts {list-style: none; padding: 0; margin: 0;}
-.bulletin-board .bb-posts li {background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: .95rem;}
-.bulletin-board .bb-empty {color: var(--text-light); text-align: center; padding: 20px; font-size: .9rem;}
+footer a{color:var(--text-light);text-decoration:underline}
+
+/* === Responsive === */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .hero h1{font-size:1.7rem}
+  .hero p{font-size:1rem}
+  .tool-cards{grid-template-columns:1fr}
+  .quiz-options{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+}
+@media(max-width:480px){
+  .quiz-options{grid-template-columns:1fr 1fr}
+  .quiz-option{padding:14px 8px}
+}
 </style>
 </head>
 <body>
 
+<!-- === Top Navigation === -->
 <nav class="topnav">
-  <span class="brand">바이브코딩 가이드</span>
-  <a href="lovable-beginner.html">초보자편</a>
-  <a href="lovable-intermediate.html">중급자편</a>
-  <a href="lovable-developer.html">개발자편</a>
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-btn">도구별 교안 ▼</span>
+      <div class="dropdown-content">
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>💗</span> 러버블</div>
+          <div class="dropdown-tool-levels">
+            <a href="lovable-beginner.html">초보자</a>
+            <a href="lovable-intermediate.html">중급자</a>
+            <a href="lovable-developer.html">개발자</a>
+          </div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>🚀</span> 안티그래비티</div>
+          <div class="dropdown-tool-levels"><span class="badge-soon">준비 중</span></div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>💻</span> 커서</div>
+          <div class="dropdown-tool-levels"><span class="badge-soon">준비 중</span></div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>🧪</span> AI Studio</div>
+          <div class="dropdown-tool-levels"><span class="badge-soon">준비 중</span></div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>⚡</span> Claude Code</div>
+          <div class="dropdown-tool-levels"><span class="badge-soon">준비 중</span></div>
+        </div>
+      </div>
+    </div>
+    <a href="#compare">도구 비교</a>
+  </div>
+  <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
 </nav>
 
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-tool">
+    <div class="mobile-menu-tool-name">💗 러버블</div>
+    <div class="mobile-menu-tool-links">
+      <a href="lovable-beginner.html">초보자</a>
+      <a href="lovable-intermediate.html">중급자</a>
+      <a href="lovable-developer.html">개발자</a>
+    </div>
+  </div>
+  <div class="mobile-menu-tool">
+    <div class="mobile-menu-tool-name">🚀 안티그래비티</div>
+    <div class="mobile-menu-tool-links"><span class="soon">준비 중</span></div>
+  </div>
+  <div class="mobile-menu-tool">
+    <div class="mobile-menu-tool-name">💻 커서</div>
+    <div class="mobile-menu-tool-links"><span class="soon">준비 중</span></div>
+  </div>
+  <div class="mobile-menu-tool">
+    <div class="mobile-menu-tool-name">🧪 AI Studio</div>
+    <div class="mobile-menu-tool-links"><span class="soon">준비 중</span></div>
+  </div>
+  <div class="mobile-menu-tool">
+    <div class="mobile-menu-tool-name">⚡ Claude Code</div>
+    <div class="mobile-menu-tool-links"><span class="soon">준비 중</span></div>
+  </div>
+  <div class="mobile-menu-bottom">
+    <a href="#compare" onclick="document.getElementById('mobileMenu').classList.remove('open')">도구 비교</a>
+  </div>
+</div>
+
+<!-- === Hero === -->
 <div class="hero">
-  <img src="teacher_kim.png" alt="친근한 김선생" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.8); box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+  <img src="teacher_kim.png" alt="친근한 김선생">
   <h1>김선생의 바이브코딩 가이드</h1>
-  <p>안녕하세요, 김선생입니다! <br>
+  <p>안녕하세요, 김선생입니다!<br>
     러버블, 커서, 안티그래비티 등 바이브코딩 도구별 맞춤 가이드를 제공합니다.</p>
   <p>아래에서 본인에게 맞는 도구와 수준의 교안을 선택하여 시작해 보세요.</p>
-  <div class="social-links" style="margin-top:10px;">
-    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,.85); text-decoration: underline; margin-right:10px;">쓰레드(Threads)</a>
-    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,.85); text-decoration: underline;">인스타그램(Instagram)</a>
+  <div class="social-links">
+    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">쓰레드(Threads)</a>
+    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">인스타그램(Instagram)</a>
   </div>
   <p>본 자료는 생성형인공지능을 사용한 자료입니다.<br>
   현실을 제대로 반영하지 못했을 수도 있습니다.<br>
-  또한 인공지능은 시간의 개념이 부족합니다.<br> 
+  또한 인공지능은 시간의 개념이 부족합니다.<br>
   이해 바랍니다.</p>
   <div class="badge">2026년 3월 She Builds on Lovable 이벤트</div>
 </div>
 
 <div class="container">
 
-  <div class="self-check">
-    <h2>어떤 교안을 봐야 할까요?</h2>
-    <div class="check-grid">
-      <div class="check-item">
-        <div class="q">AI 챗봇(ChatGPT, 제미나이 등)을 써본 적이 있나요?</div>
-        <div class="a">아니오 → <span>초보자편</span> &nbsp;|&nbsp; 예 → 다음 질문으로</div>
+  <!-- === Interactive Quiz === -->
+  <div class="quiz-section" id="quiz">
+    <h2>나에게 맞는 도구 · 수준 찾기</h2>
+    <p class="quiz-subtitle">2개의 질문으로 추천 교안을 찾아드립니다</p>
+
+    <!-- Step 1: Tool Selection -->
+    <div class="quiz-step active" id="quiz-step-1">
+      <div class="quiz-progress"><span class="filled"></span><span></span></div>
+      <div class="quiz-question">Q1. 어떤 것을 만들고 싶으신가요?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="selectTool('lovable')">
+          <span class="quiz-option-icon">🌐</span>
+          <span class="quiz-option-label">웹사이트 · 웹앱</span>
+          <span class="quiz-option-desc">블로그, 포트폴리오, SaaS 등</span>
+        </button>
+        <button class="quiz-option" onclick="selectTool('antigravity')">
+          <span class="quiz-option-icon">📱</span>
+          <span class="quiz-option-label">모바일 앱</span>
+          <span class="quiz-option-desc">iOS / Android 앱</span>
+        </button>
+        <button class="quiz-option" onclick="selectTool('cursor')">
+          <span class="quiz-option-icon">💻</span>
+          <span class="quiz-option-label">코드 직접 제어</span>
+          <span class="quiz-option-desc">AI 코드 에디터로 개발</span>
+        </button>
+        <button class="quiz-option" onclick="selectTool('aistudio')">
+          <span class="quiz-option-icon">🧪</span>
+          <span class="quiz-option-label">빠른 프로토타입</span>
+          <span class="quiz-option-desc">아이디어 빠르게 테스트</span>
+        </button>
+        <button class="quiz-option" onclick="selectTool('claude-code')">
+          <span class="quiz-option-icon">⚡</span>
+          <span class="quiz-option-label">터미널 기반 개발</span>
+          <span class="quiz-option-desc">CLI에서 AI와 코딩</span>
+        </button>
       </div>
-      <div class="check-item">
-        <div class="q">"프론트엔드", "백엔드" 같은 개발 용어가 익숙한가요?</div>
-        <div class="a">아니오 → <span>중급자편</span> &nbsp;|&nbsp; 예 → 다음 질문으로</div>
+    </div>
+
+    <!-- Step 2: Level Selection -->
+    <div class="quiz-step" id="quiz-step-2">
+      <div class="quiz-progress"><span class="filled"></span><span class="filled"></span></div>
+      <div class="quiz-question">Q2. 현재 기술 수준은 어느 정도인가요?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="selectLevel('beginner')">
+          <span class="quiz-option-icon">🌱</span>
+          <span class="quiz-option-label">입문자</span>
+          <span class="quiz-option-desc">AI 도구를 처음 사용해 봅니다</span>
+        </button>
+        <button class="quiz-option" onclick="selectLevel('intermediate')">
+          <span class="quiz-option-icon">🚀</span>
+          <span class="quiz-option-label">중급자</span>
+          <span class="quiz-option-desc">AI 경험 있으나 코딩은 모릅니다</span>
+        </button>
+        <button class="quiz-option" onclick="selectLevel('developer')">
+          <span class="quiz-option-icon">⚡</span>
+          <span class="quiz-option-label">개발 경험자</span>
+          <span class="quiz-option-desc">코딩 경험이 있습니다</span>
+        </button>
       </div>
-      <div class="check-item">
-        <div class="q">코딩(HTML/JS/Python 등)을 직접 해본 경험이 있나요?</div>
-        <div class="a">아니오 → <span>중급자편</span> &nbsp;|&nbsp; 예 → <span>개발자편</span></div>
+    </div>
+
+    <!-- Result -->
+    <div class="quiz-step" id="quiz-result">
+      <div id="quizRecommendation"></div>
+      <button class="quiz-reset" onclick="resetQuiz()">다시 하기</button>
+    </div>
+  </div>
+
+  <!-- === Tool Cards === -->
+  <h2 class="section-title">도구별 교안</h2>
+  <p class="section-desc">나에게 맞는 바이브코딩 도구를 선택하세요</p>
+
+  <div class="tool-cards">
+    <!-- Lovable -->
+    <div class="tool-card">
+      <div class="tool-card-accent" style="background:var(--lovable)"></div>
+      <div class="tool-card-body">
+        <div class="tool-card-header">
+          <div class="tool-card-icon" style="background:var(--lovable-bg);color:var(--lovable)">💗</div>
+          <div>
+            <div class="tool-card-title">러버블</div>
+            <div class="tool-card-subtitle">Lovable · 웹 빌더</div>
+          </div>
+        </div>
+        <p class="tool-card-desc">프롬프트를 입력하면 풀스택 웹앱을 자동 생성하는 대화형 AI 웹 빌더. 코딩 없이 웹사이트와 웹앱을 만들 수 있습니다.</p>
+        <div class="tool-card-levels">
+          <a href="lovable-beginner.html" style="background:var(--lovable-bg);color:var(--lovable)">초보자</a>
+          <a href="lovable-intermediate.html" style="background:var(--lovable-bg);color:var(--lovable)">중급자</a>
+          <a href="lovable-developer.html" style="background:var(--lovable-bg);color:var(--lovable)">개발자</a>
+        </div>
+        <a href="lovable-beginner.html" class="tool-card-cta" style="color:var(--lovable)">교안 보기</a>
+      </div>
+    </div>
+
+    <!-- AntiGravity -->
+    <div class="tool-card coming-soon">
+      <div class="tool-card-accent" style="background:var(--antigravity)"></div>
+      <div class="tool-card-body">
+        <div class="tool-card-header">
+          <div class="tool-card-icon" style="background:var(--antigravity-bg);color:var(--antigravity)">🚀</div>
+          <div>
+            <div class="tool-card-title">안티그래비티</div>
+            <div class="tool-card-subtitle">AntiGravity · 앱 빌더</div>
+          </div>
+        </div>
+        <p class="tool-card-desc">대화형으로 iOS/Android 모바일 앱을 코드 없이 제작할 수 있는 AI 앱 빌더. 앱스토어 배포까지 지원합니다.</p>
+        <div class="tool-card-levels">
+          <span class="soon-badge">초보자 · 중급자 · 개발자 준비 중</span>
+        </div>
+        <span class="tool-card-cta">준비 중</span>
+      </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="tool-card coming-soon">
+      <div class="tool-card-accent" style="background:var(--cursor-c)"></div>
+      <div class="tool-card-body">
+        <div class="tool-card-header">
+          <div class="tool-card-icon" style="background:var(--cursor-bg);color:var(--cursor-c)">💻</div>
+          <div>
+            <div class="tool-card-title">커서</div>
+            <div class="tool-card-subtitle">Cursor · AI IDE</div>
+          </div>
+        </div>
+        <p class="tool-card-desc">VS Code 기반의 AI 코드 에디터. AI가 코드를 작성·수정하면서 직접 코드를 제어할 수 있어 자유도가 높습니다.</p>
+        <div class="tool-card-levels">
+          <span class="soon-badge">초보자 · 중급자 · 개발자 준비 중</span>
+        </div>
+        <span class="tool-card-cta">준비 중</span>
+      </div>
+    </div>
+
+    <!-- AI Studio Builder -->
+    <div class="tool-card coming-soon">
+      <div class="tool-card-accent" style="background:var(--aistudio)"></div>
+      <div class="tool-card-body">
+        <div class="tool-card-header">
+          <div class="tool-card-icon" style="background:var(--aistudio-bg);color:var(--aistudio)">🧪</div>
+          <div>
+            <div class="tool-card-title">AI Studio</div>
+            <div class="tool-card-subtitle">Google AI Studio · 웹 빌더</div>
+          </div>
+        </div>
+        <p class="tool-card-desc">Google AI Studio의 빌드 기능으로 간단한 웹 프로토타입을 빠르게 만들고 테스트할 수 있습니다.</p>
+        <div class="tool-card-levels">
+          <span class="soon-badge">초보자 준비 중</span>
+        </div>
+        <span class="tool-card-cta">준비 중</span>
+      </div>
+    </div>
+
+    <!-- Claude Code -->
+    <div class="tool-card coming-soon">
+      <div class="tool-card-accent" style="background:var(--claude-code)"></div>
+      <div class="tool-card-body">
+        <div class="tool-card-header">
+          <div class="tool-card-icon" style="background:var(--claude-code-bg);color:var(--claude-code)">⚡</div>
+          <div>
+            <div class="tool-card-title">Claude Code</div>
+            <div class="tool-card-subtitle">Anthropic · CLI 도구</div>
+          </div>
+        </div>
+        <p class="tool-card-desc">터미널에서 Claude와 대화하며 코딩하는 CLI 개발 도구. 파일 편집, 깃 관리, 테스트까지 자동화합니다.</p>
+        <div class="tool-card-levels">
+          <span class="soon-badge">개발자 준비 중</span>
+        </div>
+        <span class="tool-card-cta">준비 중</span>
       </div>
     </div>
   </div>
 
-  <h2 class="section-title">수준별 교안 선택</h2>
-  <p class="section-desc">나에게 맞는 교안을 선택하세요. 모든 교안에 사전 준비부터 배포까지 포함되어 있습니다.</p>
-
-  <div class="cards">
-    <a href="lovable-beginner.html" class="card">
-      <div class="card-icon green">🌱</div>
-      <h3>초보자편</h3>
-      <div class="level">BEGINNER · 약 3~4시간</div>
-      <p>바이브코딩과 노코드 툴을 처음 접하는 분을 위한 교안. 용어 해설부터 시작하여 나만의 웹사이트를 만들고 공개합니다.</p>
-      <div class="tag-list">
-        <span class="tag">용어 해설</span>
-        <span class="tag">가입 가이드</span>
-        <span class="tag">포트폴리오 실습</span>
-        <span class="tag">FAQ</span>
-      </div>
-      <span class="cta">교안 보기</span>
-    </a>
-
-    <a href="lovable-intermediate.html" class="card">
-      <div class="card-icon blue">🚀</div>
-      <h3>중급자편</h3>
-      <div class="level">INTERMEDIATE · 약 4~5시간</div>
-      <p>AI 도구 경험이 있는 분을 위한 교안. 체계적인 기획 문서(PRD/IA/ERD)로 기능성 웹앱을 제작합니다.</p>
-      <div class="tag-list">
-        <span class="tag">도구 비교</span>
-        <span class="tag">PRD 작성 실습</span>
-        <span class="tag">Chat 모드 전략</span>
-        <span class="tag">DB 연결</span>
-      </div>
-      <span class="cta">교안 보기</span>
-    </a>
-
-    <a href="lovable-developer.html" class="card">
-      <div class="card-icon orange">⚡</div>
-      <h3>개발자편</h3>
-      <div class="level">DEVELOPER · 약 3~4시간</div>
-      <p>코딩 기초가 있는 분을 위한 교안. 기술 아키텍처를 이해하고, 생성된 코드를 커스터마이징하여 활용합니다.</p>
-      <div class="tag-list">
-        <span class="tag">React 스택 분석</span>
-        <span class="tag">코드 수정</span>
-        <span class="tag">서비스 연동</span>
-        <span class="tag">마이그레이션</span>
-      </div>
-      <span class="cta">교안 보기</span>
-    </a>
+  <!-- === Comparison Table === -->
+  <div class="compare-section" id="compare">
+    <h2 class="section-title">도구 비교</h2>
+    <p class="section-desc">바이브코딩 도구들의 특징을 한눈에 비교해 보세요</p>
+    <div class="compare-wrapper">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>💗 러버블</th>
+            <th>🚀 안티그래비티</th>
+            <th>💻 커서</th>
+            <th>🧪 AI Studio</th>
+            <th>⚡ Claude Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>유형</td>
+            <td>웹 빌더</td>
+            <td>앱 빌더</td>
+            <td>AI IDE</td>
+            <td>웹 빌더</td>
+            <td>CLI 도구</td>
+          </tr>
+          <tr>
+            <td>설치</td>
+            <td>불필요 (웹)</td>
+            <td>불필요 (웹)</td>
+            <td>필요 (데스크톱)</td>
+            <td>불필요 (웹)</td>
+            <td>필요 (터미널)</td>
+          </tr>
+          <tr>
+            <td>코딩 필요</td>
+            <td>불필요</td>
+            <td>불필요</td>
+            <td>선택적</td>
+            <td>불필요</td>
+            <td>필요</td>
+          </tr>
+          <tr>
+            <td>주요 대상</td>
+            <td>웹사이트/웹앱</td>
+            <td>모바일 앱</td>
+            <td>모든 프로젝트</td>
+            <td>프로토타입</td>
+            <td>개발 프로젝트</td>
+          </tr>
+          <tr>
+            <td>난이도</td>
+            <td>쉬움</td>
+            <td>쉬움</td>
+            <td>보통</td>
+            <td>매우 쉬움</td>
+            <td>어려움</td>
+          </tr>
+          <tr>
+            <td>무료 사용</td>
+            <td>가능</td>
+            <td>가능</td>
+            <td>가능</td>
+            <td>가능</td>
+            <td>가능</td>
+          </tr>
+          <tr>
+            <td>추천 대상</td>
+            <td class="highlight">비개발자~중급</td>
+            <td>비개발자~중급</td>
+            <td>중급~개발자</td>
+            <td>완전 입문자</td>
+            <td>개발자</td>
+          </tr>
+          <tr>
+            <td>교안 상태</td>
+            <td class="highlight">제공 중</td>
+            <td>준비 중</td>
+            <td>준비 중</td>
+            <td>준비 중</td>
+            <td>준비 중</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
+  <!-- === Event Banner === -->
   <div class="event-banner">
     <h2>She Builds on Lovable 이벤트 혜택</h2>
     <p>참가 자격 제한 없이 누구나 참여 가능합니다</p>
@@ -183,8 +542,9 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
 
 </div>
 
+<!-- === Bulletin Board === -->
 <section class="bulletin-board">
-  <h2 class="section-title">사용자 후기·질문</h2>
+  <h2 class="section-title">사용자 후기 · 질문</h2>
   <p class="section-desc">로그인 없이 자유롭게 의견을 남겨 주세요. 모두가 함께 답변합니다.</p>
   <form id="bb-form" class="bb-form">
     <textarea id="bb-input" placeholder="여기에 의견을 입력하세요..." rows="3" maxlength="500" required></textarea>
@@ -192,62 +552,128 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
   </form>
   <ul id="bb-posts" class="bb-posts"></ul>
 </section>
+
 <footer>
-  <div style="margin-bottom: 10px;">본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.</div>
-  <div style="margin-bottom: 10px;">
+  <div style="margin-bottom:10px">본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.</div>
+  <div style="margin-bottom:10px">
     제공: 김선생 |
-    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: underline;">쓰레드(Threads)</a> |
-    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: underline;">인스타그램(Instagram)</a>
+    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">쓰레드(Threads)</a> |
+    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">인스타그램(Instagram)</a>
   </div>
-  <div style="font-size: .8rem; color: var(--text-light);">본 교안은 자유롭게 공유할 수 있습니다. 블로그, SNS 등에 공유 시 출처(URL)를 함께 표기해 주세요.</div>
+  <div style="font-size:.8rem">본 교안은 자유롭게 공유할 수 있습니다. 블로그, SNS 등에 공유 시 출처(URL)를 함께 표기해 주세요.</div>
 </footer>
 
 <script>
-  // Bulletin Board: store posts in localStorage under 'bb_posts'
-  const form = document.getElementById('bb-form');
-  const input = document.getElementById('bb-input');
-  const postsUl = document.getElementById('bb-posts');
-  const STORAGE_KEY = 'bb_posts';
+// === Quiz Logic ===
+var TOOLS = {
+  'lovable':     { name:'러버블',      icon:'💗', color:'#E91E63', levels:['beginner','intermediate','developer'], ready:true },
+  'antigravity': { name:'안티그래비티', icon:'🚀', color:'#9C27B0', levels:['beginner','intermediate','developer'], ready:false },
+  'cursor':      { name:'커서',        icon:'💻', color:'#2196F3', levels:['beginner','intermediate','developer'], ready:false },
+  'aistudio':    { name:'AI Studio',   icon:'🧪', color:'#4CAF50', levels:['beginner'], ready:false },
+  'claude-code': { name:'Claude Code', icon:'⚡', color:'#FF9800', levels:['developer'], ready:false }
+};
+var LEVELS = { beginner:'초보자', intermediate:'중급자', developer:'개발자' };
+var quizTool = null;
 
-  function loadPosts() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const posts = stored ? JSON.parse(stored) : [];
-    postsUl.innerHTML = '';
-    if (posts.length === 0) {
-      const empty = document.createElement('li');
-      empty.className = 'bb-empty';
-      empty.textContent = '아직 작성된 글이 없습니다. 첫 번째 의견을 남겨보세요!';
-      postsUl.appendChild(empty);
-      return;
-    }
-    posts.forEach(p => {
-      const li = document.createElement('li');
-      li.textContent = `${p.time} - ${p.text}`;
-      postsUl.appendChild(li);
-    });
+function showStep(id) {
+  document.querySelectorAll('.quiz-step').forEach(function(s){ s.classList.remove('active') });
+  document.getElementById(id).classList.add('active');
+}
+
+function selectTool(key) {
+  quizTool = key;
+  var tool = TOOLS[key];
+  if (tool.levels.length === 1) {
+    showResult(key, tool.levels[0]);
+  } else {
+    showStep('quiz-step-2');
   }
+}
 
-  function savePost(text) {
-    const now = new Date();
-    const time = now.toLocaleString();
-    const post = {time, text};
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const posts = stored ? JSON.parse(stored) : [];
-    posts.unshift(post); // newest on top
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+function selectLevel(level) {
+  var tool = TOOLS[quizTool];
+  var finalLevel = level;
+  if (tool.levels.indexOf(level) === -1) {
+    finalLevel = tool.levels[0];
   }
+  showResult(quizTool, finalLevel);
+}
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const txt = input.value.trim();
-    if (!txt) return;
-    savePost(txt);
-    input.value = '';
-    loadPosts();
+function showResult(toolKey, level) {
+  var tool = TOOLS[toolKey];
+  var levelName = LEVELS[level];
+  var url = toolKey + '-' + level + '.html';
+  var el = document.getElementById('quizRecommendation');
+
+  var linkHtml = tool.ready
+    ? '<a href="' + url + '" class="result-link">교안 바로가기</a>'
+    : '<span class="result-soon">교안 준비 중입니다</span>';
+
+  el.innerHTML =
+    '<div class="quiz-result-card" style="background:linear-gradient(135deg,' + tool.color + ',' + tool.color + '88)">' +
+      '<div class="result-icon">' + tool.icon + '</div>' +
+      '<div class="result-tool">' + tool.name + '</div>' +
+      '<div class="result-level">' + levelName + ' 교안 추천</div>' +
+      '<div class="result-desc">' + tool.name + '의 ' + levelName + ' 교안으로 바이브코딩을 시작해 보세요!</div>' +
+      linkHtml +
+    '</div>';
+  showStep('quiz-result');
+}
+
+function resetQuiz() {
+  quizTool = null;
+  showStep('quiz-step-1');
+}
+
+// === Mobile Navigation ===
+document.getElementById('hamburgerBtn').addEventListener('click', function() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+
+// === Bulletin Board ===
+var form = document.getElementById('bb-form');
+var input = document.getElementById('bb-input');
+var postsUl = document.getElementById('bb-posts');
+var STORAGE_KEY = 'bb_posts';
+
+function loadPosts() {
+  var stored = localStorage.getItem(STORAGE_KEY);
+  var posts = stored ? JSON.parse(stored) : [];
+  postsUl.innerHTML = '';
+  if (posts.length === 0) {
+    var empty = document.createElement('li');
+    empty.className = 'bb-empty';
+    empty.textContent = '아직 작성된 글이 없습니다. 첫 번째 의견을 남겨보세요!';
+    postsUl.appendChild(empty);
+    return;
+  }
+  posts.forEach(function(p) {
+    var li = document.createElement('li');
+    li.textContent = p.time + ' - ' + p.text;
+    postsUl.appendChild(li);
   });
+}
 
-  // initial load
+function savePost(text) {
+  var now = new Date();
+  var time = now.toLocaleString();
+  var post = { time: time, text: text };
+  var stored = localStorage.getItem(STORAGE_KEY);
+  var posts = stored ? JSON.parse(stored) : [];
+  posts.unshift(post);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  var txt = input.value.trim();
+  if (!txt) return;
+  savePost(txt);
+  input.value = '';
   loadPosts();
+});
+
+loadPosts();
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# IA (Information Architecture) — 김선생의 러버블 입문 교안
+# IA (Information Architecture) — 김선생의 바이브코딩 가이드
 
 ## 관련 문서
 
@@ -11,36 +11,86 @@
 ## 사이트맵
 
 ```
-/ (index.html) ─── 메인 랜딩 페이지
-├── /beginner.html ─── 초보자편 교안
-├── /intermediate.html ─── 중급자편 교안
-└── /developer.html ─── 개발자편 교안
+/ (index.html) ─── 멀티 도구 허브 (인터랙티브 퀴즈, 도구 카드, 비교표)
+│
+├── 러버블 (Lovable)
+│   ├── /lovable-beginner.html ─── 초보자편
+│   ├── /lovable-intermediate.html ─── 중급자편
+│   └── /lovable-developer.html ─── 개발자편
+│
+├── 안티그래비티 (AntiGravity) ─── 준비 중
+│   ├── /antigravity-beginner.html
+│   ├── /antigravity-intermediate.html
+│   └── /antigravity-developer.html
+│
+├── 커서 (Cursor) ─── 준비 중
+│   ├── /cursor-beginner.html
+│   ├── /cursor-intermediate.html
+│   └── /cursor-developer.html
+│
+├── AI Studio Builder ─── 준비 중
+│   └── /aistudio-beginner.html (초보자만)
+│
+├── Claude Code ─── 준비 중
+│   └── /claude-code-developer.html (개발자만)
+│
+├── /compare.html ─── 도구 비교 (준비 중)
+│
+└── 리다이렉트 스텁 (기존 URL 호환)
+    ├── /beginner.html → lovable-beginner.html
+    ├── /intermediate.html → lovable-intermediate.html
+    └── /developer.html → lovable-developer.html
+```
+
+## 공통 코드
+
+```
+common.css ─── 교안 공통 스타일 (CSS 변수로 페이지별 오버라이드)
+common.js  ─── 교안 공통 스크립트 (모바일 TOC, 백투탑, 스크롤 스파이, 코드 복사)
 ```
 
 ## 페이지별 구조
 
-### 1. 메인 랜딩 (index.html)
+### 1. 메인 랜딩 (index.html) — 멀티 도구 허브
 
 ```
+TopNav
+├── 브랜드: "바이브코딩 가이드"
+├── 드롭다운: "도구별 교안 ▼"
+│   ├── 💗 러버블 ── 초보자 · 중급자 · 개발자
+│   ├── 🚀 안티그래비티 ── 준비 중
+│   ├── 💻 커서 ── 준비 중
+│   ├── 🧪 AI Studio ── 준비 중
+│   └── ⚡ Claude Code ── 준비 중
+├── 링크: "도구 비교" (#compare)
+└── 모바일: 햄버거 메뉴 (☰)
+
 Hero 섹션
 ├── 프로필 이미지 (teacher_kim.png)
-├── 제목: "김선생의 러버블(Lovable) 입문 교안"
-├── 소개 문구
+├── 제목: "김선생의 바이브코딩 가이드"
+├── 소개 문구 (러버블, 커서, 안티그래비티 등)
 ├── SNS 링크 (Threads, Instagram)
 ├── AI 생성 자료 안내 문구
 └── 이벤트 배지
 
-자가 진단 섹션
-├── Q1: AI 챗봇 경험 → 초보자편 / 다음
-├── Q2: 개발 용어 이해 → 중급자편 / 다음
-└── Q3: 코딩 경험 → 중급자편 / 개발자편
+인터랙티브 퀴즈 (2단계)
+├── Q1: 만들고 싶은 것 → 도구 선택 (5개 옵션)
+├── Q2: 기술 수준 → 수준 선택 (3개 옵션, 단일 수준 도구는 생략)
+└── 결과: 추천 도구+수준 카드 (교안 링크 또는 "준비 중")
 
-수준별 교안 카드 (3개)
-├── 초보자편 카드 → beginner.html
-├── 중급자편 카드 → intermediate.html
-└── 개발자편 카드 → developer.html
+도구별 카드 그리드 (5개)
+├── 💗 러버블 ── 초보자·중급자·개발자 링크
+├── 🚀 안티그래비티 ── 준비 중
+├── 💻 커서 ── 준비 중
+├── 🧪 AI Studio ── 준비 중
+└── ⚡ Claude Code ── 준비 중
 
-이벤트 배너
+도구 비교표 (#compare)
+├── 유형, 설치, 코딩 필요, 주요 대상
+├── 난이도, 무료 사용, 추천 대상
+└── 교안 상태 (제공 중 / 준비 중)
+
+이벤트 배너 (She Builds on Lovable)
 ├── 25시간 무료 빌드
 ├── $100 API 크레딧
 └── $250 Stripe 크레딧
@@ -52,10 +102,10 @@ Footer
 └── 제공자 정보 + SNS 링크
 ```
 
-### 2. 초보자편 (beginner.html)
+### 2. 초보자편 (lovable-beginner.html)
 
 ```
-TopNav: [초보자편(active)] [중급자편] [개발자편]
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
 
 Sidebar (목차)                     Content (본문)
 ─────────────                     ──────────────
@@ -81,10 +131,10 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블 (4개 소스)
 ```
 
-### 3. 중급자편 (intermediate.html)
+### 3. 중급자편 (lovable-intermediate.html)
 
 ```
-TopNav: [초보자편] [중급자편(active)] [개발자편]
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
 
 Sidebar (목차)                     Content (본문)
 ─────────────                     ──────────────
@@ -113,10 +163,10 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블 (4개 소스)
 ```
 
-### 4. 개발자편 (developer.html)
+### 4. 개발자편 (lovable-developer.html)
 
 ```
-TopNav: [초보자편] [중급자편] [개발자편(active)]
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
 
 Sidebar (목차)                     Content (본문)
 ─────────────                     ──────────────
@@ -147,19 +197,38 @@ Sidebar (목차)                     Content (본문)
 ## 네비게이션 흐름
 
 ```
-index.html
+index.html (멀티 도구 허브)
     │
-    ├─[초보자편 카드 클릭]──→ beginner.html
-    │                           ├─[중급자편 링크]──→ intermediate.html
-    │                           └─[개발자편 링크]──→ developer.html
+    ├─[드롭다운 메뉴]
+    │   ├─ 러버블 → lovable-beginner / lovable-intermediate / lovable-developer
+    │   ├─ 안티그래비티 → (준비 중)
+    │   ├─ 커서 → (준비 중)
+    │   ├─ AI Studio → (준비 중)
+    │   └─ Claude Code → (준비 중)
     │
-    ├─[중급자편 카드 클릭]──→ intermediate.html
-    │                           ├─[초보자편 링크]──→ beginner.html
-    │                           └─[개발자편 링크]──→ developer.html
+    ├─[인터랙티브 퀴즈] → 추천 결과 → 교안 링크
     │
-    └─[개발자편 카드 클릭]──→ developer.html
-                                ├─[초보자편 링크]──→ beginner.html
-                                └─[중급자편 링크]──→ intermediate.html
+    ├─[도구 카드 클릭]
+    │   └─ 러버블 카드 → lovable-beginner.html (교안 보기)
+    │
+    └─[도구 비교] → #compare (인라인 비교표)
+
+lovable-beginner.html
+    ├─[topnav 중급자편]──→ lovable-intermediate.html
+    └─[topnav 개발자편]──→ lovable-developer.html
+
+lovable-intermediate.html
+    ├─[topnav 초보자편]──→ lovable-beginner.html
+    └─[topnav 개발자편]──→ lovable-developer.html
+
+lovable-developer.html
+    ├─[topnav 초보자편]──→ lovable-beginner.html
+    └─[topnav 중급자편]──→ lovable-intermediate.html
+
+리다이렉트 스텁:
+    beginner.html ──→ lovable-beginner.html
+    intermediate.html ──→ lovable-intermediate.html
+    developer.html ──→ lovable-developer.html
 ```
 
 ## 외부 링크 목록
