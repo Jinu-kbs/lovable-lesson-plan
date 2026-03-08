@@ -208,7 +208,11 @@ footer a{color:var(--text-light);text-decoration:underline}
         </div>
         <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>💻</span> 커서</div>
-          <div class="dropdown-tool-levels"><span class="badge-soon">준비 중</span></div>
+          <div class="dropdown-tool-levels">
+            <a href="cursor-beginner.html">초보자</a>
+            <a href="cursor-intermediate.html">중급자</a>
+            <a href="cursor-developer.html">개발자</a>
+          </div>
         </div>
         <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>🧪</span> AI Studio</div>
@@ -245,7 +249,11 @@ footer a{color:var(--text-light);text-decoration:underline}
   </div>
   <div class="mobile-menu-tool">
     <div class="mobile-menu-tool-name">💻 커서</div>
-    <div class="mobile-menu-tool-links"><span class="soon">준비 중</span></div>
+    <div class="mobile-menu-tool-links">
+      <a href="cursor-beginner.html">초보자</a>
+      <a href="cursor-intermediate.html">중급자</a>
+      <a href="cursor-developer.html">개발자</a>
+    </div>
   </div>
   <div class="mobile-menu-tool">
     <div class="mobile-menu-tool-name">🧪 AI Studio</div>
@@ -396,7 +404,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- Cursor -->
-    <div class="tool-card coming-soon">
+    <div class="tool-card">
       <div class="tool-card-accent" style="background:var(--cursor-c)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -406,11 +414,13 @@ footer a{color:var(--text-light);text-decoration:underline}
             <div class="tool-card-subtitle">Cursor · AI IDE</div>
           </div>
         </div>
-        <p class="tool-card-desc">VS Code 기반의 AI 코드 에디터. AI가 코드를 작성·수정하면서 직접 코드를 제어할 수 있어 자유도가 높습니다.</p>
+        <p class="tool-card-desc">VS Code 기반의 AI 코드 에디터. Tab·Composer·Agent 3단계 AI로 코드를 직접 제어하며 개발. 무료 플랜 제공.</p>
         <div class="tool-card-levels">
-          <span class="soon-badge">초보자 · 중급자 · 개발자 준비 중</span>
+          <a href="cursor-beginner.html" class="level-link" style="--lc:var(--cursor-c);--lbg:var(--cursor-bg)">🌱 초보자</a>
+          <a href="cursor-intermediate.html" class="level-link" style="--lc:var(--cursor-c);--lbg:var(--cursor-bg)">🚀 중급자</a>
+          <a href="cursor-developer.html" class="level-link" style="--lc:var(--cursor-c);--lbg:var(--cursor-bg)">⚙️ 개발자</a>
         </div>
-        <span class="tool-card-cta">준비 중</span>
+        <a href="cursor-beginner.html" class="tool-card-cta" style="background:var(--cursor-c)">교안 보기</a>
       </div>
     </div>
 
@@ -530,7 +540,7 @@ footer a{color:var(--text-light);text-decoration:underline}
             <td>교안 상태</td>
             <td class="highlight">제공 중</td>
             <td class="highlight">제공 중</td>
-            <td>준비 중</td>
+            <td class="highlight">제공 중</td>
             <td>준비 중</td>
             <td>준비 중</td>
           </tr>
@@ -578,7 +588,7 @@ footer a{color:var(--text-light);text-decoration:underline}
 var TOOLS = {
   'lovable':     { name:'러버블',      icon:'💗', color:'#E91E63', levels:['beginner','intermediate','developer'], ready:true },
   'antigravity': { name:'안티그래비티', icon:'🚀', color:'#9C27B0', levels:['beginner','intermediate','developer'], ready:true },
-  'cursor':      { name:'커서',        icon:'💻', color:'#2196F3', levels:['beginner','intermediate','developer'], ready:false },
+  'cursor':      { name:'커서',        icon:'💻', color:'#2196F3', levels:['beginner','intermediate','developer'], ready:true },
   'aistudio':    { name:'AI Studio',   icon:'🧪', color:'#4CAF50', levels:['beginner'], ready:false },
   'claude-code': { name:'Claude Code', icon:'⚡', color:'#FF9800', levels:['developer'], ready:false }
 };

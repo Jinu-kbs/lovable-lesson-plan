@@ -23,10 +23,10 @@
 │   ├── /antigravity-intermediate.html ─── 중급자편
 │   └── /antigravity-developer.html ─── 개발자편
 │
-├── 커서 (Cursor) ─── 준비 중
-│   ├── /cursor-beginner.html
-│   ├── /cursor-intermediate.html
-│   └── /cursor-developer.html
+├── 커서 (Cursor)
+│   ├── /cursor-beginner.html ─── 초보자편
+│   ├── /cursor-intermediate.html ─── 중급자편
+│   └── /cursor-developer.html ─── 개발자편
 │
 ├── AI Studio Builder ─── 준비 중
 │   └── /aistudio-beginner.html (초보자만)
@@ -59,7 +59,7 @@ TopNav
 ├── 드롭다운: "도구별 교안 ▼"
 │   ├── 💗 러버블 ── 초보자 · 중급자 · 개발자
 │   ├── 🚀 안티그래비티 ── 초보자 · 중급자 · 개발자
-│   ├── 💻 커서 ── 준비 중
+│   ├── 💻 커서 ── 초보자 · 중급자 · 개발자
 │   ├── 🧪 AI Studio ── 준비 중
 │   └── ⚡ Claude Code ── 준비 중
 ├── 링크: "도구 비교" (#compare)
@@ -81,7 +81,7 @@ Hero 섹션
 도구별 카드 그리드 (5개)
 ├── 💗 러버블 ── 초보자·중급자·개발자 링크
 ├── 🚀 안티그래비티 ── 초보자·중급자·개발자 링크
-├── 💻 커서 ── 준비 중
+├── 💻 커서 ── 초보자·중급자·개발자 링크
 ├── 🧪 AI Studio ── 준비 중
 └── ⚡ Claude Code ── 준비 중
 
@@ -270,6 +270,82 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블 (4개 소스)
 ```
 
+### 8. 커서 초보자편 (cursor-beginner.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          어떤 교안을 봐야 할까요?
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 바이브코딩이란?                 바이브코딩 개념, 비교표, 학습 경로
+2. 커서란?                         Tab·Composer·Agent 3단계, 차이점 비교, 기능표
+3. 용어 해설                       12개 용어 테이블
+4. 사전 준비                       계정 생성, 앱 설치, VS Code 임포트, 체크리스트
+5. 아이디어 구상하기               직군별 추천, 프롬프트 예시 3종
+6. 프롬프트 작성하기               Chat vs Composer 선택, Agent Mode 활용
+7. 커서 실습                       Step 1~5 (프로젝트 열기→결과 확인)
+8. 프로젝트 공개하기               GitHub+Vercel, Netlify, 터미널 Git
+9. 요금제 안내                     Hobby/Pro/Team 비교, 무료 한도
+10. 트러블슈팅                     5개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 주의사항 및 팁                 보안, 무료 한도, 실수, 노하우
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     5단계 플로우
+출처                               출처 테이블
+```
+
+### 9. 커서 중급자편 (cursor-intermediate.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 수준 안내
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 도구 비교                       5개 도구 비교표, 도구 선택 가이드
+2. AI 코딩 워크플로우              Tab→Composer→Agent 단계별, 상황별 선택
+3. 사전 준비                       계정/설치, VS Code 마이그레이션, Rules 설정
+4. 기획 문서 작성                  PRD/IA 작성 → Composer 연동, @codebase
+5. 심화 활용                       .cursor/rules, 모델 선택, Context, Notepads
+6. 실전 프로젝트                   Agent Mode 풀스택 웹앱, Step 1~3
+7. 배포                            Vercel/Netlify/GitHub Pages
+8. 데이터베이스 연결               Supabase MCP, Prisma, Drizzle ORM
+9. 외부 서비스 연동                MCP 서버, API 통합, 환경변수
+10. 트러블슈팅                     6개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 효율화 전략                    프롬프팅, Rules 자동화, Composer 패턴
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     4단계 플로우
+출처                               출처 테이블
+```
+
+### 10. 커서 개발자편 (cursor-developer.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 추천 리소스 테이블
+1. 기술 아키텍처                   VS Code 포크, AI 모델 라우팅, Tab·Composer·Agent, IDE 비교
+2. 사전 준비                       Node.js/Git, Rules 설정, 인덱싱 최적화
+3. 기획 문서 체계                  PRD.md/IA.md → Composer 연동, @codebase 전략
+4. 빌드 전략                       Agent 위임 / 하이브리드 / Tab+수동
+5. .cursor/rules 고급              글로벌/프로젝트 Rules, MDC 형식, glob 패턴
+6. GitHub 연동                     Git 통합, PR·리뷰, BugBot, CI/CD
+7. 외부 서비스 연동                MCP 프로토콜, Supabase/Firebase/Stripe, MCP Apps
+8. 배포 및 운영                    Vercel/Netlify/Cloud, 커스텀 도메인, Background Agent
+9. 마이그레이션                    VS Code→Cursor, AG→Cursor, Lovable→Cursor
+10. 디버깅 가이드                  Debug Mode, 체크포인트, 에러 패턴, 모델 특성
+11. Background Agent & 병렬        Background Agent, 최대 8개 병렬, 대규모 프로젝트
+12. 다음 단계                      MCP 서버 개발, 엔터프라이즈, 커뮤니티
+전체 흐름 요약                     기획→빌드→운영 플로우
+출처                               출처 테이블
+```
+
 ## 네비게이션 흐름
 
 ```
@@ -278,7 +354,7 @@ index.html (멀티 도구 허브)
     ├─[드롭다운 메뉴]
     │   ├─ 러버블 → lovable-beginner / lovable-intermediate / lovable-developer
     │   ├─ 안티그래비티 → antigravity-beginner / antigravity-intermediate / antigravity-developer
-    │   ├─ 커서 → (준비 중)
+    │   ├─ 커서 → cursor-beginner / cursor-intermediate / cursor-developer
     │   ├─ AI Studio → (준비 중)
     │   └─ Claude Code → (준비 중)
     │
@@ -313,6 +389,18 @@ antigravity-developer.html
     ├─[topnav 초보자편]──→ antigravity-beginner.html
     └─[topnav 중급자편]──→ antigravity-intermediate.html
 
+cursor-beginner.html
+    ├─[topnav 중급자편]──→ cursor-intermediate.html
+    └─[topnav 개발자편]──→ cursor-developer.html
+
+cursor-intermediate.html
+    ├─[topnav 초보자편]──→ cursor-beginner.html
+    └─[topnav 개발자편]──→ cursor-developer.html
+
+cursor-developer.html
+    ├─[topnav 초보자편]──→ cursor-beginner.html
+    └─[topnav 중급자편]──→ cursor-intermediate.html
+
 리다이렉트 스텁:
     beginner.html ──→ lovable-beginner.html
     intermediate.html ──→ lovable-intermediate.html
@@ -335,6 +423,9 @@ antigravity-developer.html
 | AntiGravity 공식 | https://antigravity.google | 안티그래비티 전 교안 |
 | Google Codelabs | https://codelabs.developers.google.com/getting-started-google-antigravity | 안티그래비티 전 교안 |
 | Google Developers Blog | https://developers.googleblog.com | 안티그래비티 전 교안 |
+| Cursor 공식 | https://cursor.com | 커서 전 교안 |
+| Cursor Docs | https://docs.cursor.com | 커서 전 교안 |
+| Cursor Pricing | https://cursor.com/pricing | 커서 전 교안 |
 | Threads | https://www.threads.net/@byeongseon_jinuchem | index.html |
 | Instagram | https://www.instagram.com/byeongseon_jinuchem | index.html |
 
