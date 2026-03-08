@@ -28,11 +28,11 @@
 │   ├── /cursor-intermediate.html ─── 중급자편
 │   └── /cursor-developer.html ─── 개발자편
 │
-├── AI Studio Builder ─── 준비 중
-│   └── /aistudio-beginner.html (초보자만)
+├── AI Studio Builder
+│   └── /aistudio-beginner.html ─── 초보자편
 │
-├── Claude Code ─── 준비 중
-│   └── /claude-code-developer.html (개발자만)
+├── Claude Code
+│   └── /claude-code-developer.html ─── 개발자편
 │
 ├── /compare.html ─── 도구 비교 (준비 중)
 │
@@ -60,8 +60,8 @@ TopNav
 │   ├── 💗 러버블 ── 초보자 · 중급자 · 개발자
 │   ├── 🚀 안티그래비티 ── 초보자 · 중급자 · 개발자
 │   ├── 💻 커서 ── 초보자 · 중급자 · 개발자
-│   ├── 🧪 AI Studio ── 준비 중
-│   └── ⚡ Claude Code ── 준비 중
+│   ├── 🧪 AI Studio ── 초보자
+│   └── ⚡ Claude Code ── 개발자
 ├── 링크: "도구 비교" (#compare)
 └── 모바일: 햄버거 메뉴 (☰)
 
@@ -82,13 +82,13 @@ Hero 섹션
 ├── 💗 러버블 ── 초보자·중급자·개발자 링크
 ├── 🚀 안티그래비티 ── 초보자·중급자·개발자 링크
 ├── 💻 커서 ── 초보자·중급자·개발자 링크
-├── 🧪 AI Studio ── 준비 중
-└── ⚡ Claude Code ── 준비 중
+├── 🧪 AI Studio ── 초보자 링크
+└── ⚡ Claude Code ── 개발자 링크
 
 도구 비교표 (#compare)
 ├── 유형, 설치, 코딩 필요, 주요 대상
 ├── 난이도, 무료 사용, 추천 대상
-└── 교안 상태 (제공 중 / 준비 중)
+└── 교안 상태 (전체 제공 중)
 
 이벤트 배너 (She Builds on Lovable)
 ├── 25시간 무료 빌드
@@ -346,6 +346,55 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블
 ```
 
+### 11. AI Studio 초보자편 (aistudio-beginner.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          어떤 교안을 봐야 할까요?
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 바이브코딩이란?                 바이브코딩 개념, 비교표, 학습 경로
+2. AI Studio 빌드란?              Build 탭, Gemini 2.5 Pro, 차이점, 기능표
+3. 용어 해설                       10개 용어 테이블
+4. 사전 준비                       Google 계정, AI Studio 접속, 빌드 모드 진입
+5. 아이디어 구상하기               프로토타입 중심, 프롬프트 예시 3종
+6. 프롬프트 작성하기               효과적 프롬프트 패턴, 반복 수정
+7. AI Studio 실습                  Step 1~4 (접속→프리뷰→수정)
+8. 프로젝트 공개하기               내보내기, 공유 링크, 코드 다운로드
+9. 무료 사용 안내                  무료 한도, Gemini API, 제한사항
+10. 트러블슈팅                     5개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     4단계 플로우
+출처                               출처 테이블
+```
+
+### 12. Claude Code 개발자편 (claude-code-developer.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [개발자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 추천 리소스 테이블
+1. 도구 비교                       5개 도구 비교표, Claude Code 위치, CLI 장점
+2. Claude Code란?                  에이전트형 CLI, MCP, 서브에이전트, 후크, 아키텍처
+3. 사전 준비                       Node.js 18+, npm install, API 키/구독, CLAUDE.md
+4. 핵심 기능                       대화형 코딩, 파일 편집, Git, 테스트 자동화
+5. 고급 기능                       MCP 서버, 서브에이전트, 후크, 슬래시 커맨드, 음성 모드
+6. 실전 프로젝트                   Step 1~3 (초기화→구현→배포)
+7. CLAUDE.md & 프로젝트 설정       메모리 시스템, 지침, settings.json
+8. GitHub 연동                     PR 생성, 코드 리뷰, CI, GitHub Actions
+9. IDE 연동                        VS Code, JetBrains, 터미널 통합
+10. 트러블슈팅                     6개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 다음 단계                      MCP 서버 개발, 엔터프라이즈, 커뮤니티
+전체 흐름 요약                     설치→설정→개발→배포 플로우
+출처                               출처 테이블
+```
+
 ## 네비게이션 흐름
 
 ```
@@ -355,8 +404,8 @@ index.html (멀티 도구 허브)
     │   ├─ 러버블 → lovable-beginner / lovable-intermediate / lovable-developer
     │   ├─ 안티그래비티 → antigravity-beginner / antigravity-intermediate / antigravity-developer
     │   ├─ 커서 → cursor-beginner / cursor-intermediate / cursor-developer
-    │   ├─ AI Studio → (준비 중)
-    │   └─ Claude Code → (준비 중)
+    │   ├─ AI Studio → aistudio-beginner
+    │   └─ Claude Code → claude-code-developer
     │
     ├─[인터랙티브 퀴즈] → 추천 결과 → 교안 링크
     │
@@ -401,6 +450,12 @@ cursor-developer.html
     ├─[topnav 초보자편]──→ cursor-beginner.html
     └─[topnav 중급자편]──→ cursor-intermediate.html
 
+aistudio-beginner.html
+    └─[topnav 바이브코딩 가이드]──→ index.html
+
+claude-code-developer.html
+    └─[topnav 바이브코딩 가이드]──→ index.html
+
 리다이렉트 스텁:
     beginner.html ──→ lovable-beginner.html
     intermediate.html ──→ lovable-intermediate.html
@@ -426,6 +481,11 @@ cursor-developer.html
 | Cursor 공식 | https://cursor.com | 커서 전 교안 |
 | Cursor Docs | https://docs.cursor.com | 커서 전 교안 |
 | Cursor Pricing | https://cursor.com/pricing | 커서 전 교안 |
+| Google AI Studio | https://aistudio.google.com | AI Studio 교안 |
+| AI Studio Docs | https://ai.google.dev/aistudio | AI Studio 교안 |
+| Claude Code 공식 | https://docs.anthropic.com/en/docs/claude-code | Claude Code 교안 |
+| Claude Code GitHub | https://github.com/anthropics/claude-code | Claude Code 교안 |
+| MCP 프로토콜 | https://modelcontextprotocol.io | Claude Code 교안 |
 | Threads | https://www.threads.net/@byeongseon_jinuchem | index.html |
 | Instagram | https://www.instagram.com/byeongseon_jinuchem | index.html |
 
