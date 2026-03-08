@@ -107,7 +107,7 @@
   <tr><td><strong>디버깅</strong></td><td>제한적</td><td>완전 제어</td></tr>
 </table>
 <blockquote><strong>실전 팁:</strong> "저는 러버블 1월에 조금 파다가 클로드 코드로 넘어온 케이스여서... 이제 도구는 거기로 안착했어요" — 실사용자 경험. 러버블은 <strong>빠른 프로토타입</strong> 도구로, 세부 작업은 익숙한 IDE에서 진행하는 하이브리드 방식이 효과적입니다.</blockquote>
-<blockquote><strong>하이브리드 워크플로우 실전 사례:</strong> "러버블에서 교안 작성 → HTML로 변환 → 깃허브 자동 연동 → 안티그래비티에서 HTML 부분 수정 (왜 안티그래비티 쓰라는지 알겠음, 신세계) → 4시간마다 자동 깃허브 업데이트 설정" — 실사용자 워크플로우. 러버블로 큰 틀을 잡고, 안티그래비티나 커서에서 세부 수정하는 방식이 실전에서 효과적입니다.</blockquote>
+<blockquote><strong>하이브리드 워크플로우 실전 사례:</strong> "러버블에서 교안 작성 → HTML로 변환 → 깃허브 자동 연동 → 안티그래비티에서 에이전트로 코드 리팩토링·테스트 (멀티 에이전트 병렬 작업이 신세계) → 4시간마다 자동 깃허브 업데이트 설정" — 실사용자 워크플로우. 러버블로 큰 틀을 잡고, 안티그래비티나 커서에서 본격 개발하는 방식이 실전에서 효과적입니다.</blockquote>
 
 <!-- 2. 사전 준비 -->
 <h2 id="s2">2. 사전 준비</h2>
@@ -514,13 +514,13 @@ claude
 </ol>
 
 <h3>러버블 → 안티그래비티 (AntiGravity)</h3>
-<p>안티그래비티는 웹 기반 IDE로, HTML/코드를 직접 수정하는 데 유용합니다:</p>
+<p>안티그래비티(Google Antigravity)는 데스크톱 에이전트 IDE로, AI 에이전트가 코드 수정·테스트를 자율 수행합니다:</p>
 <ol>
-  <li>러버블에서 프로젝트 파일 다운로드</li>
-  <li>안티그래비티에서 HTML/코드 파일 열기</li>
-  <li>AI 지원으로 세부 수정 (UI 미세 조정, 스타일 변경 등)</li>
+  <li>러버블에서 GitHub 연동으로 프로젝트 코드 내보내기</li>
+  <li>안티그래비티에서 해당 폴더를 열고 워크스페이스 생성</li>
+  <li>에이전트에게 수정·기능 추가·테스트 작업을 지시</li>
 </ol>
-<blockquote><strong>실사용자 경험:</strong> "안티그래비티에서 HTML 부분 수정 기능 처음 써봄. 이건 또 신세계. 왜 안티그래비티 쓰라는지 알겠음" — 실사용자 경험. 러버블 + 안티그래비티 조합으로 프로토타입 후 세부 수정까지 효율적으로 처리 가능</blockquote>
+<blockquote><strong>실사용자 경험:</strong> "안티그래비티에서 에이전트에게 리팩토링 작업 시켜봤는데 신세계였음. 멀티 에이전트가 병렬로 코드 수정하니까 엄청 빠름" — 실사용자 경험. 러버블로 프로토타입 후 안티그래비티로 본격 개발·테스트까지 이어갈 수 있음</blockquote>
 
 <h3>마이그레이션 시 주의사항</h3>
 <table>
@@ -655,7 +655,7 @@ echo $VITE_SUPABASE_ANON_KEY
   <tr><th>방향</th><th>설명</th><th>리소스</th></tr>
   <tr><td><strong>풀스택 확장</strong></td><td>Next.js + Supabase로 SSR/API Routes 추가</td><td><a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">Next.js 문서</a></td></tr>
   <tr><td><strong>모바일 앱</strong></td><td>React Native 또는 Capacitor로 모바일 래핑</td><td><a href="https://capacitorjs.com/docs" target="_blank" rel="noopener noreferrer">Capacitor 문서</a></td></tr>
-  <tr><td><strong>HTML 세부 수정</strong></td><td>안티그래비티에서 러버블 코드 직접 수정</td><td><a href="https://www.antigravity.dev" target="_blank" rel="noopener noreferrer">antigravity.dev</a></td></tr>
+  <tr><td><strong>에이전트 IDE</strong></td><td>안티그래비티에서 에이전트 기반 코드 수정·테스트</td><td><a href="https://www.antigravity.dev" target="_blank" rel="noopener noreferrer">antigravity.dev</a></td></tr>
   <tr><td><strong>CI/CD</strong></td><td>GitHub Actions로 테스트 자동화</td><td><a href="https://docs.github.com/actions" target="_blank" rel="noopener noreferrer">GitHub Actions 문서</a></td></tr>
   <tr><td><strong>AI 기능</strong></td><td>Claude API / OpenAI API로 AI 기능 내장</td><td><a href="https://docs.anthropic.com" target="_blank" rel="noopener noreferrer">Anthropic Docs</a></td></tr>
   <tr><td><strong>모노레포</strong></td><td>Turborepo로 프론트/백엔드 통합 관리</td><td><a href="https://turbo.build/repo/docs" target="_blank" rel="noopener noreferrer">Turborepo 문서</a></td></tr>

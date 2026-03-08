@@ -35,6 +35,13 @@
 ├── 교안_lovable_intermediate.md   ← 러버블 중급자편 MD 원본
 ├── 교안_lovable_developer.md      ← 러버블 개발자편 MD 원본
 │
+├── antigravity-beginner.html      ← 안티그래비티 초보자편 교안
+├── antigravity-intermediate.html  ← 안티그래비티 중급자편 교안
+├── antigravity-developer.html     ← 안티그래비티 개발자편 교안
+├── 교안_antigravity_beginner.md   ← 안티그래비티 초보자편 MD 원본
+├── 교안_antigravity_intermediate.md ← 안티그래비티 중급자편 MD 원본
+├── 교안_antigravity_developer.md  ← 안티그래비티 개발자편 MD 원본
+│
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
 ├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
 ├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html
@@ -129,7 +136,7 @@
 |------|---------|-------|----------|
 | **index.html** | `#5A4ED9` (보라) | `#C5BFFB` | — |
 | **Lovable** | `#00B894` (초록) | `#55EFC4` | 초보/중급/개발자 |
-| **AntiGravity** | `#9C27B0` (보라) | `#CE93D8` | (예정) |
+| **AntiGravity** | `#9C27B0` (보라) | `#CE93D8` | 초보/중급/개발자 |
 | **Cursor** | `#2196F3` (파랑) | `#90CAF9` | (예정) |
 | **AI Studio** | `#4CAF50` (초록) | `#A5D6A7` | (예정, 초보자만) |
 | **Claude Code** | `#FF9800` (오렌지) | `#FFCC80` | (예정, 개발자만) |

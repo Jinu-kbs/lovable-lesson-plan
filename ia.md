@@ -18,10 +18,10 @@
 │   ├── /lovable-intermediate.html ─── 중급자편
 │   └── /lovable-developer.html ─── 개발자편
 │
-├── 안티그래비티 (AntiGravity) ─── 준비 중
-│   ├── /antigravity-beginner.html
-│   ├── /antigravity-intermediate.html
-│   └── /antigravity-developer.html
+├── 안티그래비티 (AntiGravity)
+│   ├── /antigravity-beginner.html ─── 초보자편
+│   ├── /antigravity-intermediate.html ─── 중급자편
+│   └── /antigravity-developer.html ─── 개발자편
 │
 ├── 커서 (Cursor) ─── 준비 중
 │   ├── /cursor-beginner.html
@@ -58,7 +58,7 @@ TopNav
 ├── 브랜드: "바이브코딩 가이드"
 ├── 드롭다운: "도구별 교안 ▼"
 │   ├── 💗 러버블 ── 초보자 · 중급자 · 개발자
-│   ├── 🚀 안티그래비티 ── 준비 중
+│   ├── 🚀 안티그래비티 ── 초보자 · 중급자 · 개발자
 │   ├── 💻 커서 ── 준비 중
 │   ├── 🧪 AI Studio ── 준비 중
 │   └── ⚡ Claude Code ── 준비 중
@@ -80,7 +80,7 @@ Hero 섹션
 
 도구별 카드 그리드 (5개)
 ├── 💗 러버블 ── 초보자·중급자·개발자 링크
-├── 🚀 안티그래비티 ── 준비 중
+├── 🚀 안티그래비티 ── 초보자·중급자·개발자 링크
 ├── 💻 커서 ── 준비 중
 ├── 🧪 AI Studio ── 준비 중
 └── ⚡ Claude Code ── 준비 중
@@ -194,6 +194,82 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블 (4개 소스)
 ```
 
+### 5. 안티그래비티 초보자편 (antigravity-beginner.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          어떤 교안을 봐야 할까요?
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 바이브코딩이란?                 바이브코딩 개념, 비교표, 학습 경로
+2. 안티그래비티란?                 러버블과 비교, 주요 기능표, 영어 UI 안내
+3. 용어 해설                       12개 용어 테이블
+4. 사전 준비                       Google 계정, 앱 설치, Chrome 확장, 체크리스트
+5. 아이디어 구상하기               직군별 추천, 프롬프트 예시 3종
+6. 프롬프트 작성하기               PRD 개념, Plan Mode 활용법
+7. 안티그래비티 실습               Step 1~5 (워크스페이스→결과 확인)
+8. 프로젝트 공개하기               GitHub+Vercel, Firebase, 에이전트 배포
+9. 무료 사용 안내                  퍼블릭 프리뷰, 향후 요금, 이벤트 관계
+10. 트러블슈팅                     5개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 주의사항 및 팁                 보안 정책, 실수, 노하우
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     5단계 플로우
+출처                               출처 테이블 (4개 소스)
+```
+
+### 6. 안티그래비티 중급자편 (antigravity-intermediate.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 수준 안내
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 도구 비교                       5개 도구 비교표, 도구 선택 가이드
+2. 에이전트 워크플로우             Manager/Editor View, Plan/Fast Mode, 5단계
+3. 사전 준비                       계정/설치, 보안 정책, Rules 초기 설정
+4. 기획 문서 작성                  PRD/IA/ERD 개념, Plan Mode 연동, 프롬프트 예시
+5. 심화 활용                       Rules 커스터마이징, Workflows, 모델 선택, 컨텍스트
+6. 실전 프로젝트                   팀 대시보드 예시, Step 1~3
+7. 배포                            Firebase/Vercel/GitHub Pages
+8. 데이터베이스 연결               Supabase MCP, Firebase, 에이전트 DB 셋업
+9. 외부 서비스 연동                MCP 서버, Stripe, 인증
+10. 트러블슈팅                     6개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 최적화 전략                    프롬프팅, Plan Mode 활용, Rules 자동화
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     4단계 플로우
+출처                               출처 테이블 (4개 소스)
+```
+
+### 7. 안티그래비티 개발자편 (antigravity-developer.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 추천 리소스 테이블
+1. 기술 아키텍처                   VS Code 포크 구조, 에이전트 시스템, 모델 라우팅, IDE 비교
+2. 사전 준비                       개발 환경, 보안 정책, Allow/Deny, .agents/ 구조
+3. 기획 문서 체계                  PRD.md/IA.md/ERD.md 연동, Plan Mode
+4. 빌드 전략                       풀 에이전트 위임 / 하이브리드 / 기존 코드 강화
+5. Rules·Workflows·Skills         Global/Workspace Rules, 커스텀 Workflows, SKILL.md
+6. GitHub 연동                     터미널 에이전트 Git, PR 워크플로우, CI/CD
+7. 외부 서비스 연동                MCP 프로토콜, Supabase, 브라우저 에이전트 테스트
+8. 배포 및 운영                    Firebase/Cloud Run/Vercel, 커스텀 도메인, 자동화
+9. 마이그레이션                    Cursor→AG, VS Code→AG, Lovable→AG, AG→다른 도구
+10. 디버깅 가이드                  Artifact 분석, 터미널/브라우저 디버깅, 에러 패턴
+11. 멀티 에이전트 협업             병렬 작업, 역할 분배, 대규모 프로젝트 관리
+12. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     기획→빌드→운영 플로우
+출처                               출처 테이블 (4개 소스)
+```
+
 ## 네비게이션 흐름
 
 ```
@@ -201,7 +277,7 @@ index.html (멀티 도구 허브)
     │
     ├─[드롭다운 메뉴]
     │   ├─ 러버블 → lovable-beginner / lovable-intermediate / lovable-developer
-    │   ├─ 안티그래비티 → (준비 중)
+    │   ├─ 안티그래비티 → antigravity-beginner / antigravity-intermediate / antigravity-developer
     │   ├─ 커서 → (준비 중)
     │   ├─ AI Studio → (준비 중)
     │   └─ Claude Code → (준비 중)
@@ -225,6 +301,18 @@ lovable-developer.html
     ├─[topnav 초보자편]──→ lovable-beginner.html
     └─[topnav 중급자편]──→ lovable-intermediate.html
 
+antigravity-beginner.html
+    ├─[topnav 중급자편]──→ antigravity-intermediate.html
+    └─[topnav 개발자편]──→ antigravity-developer.html
+
+antigravity-intermediate.html
+    ├─[topnav 초보자편]──→ antigravity-beginner.html
+    └─[topnav 개발자편]──→ antigravity-developer.html
+
+antigravity-developer.html
+    ├─[topnav 초보자편]──→ antigravity-beginner.html
+    └─[topnav 중급자편]──→ antigravity-intermediate.html
+
 리다이렉트 스텁:
     beginner.html ──→ lovable-beginner.html
     intermediate.html ──→ lovable-intermediate.html
@@ -244,6 +332,9 @@ lovable-developer.html
 | 레고 학급경영 | https://brick-academy-hub.lovable.app/ | 전 교안 |
 | 교사 진도 관리 앱 | https://teachers-vibe-sync.lovable.app/ | 중급자편 |
 | 카카오 OG 캐시 초기화 | https://developers.kakao.com/tool/debugger/sharing | 초보자/중급자 트러블슈팅 |
+| AntiGravity 공식 | https://antigravity.google | 안티그래비티 전 교안 |
+| Google Codelabs | https://codelabs.developers.google.com/getting-started-google-antigravity | 안티그래비티 전 교안 |
+| Google Developers Blog | https://developers.googleblog.com | 안티그래비티 전 교안 |
 | Threads | https://www.threads.net/@byeongseon_jinuchem | index.html |
 | Instagram | https://www.instagram.com/byeongseon_jinuchem | index.html |
 
