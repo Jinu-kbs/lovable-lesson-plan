@@ -465,6 +465,7 @@ PRD(요구정의서)를 작성해줘.
 <h3>Step 4: 결과 확인 및 수정</h3>
 <ol>
   <li>러버블이 코드를 생성하면 <strong>미리보기(Preview)</strong> 에서 결과를 확인합니다</li>
+  <li><strong>Visual Edits(디자인 모드)</strong> 에서 색상, 레이아웃을 직접 변경할 수도 있습니다</li>
   <li>마음에 들지 않는 부분이 있으면 대화로 수정 요청합니다</li>
 </ol>
 <p><strong>수정 요청 예시 (초보자 친화적):</strong></p>
@@ -534,10 +535,20 @@ PRD(요구정의서)를 작성해줘.
 <table>
   <tr><th>혜택</th><th>내용</th><th>받는 방법</th></tr>
   <tr><td><strong>무료 빌드</strong></td><td>25시간 동안 무제한 빌드</td><td>이벤트 시간에 lovable.dev 접속</td></tr>
-  <tr><td><strong>$100 API 크레딧</strong></td><td>Claude API 사용 크레딧 (약 13만원 상당)</td><td>Lovable 대시보드 내 링크에서 수령</td></tr>
+  <tr><td><strong>$100 API 크레딧</strong></td><td>Claude API 사용 크레딧 (약 13만원 상당)</td><td>Lovable 대시보드 내 링크에서 신청</td></tr>
   <tr><td><strong>$250 Stripe 크레딧</strong></td><td>결제 시스템 수수료 면제</td><td>Stripe 연동 시 적용</td></tr>
 </table>
 <blockquote><strong>$100 API 크레딧은 꼭 받으세요!</strong> 대시보드에 접속하면 크레딧 수령 링크가 있습니다.</blockquote>
+
+<h3>API 크레딧 수령 타이밍</h3>
+<p>API 크레딧은 <strong>신청 즉시 지급되지 않습니다</strong>. 아래 일정을 참고하세요:</p>
+<table>
+  <tr><th>구분</th><th>예상 시점</th><th>설명</th></tr>
+  <tr><td><strong>크레딧 신청</strong></td><td>이벤트 기간 중</td><td>Lovable 대시보드에서 신청 (클릭 몇 번이면 5분 이내)</td></tr>
+  <tr><td><strong>크레딧 지급</strong></td><td>신청 후 1~2 영업일</td><td>Billing 페이지에 충전됨</td></tr>
+  <tr><td><strong>크레딧 만료</strong></td><td>지급 후 24시간</td><td>지급된 시점부터 하루 동안만 사용 가능</td></tr>
+</table>
+<blockquote><strong>주의</strong>: 러버블에서 채팅하며 사이트를 만드는 것은 <strong>러버블 크레딧</strong>(이벤트 중 무제한)을 사용합니다. $100 API 크레딧은 별도로, 외부에서 Claude API를 연동할 때 사용하는 크레딧입니다. 두 가지를 혼동하지 마세요!</blockquote>
 
 <h3>SNS 공유 미션 (참여 방법)</h3>
 <p>만든 결과물을 SNS에 공유하면 이벤트 참여가 완료됩니다:</p>
@@ -660,6 +671,16 @@ PRD(요구정의서)를 작성해줘.
 </details>
 
 <details>
+<summary>Q: 러버블 크레딧과 $100 API 크레딧은 다른 건가요?</summary>
+<div class="inner"><p>네, 완전히 다릅니다. 러버블에서 채팅하며 사이트를 만드는 데 쓰이는 것은 <strong>러버블 크레딧</strong>(이벤트 중 무제한)이고, $100 API 크레딧은 외부에서 <strong>Claude API를 연동</strong>할 때 쓰는 별도 크레딧입니다. 초보자는 러버블 크레딧만으로 충분하며, API 크레딧은 나중에 고급 기능을 붙일 때 사용합니다.</p></div>
+</details>
+
+<details>
+<summary>Q: 디자인 색상을 직접 바꿀 수 있나요?</summary>
+<div class="inner"><p>네! 러버블에는 <strong>Visual Edits(디자인 모드)</strong> 기능이 있어서 색상, 텍스트, 레이아웃 등을 대화 없이 직접 수정할 수 있습니다. 채팅 대신 화면에서 직접 클릭하여 변경하는 방식이라 초보자도 쉽게 사용할 수 있습니다.</p></div>
+</details>
+
+<details>
 <summary>Q: 러버블로 만든 후 구조를 몰라도 괜찮을까요?</summary>
 <div class="inner"><p>처음에는 괜찮지만, 프로젝트가 커지면 구조를 이해하지 못하면 수정이 어렵고 크레딧도 많이 소모됩니다. 그래서 이 교안에서 PRD(기획서)를 먼저 작성하는 것을 강조하는 것입니다. 기본적인 구조를 이해하면서 진행하면 나중에 훨씬 수월합니다.</p></div>
 </details>
@@ -699,7 +720,10 @@ PRD(요구정의서)를 작성해줘.
   <li>사전에 <strong>다른 AI</strong>(ChatGPT, 제미나이 등)에서 아이디어를 정리해두면 불필요한 왕복을 줄일 수 있습니다</li>
   <li>마음에 드는 결과물은 바로 <strong>파일 다운로드</strong> 해두세요</li>
   <li>러버블은 <strong>Anthropic의 Claude 모델</strong>을 사용합니다 — 이벤트 기간에 무료로 체험해보세요</li>
+  <li><strong>내 생각을 넣지 마세요</strong>: AI에게 "다른 작업들 추천해보세요. 전체적으로 검증해보고"라고 요청하면 놓친 부분을 찾아줍니다</li>
+  <li>어느 정도 만들었다면 <strong>"현재까지 프로세스를 확인하고, 개선사항을 리포트해줘"</strong> 라고 요청해보세요. 신세계를 경험하게 됩니다</li>
 </ul>
+<blockquote><strong>실전 철학</strong>: "하라고 하면 그대로 하면 됩니다. 자꾸 창의력 발휘하면 안 됩니다. 이게 핵심 중에 하나입니다" — 실사용자 조언</blockquote>
 
 <h2 id="s13">13. 다음 단계</h2>
 <p>교안을 마친 후 더 배우고 싶다면:</p>

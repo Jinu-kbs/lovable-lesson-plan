@@ -72,10 +72,10 @@ Sidebar (목차)                     Content (본문)
 7. 러버블 실습                     이벤트 타이밍 경고, 시간 전략, Step 1~5 가이드
                                    프롬프트 예시 3종, 수정 요청 예시
 8. 웹사이트 공개하기               방법 1: Publish / 방법 2: GitHub+Vercel / 방법 3: 수동
-9. 이벤트 참여 미션                혜택 테이블, SNS 공유 방법
+9. 이벤트 참여 미션                혜택 테이블, 크레딧 수령 타이밍, SNS 공유 방법
 10. 트러블슈팅                     5개 문제 상황별 해결법 (카톡 캐시 포함)
-11. FAQ                            8개 질문·답변
-12. 주의사항 및 팁                 크레딧 관리, 자주 하는 실수 4가지, 실전 노하우
+11. FAQ                            9개 질문·답변 (크레딧 구분, Visual Edits 포함)
+12. 주의사항 및 팁                 크레딧 관리, 자주 하는 실수 4가지, 실전 노하우, AI 검증 프롬프트
 13. 다음 단계                      학습 방향 테이블
 전체 흐름 요약                     5단계 플로우
 출처                               출처 테이블 (4개 소스)
@@ -104,10 +104,10 @@ Sidebar (목차)                     Content (본문)
 7. 배포                            방법 1: Publish / 방법 2: GitHub+Vercel
 8. 데이터베이스 연결               DB 필요 여부 판단, 3개 외부 DB 비교 테이블
                                    Supabase 프롬프트 예시
-9. 이벤트 참여 및 혜택             이벤트 타이밍 경고, 혜택 테이블, 시간 전략, SNS
+9. 이벤트 참여 및 혜택             이벤트 타이밍 경고, 혜택 테이블, 크레딧 수령 타이밍, 시간 전략, SNS
 10. 트러블슈팅                     6개 문제 상황별 해결법 (카톡 캐시, 규모 경고 포함)
-11. FAQ                            7개 질문·답변
-12. 크레딧 최적화 전략             6가지 전략 테이블
+11. FAQ                            8개 질문·답변 (크레딧 구분 포함)
+12. 크레딧 최적화 전략             6가지 전략 테이블, AI 검증 프롬프트
 13. 다음 단계                      5가지 방향 테이블
 전체 프로세스 요약                 4단계 플로우
 출처                               출처 테이블 (4개 소스)
@@ -139,7 +139,7 @@ Sidebar (목차)                     Content (본문)
 10. 디버깅 가이드                  러버블/로컬/Supabase/Vercel 에러 해결
                                    일반적 문제 테이블, 프로젝트 규모 주의사항
 11. 이벤트 참여 및 혜택            개발자 활용법 테이블, 시간 활용 전략
-12. 다음 단계                      6가지 방향 테이블
+12. 다음 단계                      7가지 방향 테이블 (make/n8n 자동화 추가)
 워크플로우 요약                    기획→빌드→운영 플로우
 출처                               출처 테이블 (4개 소스)
 ```
@@ -173,6 +173,7 @@ index.html
 | YouTube 영상 | https://youtu.be/bWY5n0GYgG8 | 전 교안 |
 | Cool Hot Story | https://cool-hot-story.lovable.app | 전 교안 |
 | 레고 학급경영 | https://brick-academy-hub.lovable.app/ | 전 교안 |
+| 교사 진도 관리 앱 | https://teachers-vibe-sync.lovable.app/ | 중급자편 |
 | 카카오 OG 캐시 초기화 | https://developers.kakao.com/tool/debugger/sharing | 초보자/중급자 트러블슈팅 |
 | Threads | https://www.threads.net/@byeongseon_jinuchem | index.html |
 | Instagram | https://www.instagram.com/byeongseon_jinuchem | index.html |
