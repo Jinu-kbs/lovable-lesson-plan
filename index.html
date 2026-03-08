@@ -60,6 +60,12 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .event-banner p{color:#636E72;font-size:.95rem;margin-bottom:8px}
 .event-banner .benefits{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px}
 .event-banner .benefit{background:rgba(255,255,255,.7);padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600}
+/* TOPNAV */
+.topnav{background:#FFF;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.topnav a{text-decoration:none;color:var(--text-light);font-size:.9rem;font-weight:500}
+.topnav a:hover{color:var(--text)}
+.topnav .brand{font-weight:700;color:var(--text);margin-right:auto}
+.topnav .active{color:var(--primary);font-weight:700}
 footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border)}
 @media(max-width:600px){.hero h1{font-size:1.7rem}.hero p{font-size:1rem}.cards{grid-template-columns:1fr}.check-grid{grid-template-columns:1fr}}
 .bulletin-board {margin: 40px auto; max-width: 800px; padding: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;}
@@ -79,6 +85,13 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
 </style>
 </head>
 <body>
+
+<nav class="topnav">
+  <span class="brand">러버블 교안</span>
+  <a href="beginner.html">초보자편</a>
+  <a href="intermediate.html">중급자편</a>
+  <a href="developer.html">개발자편</a>
+</nav>
 
 <div class="hero">
   <img src="teacher_kim.png" alt="친근한 김선생" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid rgba(255,255,255,0.8); box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
