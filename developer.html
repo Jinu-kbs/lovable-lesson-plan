@@ -80,12 +80,13 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
 
 <div class="hero">
   <h1>⚡ 개발자편</h1>
-  <div class="meta">대상: 코딩 기초가 있고 러버블을 처음 써보는 분 · 약 3~4시간</div>
+  <div class="meta">대상: 코딩 기초가 있고 러버블을 처음 써보는 분 · 목표: 러버블의 기술 구조를 이해하고, 기존 개발 경험을 활용하여 효율적으로 프로젝트를 빌드·배포하기 · 약 3~4시간</div>
 </div>
 
 <div class="layout">
 <aside class="sidebar">
   <h3>목차</h3>
+  <a href="#s0">이 교안이 맞는 분</a>
   <a href="#s1">1. 러버블 기술 아키텍처</a>
   <a href="#s2">2. 사전 준비</a>
   <a href="#s3">3. 개발자를 위한 기획 문서 체계</a>
@@ -98,6 +99,8 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
   <a href="#s10">10. 디버깅 가이드</a>
   <a href="#s11">11. 이벤트 참여 및 혜택</a>
   <a href="#s12">12. 다음 단계</a>
+  <a href="#summary">워크플로우 요약</a>
+  <a href="#sources">출처</a>
 </aside>
 
 <main class="content">
@@ -111,6 +114,15 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
   <li>생성된 코드를 직접 수정하거나 다른 개발 도구로 마이그레이션할 계획이 있다</li>
 </ul>
 <blockquote>AI 도구 경험은 있지만 코딩은 처음이라면 → <a href="intermediate.html"><strong>중급자편</strong></a> 교안을 추천합니다.</blockquote>
+
+<h3>📌 추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>기획 도우미 Gem</strong></td><td>제미나이 기반 프로젝트 기획 도우미 (peace 제작/공유)</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gem 바로가기</a></td></tr>
+  <tr><td><strong>러버블 5분 만들기 영상</strong></td><td>실제 제작 과정 참고 (peace 채널)</td><td><a href="https://youtu.be/bWY5n0GYgG8" target="_blank">YouTube 보기</a></td></tr>
+  <tr><td><strong>예시: Cool Hot Story</strong></td><td>5분 만에 만든 데모 사이트 (peace 제작)</td><td><a href="https://cool-hot-story.lovable.app" target="_blank">사이트 보기</a></td></tr>
+  <tr><td><strong>예시: 레고 학급경영</strong></td><td>초등 학급경영 사이트 예시 (이운희 제작)</td><td><a href="https://brick-academy-hub.lovable.app/" target="_blank">사이트 보기</a></td></tr>
+</table>
 
 <!-- 1. 러버블 기술 아키텍처 -->
 <h2 id="s1">1. 러버블 기술 아키텍처</h2>
@@ -154,7 +166,8 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
   <tr><td><strong>커스터마이징</strong></td><td>대화 기반 + 코드 수정</td><td>완전 자유</td></tr>
   <tr><td><strong>디버깅</strong></td><td>제한적</td><td>완전 제어</td></tr>
 </table>
-<blockquote><strong>실전 팁:</strong> 러버블은 <strong>빠른 프로토타입</strong> 도구로, 세부 작업은 익숙한 IDE에서 진행하는 하이브리드 방식이 효과적입니다.</blockquote>
+<blockquote><strong>실전 팁:</strong> "저는 러버블 1월에 조금 파다가 클로드 코드로 넘어온 케이스여서... 이제 도구는 거기로 안착했어요" — 실사용자 경험. 러버블은 <strong>빠른 프로토타입</strong> 도구로, 세부 작업은 익숙한 IDE에서 진행하는 하이브리드 방식이 효과적입니다.</blockquote>
+<blockquote><strong>하이브리드 워크플로우 실전 사례:</strong> "러버블에서 교안 작성 → HTML로 변환 → 깃허브 자동 연동 → 안티그래비티에서 HTML 부분 수정 (왜 안티그래비티 쓰라는지 알겠음, 신세계) → 4시간마다 자동 깃허브 업데이트 설정" — 실사용자 워크플로우. 러버블로 큰 틀을 잡고, 안티그래비티나 커서에서 세부 수정하는 방식이 실전에서 효과적입니다.</blockquote>
 
 <!-- 2. 사전 준비 -->
 <h2 id="s2">2. 사전 준비</h2>
@@ -345,7 +358,7 @@ Phase 3: "Supabase 연동으로 사용자 인증을 추가해주세요.
 <pre><code>기존 프로젝트의 요구사항 명세서를 기반으로 빌드해주세요.
 단, 한 번에 전체를 만들지 말고
 먼저 메인 레이아웃과 라우팅만 잡아주세요.</code></pre>
-<blockquote><strong>주의:</strong> 큰 명세서는 반드시 단계별로 나누세요. 한 번에 전체를 투입하면 크레딧이 급격히 소모될 수 있습니다.</blockquote>
+<blockquote><strong>주의:</strong> "만들고 있던 앱의 명세서를 넣고 한 번 하니까 크레딧이 끝났어요" — 실사용자 경험. 큰 명세서는 반드시 단계별로 나누세요.</blockquote>
 
 <!-- 5. 생성 코드 이해 및 커스터마이징 -->
 <h2 id="s5">5. 생성 코드 이해 및 커스터마이징</h2>
@@ -424,7 +437,7 @@ VITE_SUPABASE_ANON_KEY=eyJ...</code></pre>
          ↓
 [로컬에서 Clone]
          ↓
-[VS Code / Cursor / Claude Code에서 세부 수정]
+[VS Code / Cursor / Claude Code / AntiGravity에서 세부 수정]
          ↓
 [GitHub에 Push → Vercel 자동 배포]</code></pre>
 
@@ -560,6 +573,15 @@ claude
   <li>터미널에서 <code>npm run dev</code>로 확인</li>
 </ol>
 
+<h3>러버블 → 안티그래비티 (AntiGravity)</h3>
+<p>안티그래비티는 웹 기반 IDE로, HTML/코드를 직접 수정하는 데 유용합니다:</p>
+<ol>
+  <li>러버블에서 프로젝트 파일 다운로드</li>
+  <li>안티그래비티에서 HTML/코드 파일 열기</li>
+  <li>AI 지원으로 세부 수정 (UI 미세 조정, 스타일 변경 등)</li>
+</ol>
+<blockquote><strong>실사용자 경험:</strong> "안티그래비티에서 HTML 부분 수정 기능 처음 써봄. 이건 또 신세계. 왜 안티그래비티 쓰라는지 알겠음" — 실사용자 경험. 러버블 + 안티그래비티 조합으로 프로토타입 후 세부 수정까지 효율적으로 처리 가능</blockquote>
+
 <h3>마이그레이션 시 주의사항</h3>
 <table>
   <tr><th>항목</th><th>체크 포인트</th></tr>
@@ -631,6 +653,15 @@ echo $VITE_SUPABASE_ANON_KEY
   <tr><td>무한 렌더링</td><td>useEffect 의존성</td><td>React DevTools로 확인</td></tr>
 </table>
 
+<h3>프로젝트 규모 증가에 따른 주의사항</h3>
+<p>러버블로 만든 프로젝트는 규모가 커질수록 관리가 어려워집니다:</p>
+<ul>
+  <li><strong>구조 이해 필수</strong>: 생성된 코드의 구조를 이해하지 못한 채 계속 요청만 하면, 수정이 어렵고 크레딧이 급격히 소모됩니다</li>
+  <li><strong>조기 핸드오프 권장</strong>: 기본 구조가 잡히면 빨리 로컬 환경으로 옮겨서 직접 코드를 제어하세요</li>
+  <li><strong>구조화된 PRD = 최고의 프롬프트</strong>: 잘 구조화된 PRD를 투입하면 처음부터 깔끔한 구조가 나옵니다</li>
+</ul>
+<blockquote><strong>실사용자 경고:</strong> "러버블 같은 걸로 사이트 만들고 나중에 구조를 이해 못하면 나중에 더 힘들어집니다... 커지면 수정하는 데 크레딧도 쭉쭉 나가요" — 실사용자 경고. 개발자라면 코드 구조를 파악한 후 빠르게 로컬 개발로 전환하세요.</blockquote>
+
 <!-- 11. 이벤트 참여 및 혜택 -->
 <h2 id="s11">11. 이벤트 참여 및 혜택</h2>
 
@@ -653,12 +684,7 @@ echo $VITE_SUPABASE_ANON_KEY
 </table>
 
 <h3>SNS 공유 미션</h3>
-<ol>
-  <li>만든 웹사이트의 스크린샷 또는 URL 캡처</li>
-  <li>인스타그램, X(트위터) 등에 게시</li>
-  <li>태그: <strong>@lovable.community</strong>, <strong>@lovable.dev</strong></li>
-  <li>해시태그: <strong>#SheBuildsonLovable</strong></li>
-</ol>
+<p>태그: <strong>@lovable.community</strong>, <strong>@lovable.dev</strong> / 해시태그: <strong>#SheBuildsonLovable</strong></p>
 
 <!-- 12. 다음 단계 -->
 <h2 id="s12">12. 다음 단계</h2>
@@ -666,22 +692,33 @@ echo $VITE_SUPABASE_ANON_KEY
   <tr><th>방향</th><th>설명</th><th>리소스</th></tr>
   <tr><td><strong>풀스택 확장</strong></td><td>Next.js + Supabase로 SSR/API Routes 추가</td><td>Next.js 문서</td></tr>
   <tr><td><strong>모바일 앱</strong></td><td>React Native 또는 Capacitor로 모바일 래핑</td><td>Capacitor 문서</td></tr>
+  <tr><td><strong>HTML 세부 수정</strong></td><td>안티그래비티에서 러버블 코드 직접 수정</td><td>antigravity.dev</td></tr>
   <tr><td><strong>CI/CD</strong></td><td>GitHub Actions로 테스트 자동화</td><td>GitHub Actions 문서</td></tr>
   <tr><td><strong>AI 기능</strong></td><td>Claude API / OpenAI API로 AI 기능 내장</td><td>Anthropic Docs</td></tr>
   <tr><td><strong>모노레포</strong></td><td>Turborepo로 프론트/백엔드 통합 관리</td><td>Turborepo 문서</td></tr>
 </table>
 
 <!-- 워크플로우 요약 -->
-<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
-  <strong style="font-size:1.1rem">개발자를 위한 워크플로우 요약</strong><br><br>
-  <span style="text-align:left;display:inline-block;line-height:2">
-    [기획] PRD / IA / ERD 작성 (기술 제약 + 우선순위 포함)<br>
-    → [빌드] 러버블 프로토타입 → 로컬 Clone<br>
-    → [개발] VS Code / Cursor / Claude Code에서 세부 수정<br>
-    → [운영] GitHub Push → Vercel 자동 배포 → 모니터링
-  </span><br><br>
-  <span style="opacity:.8;font-size:.9rem">러버블은 빠른 프로토타입 도구로 활용하고, 세밀한 제어는 익숙한 개발 도구로 전환하세요!</span>
-</div>
+<h2 id="summary">개발자를 위한 워크플로우 요약</h2>
+<pre><code>[기획]                    [빌드]                [운영]
+PRD.md / IA.md / ERD.md → 러버블 프로토타입   → GitHub Push
+ (기술 제약 포함)               ↓                    ↓
+ (P0/P1/P2 우선순위)       로컬 Clone           Vercel 자동 배포
+                               ↓                    ↓
+                         VS Code / Cursor       커스텀 도메인
+                         Claude Code             모니터링 (Sentry)</code></pre>
+<blockquote><strong>핵심 메시지:</strong> 러버블은 <strong>프로토타입을 빠르게 만드는 도구</strong>로 활용하고, 세밀한 제어가 필요한 부분은 익숙한 개발 도구로 전환하는 하이브리드 접근이 가장 효율적입니다.</blockquote>
+
+<!-- 출처 -->
+<h2 id="sources">출처</h2>
+<p>본 교안의 실사용자 경험담 및 추천 리소스는 아래 출처에서 발췌·정리하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong>러버블 바이브코딩 카카오톡 대화방</strong></td><td>2026년 3월 8일 대화 기록 (참여자: 김병선, peace, 이운희, 송윤임, 우대윤, 서진영 외)</td></tr>
+  <tr><td><strong>peace YouTube</strong></td><td><a href="https://youtu.be/bWY5n0GYgG8" target="_blank">러버블 5분 만들기 영상</a></td></tr>
+  <tr><td><strong>peace Gemini Gem</strong></td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">기획 도우미 Gem</a></td></tr>
+  <tr><td><strong>She Builds on Lovable</strong></td><td><a href="https://lovable.dev" target="_blank">공식 이벤트 페이지</a></td></tr>
+</table>
 
 </main>
 </div>
