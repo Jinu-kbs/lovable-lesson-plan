@@ -1,9 +1,9 @@
-# CLAUDE.md — 김선생의 러버블 입문 교안 프로젝트
+# CLAUDE.md — 김선생의 바이브코딩 가이드 프로젝트
 
 ## 프로젝트 개요
 
-- **프로젝트명**: 김선생의 러버블(Lovable) 입문 교안
-- **목적**: 2026년 3월 "She Builds on Lovable" 이벤트를 위한 수준별 바이브코딩 입문 교안 제공
+- **프로젝트명**: 김선생의 바이브코딩 가이드
+- **목적**: 러버블, 안티그래비티, 커서 등 바이브코딩 도구별 수준별 가이드 제공 (2026년 3월 이벤트 기반)
 - **배포 URL**: https://jinu-kbs.github.io/lovable-lesson-plan/
 - **저장소**: https://github.com/Jinu-kbs/lovable-lesson-plan
 - **브랜치**: main (GitHub Pages 배포 브랜치)
@@ -24,19 +24,44 @@
 ├── PRD.md                 ← 제품 요구사항 문서
 ├── ia.md                  ← 정보 구조(IA) 문서
 ├── erd.md                 ← 데이터 구조(ERD) 문서
-├── index.html             ← 메인 랜딩 페이지 (교안 선택 + 게시판)
-├── beginner.html          ← 초보자편 교안 (green 테마, #00B894)
-├── intermediate.html      ← 중급자편 교안 (blue 테마, #0984E3)
-├── developer.html         ← 개발자편 교안 (orange 테마, #E17055)
-├── 교안_초보자편.md        ← 초보자편 원본 마크다운
-├── 교안_중급자편.md        ← 중급자편 원본 마크다운
-├── 교안_개발자편.md        ← 개발자편 원본 마크다운
+├── common.css             ← 교안 공통 스타일 (CSS 변수 기반)
+├── common.js              ← 교안 공통 스크립트 (TOC, 스크롤스파이 등)
+├── index.html             ← 메인 랜딩 페이지 (도구별 교안 허브 + 게시판)
+│
+├── lovable-beginner.html          ← 러버블 초보자편 교안
+├── lovable-intermediate.html      ← 러버블 중급자편 교안
+├── lovable-developer.html         ← 러버블 개발자편 교안
+├── 교안_lovable_beginner.md       ← 러버블 초보자편 MD 원본
+├── 교안_lovable_intermediate.md   ← 러버블 중급자편 MD 원본
+├── 교안_lovable_developer.md      ← 러버블 개발자편 MD 원본
+│
+├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
+├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
+├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html
+│
 ├── og-thumbnail.png       ← OG 썸네일 이미지
 ├── og-image.html          ← OG 이미지 디자인 참고 (미사용)
 ├── teacher_kim.png        ← 김선생 프로필 이미지
 ├── KakaoTalk_*.txt        ← 카카오톡 대화 원본 (교안 소스)
-└── 러버블 로그인 및 클로드api 수령 방법_26 합치기.pdf ← 참고자료 (로그인/API 수령 가이드)
+└── 러버블 로그인 및 클로드api 수령 방법_26 합치기.pdf ← 참고자료
 ```
+
+## 파일 네이밍 규칙
+
+새로운 도구 교안 추가 시 아래 규칙을 따른다:
+- **HTML**: `{tool}-{level}.html` (예: `cursor-beginner.html`)
+- **MD**: `교안_{tool}_{level}.md` (예: `교안_cursor_beginner.md`)
+- **Level**: `beginner`, `intermediate`, `developer`
+- **Tool**: `lovable`, `antigravity`, `cursor`, `aistudio`, `claude-code`
+
+## 공통 코드 구조
+
+### common.css
+- 모든 교안 HTML이 공유하는 스타일 (topnav, hero, sidebar, content, footer, 모바일 TOC 등)
+- 페이지별로 4개 CSS 변수만 오버라이드: `--primary`, `--primary-light`, `--blockquote-bg`, `--hover-bg`
+
+### common.js
+- 모바일 TOC 바텀시트, 백투탑 버튼, 스크롤 스파이, 코드 복사 버튼
 
 ## 개발 워크플로우 (6단계 필수 준수)
 
@@ -100,12 +125,14 @@
 
 ### 색상 테마 규칙
 
-| 페이지 | 주 색상 | CSS 변수 |
-|--------|---------|----------|
-| index.html | 보라 | `--primary:#5A4ED9` |
-| beginner.html | 초록 | `--primary:#00B894` |
-| intermediate.html | 파랑 | `--primary:#0984E3` |
-| developer.html | 오렌지 | `--primary:#E17055` |
+| 도구 | Primary | Light | 교안 수준 |
+|------|---------|-------|----------|
+| **index.html** | `#5A4ED9` (보라) | `#C5BFFB` | — |
+| **Lovable** | `#00B894` (초록) | `#55EFC4` | 초보/중급/개발자 |
+| **AntiGravity** | `#9C27B0` (보라) | `#CE93D8` | (예정) |
+| **Cursor** | `#2196F3` (파랑) | `#90CAF9` | (예정) |
+| **AI Studio** | `#4CAF50` (초록) | `#A5D6A7` | (예정, 초보자만) |
+| **Claude Code** | `#FF9800` (오렌지) | `#FFCC80` | (예정, 개발자만) |
 
 ### HTML 공통 구조
 
