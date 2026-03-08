@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>안티그래비티 입문 교안 - 개발자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#9C27B0;--primary-light:#CE93D8;--blockquote-bg:#F3E5F5;--hover-bg:#FDFAFF}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="antigravity-beginner.html">초보자편</a>
+  <a href="antigravity-intermediate.html">중급자편</a>
+  <a href="antigravity-developer.html" class="active">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>⚙️ 개발자편</h1>
+  <div class="meta">대상: 코딩 경험자, 에이전트 기반 개발 워크플로우를 구축하고 싶은 분 · 목표: 기술 아키텍처 이해, Skills·Rules 커스터마이징, 멀티 에이전트 협업 · 약 5~6시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 기술 아키텍처</a>
+  <a href="#s2">2. 사전 준비</a>
+  <a href="#s3">3. 기획 문서 체계</a>
+  <a href="#s4">4. 빌드 전략</a>
+  <a href="#s5">5. Rules·Workflows·Skills</a>
+  <a href="#s6">6. GitHub 연동</a>
+  <a href="#s7">7. 외부 서비스 연동</a>
+  <a href="#s8">8. 배포 및 운영</a>
+  <a href="#s9">9. 마이그레이션</a>
+  <a href="#s10">10. 디버깅 가이드</a>
+  <a href="#s11">11. 멀티 에이전트 협업</a>
+  <a href="#s12">12. 다음 단계</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">이 교안이 맞는 분</h2>
+<ul>
+  <li>HTML/CSS/JS 또는 Python 등 프로그래밍 경험이 있다</li>
+  <li>VS Code 등 코드 에디터를 사용해본 적이 있다</li>
+  <li>Git/GitHub를 사용할 줄 알거나 배우고 싶다</li>
+  <li>AI 에이전트 기반 개발에 관심이 있다</li>
+</ul>
+<blockquote>코딩 경험이 없다면 → <a href="antigravity-beginner.html"><strong>초보자편</strong></a> 또는 <a href="antigravity-intermediate.html"><strong>중급자편</strong></a>을 먼저 보세요.</blockquote>
+
+<h3 id="resources">📌 추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>AntiGravity 공식 사이트</strong></td><td>다운로드 및 공식 문서</td><td><a href="https://antigravity.google" target="_blank">antigravity.google</a></td></tr>
+  <tr><td><strong>Google Codelabs 가이드</strong></td><td>공식 시작하기 튜토리얼</td><td><a href="https://codelabs.developers.google.com/getting-started-google-antigravity" target="_blank">Codelabs</a></td></tr>
+  <tr><td><strong>기획 도우미 Gem</strong></td><td>PRD/IA/ERD 작성 도우미 (peace 제작/공유)</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gem 바로가기</a></td></tr>
+  <tr><td><strong>Google Developers Blog</strong></td><td>안티그래비티 아키텍처 설명</td><td><a href="https://developers.googleblog.com" target="_blank">Blog</a></td></tr>
+</table>
+
+<h2 id="s1">1. 기술 아키텍처</h2>
+
+<h3>VS Code 포크 구조</h3>
+<table>
+  <tr><th>계층</th><th>설명</th></tr>
+  <tr><td><strong>UI Layer</strong></td><td>VS Code 기반 Editor View + Manager View (에이전트 지시 화면)</td></tr>
+  <tr><td><strong>Agent Layer</strong></td><td>Gemini 3 Pro / Claude Sonnet / GPT 모델 기반 에이전트</td></tr>
+  <tr><td><strong>Execution Layer</strong></td><td>터미널 에이전트 (명령어 실행), 브라우저 에이전트 (Chrome 조작)</td></tr>
+  <tr><td><strong>Storage Layer</strong></td><td>로컬 파일시스템 + Git 연동</td></tr>
+</table>
+
+<h3>에이전트 시스템 내부</h3>
+<table>
+  <tr><th>에이전트 유형</th><th>역할</th><th>실행 환경</th></tr>
+  <tr><td><strong>코딩 에이전트</strong></td><td>코드 생성, 수정, 리팩토링</td><td>Editor View</td></tr>
+  <tr><td><strong>터미널 에이전트</strong></td><td>npm install, git, 빌드 명령 등 실행</td><td>내장 터미널</td></tr>
+  <tr><td><strong>브라우저 에이전트</strong></td><td>Chrome 조작, UI 테스트, 스크린샷</td><td>Chrome 확장</td></tr>
+  <tr><td><strong>플래닝 에이전트</strong></td><td>Plan Artifact 생성, 작업 분해</td><td>Manager View</td></tr>
+</table>
+
+<h3>모델 라우팅</h3>
+<table>
+  <tr><th>작업 유형</th><th>추천 모델</th><th>이유</th></tr>
+  <tr><td>코드 생성/수정</td><td>Gemini 3 Pro</td><td>빠른 응답, 코드 특화</td></tr>
+  <tr><td>복잡한 리팩토링</td><td>Claude Sonnet</td><td>긴 컨텍스트 윈도우</td></tr>
+  <tr><td>문서 분석</td><td>Claude Sonnet</td><td>긴 문서 처리</td></tr>
+  <tr><td>일반 작업</td><td>자동 선택</td><td>상황에 따라 최적 모델</td></tr>
+</table>
+
+<h3>IDE 비교표</h3>
+<table>
+  <tr><th>항목</th><th>AntiGravity</th><th>Cursor</th><th>VS Code + Copilot</th><th>Claude Code</th></tr>
+  <tr><td><strong>기반</strong></td><td>VS Code 포크</td><td>VS Code 포크</td><td>VS Code</td><td>CLI (터미널)</td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>멀티 모델</td><td>Claude + 커스텀</td><td>GitHub Copilot</td><td>Claude</td></tr>
+  <tr><td><strong>에이전트</strong></td><td>멀티 에이전트</td><td>단일 에이전트</td><td>코파일럿</td><td>단일 에이전트</td></tr>
+  <tr><td><strong>브라우저</strong></td><td>내장 에이전트</td><td>미지원</td><td>미지원</td><td>미지원</td></tr>
+  <tr><td><strong>Plan Mode</strong></td><td>지원</td><td>미지원</td><td>미지원</td><td>미지원</td></tr>
+  <tr><td><strong>비용</strong></td><td>무료 (프리뷰)</td><td>$20/월</td><td>$10/월</td><td>종량제</td></tr>
+</table>
+
+<h2 id="s2">2. 사전 준비</h2>
+
+<h3>개발 환경 요구사항</h3>
+<table>
+  <tr><th>항목</th><th>필수/권장</th><th>설명</th></tr>
+  <tr><td><strong>Node.js 18+</strong></td><td>권장</td><td>많은 프로젝트에서 필요</td></tr>
+  <tr><td><strong>Git</strong></td><td>권장</td><td>버전 관리 및 GitHub 연동</td></tr>
+  <tr><td><strong>Python 3.10+</strong></td><td>선택</td><td>Python 프로젝트 시</td></tr>
+  <tr><td><strong>Google 계정</strong></td><td>필수</td><td>앱 로그인</td></tr>
+  <tr><td><strong>GitHub 계정</strong></td><td>권장</td><td>코드 관리</td></tr>
+</table>
+
+<h3>보안 정책 설정</h3>
+<table>
+  <tr><th>모드</th><th>설명</th><th>개발자 사용</th></tr>
+  <tr><td>Safe</td><td>매 작업마다 승인</td><td>민감한 프로덕션 환경</td></tr>
+  <tr><td>Auto</td><td>안전한 작업 자동 승인</td><td>일반 개발</td></tr>
+  <tr><td><strong>Turbo</strong></td><td>대부분 자동 승인</td><td><strong>개발 속도 우선</strong> ✅</td></tr>
+</table>
+
+<h3>Allow/Deny 리스트</h3>
+<details>
+<summary>보안 정책 세밀 제어 예시</summary>
+<div class="inner">
+<pre><code># Allow 리스트 예시
+- npm install, npm run dev, npm run build
+- git add, git commit, git push
+- python -m pytest
+
+# Deny 리스트 예시
+- rm -rf /
+- sudo 명령어
+- 프로덕션 DB 접근</code></pre>
+</div>
+</details>
+
+<h3>.agents/ 디렉토리 구조</h3>
+<pre><code>.agents/
+├── rules.md          ← 워크스페이스 Rules
+├── workflows/        ← 커스텀 Workflows
+│   ├── deploy.md
+│   └── test.md
+└── skills/           ← 커스텀 Skills
+    └── SKILL.md</code></pre>
+
+<h2 id="s3">3. 기획 문서 체계</h2>
+
+<h3>PRD.md / IA.md / ERD.md 연동</h3>
+<p>개발자는 기획 문서를 마크다운 파일로 프로젝트에 포함시켜 에이전트가 참조하도록 합니다:</p>
+<pre><code>프로젝트-루트/
+├── docs/
+│   ├── PRD.md     ← 요구정의서
+│   ├── IA.md      ← 정보 구조
+│   └── ERD.md     ← 데이터 구조
+├── .agents/
+│   └── rules.md   ← "docs/ 디렉토리의 문서를 항상 참조할 것"
+└── src/</code></pre>
+
+<h3>Plan Mode와 기획 문서</h3>
+<pre><code>이 프로젝트의 docs/ 디렉토리에 PRD.md, IA.md, ERD.md가 있어.
+이 문서들을 먼저 읽고, PRD에 정의된 기능을 구현해줘.
+Plan Mode로 구현 계획을 세워줘.</code></pre>
+
+<h2 id="s4">4. 빌드 전략</h2>
+
+<h3>전략 1: 풀 에이전트 위임</h3>
+<p>에이전트에게 전체 프로젝트를 맡기는 방식:</p>
+<pre><code>docs/PRD.md를 읽고 이 프로젝트를 처음부터 만들어줘.
+React + TypeScript + Tailwind CSS를 사용하고,
+Plan Mode로 전체 구현 계획을 먼저 세워줘.</code></pre>
+<p><strong>장점</strong>: 빠른 프로토타이핑, 일관된 코드 스타일<br>
+<strong>단점</strong>: 세밀한 제어 어려움, 대규모 프로젝트에서 컨텍스트 한계</p>
+
+<h3>전략 2: 하이브리드 (추천)</h3>
+<p>개발자가 아키텍처를 잡고, 세부 구현은 에이전트에게 맡기는 방식:</p>
+<ol>
+  <li>개발자: 프로젝트 구조, 핵심 설정 파일 작성</li>
+  <li>에이전트: 컴포넌트 구현, 스타일링, 테스트</li>
+  <li>개발자: 코드 리뷰, 아키텍처 조정</li>
+  <li>에이전트: 리팩토링, 최적화</li>
+</ol>
+<details>
+<summary>하이브리드 프롬프트 예시</summary>
+<div class="inner">
+<pre><code>이미 src/App.tsx와 라우팅 설정을 만들어뒀어.
+src/components/ 디렉토리에 아래 컴포넌트들을 구현해줘:
+1. Header.tsx - 네비게이션 바
+2. Dashboard.tsx - 메인 대시보드
+3. TaskBoard.tsx - 칸반 보드
+IA.md의 구조를 따라서 만들어줘.</code></pre>
+</div>
+</details>
+
+<h3>전략 3: 기존 코드 강화</h3>
+<pre><code>이 프로젝트의 코드를 분석하고:
+1. 코드 품질 리포트를 작성해줘
+2. 성능 개선 포인트를 찾아줘
+3. 테스트 커버리지를 높여줘</code></pre>
+
+<h2 id="s5">5. Rules·Workflows·Skills</h2>
+
+<h3>Global vs Workspace Rules</h3>
+<table>
+  <tr><th>유형</th><th>적용 범위</th><th>용도</th></tr>
+  <tr><td><strong>Global Rules</strong></td><td>모든 프로젝트</td><td>코딩 스타일, 언어 설정, 기본 보안</td></tr>
+  <tr><td><strong>Workspace Rules</strong></td><td>특정 프로젝트</td><td>프로젝트별 기술 스택, 컨벤션, 제약사항</td></tr>
+</table>
+
+<details>
+<summary>Workspace Rules 작성 예시</summary>
+<div class="inner">
+<pre><code># Workspace Rules (.agents/rules.md)
+
+## 프로젝트 정보
+- 이름: 팀 대시보드
+- 기술 스택: React 18, TypeScript, Tailwind CSS, Supabase
+- Node.js 버전: 18+
+
+## 코드 컨벤션
+- 컴포넌트: 함수형 + React.FC 사용
+- 상태관리: React Query + Zustand
+- 스타일: Tailwind CSS (커스텀 CSS 금지)
+- 테스트: Vitest + React Testing Library
+
+## 금지사항
+- any 타입 사용 금지
+- console.log는 개발 중에만 허용
+- 직접 DOM 조작 금지 (ref 사용 시 제외)
+
+## 참조 문서
+- docs/PRD.md 참조
+- docs/IA.md의 컴포넌트 구조 따르기</code></pre>
+</div>
+</details>
+
+<h3>커스텀 Workflows</h3>
+<details>
+<summary>새 기능 추가 Workflow 예시</summary>
+<div class="inner">
+<pre><code># .agents/workflows/new-feature.md
+
+## 새 기능 추가 Workflow
+
+1. PRD에서 해당 기능 요구사항 확인
+2. Plan Mode로 구현 계획 수립
+3. 컴포넌트 파일 생성 (src/components/)
+4. 비즈니스 로직 구현
+5. 테스트 코드 작성 (src/__tests__/)
+6. 브라우저에서 동작 확인
+7. ESLint/Prettier 실행</code></pre>
+</div>
+</details>
+
+<h3>SKILL.md 제작</h3>
+<details>
+<summary>Skills 파일 예시</summary>
+<div class="inner">
+<pre><code># .agents/skills/SKILL.md
+
+## 역할
+프론트엔드 개발 전문가
+
+## 전문 분야
+- React + TypeScript 앱 개발
+- Tailwind CSS 반응형 디자인
+- Supabase 백엔드 연동
+- 접근성(a11y) 준수
+
+## 작업 원칙
+1. 컴포넌트는 단일 책임 원칙을 따른다
+2. 재사용 가능한 컴포넌트를 우선 작성한다
+3. 에러 처리를 반드시 포함한다
+4. 모바일 퍼스트로 개발한다</code></pre>
+</div>
+</details>
+
+<h2 id="s6">6. GitHub 연동</h2>
+
+<h3>터미널 에이전트로 Git 관리</h3>
+<pre><code>이 프로젝트를 Git으로 초기화하고 GitHub에 올려줘.
+저장소 이름: team-dashboard
+브랜치: main
+.gitignore에 node_modules, .env, dist 추가해줘.</code></pre>
+
+<h3>PR 워크플로우</h3>
+<pre><code>새 기능을 feature/kanban-board 브랜치에서 작업해줘.
+작업이 끝나면 PR을 생성하고,
+PR 설명에 변경사항 요약을 작성해줘.</code></pre>
+
+<h3>CI/CD 연동</h3>
+<pre><code>GitHub Actions CI/CD 파이프라인을 설정해줘:
+1. PR 시: ESLint + 테스트 자동 실행
+2. main 병합 시: 자동 빌드 + Vercel 배포
+3. .github/workflows/ci.yml 파일 생성</code></pre>
+
+<h2 id="s7">7. 외부 서비스 연동</h2>
+
+<h3>MCP 프로토콜</h3>
+<table>
+  <tr><th>MCP 서버</th><th>서비스</th><th>주요 기능</th></tr>
+  <tr><td><strong>supabase-mcp</strong></td><td>Supabase</td><td>DB 쿼리, 인증, 스토리지</td></tr>
+  <tr><td><strong>github-mcp</strong></td><td>GitHub</td><td>이슈, PR, 코드 검색</td></tr>
+  <tr><td><strong>figma-mcp</strong></td><td>Figma</td><td>디자인 토큰, 컴포넌트</td></tr>
+  <tr><td><strong>stripe-mcp</strong></td><td>Stripe</td><td>결제, 구독 관리</td></tr>
+</table>
+
+<h3>Supabase 연동</h3>
+<details>
+<summary>Supabase MCP 설정 프롬프트</summary>
+<div class="inner">
+<pre><code>Supabase MCP를 설정하고 아래를 구현해줘:
+1. 환경변수에 SUPABASE_URL, SUPABASE_ANON_KEY 설정
+2. 사용자 인증 (이메일/비밀번호 + Google OAuth)
+3. Row Level Security(RLS) 정책 설정
+4. 실시간 구독 (Realtime) 활성화</code></pre>
+</div>
+</details>
+
+<h3>브라우저 에이전트 테스트</h3>
+<details>
+<summary>E2E 테스트 프롬프트</summary>
+<div class="inner">
+<pre><code>브라우저 에이전트로 다음 시나리오를 테스트해줘:
+1. 로그인 페이지에서 이메일/비밀번호 입력
+2. 대시보드 페이지 로딩 확인
+3. 새 태스크 생성 → 목록에 표시되는지 확인
+4. 태스크 상태 변경 (할 일 → 진행 중)
+5. 스크린샷으로 결과 기록</code></pre>
+</div>
+</details>
+
+<h2 id="s8">8. 배포 및 운영</h2>
+
+<h3>배포 플랫폼 비교</h3>
+<table>
+  <tr><th>플랫폼</th><th>적합한 프로젝트</th><th>장점</th></tr>
+  <tr><td><strong>Firebase</strong></td><td>풀스택 앱</td><td>Hosting + DB + Auth 통합</td></tr>
+  <tr><td><strong>Cloud Run</strong></td><td>컨테이너 앱</td><td>서버리스 + 자동 스케일링</td></tr>
+  <tr><td><strong>Vercel</strong></td><td>프론트엔드 앱</td><td>빠른 배포 + GitHub 연동</td></tr>
+  <tr><td><strong>GitHub Pages</strong></td><td>정적 사이트</td><td>무료 + 간편</td></tr>
+</table>
+
+<h3>커스텀 도메인</h3>
+<pre><code>Vercel에 배포된 프로젝트에 커스텀 도메인을 연결해줘.
+도메인: dashboard.example.com
+CNAME 레코드 설정 방법도 안내해줘.</code></pre>
+
+<h3>에이전트 배포 자동화</h3>
+<pre><code>배포 자동화 스크립트를 만들어줘:
+1. 테스트 실행 (실패 시 중단)
+2. 빌드
+3. Firebase/Vercel에 배포
+4. 배포 결과를 Slack으로 알림</code></pre>
+
+<h2 id="s9">9. 마이그레이션</h2>
+
+<h3>Cursor → AntiGravity</h3>
+<table>
+  <tr><th>단계</th><th>작업</th></tr>
+  <tr><td>1</td><td>Cursor 프로젝트 폴더를 안티그래비티에서 워크스페이스로 열기</td></tr>
+  <tr><td>2</td><td><code>.cursorrules</code> → <code>.agents/rules.md</code>로 변환</td></tr>
+  <tr><td>3</td><td>Cursor Composer 프롬프트 → Manager View에서 Plan Mode로 전환</td></tr>
+</table>
+
+<h3>VS Code → AntiGravity</h3>
+<table>
+  <tr><th>단계</th><th>작업</th></tr>
+  <tr><td>1</td><td>기존 VS Code 프로젝트 폴더를 워크스페이스로 열기</td></tr>
+  <tr><td>2</td><td>VS Code 확장 설정은 대부분 호환</td></tr>
+  <tr><td>3</td><td><code>.agents/</code> 디렉토리 추가하여 에이전트 Rules 설정</td></tr>
+</table>
+
+<h3>Lovable → AntiGravity</h3>
+<table>
+  <tr><th>단계</th><th>작업</th></tr>
+  <tr><td>1</td><td>러버블에서 프로젝트를 GitHub에 내보내기</td></tr>
+  <tr><td>2</td><td>안티그래비티에서 GitHub 저장소를 워크스페이스로 열기</td></tr>
+  <tr><td>3</td><td>에이전트에게 코드 분석 및 개선 요청</td></tr>
+</table>
+
+<h3>AntiGravity → 다른 도구</h3>
+<p>안티그래비티에서 작업한 코드는 표준 프로젝트 구조이므로:</p>
+<ul>
+  <li>Cursor, VS Code 등에서 그대로 열어서 작업 가능</li>
+  <li>Git 히스토리 유지</li>
+  <li>특수 파일(<code>.agents/</code>)만 제거하면 범용 프로젝트</li>
+</ul>
+
+<h3>마이그레이션 체크리스트</h3>
+<ul class="checklist">
+  <li>프로젝트 파일 이동/복제 완료</li>
+  <li>의존성 설치 (npm install) 정상</li>
+  <li>빌드 성공 확인</li>
+  <li>기존 테스트 통과 확인</li>
+  <li>.agents/ Rules 설정 완료</li>
+  <li>Git 히스토리 보존 확인</li>
+</ul>
+
+<h2 id="s10">10. 디버깅 가이드</h2>
+
+<h3>Artifact 분석</h3>
+<table>
+  <tr><th>Artifact 유형</th><th>활용</th></tr>
+  <tr><td><strong>Plan Artifact</strong></td><td>구현 계획 검토, 누락 사항 확인</td></tr>
+  <tr><td><strong>스크린샷</strong></td><td>UI 렌더링 결과 확인</td></tr>
+  <tr><td><strong>터미널 로그</strong></td><td>빌드/실행 에러 분석</td></tr>
+  <tr><td><strong>코드 diff</strong></td><td>변경사항 추적</td></tr>
+</table>
+
+<h3>터미널 에이전트 디버깅</h3>
+<pre><code>터미널에서 다음 에러가 발생했어: [에러 메시지]
+1. 에러 원인을 분석해줘
+2. 수정 방안을 Plan으로 작성해줘
+3. 수정 후 다시 빌드해줘</code></pre>
+
+<h3>브라우저 에이전트 디버깅</h3>
+<pre><code>브라우저에서 다음 페이지를 열고 문제를 분석해줘:
+1. 콘솔 에러 확인
+2. 네트워크 탭에서 실패한 요청 확인
+3. 스크린샷으로 현재 UI 상태 기록
+4. 문제 원인과 해결 방안 제시</code></pre>
+
+<h3>일반 에러 패턴</h3>
+<table>
+  <tr><th>에러</th><th>원인</th><th>해결</th></tr>
+  <tr><td><code>Module not found</code></td><td>의존성 미설치</td><td><code>npm install</code> 실행</td></tr>
+  <tr><td><code>Type error</code></td><td>TypeScript 타입 불일치</td><td>타입 정의 수정</td></tr>
+  <tr><td><code>CORS error</code></td><td>API 도메인 차단</td><td>프록시 설정 또는 서버 CORS 허용</td></tr>
+  <tr><td><code>Build failed</code></td><td>구문 오류 또는 설정 문제</td><td>에러 로그 분석 후 수정</td></tr>
+</table>
+
+<h2 id="s11">11. 멀티 에이전트 협업</h2>
+
+<h3>병렬 작업 전략</h3>
+<table>
+  <tr><th>에이전트</th><th>담당 영역</th><th>작업 내용</th></tr>
+  <tr><td>에이전트 A</td><td>프론트엔드</td><td>컴포넌트 개발, UI 스타일링</td></tr>
+  <tr><td>에이전트 B</td><td>백엔드 연동</td><td>API 통합, DB 쿼리</td></tr>
+  <tr><td>에이전트 C</td><td>테스트</td><td>유닛 테스트, E2E 테스트</td></tr>
+</table>
+
+<h3>에이전트 간 역할 분배</h3>
+<pre><code>이 프로젝트를 병렬로 작업해줘:
+- 프론트엔드: src/components/ 하위 컴포넌트 구현
+- 백엔드: src/api/ 하위 API 클라이언트 구현
+- 테스트: src/__tests__/ 하위 테스트 작성
+파일이 겹치지 않도록 영역을 분리해줘.</code></pre>
+
+<h3>대규모 프로젝트 관리</h3>
+<table>
+  <tr><th>전략</th><th>설명</th></tr>
+  <tr><td><strong>모듈 분리</strong></td><td>기능별 디렉토리로 분리하여 에이전트 충돌 방지</td></tr>
+  <tr><td><strong>단계별 실행</strong></td><td>Phase 1 → Phase 2 → Phase 3 순서로 진행</td></tr>
+  <tr><td><strong>중간 검토</strong></td><td>각 단계 완료 시 코드 리뷰 및 품질 확인</td></tr>
+  <tr><td><strong>Git 브랜치</strong></td><td>기능별 브랜치 → PR → 머지 전략</td></tr>
+</table>
+
+<h2 id="s12">12. 다음 단계</h2>
+<p>안티그래비티 개발자편을 마치셨습니다! 다음 단계를 선택하세요:</p>
+<table>
+  <tr><th>방향</th><th>설명</th><th>추천</th></tr>
+  <tr><td><strong>Skills 생태계 기여</strong></td><td>커스텀 Skills를 만들어 공유</td><td>★★★</td></tr>
+  <tr><td><strong><a href="lovable-developer.html">러버블 개발자편</a></strong></td><td>러버블의 기술 아키텍처 이해</td><td>★★☆</td></tr>
+  <tr><td><strong>커서 초보자편</strong></td><td>AI 코파일럿 기반 개발 체험</td><td>★★☆</td></tr>
+  <tr><td><strong>실전 프로젝트</strong></td><td>프로덕션급 프로젝트 배포</td><td>★★★</td></tr>
+  <tr><td><strong>고급 에이전트 패턴</strong></td><td>멀티 에이전트 협업 최적화</td><td>★★★</td></tr>
+</table>
+
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">전체 흐름 요약</strong><br><br>
+  기획 (PRD/IA/ERD) → 빌드 (에이전트 위임 / 하이브리드) → 운영 (배포 → 모니터링 → 개선)<br>
+  <span style="opacity:.8;font-size:.9rem">① &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ② &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ③</span><br><br>
+  <span style="font-size:1rem"><strong>축하합니다!</strong> 이 과정을 마치면 에이전트 기반 개발 워크플로우를 자유롭게 구축할 수 있습니다.</span>
+</div>
+
+<h2 id="sources">출처</h2>
+<p>본 교안의 콘텐츠는 아래 출처에서 발췌·정리하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong><a href="https://antigravity.google" target="_blank">AntiGravity 공식</a></strong></td><td>Google AntiGravity 공식 사이트</td></tr>
+  <tr><td><strong><a href="https://developers.googleblog.com" target="_blank">Google Developers Blog</a></strong></td><td>안티그래비티 기술 아키텍처</td></tr>
+  <tr><td><strong><a href="https://codelabs.developers.google.com/getting-started-google-antigravity" target="_blank">Google Codelabs</a></strong></td><td>시작하기 공식 튜토리얼</td></tr>
+  <tr><td><strong><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">기획 도우미 Gem</a></strong></td><td>PRD/IA/ERD 작성 도우미 (peace 제작/공유)</td></tr>
+</table>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 Google AntiGravity 퍼블릭 프리뷰(2025.11~)를 기반으로 작성되었습니다.
+</footer>
+
+<!-- Mobile TOC -->
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>
