@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Studio 입문 교안 - 초보자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#4CAF50;--primary-light:#A5D6A7;--blockquote-bg:#E8F5E9;--hover-bg:#F1F8E9}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="aistudio-beginner.html" class="active">초보자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🌱 초보자편</h1>
+  <div class="meta">대상: AI 도구가 처음이거나 가장 간단한 바이브코딩을 시작하고 싶은 분 · 목표: AI Studio 빌드 기능으로 웹 프로토타입 만들어보기 · 약 2~3시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 바이브코딩이란?</a>
+  <a href="#s2">2. AI Studio 빌드란?</a>
+  <a href="#s3">3. 용어 해설</a>
+  <a href="#s4">4. 사전 준비</a>
+  <a href="#s5">5. 아이디어 구상하기</a>
+  <a href="#s6">6. 프롬프트 작성하기</a>
+  <a href="#s7">7. AI Studio 실습</a>
+  <a href="#s8">8. 프로젝트 공개하기</a>
+  <a href="#s9">9. 무료 사용 안내</a>
+  <a href="#s10">10. 트러블슈팅</a>
+  <a href="#s11">11. FAQ</a>
+  <a href="#s12">12. 다음 단계</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<p>AI Studio는 바이브코딩 도구 중 <strong>가장 쉬운 시작점</strong>입니다. 아래 표를 참고하세요:</p>
+<table>
+  <tr><th>나의 상황</th><th>추천 교안</th></tr>
+  <tr><td>AI 도구 자체가 처음이에요</td><td>→ <strong>이 교안 (AI Studio 초보자편)</strong> ✅</td></tr>
+  <tr><td>AI 챗봇은 써봤고, 본격적인 웹사이트를 만들고 싶어요</td><td>→ <a href="lovable-beginner.html"><strong>러버블 초보자편</strong></a></td></tr>
+  <tr><td>코드 에디터를 써보고 싶어요</td><td>→ <a href="cursor-beginner.html"><strong>커서 초보자편</strong></a> 또는 <a href="antigravity-beginner.html"><strong>안티그래비티 초보자편</strong></a></td></tr>
+  <tr><td>코딩 경험이 있고 CLI 도구를 원해요</td><td>→ <a href="claude-code-developer.html"><strong>Claude Code 개발자편</strong></a></td></tr>
+</table>
+
+<blockquote>AI Studio 교안은 <strong>초보자편 1개</strong>만 제공됩니다. AI Studio 빌드에 익숙해지면 러버블, 커서 등 다른 도구의 중급자편·개발자편으로 넘어가세요.</blockquote>
+
+<h3 id="resources">📌 추천 리소스 (시작 전에 확인하세요!)</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>AI Studio 공식 사이트</strong></td><td>Google AI Studio 접속 및 빌드 모드</td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td></tr>
+  <tr><td><strong>Google AI 개발자 문서</strong></td><td>AI Studio 관련 공식 가이드</td><td><a href="https://ai.google.dev" target="_blank">ai.google.dev</a></td></tr>
+  <tr><td><strong>기획 도우미 Gem</strong></td><td>제미나이 기반 프로젝트 기획 도우미 (peace 제작/공유)</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gem 바로가기</a></td></tr>
+  <tr><td><strong>러버블 5분 만들기 영상</strong></td><td>바이브코딩 전체 흐름을 빠르게 이해하기 (peace 채널)</td><td><a href="https://youtu.be/bWY5n0GYgG8" target="_blank">YouTube 보기</a></td></tr>
+</table>
+
+<h2 id="s1">1. 바이브코딩이란?</h2>
+<p><strong>바이브코딩(Vibe Coding)</strong>은 코딩을 직접 하지 않고, AI에게 일상 언어로 원하는 것을 설명하면 AI가 코드를 작성해주는 방식입니다.</p>
+<ul>
+  <li>프로그래밍 언어를 몰라도 됩니다</li>
+  <li>"이런 웹페이지를 만들어줘"라고 말하면 AI가 만들어줍니다</li>
+  <li>마치 디자이너에게 의뢰하듯이 대화로 진행합니다</li>
+</ul>
+
+<h3>왜 주목받고 있을까?</h3>
+<table>
+  <tr><th>기존 개발 방식</th><th>바이브코딩</th></tr>
+  <tr><td>프로그래밍 언어 학습 필요</td><td>자연어(한국어)로 지시</td></tr>
+  <tr><td>수백 줄의 코드를 직접 작성</td><td>AI가 코드를 자동 생성</td></tr>
+  <tr><td>디버깅에 많은 시간 소요</td><td>AI가 오류를 자동 수정</td></tr>
+  <tr><td>개발자만 가능</td><td>누구나 시작 가능</td></tr>
+</table>
+
+<h3>5가지 바이브코딩 도구 비교</h3>
+<p>현재 대표적인 바이브코딩 도구 5가지를 비교합니다:</p>
+<table>
+  <tr><th>항목</th><th>AI Studio</th><th>Lovable</th><th>AntiGravity</th><th>Cursor</th><th>Claude Code</th></tr>
+  <tr><td><strong>유형</strong></td><td>웹 프로토타입 빌더</td><td>풀스택 웹앱 빌더</td><td>에이전트 IDE</td><td>AI 코드 에디터</td><td>CLI 도구</td></tr>
+  <tr><td><strong>설치</strong></td><td>불필요 (브라우저)</td><td>불필요 (브라우저)</td><td>데스크톱 설치</td><td>데스크톱 설치</td><td>터미널 설치</td></tr>
+  <tr><td><strong>난이도</strong></td><td>★☆☆☆☆</td><td>★★☆☆☆</td><td>★★★☆☆</td><td>★★★☆☆</td><td>★★★★☆</td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>Gemini 2.5 Pro</td><td>Claude</td><td>Gemini</td><td>다중 모델</td><td>Claude</td></tr>
+  <tr><td><strong>비용</strong></td><td>무료</td><td>유료 (이벤트 무료)</td><td>무료 (프리뷰)</td><td>Hobby 무료</td><td>유료</td></tr>
+  <tr><td><strong>핵심 강점</strong></td><td>가장 쉬운 시작</td><td>완성도 높은 웹앱</td><td>자율 에이전트</td><td>정밀한 코드 제어</td><td>개발자 자동화</td></tr>
+</table>
+
+<blockquote>AI Studio는 이 중에서 <strong>가장 쉽고 빠르게 시작할 수 있는 도구</strong>입니다. Google 계정만 있으면 지금 바로 시작할 수 있습니다.</blockquote>
+
+<h3>바이브코딩 학습 경로</h3>
+<p>처음이라면 아래 순서로 단계별로 익혀가는 것을 추천합니다:</p>
+<pre><code>1단계: AI Studio 빌드 (무료, 가장 쉬움)     ← 지금 여기!
+   ↓  "아~ 이런 거구나" 느낌 잡기
+2단계: 러버블 Lovable (이벤트 시 무료)
+   ↓  본격적인 웹사이트 제작
+3단계: 안티그래비티 / 커서 (코드 직접 제어)
+   ↓  프로젝트를 더 정교하게 다듬기
+4단계: Claude Code (CLI 자동화)
+   ↓  개발자 수준의 워크플로우</code></pre>
+
+<blockquote><strong>실사용자 조언</strong>: "AI 스튜디오 빌더만 해봐도 '아~ 이런 거구나' 느낌을 받으시더라고요. 그 다음에 러버블로 넘어가면 훨씬 수월합니다" — 실사용자 조언</blockquote>
+
+<h2 id="s2">2. AI Studio 빌드란?</h2>
+<p><strong>AI Studio 빌드</strong>는 Google AI Studio(aistudio.google.com)의 <strong>Build 탭</strong>에서 제공하는 웹 기반 프로토타입 빌더입니다. Gemini 2.5 Pro AI 모델과 대화하며 웹 프로토타입을 만들 수 있습니다.</p>
+
+<h3>AI Studio 빌드의 특징</h3>
+<table>
+  <tr><th>장점</th><th>설명</th></tr>
+  <tr><td><strong>설치 불필요</strong></td><td>웹 브라우저만 있으면 바로 시작 가능</td></tr>
+  <tr><td><strong>완전 무료</strong></td><td>Google 계정만 있으면 무료로 사용 가능</td></tr>
+  <tr><td><strong>대화형 제작</strong></td><td>채팅하듯이 원하는 것을 요청</td></tr>
+  <tr><td><strong>실시간 프리뷰</strong></td><td>만든 결과물을 즉시 확인 가능</td></tr>
+  <tr><td><strong>한국어 프롬프트</strong></td><td>한국어로 요청해도 잘 동작</td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>Gemini 2.5 Pro — Google 최신 AI 모델 사용</td></tr>
+</table>
+
+<h3>다른 도구와 뭐가 다른가요?</h3>
+<table>
+  <tr><th>항목</th><th>AI Studio 빌드</th><th>러버블 (Lovable)</th><th>커서 (Cursor)</th></tr>
+  <tr><td><strong>목적</strong></td><td>가벼운 프로토타입</td><td>완성된 웹앱</td><td>모든 종류의 개발</td></tr>
+  <tr><td><strong>결과물</strong></td><td>간단한 웹페이지</td><td>풀스택 웹사이트</td><td>자유로운 프로젝트</td></tr>
+  <tr><td><strong>데이터베이스</strong></td><td>미지원</td><td>Supabase 연동 가능</td><td>자유 선택</td></tr>
+  <tr><td><strong>배포</strong></td><td>공유 링크 / 코드 다운로드</td><td>원클릭 배포</td><td>수동 배포</td></tr>
+  <tr><td><strong>복잡도</strong></td><td>단순</td><td>중간</td><td>높음</td></tr>
+  <tr><td><strong>적합한 용도</strong></td><td>아이디어 테스트, 학습</td><td>실서비스 웹사이트</td><td>본격적인 개발</td></tr>
+</table>
+
+<blockquote>💡 <strong>팁</strong>: AI Studio는 "이런 것도 만들 수 있구나!" 하는 느낌을 빠르게 체험하는 데 최적화된 도구입니다. 완성도 높은 웹사이트를 만들고 싶다면 이후에 러버블로 넘어가세요.</blockquote>
+
+<h3>주요 기능</h3>
+<table>
+  <tr><th>기능</th><th>설명</th></tr>
+  <tr><td><strong>Build</strong></td><td>프롬프트를 입력하면 AI가 웹 프로토타입을 자동 생성</td></tr>
+  <tr><td><strong>Preview</strong></td><td>생성된 결과물을 실시간으로 미리보기</td></tr>
+  <tr><td><strong>Deploy</strong></td><td>완성된 프로토타입을 공유 가능한 링크로 배포</td></tr>
+  <tr><td><strong>Fork</strong></td><td>다른 사람의 프로젝트를 복사해서 내 것으로 수정</td></tr>
+</table>
+
+<h3>참고: AntiGravity와의 관계</h3>
+<p>AI Studio의 빌드 기능은 내부적으로 <strong>AntiGravity Agent</strong> 기술을 활용합니다. 사용자 입장에서는 신경 쓸 필요 없이 웹 브라우저에서 대화만 하면 됩니다. AntiGravity는 데스크톱 앱으로 더 복잡한 프로젝트를 다루는 도구이고, AI Studio 빌드는 같은 기술을 웹에서 간편하게 쓸 수 있도록 한 것입니다.</p>
+
+<h2 id="s3">3. 용어 해설</h2>
+<p>교안에서 자주 나오는 용어들을 미리 알아두세요:</p>
+<table>
+  <tr><th>용어</th><th>쉬운 설명</th></tr>
+  <tr><td><strong>Build (빌드)</strong></td><td>AI에게 지시하여 웹페이지를 만드는 것. AI Studio의 Build 탭에서 수행</td></tr>
+  <tr><td><strong>Prompt (프롬프트)</strong></td><td>AI에게 보내는 요청 메시지. "이런 웹페이지 만들어줘"와 같은 지시문</td></tr>
+  <tr><td><strong>Gemini</strong></td><td>Google이 만든 AI 모델. AI Studio 빌드는 Gemini 2.5 Pro를 사용</td></tr>
+  <tr><td><strong>Preview (프리뷰)</strong></td><td>만든 결과물을 실제 웹페이지처럼 미리 보는 것</td></tr>
+  <tr><td><strong>Deploy (배포)</strong></td><td>만든 웹페이지를 인터넷에 공개하는 것</td></tr>
+  <tr><td><strong>Fork (포크)</strong></td><td>다른 사람의 프로젝트를 복사하여 내 것으로 가져오는 것</td></tr>
+  <tr><td><strong>API Key</strong></td><td>AI 서비스를 사용하기 위한 인증 키 (AI Studio 빌드에서는 자동 관리)</td></tr>
+  <tr><td><strong>프로토타입</strong></td><td>시제품, 초기 버전. 아이디어를 빠르게 시각화한 것</td></tr>
+  <tr><td><strong>Token (토큰)</strong></td><td>AI가 텍스트를 처리하는 단위. 길이와 복잡도에 따라 소모량이 다름</td></tr>
+  <tr><td><strong>Context Window</strong></td><td>AI가 한 번에 기억할 수 있는 대화 범위. 이 범위를 넘으면 이전 내용을 잊음</td></tr>
+</table>
+
+<h2 id="s4">4. 사전 준비</h2>
+<p>AI Studio 빌드를 시작하기 위해 필요한 것은 딱 하나, <strong>Google 계정</strong>입니다.</p>
+
+<h3>4-1. Google 계정 준비</h3>
+<p>이미 Gmail을 사용하고 있다면 별도의 가입이 필요 없습니다.</p>
+<ul>
+  <li>Gmail을 사용 중이라면 → 바로 시작 가능</li>
+  <li>Gmail이 없다면 → <a href="https://accounts.google.com" target="_blank">accounts.google.com</a>에서 무료 가입</li>
+</ul>
+
+<h3>4-2. AI Studio 접속</h3>
+<ol>
+  <li>웹 브라우저에서 <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> 접속</li>
+  <li>Google 계정으로 로그인</li>
+  <li>AI Studio 메인 화면이 나타납니다</li>
+</ol>
+
+<h3>4-3. 빌드 모드 진입</h3>
+<ol>
+  <li>AI Studio 상단 또는 좌측 메뉴에서 <strong>Build</strong> 탭을 찾습니다</li>
+  <li>Build 탭을 클릭하면 빌드 모드로 진입합니다</li>
+  <li>프롬프트 입력창이 나타나면 준비 완료!</li>
+</ol>
+
+<blockquote>💡 <strong>팁</strong>: AI Studio의 화면은 자주 업데이트됩니다. Build 탭의 위치가 바뀔 수 있으니, 찾기 어려우면 화면 상단의 메뉴를 살펴보세요.</blockquote>
+
+<h3>✅ 사전 준비 체크리스트</h3>
+<ul class="checklist">
+  <li>Google 계정(Gmail) 준비 완료</li>
+  <li>AI Studio (aistudio.google.com) 접속 확인</li>
+  <li>Build 탭 위치 확인</li>
+  <li>만들고 싶은 웹페이지 아이디어 1개 이상 구상</li>
+</ul>
+
+<h2 id="s5">5. 아이디어 구상하기</h2>
+<p>AI Studio 빌드에 바로 뛰어들기 전에, <strong>무엇을 만들 것인지</strong> 먼저 정리하는 것이 중요합니다.</p>
+
+<h3>AI Studio에 적합한 프로젝트</h3>
+<p>AI Studio 빌드는 <strong>가벼운 프로토타입</strong>에 적합합니다. 한 페이지로 완성되는 간단한 웹페이지가 좋습니다.</p>
+<p><strong>적합한 프로젝트:</strong> 자기소개 페이지, 간단한 계산기/타이머, 할 일 목록, 이벤트 안내 페이지, 퀴즈, 간단한 게임 등</p>
+<p><strong>다른 도구가 더 적합한 프로젝트:</strong> 회원가입/로그인 서비스(→ 러버블), 데이터베이스 게시판(→ 러버블 + Supabase), 복잡한 멀티페이지 앱(→ 커서/안티그래비티)</p>
+
+<h3>직군별 추천 프로젝트</h3>
+<table>
+  <tr><th>직군/상황</th><th>프로젝트 아이디어</th><th>난이도</th></tr>
+  <tr><td><strong>교사</strong></td><td>학급 시간표 / 오늘의 알림 페이지</td><td>★☆☆</td></tr>
+  <tr><td><strong>학생</strong></td><td>자기소개 웹페이지 / 독서 기록 카드</td><td>★☆☆</td></tr>
+  <tr><td><strong>직장인</strong></td><td>업무 체크리스트 / 회의 타이머</td><td>★☆☆</td></tr>
+  <tr><td><strong>소상공인</strong></td><td>가게 소개 원페이지 / 메뉴판</td><td>★☆☆</td></tr>
+  <tr><td><strong>프리랜서</strong></td><td>간단한 포트폴리오 카드</td><td>★☆☆</td></tr>
+  <tr><td><strong>동호회</strong></td><td>모임 일정 안내 / 사진 갤러리</td><td>★★☆</td></tr>
+  <tr><td><strong>누구나</strong></td><td>생일 축하 카드 / D-Day 카운터</td><td>★☆☆</td></tr>
+</table>
+
+<h3>프롬프트 아이디어 예시</h3>
+<p>아직 무엇을 만들지 정하지 못했다면, 아래 예시를 참고하세요:</p>
+
+<details>
+<summary>예시 1 — 자기소개 페이지</summary>
+<div class="inner">
+<pre><code>자기소개 웹페이지를 만들어줘.
+- 이름, 직업, 간단한 소개
+- 좋아하는 것 3가지 (아이콘 포함)
+- 연락처 (이메일, SNS 링크)
+- 깔끔하고 모던한 디자인, 배경색은 연한 파란색 계열</code></pre>
+</div>
+</details>
+
+<details>
+<summary>예시 2 — D-Day 카운터</summary>
+<div class="inner">
+<pre><code>D-Day 카운터 웹페이지를 만들어줘.
+- 날짜 입력창, 남은 일수/시간/분/초 실시간 표시
+- 예쁜 그라디언트 배경</code></pre>
+</div>
+</details>
+
+<details>
+<summary>예시 3 — 간단한 퀴즈</summary>
+<div class="inner">
+<pre><code>한국 역사 퀴즈 웹페이지를 만들어줘.
+- 5문제, 4지선다형, 정답 즉시 표시
+- 총 점수와 다시 풀기 버튼 포함</code></pre>
+</div>
+</details>
+
+<h2 id="s6">6. 프롬프트 작성하기</h2>
+<p>AI Studio 빌드에서 좋은 결과물을 얻으려면, <strong>구체적인 프롬프트</strong>가 핵심입니다.</p>
+
+<h3>효과적인 프롬프트 패턴</h3>
+<p>좋은 프롬프트에는 3가지 요소가 포함됩니다:</p>
+<ol>
+  <li><strong>무엇을 만들 것인지</strong> (기능 설명)</li>
+  <li><strong>어떤 스타일인지</strong> (디자인, 색상)</li>
+  <li><strong>어떤 동작을 하는지</strong> (인터랙션, 기능)</li>
+</ol>
+
+<h3>좋은 프롬프트 vs 나쁜 프롬프트</h3>
+<table>
+  <tr><th>나쁜 프롬프트</th><th>좋은 프롬프트</th></tr>
+  <tr><td>"웹사이트 만들어줘"</td><td>"카페 소개 원페이지를 만들어줘. 상단에 카페 이름, 중간에 메뉴, 하단에 위치 표시"</td></tr>
+  <tr><td>"이쁘게 해줘"</td><td>"배경색을 연한 베이지로, 제목 폰트를 크고 굵게, 카드 형태로 구분해줘"</td></tr>
+  <tr><td>"수정해줘"</td><td>"제목 글자 크기를 32px로 키우고, 색상을 파란색(#2196F3)으로 변경해줘"</td></tr>
+</table>
+
+<h3>프롬프트 작성 팁</h3>
+<blockquote>💡 <strong>팁</strong>: 처음부터 완벽하게 쓰려고 하지 마세요. 간단하게 요청하고, 결과를 보면서 수정해 나가면 됩니다.</blockquote>
+<ul>
+  <li><strong>한 번에 하나씩</strong>: 여러 기능을 한꺼번에 요청하면 결과가 엉킬 수 있습니다</li>
+  <li><strong>구체적으로</strong>: "좀 더 이쁘게" 대신 "배경을 연한 노란색으로, 글자를 더 크게"</li>
+  <li><strong>예시를 포함</strong>: "카드 형태로", "네이버처럼" 같은 참고 표현이 도움됩니다</li>
+</ul>
+
+<h3>반복 수정 요청 방법</h3>
+<p>AI Studio 빌드에서는 대화로 계속 수정을 요청할 수 있습니다:</p>
+<pre><code>[첫 요청] 간단한 할 일 목록 웹페이지를 만들어줘.
+[수정 1] 할 일을 추가하는 입력창을 상단에 배치해줘.
+[수정 2] 완료된 항목에 취소선을 표시하고, 삭제 버튼도 추가해줘.
+[수정 3] 전체 배경색을 연한 민트색으로 바꿔줘.</code></pre>
+
+<blockquote>💡 <strong>팁</strong>: 마음에 드는 결과가 나왔다면 코드를 복사해두세요. 이후 수정에서 원치 않은 변경이 생길 수 있습니다.</blockquote>
+
+<h2 id="s7">7. AI Studio 실습: 나만의 프로토타입 만들기</h2>
+<p>이제 실제로 AI Studio 빌드를 사용하여 웹 프로토타입을 만들어봅시다!</p>
+
+<h3>Step 1: AI Studio 접속하기</h3>
+<ol>
+  <li>웹 브라우저에서 <strong><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></strong> 접속</li>
+  <li>Google 계정으로 로그인</li>
+  <li>상단 또는 좌측 메뉴에서 <strong>Build</strong> 탭 클릭</li>
+  <li>빌드 모드 화면이 나타나면 준비 완료</li>
+</ol>
+
+<blockquote>💡 <strong>팁</strong>: Chrome 브라우저를 사용하는 것을 추천합니다. 다른 브라우저에서는 일부 기능이 다르게 동작할 수 있습니다.</blockquote>
+
+<h3>Step 2: 프롬프트 입력하기</h3>
+<p>프롬프트 입력창에 만들고 싶은 것을 설명합니다. 첫 번째 실습으로 간단한 자기소개 페이지를 만들어봅시다:</p>
+<pre><code>자기소개 웹페이지를 만들어줘.
+
+[구성]
+- 상단: 이름 "김선생"과 직업 "교사"를 크게 표시
+- 중간: 간단한 자기소개 문장 3줄
+- 하단: 이메일 링크와 SNS 아이콘
+
+[디자인]
+- 깔끔한 카드 레이아웃
+- 배경은 연한 회색, 카드는 흰색
+- 둥근 모서리
+- 모바일에서도 잘 보이게</code></pre>
+<p>입력 후 <strong>전송 버튼</strong>을 클릭하면 AI가 코드를 생성하기 시작합니다.</p>
+
+<h3>Step 3: 프리뷰 확인하기</h3>
+<p>AI가 코드를 생성하면 <strong>프리뷰 화면</strong>에서 결과를 바로 확인할 수 있습니다. 레이아웃, 텍스트, 색상, 모바일 화면까지 꼼꼼히 확인하세요.</p>
+<blockquote>💡 <strong>팁</strong>: 프리뷰에서 보이는 것이 실제 웹페이지와 동일합니다.</blockquote>
+
+<h3>Step 4: 수정 반복하기</h3>
+<p>결과물이 완벽하지 않아도 괜찮습니다. 대화를 이어가며 수정을 요청하세요:</p>
+<pre><code>"이름 부분의 글자를 더 크게 해줘"
+"배경색을 연한 파란색으로 바꿔줘"
+"자기소개 문장 아래에 취미 목록을 추가해줘"</code></pre>
+<p><strong>수정 요청 시 주의사항:</strong> 한 번에 하나씩, 구체적으로, 마음에 들면 코드를 백업해두세요.</p>
+
+<blockquote>💡 <strong>팁</strong>: AI와 대화를 너무 많이 이어가면 Context Window를 넘어서 이전 내용을 잊을 수 있습니다. 큰 변경이 필요하면 새 대화를 시작하세요.</blockquote>
+
+<h2 id="s8">8. 프로젝트 공개하기</h2>
+<p>완성된 프로토타입을 다른 사람에게 보여주는 방법입니다.</p>
+
+<h3>방법 1: 공유 링크 생성</h3>
+<p>AI Studio 빌드에서 완성된 프로젝트는 <strong>공유 링크</strong>를 통해 다른 사람에게 보여줄 수 있습니다.</p>
+<ol>
+  <li>빌드 화면에서 <strong>공유</strong> 또는 <strong>Deploy</strong> 버튼 찾기</li>
+  <li>링크를 생성하면 URL이 만들어집니다</li>
+  <li>이 URL을 공유하면 끝!</li>
+</ol>
+
+<h3>방법 2: 코드 다운로드 (HTML/CSS/JS)</h3>
+<p>AI가 생성한 코드를 직접 다운로드하여 활용할 수 있습니다.</p>
+<ol>
+  <li>생성된 코드를 <strong>전체 선택하여 복사</strong></li>
+  <li>텍스트 편집기(메모장 등)에 붙여넣기</li>
+  <li><code>index.html</code> 파일명으로 저장</li>
+  <li>파일을 더블클릭하면 웹 브라우저에서 열립니다</li>
+</ol>
+
+<blockquote>💡 <strong>팁</strong>: 코드를 다운로드해두면 인터넷 없이도 결과물을 확인할 수 있고, 나중에 다른 도구에서 이어서 수정할 수도 있습니다.</blockquote>
+
+<h3>방법 3: GitHub에 업로드하기 (선택)</h3>
+<p>코드를 체계적으로 관리하고 싶다면 GitHub에 업로드할 수 있습니다.</p>
+<ol>
+  <li><a href="https://github.com" target="_blank">github.com</a>에서 <strong>New Repository</strong> 생성</li>
+  <li><strong>Upload files</strong> → <code>index.html</code> 파일 드래그 앤 드롭 → <strong>Commit changes</strong></li>
+  <li>GitHub Pages 활성화: Settings → Pages → Branch를 main 선택 → Save</li>
+  <li><code>https://사용자이름.github.io/저장소이름</code> 으로 접속 가능</li>
+</ol>
+
+<blockquote>이 방법은 GitHub에 익숙해진 후에 시도해도 됩니다. 처음에는 방법 1이나 2로 충분합니다.</blockquote>
+
+<h2 id="s9">9. 무료 사용 안내</h2>
+
+<h3>무료 사용 범위</h3>
+<p>AI Studio 빌드는 <strong>Google 계정만 있으면 무료</strong>로 사용할 수 있습니다.</p>
+<table>
+  <tr><th>항목</th><th>내용</th></tr>
+  <tr><td><strong>계정</strong></td><td>Google 계정 (Gmail) 필요</td></tr>
+  <tr><td><strong>비용</strong></td><td>무료</td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>Gemini 2.5 Pro</td></tr>
+  <tr><td><strong>사용 제한</strong></td><td>일일 API 호출 한도 있음 (무료 제공 범위 내)</td></tr>
+</table>
+
+<h3>Gemini API 한도</h3>
+<p>무료 사용에는 일일 요청 횟수 제한이 있습니다. 한도에 도달하면 잠시 기다린 후 다시 시도하세요 (하루가 지나면 초기화). 프롬프트를 효율적으로 작성하면 사용량을 줄일 수 있습니다.</p>
+
+<h3>제한사항</h3>
+<table>
+  <tr><th>제한 사항</th><th>설명</th><th>대안</th></tr>
+  <tr><td><strong>백엔드 불가</strong></td><td>서버 측 코드 실행 불가</td><td>러버블 또는 커서</td></tr>
+  <tr><td><strong>데이터베이스 미지원</strong></td><td>데이터 영구 저장 불가</td><td>러버블 + Supabase</td></tr>
+  <tr><td><strong>복잡한 멀티페이지</strong></td><td>여러 페이지 앱 제작 어려움</td><td>러버블 또는 커서</td></tr>
+  <tr><td><strong>사용자 인증</strong></td><td>로그인/회원가입 기능 불가</td><td>러버블 또는 커서</td></tr>
+</table>
+
+<blockquote>💡 <strong>팁</strong>: AI Studio에서 아이디어를 검증한 후 다른 도구에서 본격 제작하는 것이 좋은 전략입니다.</blockquote>
+
+<h2 id="s10">10. 문제가 생겼을 때 (트러블슈팅)</h2>
+
+<details>
+<summary>"빌드 탭이 안 보여요"</summary>
+<div class="inner">
+<ul>
+  <li>AI Studio 화면이 업데이트되어 메뉴 위치가 바뀌었을 수 있습니다 — 상단/좌측 메뉴를 확인하세요</li>
+  <li>브라우저를 새로고침(F5)하거나 다시 로그인해보세요</li>
+  <li>Chrome 브라우저 사용을 추천합니다</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"프리뷰가 표시되지 않아요"</summary>
+<div class="inner">
+<ul>
+  <li>AI가 아직 코드를 생성 중일 수 있습니다 — 잠시 기다려보세요</li>
+  <li>프리뷰 패널이 접혀있거나, 브라우저 팝업 차단이 원인일 수 있습니다</li>
+  <li>코드를 복사하여 로컬 HTML 파일로 저장한 후 열어보는 것도 방법입니다</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"응답이 너무 느려요"</summary>
+<div class="inner">
+<ul>
+  <li>사용량이 많은 시간대이거나, 프롬프트가 너무 복잡할 수 있습니다</li>
+  <li>요청을 단순화하고, 인터넷 연결을 확인한 후 다시 시도하세요</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"생성된 코드에 오류가 있어요"</summary>
+<div class="inner">
+<ul>
+  <li>AI에게 구체적으로 오류를 알려주세요: "하단의 버튼이 작동하지 않아"</li>
+  <li>"코드를 검증하고 오류가 있으면 수정해줘"라고 요청해보세요</li>
+  <li>문제가 반복되면 새 대화를 시작하여 처음부터 다시 만드는 것이 빠를 수 있습니다</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"프로젝트를 저장하고 싶어요"</summary>
+<div class="inner">
+<ul>
+  <li>확실한 보관을 위해 <strong>코드를 직접 복사</strong>하여 <code>.html</code> 파일로 저장하세요</li>
+  <li>GitHub에 업로드하면 버전 관리까지 가능합니다</li>
+</ul>
+</div>
+</details>
+
+<h2 id="s11">11. 자주 묻는 질문 (FAQ)</h2>
+
+<details>
+<summary>Q1. AI Studio 빌드는 완전 무료인가요?</summary>
+<div class="inner"><p>네, Google 계정만 있으면 무료입니다. 다만 일일 API 호출 한도가 있어서 하루 사용 횟수에는 제한이 있습니다. 일반적인 학습과 프로토타이핑에는 충분한 수준입니다.</p></div>
+</details>
+
+<details>
+<summary>Q2. 러버블(Lovable)과 뭐가 다른가요?</summary>
+<div class="inner"><p>AI Studio는 <strong>가벼운 프로토타입 빌더</strong>, 러버블은 <strong>풀스택 웹앱 빌더</strong>입니다. AI Studio에서 아이디어를 빠르게 테스트하고, 본격적인 웹사이트는 러버블로 만드는 것을 추천합니다.</p></div>
+</details>
+
+<details>
+<summary>Q3. 한국어로 프롬프트 써도 되나요?</summary>
+<div class="inner"><p>네! Gemini 2.5 Pro는 한국어를 잘 이해합니다. 한국어 프롬프트로 한국어 웹페이지를 만들 수 있습니다.</p></div>
+</details>
+
+<details>
+<summary>Q4. 코딩을 전혀 몰라도 사용할 수 있나요?</summary>
+<div class="inner"><p>네, 자연어로 설명하면 AI가 코드를 자동 생성합니다. 바이브코딩 도구 중 가장 진입 장벽이 낮은 도구입니다.</p></div>
+</details>
+
+<details>
+<summary>Q5. 만든 프로젝트를 저장할 수 있나요?</summary>
+<div class="inner"><p>생성된 코드를 복사하여 <code>.html</code> 파일로 저장할 수 있습니다. 대화 히스토리도 유지되므로 이전 작업을 이어갈 수 있습니다. 중요한 결과물은 반드시 로컬 파일로 백업하세요.</p></div>
+</details>
+
+<details>
+<summary>Q6. 코드를 내보낼 수 있나요?</summary>
+<div class="inner"><p>네, HTML/CSS/JavaScript 코드를 복사하여 어디서든 사용할 수 있습니다. 다른 도구(러버블, 커서, VS Code 등)에서 이어서 수정도 가능합니다.</p></div>
+</details>
+
+<details>
+<summary>Q7. 모바일에서도 사용할 수 있나요?</summary>
+<div class="inner"><p>접속은 가능하지만, <strong>PC 환경이 훨씬 편리</strong>합니다. 모바일에서는 화면이 작아 작업 효율이 떨어질 수 있습니다.</p></div>
+</details>
+
+<details>
+<summary>Q8. 여러 프로젝트를 만들 수 있나요?</summary>
+<div class="inner"><p>네, 새 대화를 시작하면 새 프로젝트를 만들 수 있습니다. 대화 단위로 프로젝트가 관리됩니다.</p></div>
+</details>
+
+<h2 id="s12">12. 다음 단계</h2>
+<p>AI Studio 빌드로 바이브코딩의 기본 개념을 익혔다면, 이제 다른 도구로 확장해보세요!</p>
+
+<h3>AI Studio 이후 학습 방향</h3>
+<table>
+  <tr><th>목표</th><th>추천 도구</th><th>교안</th></tr>
+  <tr><td>완성도 높은 웹사이트 만들기</td><td><strong>러버블 (Lovable)</strong></td><td><a href="lovable-beginner.html">러버블 초보자편</a> → <a href="lovable-intermediate.html">중급자편</a></td></tr>
+  <tr><td>에이전트에게 개발을 맡기기</td><td><strong>안티그래비티 (AntiGravity)</strong></td><td><a href="antigravity-beginner.html">안티그래비티 초보자편</a></td></tr>
+  <tr><td>코드를 직접 다루며 배우기</td><td><strong>커서 (Cursor)</strong></td><td><a href="cursor-beginner.html">커서 초보자편</a></td></tr>
+  <tr><td>CLI 기반 자동화</td><td><strong>Claude Code</strong></td><td><a href="claude-code-developer.html">Claude Code 개발자편</a></td></tr>
+</table>
+
+<h3>도구별 추천 경로</h3>
+<pre><code>AI Studio 완료! → 웹사이트 제작 → 러버블 초보자편 → 중급자편 → 개발자편
+              → AI 에이전트 → 안티그래비티 초보자편 → 중급자편
+              → 코드 학습 → 커서 초보자편 → 중급자편
+              → 고급 자동화 → Claude Code 개발자편</code></pre>
+
+<blockquote>💡 <strong>팁</strong>: "휘둘리지 않으셔도 돼요. 하나에 익숙해지는 게 중요합니다." 여러 도구를 동시에 시도하기보다, 하나의 도구에 충분히 익숙해진 후 다음 도구로 넘어가세요. — 실사용자 조언</blockquote>
+
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">전체 흐름 요약</strong><br><br>
+  Google 계정 준비 → 아이디어 구상 → AI Studio 빌드 → 공유<br>
+  <span style="opacity:.8;font-size:.9rem">① &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ② &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ③ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ④</span><br><br>
+  <table style="color:#FFF;margin:10px auto;border-collapse:collapse;font-size:.9rem">
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">① 준비</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">Google 계정으로 AI Studio 접속</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">5분</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">② 구상</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">만들 프로토타입 아이디어 정리</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">20~30분</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">③ 빌드</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">AI Studio Build 탭에서 프롬프트 입력 및 수정</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">1~2시간</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">④ 공유</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">공유 링크 생성 또는 코드 다운로드</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">10분</td></tr>
+  </table>
+  <br>
+  <span style="font-size:1rem"><strong>축하합니다!</strong> 이 과정을 마치면 AI를 활용하여 나만의 웹 프로토타입을 만드는 경험을 하게 됩니다. 이 경험이 바이브코딩의 첫 번째 발걸음입니다!</span>
+</div>
+
+<h2 id="sources">출처</h2>
+<p>본 교안의 구성 및 추천 리소스는 아래 출처를 참고하여 작성하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong><a href="https://aistudio.google.com" target="_blank">Google AI Studio</a></strong></td><td>AI Studio 공식 사이트</td></tr>
+  <tr><td><strong><a href="https://ai.google.dev" target="_blank">Google AI 개발자 문서</a></strong></td><td>Gemini API 공식 문서</td></tr>
+  <tr><td><strong>러버블 바이브코딩 카카오톡 대화방</strong></td><td>2026년 3월 8일 대화 기록 (참여자: 김병선, peace, 이운희, 송윤임, 우대윤, 서진영 외)</td></tr>
+  <tr><td><strong><a href="https://youtu.be/bWY5n0GYgG8" target="_blank">peace YouTube</a></strong></td><td>러버블 5분 만들기 영상</td></tr>
+  <tr><td><strong><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">peace Gemini Gem</a></strong></td><td>기획 도우미 Gem</td></tr>
+</table>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 Google AI Studio(2026.3 기준)을 기반으로 작성되었습니다.
+</footer>
+
+<!-- Mobile TOC -->
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>
