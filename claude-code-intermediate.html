@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 교안 - 중급자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#FF9800;--primary-light:#FFCC80;--blockquote-bg:#FFF3E0;--hover-bg:#FFFDE7}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="claude-code-beginner.html">초보자편</a>
+  <a href="claude-code-intermediate.html" class="active">중급자편</a>
+  <a href="claude-code-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🚀 중급자편</h1>
+  <div class="meta">대상: Claude Code 기본 사용법을 알고 워크플로우를 최적화하려는 분 · 목표: MCP 연동, CLAUDE.md 활용, 멀티파일 프로젝트 관리 · 약 4~5시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 바이브코딩 도구 비교</a>
+  <a href="#s2">2. Claude Code 워크플로우</a>
+  <a href="#s3">3. 사전 준비</a>
+  <a href="#s4">4. 기획 문서 작성 실습</a>
+  <a href="#s5">5. Claude Code 심화 활용</a>
+  <a href="#s6">6. 실전 프로젝트</a>
+  <a href="#s7">7. 배포</a>
+  <a href="#s8">8. MCP 서버 연동</a>
+  <a href="#s9">9. Git 워크플로우</a>
+  <a href="#s10">10. 트러블슈팅</a>
+  <a href="#s11">11. FAQ</a>
+  <a href="#s12">12. 효율화 전략</a>
+  <a href="#s13">13. 다음 단계</a>
+  <a href="#summary">전체 흐름 요약</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">이 교안이 맞는 분 (자가 진단)</h2>
+<ul>
+  <li>Claude Code를 설치하고 기본적인 대화형 코딩을 해본 경험이 있다</li>
+  <li>슬래시 커맨드(<code>/help</code>, <code>/model</code>, <code>/compact</code>)의 존재를 알고 있다</li>
+  <li>단일 파일 수정은 해봤지만, 멀티파일 프로젝트를 체계적으로 관리하고 싶다</li>
+  <li>CLAUDE.md, MCP, 커스텀 커맨드 등 심화 기능을 활용하고 싶다</li>
+</ul>
+<blockquote>CLI나 터미널 사용이 처음이라면 <a href="claude-code-beginner.html"><strong>초보자편</strong></a> 교안을 먼저 보세요. 서브에이전트, 후크, CI/CD 자동화까지 다루고 싶다면 <a href="claude-code-developer.html"><strong>개발자편</strong></a> 교안을 추천합니다.</blockquote>
+
+<h3 id="resources">추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Claude Code 공식 문서</strong></td><td>Anthropic 공식 사용법 가이드</td><td><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">docs.anthropic.com</a></td></tr>
+  <tr><td><strong>MCP 프로토콜 문서</strong></td><td>Model Context Protocol 공식 스펙</td><td><a href="https://modelcontextprotocol.io" target="_blank">modelcontextprotocol.io</a></td></tr>
+  <tr><td><strong>Anthropic 블로그</strong></td><td>Claude Code 업데이트 및 활용 사례</td><td><a href="https://www.anthropic.com/blog" target="_blank">anthropic.com/blog</a></td></tr>
+  <tr><td><strong>Claude Code GitHub</strong></td><td>오픈소스 저장소 및 이슈 트래커</td><td><a href="https://github.com/anthropics/claude-code" target="_blank">GitHub</a></td></tr>
+</table>
+
+<h2 id="s1">1. 바이브코딩 도구 비교</h2>
+
+<h3>5개 도구 비교표</h3>
+<table>
+  <tr><th>항목</th><th>러버블</th><th>안티그래비티</th><th>커서</th><th>AI Studio</th><th>Claude Code</th></tr>
+  <tr><td><strong>유형</strong></td><td>웹 빌더</td><td>에이전트 IDE</td><td>AI IDE</td><td>웹 빌더</td><td>CLI 도구</td></tr>
+  <tr><td><strong>설치</strong></td><td>불필요 (웹)</td><td>필요 (데스크톱)</td><td>필요 (데스크톱)</td><td>불필요 (웹)</td><td>필요 (터미널)</td></tr>
+  <tr><td><strong>코딩 필요</strong></td><td>불필요</td><td>선택적</td><td>선택적</td><td>불필요</td><td>필요</td></tr>
+  <tr><td><strong>난이도</strong></td><td>쉬움</td><td>보통</td><td>보통</td><td>매우 쉬움</td><td>어려움</td></tr>
+  <tr><td><strong>추천 대상</strong></td><td>비개발자~중급</td><td>입문자~개발자</td><td>중급~개발자</td><td>완전 입문자</td><td>개발자</td></tr>
+  <tr><td><strong>핵심</strong></td><td>노코드 빌더</td><td>에이전트 위임</td><td>코파일럿+에이전트</td><td>프로토타입</td><td>터미널 AI</td></tr>
+</table>
+<p>Claude Code는 <strong>터미널에서 Claude와 대화하며 코딩하는 에이전트형 도구</strong>입니다. GUI 없이 텍스트만으로 파일 생성, 편집, 빌드, 테스트, 배포를 모두 수행합니다.</p>
+
+<h3>도구 선택 가이드</h3>
+<table>
+  <tr><th>상황</th><th>추천 도구</th></tr>
+  <tr><td>설치 없이 웹앱을 빠르게 만들고 싶을 때</td><td><strong>러버블</strong></td></tr>
+  <tr><td>AI 에이전트에게 작업 전체를 위임하고 싶을 때</td><td><strong>안티그래비티</strong></td></tr>
+  <tr><td>코드를 직접 읽고 수정하면서 AI 도움을 받고 싶을 때</td><td><strong>커서</strong></td></tr>
+  <tr><td>바이브코딩을 가볍게 체험하고 싶을 때</td><td><strong>AI Studio</strong></td></tr>
+  <tr><td>터미널에서 모든 것을 해결하고 싶을 때</td><td><strong>Claude Code</strong></td></tr>
+</table>
+
+<h2 id="s2">2. Claude Code 워크플로우</h2>
+
+<h3>5단계 개발 워크플로우</h3>
+<pre><code>1단계: 초기화 — 프로젝트 생성, CLAUDE.md 설정, 의존성 설치
+  ↓
+2단계: 기획 — PRD/IA/ERD 문서 작성, 구조 설계
+  ↓
+3단계: 구현 — 대화형 코딩, 멀티파일 편집, 기능 구현
+  ↓
+4단계: 테스트 — 단위 테스트 작성, 버그 수정, 리팩토링
+  ↓
+5단계: 배포 — Git 커밋, PR 생성, 프로덕션 배포</code></pre>
+
+<h3>세션 관리</h3>
+<table>
+  <tr><th>전략</th><th>명령어</th><th>설명</th></tr>
+  <tr><td><strong>컨텍스트 압축</strong></td><td><code>/compact</code></td><td>대화가 길어질 때 요약하여 토큰 절약</td></tr>
+  <tr><td><strong>비용 확인</strong></td><td><code>/cost</code></td><td>현재 세션의 토큰 사용량과 비용 확인</td></tr>
+  <tr><td><strong>대화 초기화</strong></td><td><code>/clear</code></td><td>새로운 작업 시작 시 깨끗한 상태로 리셋</td></tr>
+  <tr><td><strong>모델 변경</strong></td><td><code>/model</code></td><td>Sonnet ↔ Opus 전환</td></tr>
+</table>
+<blockquote><strong>팁</strong>: <code>/compact</code>는 장시간 작업 시 30~50회 대화마다 한 번씩 실행하세요. 특정 주제만 유지하려면 <code>/compact "API 구현 관련만 유지해줘"</code> 형태로 요청합니다. — 실사용자 조언</blockquote>
+
+<h3>모델 선택 가이드</h3>
+<table>
+  <tr><th>모델</th><th>특징</th><th>추천 용도</th><th>비용</th></tr>
+  <tr><td><strong>Claude Sonnet 4</strong></td><td>빠르고 정확</td><td>일반 코딩, 파일 편집</td><td>낮음</td></tr>
+  <tr><td><strong>Claude Opus 4</strong></td><td>복잡한 추론</td><td>아키텍처 설계, 대규모 리팩토링</td><td>높음</td></tr>
+  <tr><td><strong>Claude Haiku</strong></td><td>초고속 응답</td><td>코드 포맷팅, 간단한 질문</td><td>매우 낮음</td></tr>
+</table>
+<blockquote>"Sonnet 4를 기본으로 쓰다가 복잡한 설계에만 Opus로 전환하면 비용을 50% 이상 절약할 수 있어요." — 실사용자 조언</blockquote>
+
+<h2 id="s3">3. 사전 준비</h2>
+
+<h3>개발 환경 확인</h3>
+<table>
+  <tr><th>항목</th><th>필수/권장</th><th>확인 방법</th></tr>
+  <tr><td><strong>Node.js 18+</strong></td><td>필수</td><td><code>node --version</code></td></tr>
+  <tr><td><strong>Git</strong></td><td>필수</td><td><code>git --version</code></td></tr>
+  <tr><td><strong>Claude Code</strong></td><td>필수</td><td><code>claude --version</code></td></tr>
+  <tr><td><strong>GitHub CLI (gh)</strong></td><td>권장</td><td><code>gh --version</code></td></tr>
+</table>
+
+<h3>CLAUDE.md 파일 설정</h3>
+<p>CLAUDE.md는 Claude Code의 <strong>메모리 시스템</strong>입니다. 프로젝트 루트에 생성하면 매 세션마다 자동으로 읽어갑니다.</p>
+<pre><code># CLAUDE.md — 프로젝트 규칙
+## 프로젝트 개요
+- Next.js 14 + TypeScript + Tailwind CSS
+## 빌드 명령
+- npm run dev / npm run build / npm test
+## 코딩 컨벤션
+- 함수형 컴포넌트 + hooks, 커밋 메시지 한국어</code></pre>
+
+<h3>.claude/settings.json 설정</h3>
+<pre><code>{
+  "permissions": {
+    "allow": [
+      "Read", "Write", "Edit", "Glob", "Grep",
+      "Bash(npm run *)", "Bash(npx *)", "Bash(git *)"
+    ],
+    "deny": ["Bash(rm -rf *)", "Bash(sudo *)"]
+  }
+}</code></pre>
+
+<h3>사전 준비 체크리스트</h3>
+<ul class="checklist">
+  <li>Node.js 18+ 설치 확인</li>
+  <li>Git / Claude Code 설치 확인</li>
+  <li>인증 완료 (Max 구독 또는 API 키)</li>
+  <li>CLAUDE.md 파일 생성</li>
+  <li>.claude/settings.json 권한 설정</li>
+  <li>MCP 서버 사전 요구사항 확인 (PostgreSQL, Chrome 등)</li>
+</ul>
+
+<h2 id="s4">4. 기획 문서 작성 실습</h2>
+
+<h3>PRD / IA / ERD 개념</h3>
+<table>
+  <tr><th>문서</th><th>역할</th><th>핵심 질문</th></tr>
+  <tr><td><strong>PRD</strong></td><td>무엇을 만들 것인가?</td><td>목적, 기능, 디자인 요구사항</td></tr>
+  <tr><td><strong>IA</strong></td><td>어떤 구조로 만들 것인가?</td><td>페이지 구성, 네비게이션</td></tr>
+  <tr><td><strong>ERD</strong></td><td>데이터를 어떻게 관리할 것인가?</td><td>테이블 구조, 관계, 필드</td></tr>
+</table>
+
+<h3>Claude Code로 기획 문서 자동 생성</h3>
+<pre><code>$ claude
+
+&gt; 온라인 포트폴리오 사이트를 만들려고 해.
+&gt; 프로젝트 기획 문서를 PRD.md, ia.md, erd.md로 작성해줘.
+&gt; 대상: 프리랜서 개발자, 주요 기능: 프로필, 갤러리, 기술 스택, 연락처 폼</code></pre>
+
+<h3>기획 프롬프트 패턴</h3>
+<pre><code># PRD → IA → ERD 순서로 요청
+&gt; 이 프로젝트의 PRD를 작성해줘. 포함: 개요, 핵심 기능, 기술 스택
+&gt; PRD.md를 읽고 IA(정보 구조)를 작성해줘. 포함: 사이트맵, 컴포넌트
+&gt; PRD.md와 ia.md를 읽고 ERD(데이터 구조)를 작성해줘</code></pre>
+
+<h3>Claude Code를 기획 파트너로 활용</h3>
+<pre><code>&gt; 이 프로젝트의 구조를 분석하고 개선점을 제안해줘
+&gt; '알림' 기능을 추가하려면 어떤 파일을 수정해야 할지 분석해줘
+&gt; 현재 코드를 보고 리팩토링 계획을 우선순위별로 세워줘</code></pre>
+<blockquote>"PRD → IA → ERD 순서로 요청하면 놀라울 정도로 체계적인 문서가 나와요." — 실사용자 후기</blockquote>
+
+<h2 id="s5">5. Claude Code 심화 활용</h2>
+
+<h3>CLAUDE.md 3단계 계층 구조</h3>
+<table>
+  <tr><th>단계</th><th>파일 위치</th><th>용도</th></tr>
+  <tr><td><strong>글로벌</strong></td><td><code>~/.claude/CLAUDE.md</code></td><td>개인 코딩 스타일, 공통 규칙</td></tr>
+  <tr><td><strong>프로젝트</strong></td><td><code>프로젝트/CLAUDE.md</code></td><td>기술 스택, 빌드 명령, 컨벤션</td></tr>
+  <tr><td><strong>하위 폴더</strong></td><td><code>프로젝트/src/CLAUDE.md</code></td><td>모듈별 특화 규칙</td></tr>
+</table>
+<p>하위 단계가 상위 단계를 오버라이드합니다. <code>/memory</code> 커맨드로 규칙을 빠르게 추가할 수 있습니다:</p>
+<pre><code>&gt; /memory "이 프로젝트에서는 date-fns 대신 dayjs를 사용한다"
+&gt; /memory "API 응답은 항상 { success, data, error } 형태로 통일"</code></pre>
+
+<h3>커스텀 슬래시 커맨드</h3>
+<p><code>.claude/commands/</code> 디렉토리에 마크다운 파일을 생성하면 나만의 커맨드를 만들 수 있습니다:</p>
+<pre><code>&lt;!-- .claude/commands/review.md --&gt;
+현재 Git diff를 분석하고 코드 리뷰를 수행해줘.
+체크: 1. 버그 가능성 2. 성능 이슈 3. 보안 취약점 4. 테스트 누락</code></pre>
+<pre><code>&gt; /review                                    # 커스텀 커맨드 실행
+&gt; /refactor src/components/Dashboard.tsx     # 파일 지정 커맨드</code></pre>
+
+<h3>컨텍스트 관리</h3>
+<p>컨텍스트가 커지면 <code>.claudeignore</code>로 불필요한 파일을 제외합니다:</p>
+<pre><code>node_modules/
+dist/
+.next/
+*.min.js
+*.lock</code></pre>
+
+<h3>권한 설정 (allow/deny)</h3>
+<pre><code>{
+  "permissions": {
+    "allow": [
+      "Read", "Write", "Edit", "Glob", "Grep",
+      "Bash(npm run *)", "Bash(git add *)", "Bash(git commit *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)", "Bash(sudo *)", "Bash(chmod 777 *)"
+    ]
+  }
+}</code></pre>
+<blockquote><strong>팁</strong>: <code>allow</code>에 등록된 명령은 확인 없이 실행됩니다. 처음에는 최소 권한만 허용하세요.</blockquote>
+
+<h3>멀티파일 작업</h3>
+<pre><code>&gt; Header.tsx, Footer.tsx, layout.css를 통일된 디자인으로 수정해줘
+&gt; 프로젝트에서 console.log를 모두 찾아서 logger로 교체해줘
+&gt; src/pages/ 파일들을 feature 기반 구조로 재배치해줘</code></pre>
+
+<h2 id="s6">6. 실전 프로젝트: API + 프론트엔드</h2>
+
+<h3>Step 1: 프로젝트 초기화 및 구조 설계</h3>
+<pre><code>$ mkdir todo-fullstack &amp;&amp; cd todo-fullstack &amp;&amp; git init
+$ claude
+
+&gt; 풀스택 할 일 관리 앱을 만들어줘.
+&gt; 구조: server/ (Express), client/ (React+Vite), shared/ (타입)
+&gt; 먼저 프로젝트를 초기화하고 CLAUDE.md를 생성해줘.</code></pre>
+
+<h3>Step 2: API 서버 구현</h3>
+<pre><code>&gt; server/에 Express API 서버를 구현해줘.
+&gt; 엔드포인트: GET/POST/PUT/DELETE /api/todos
+&gt; Zod 입력 검증, 에러 핸들링 미들웨어 포함.
+
+&gt; SQLite + better-sqlite3로 데이터 영속성을 추가해줘.</code></pre>
+
+<h3>Step 3: 프론트엔드 연결 및 테스트</h3>
+<pre><code>&gt; client/에 React 프론트엔드를 구현해줘.
+&gt; TodoList, TodoItem, AddTodo 컴포넌트, 카테고리 필터, 반응형 디자인
+
+&gt; API 서버와 프론트엔드를 동시에 실행하고 동작을 확인해줘.</code></pre>
+<blockquote>"기능별로 나눠서 요청하면 훨씬 정확하게 구현해요." — 실사용자 후기</blockquote>
+
+<h2 id="s7">7. 배포</h2>
+
+<h3>방법 1: Vercel CLI (추천)</h3>
+<pre><code>&gt; 이 프로젝트를 Vercel에 배포해줘.
+&gt; vercel CLI 설치 → vercel login → vercel --prod</code></pre>
+
+<h3>방법 2: GitHub Pages</h3>
+<pre><code>&gt; GitHub Pages 배포 설정: vite.config.ts base 경로 + GitHub Actions 워크플로우 생성</code></pre>
+
+<h3>방법 3: Netlify</h3>
+<pre><code>&gt; Netlify에 배포: netlify-cli 설치 → netlify init → netlify deploy --prod</code></pre>
+
+<h3>배포 자동화</h3>
+<p>커스텀 커맨드로 빌드 → 테스트 → 커밋 → 배포를 한 번에 실행할 수 있습니다:</p>
+<pre><code>&gt; .claude/commands/deploy.md를 만들어줘. 빌드+테스트+커밋+Vercel 배포 한 번에 실행
+&gt; /deploy    # 이후 한 명령으로 배포</code></pre>
+
+<h2 id="s8">8. MCP 서버 연동</h2>
+
+<h3>MCP란? (Model Context Protocol)</h3>
+<p>MCP는 Claude Code를 외부 서비스와 연결하는 <strong>표준 프로토콜</strong>입니다.</p>
+<pre><code>Claude Code ←→ MCP 프로토콜 ←→ PostgreSQL / 브라우저 / GitHub / 파일시스템</code></pre>
+
+<h3>PostgreSQL MCP</h3>
+<pre><code>{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": { "DATABASE_URL": "postgresql://user:pass@localhost:5432/mydb" }
+    }
+  }
+}</code></pre>
+<pre><code>&gt; users 테이블에서 최근 가입한 10명을 조회해줘
+&gt; 월별 매출 통계를 SQL로 작성하고 실행해줘</code></pre>
+
+<h3>브라우저 MCP (Puppeteer)</h3>
+<pre><code>{
+  "mcpServers": {
+    "browser": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/mcp-server-puppeteer"]
+    }
+  }
+}</code></pre>
+<pre><code>&gt; 브라우저로 localhost:3000에 접속해서 회원가입 폼을 테스트해줘</code></pre>
+
+<h3>파일시스템 MCP</h3>
+<pre><code>{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/me/projects"]
+    }
+  }
+}</code></pre>
+
+<h3>MCP가 확장하는 능력</h3>
+<table>
+  <tr><th>기본 기능</th><th>MCP 확장 후</th></tr>
+  <tr><td>파일 읽기/쓰기</td><td>+ 데이터베이스 직접 쿼리</td></tr>
+  <tr><td>코드 검색</td><td>+ 웹 브라우저 테스트</td></tr>
+  <tr><td>Git 작업</td><td>+ GitHub 이슈/PR 관리</td></tr>
+  <tr><td>터미널 명령</td><td>+ 외부 API 서비스 연동</td></tr>
+</table>
+<blockquote>"MCP를 설정하면 단순 코딩 도구에서 풀스택 개발 어시스턴트로 업그레이드돼요." — 실사용자 후기</blockquote>
+
+<h2 id="s9">9. Git 워크플로우</h2>
+
+<h3>브랜치 전략</h3>
+<pre><code>main (안정) → develop (개발) → feature/기능명, fix/버그명</code></pre>
+
+<h3>자동 커밋 및 PR 생성</h3>
+<pre><code>&gt; 변경사항을 커밋해줘. 메시지는 한국어로 작성해줘.
+&gt; git diff를 보여주고 커밋 메시지를 제안해줘
+&gt; 현재 브랜치의 변경사항으로 GitHub PR을 만들어줘.</code></pre>
+
+<h3>코드 리뷰 및 충돌 해결</h3>
+<pre><code>&gt; gh pr diff 42를 분석하고 코드 리뷰를 해줘
+&gt; PR #42의 리뷰 코멘트를 확인하고 수정해줘
+&gt; 현재 머지 충돌을 분석하고 양쪽 의도를 살려 해결해줘</code></pre>
+<blockquote><strong>팁</strong>: Claude Code는 <code>git diff</code>, <code>git log</code>를 분석하여 충돌의 맥락을 이해하고 양쪽 변경의 의도를 파악하여 통합합니다.</blockquote>
+
+<h2 id="s10">10. 문제가 생겼을 때 (트러블슈팅)</h2>
+
+<h3>상황 1: 컨텍스트 오버플로</h3>
+<p><code>/compact</code>로 대화 요약 → 심각하면 <code>/clear</code>로 새 세션 시작 → <code>.claudeignore</code>로 대형 파일 제외</p>
+
+<h3>상황 2: MCP 연결 실패</h3>
+<p>흔한 원인: npx 패키지 미설치(<code>-y</code> 옵션 확인), 환경 변수 누락(settings.json env 섹션), 서비스 미실행(PostgreSQL 등 시작 확인)</p>
+
+<h3>상황 3: 응답이 너무 느릴 때</h3>
+<p><code>/model</code>로 Sonnet 전환 → <code>.claudeignore</code>에 <code>node_modules/</code>, <code>*.min.js</code> 추가</p>
+
+<h3>상황 4: 토큰 한도 초과</h3>
+<p><code>/cost</code>로 비용 확인 → <code>/compact</code>로 압축 → Max 한도 초과 시 API 종량제 전환 고려</p>
+
+<h3>상황 5: Git 충돌 발생</h3>
+<pre><code>&gt; 현재 Git 충돌을 보여주고 해결해줘
+&gt; 충돌 마커를 찾아서 양쪽 의도를 살려 정리해줘</code></pre>
+
+<h3>상황 6: 비용이 예상보다 많을 때</h3>
+<table>
+  <tr><th>절감 전략</th><th>방법</th></tr>
+  <tr><td>모델 선택</td><td>간단한 작업은 Sonnet, 복잡한 작업만 Opus</td></tr>
+  <tr><td>컨텍스트 관리</td><td><code>/compact</code> 주기적 사용, <code>.claudeignore</code> 설정</td></tr>
+  <tr><td>범위 축소</td><td>한 번에 하나의 기능만 요청</td></tr>
+  <tr><td>세션 관리</td><td>작업 전환 시 <code>/clear</code>로 초기화</td></tr>
+</table>
+
+<h2 id="s11">11. 자주 묻는 질문 (FAQ)</h2>
+
+<h3>Q1. CLAUDE.md는 반드시 있어야 하나요?</h3>
+<p>필수는 아니지만 <strong>강력히 권장</strong>합니다. 없으면 매 세션마다 프로젝트 규칙을 반복 설명해야 합니다.</p>
+
+<h3>Q2. MCP 서버는 몇 개까지 연결할 수 있나요?</h3>
+<p>기술적 제한은 없지만 <strong>3~5개 이내</strong>가 권장됩니다. 많을수록 초기 로딩이 느려지고 컨텍스트를 더 소모합니다.</p>
+
+<h3>Q3. 커스텀 커맨드와 CLAUDE.md의 차이는?</h3>
+<p>CLAUDE.md는 <strong>매 세션 자동 적용</strong>되는 프로젝트 규칙이고, 커스텀 커맨드는 <strong>명시적 호출 시 실행</strong>되는 반복 작업 자동화입니다.</p>
+
+<h3>Q4. 세션을 끝내면 대화 기록이 사라지나요?</h3>
+<p>네, 세션 종료 시 맥락이 초기화됩니다. 중요한 결정은 <code>/memory</code>로 CLAUDE.md에 저장하세요.</p>
+
+<h3>Q5. Cursor와 함께 쓸 수 있나요?</h3>
+<p>네, Cursor에서 UI 편집 + Claude Code로 백엔드/테스트/배포 자동화가 <strong>인기 있는 조합</strong>입니다.</p>
+
+<h3>Q6. API 종량제 vs Max 구독?</h3>
+<p>매일 사용하면 Max($100/월), 주 2~3회면 API 종량제가 유리합니다.</p>
+
+<h3>Q7. Windows에서 MCP를 사용할 수 있나요?</h3>
+<p>네, WSL 환경을 <strong>권장</strong>합니다. 네이티브 Windows에서는 일부 경로 문제가 발생할 수 있습니다.</p>
+
+<h3>Q8. 생성된 코드의 품질은 믿을 수 있나요?</h3>
+<p><strong>반드시 직접 검토</strong>해야 합니다. 보안 코드(인증, 권한)는 특히 주의하고, 테스트 커버리지를 높이는 것이 핵심입니다.</p>
+
+<h2 id="s12">12. 효율화 전략</h2>
+
+<h3>프롬프트 최적화</h3>
+<table>
+  <tr><th>원칙</th><th>나쁜 예</th><th>좋은 예</th></tr>
+  <tr><td><strong>구체성</strong></td><td>"코드 수정해줘"</td><td>"src/api/users.ts에서 에러 핸들링 추가"</td></tr>
+  <tr><td><strong>범위</strong></td><td>"전체 앱 리팩토링"</td><td>"UserService 클래스만 리팩토링"</td></tr>
+  <tr><td><strong>단계별</strong></td><td>"로그인부터 결제까지"</td><td>"1단계: 로그인 API 먼저"</td></tr>
+  <tr><td><strong>맥락</strong></td><td>"에러 수정"</td><td>"TypeError: Cannot read 'map' — 빈 배열 처리"</td></tr>
+  <tr><td><strong>참조</strong></td><td>"비슷하게 만들어줘"</td><td>"UserCard.tsx 패턴으로 ProductCard 생성"</td></tr>
+</table>
+
+<h3>세션 전략</h3>
+<table>
+  <tr><th>상황</th><th>전략</th></tr>
+  <tr><td>같은 기능 개발 중</td><td>이어가기 (맥락 유지)</td></tr>
+  <tr><td>다른 작업 시작</td><td><code>/clear</code>로 새 세션</td></tr>
+  <tr><td>50회 이상 대화</td><td><code>/compact</code> 후 이어가기</td></tr>
+  <tr><td>응답 품질 저하</td><td>새 세션 시작</td></tr>
+</table>
+
+<h3>CLAUDE.md 템플릿 (프로젝트 유형별)</h3>
+<p><strong>프론트엔드</strong>: React + TypeScript + Tailwind, 함수형 컴포넌트, mobile-first 반응형</p>
+<p><strong>API 서버</strong>: Express + TypeScript + Prisma, RESTful, Zod 검증, 에러 미들웨어</p>
+<p><strong>풀스택</strong>: Next.js App Router, Server Components 우선, DB 마이그레이션 필수</p>
+
+<h3>비용 최적화</h3>
+<table>
+  <tr><th>작업</th><th>추천 모델</th><th>절감 효과</th></tr>
+  <tr><td>코드 포맷팅, 간단한 수정</td><td>Haiku</td><td>90% 절감</td></tr>
+  <tr><td>일반 코딩, 파일 편집</td><td>Sonnet</td><td>기준 비용</td></tr>
+  <tr><td>아키텍처 설계, 디버깅</td><td>Opus</td><td>3~5배 비용</td></tr>
+</table>
+
+<h3>AI 검증 프롬프트</h3>
+<pre><code>&gt; 방금 작성한 코드를 리뷰해줘. 버그, 보안, 성능 이슈 체크.
+&gt; 이 기능의 테스트를 작성하고 실행해줘. 엣지 케이스 포함.
+&gt; 프로젝트 코드 품질 분석: 타입 안정성, 에러 핸들링, 보안</code></pre>
+
+<h2 id="s13">13. 다음 단계</h2>
+
+<p>Claude Code 중급자편을 마치셨습니다! 다음 단계를 선택하세요:</p>
+<table>
+  <tr><th>방향</th><th>설명</th><th>추천</th></tr>
+  <tr><td><strong>Claude Code 개발자편</strong></td><td>서브에이전트, 후크, CI/CD 통합</td><td>심화 추천</td></tr>
+  <tr><td><strong>Cursor 중급자편</strong></td><td>GUI 기반 AI 코딩 경험 비교</td><td>병행 추천</td></tr>
+  <tr><td><strong>실전 프로젝트</strong></td><td>SaaS 프로젝트 도전</td><td>도전 추천</td></tr>
+</table>
+
+<h3>개발자편 미리보기</h3>
+<table>
+  <tr><th>주제</th><th>설명</th></tr>
+  <tr><td><strong>서브에이전트</strong></td><td>복잡한 작업을 병렬로 분할 처리</td></tr>
+  <tr><td><strong>후크 (Hooks)</strong></td><td>이벤트 기반 자동화 (파일 저장 시 포맷팅 등)</td></tr>
+  <tr><td><strong>CI/CD 통합</strong></td><td>GitHub Actions에서 Claude Code 자동 실행</td></tr>
+  <tr><td><strong>비대화형 모드</strong></td><td><code>claude --print</code>로 스크립트에 통합</td></tr>
+  <tr><td><strong>MCP 서버 개발</strong></td><td>나만의 MCP 서버 직접 구축</td></tr>
+</table>
+
+<h3>학습 로드맵</h3>
+<table>
+  <tr><th>단계</th><th>학습 내용</th><th>예상 기간</th></tr>
+  <tr><td>현재</td><td>CLAUDE.md, MCP 연동, 멀티파일 관리</td><td>1~2주</td></tr>
+  <tr><td>다음</td><td>서브에이전트, 후크, 커스텀 커맨드 심화</td><td>1주</td></tr>
+  <tr><td>심화</td><td>CI/CD 파이프라인, MCP 서버 개발</td><td>2~3주</td></tr>
+  <tr><td>고급</td><td>팀 워크플로우 구축, 엔터프라이즈 설정</td><td>지속적</td></tr>
+</table>
+
+<div id="summary" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">전체 흐름 요약</strong><br><br>
+  1단계: 설정 — CLAUDE.md, settings.json, MCP 서버 연결<br>
+  ↓<br>
+  2단계: 기획 — PRD/IA/ERD 문서 자동 생성, 구조 설계<br>
+  ↓<br>
+  3단계: 구현·테스트 — 대화형 코딩, 멀티파일 편집, 테스트<br>
+  ↓<br>
+  4단계: 배포 — Git 커밋, PR 생성, Vercel/Netlify/GitHub Pages<br><br>
+  <table style="margin:0 auto;color:#FFF;border-collapse:collapse">
+    <tr><th style="border:1px solid rgba(255,255,255,0.3);padding:8px">단계</th><th style="border:1px solid rgba(255,255,255,0.3);padding:8px">핵심 활동</th><th style="border:1px solid rgba(255,255,255,0.3);padding:8px">소요 시간</th></tr>
+    <tr><td style="border:1px solid rgba(255,255,255,0.3);padding:8px"><strong>1. 설정</strong></td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">CLAUDE.md, MCP 서버, 권한 설정</td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">30분</td></tr>
+    <tr><td style="border:1px solid rgba(255,255,255,0.3);padding:8px"><strong>2. 기획</strong></td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">PRD/IA/ERD 작성, 구조 설계</td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">30분~1시간</td></tr>
+    <tr><td style="border:1px solid rgba(255,255,255,0.3);padding:8px"><strong>3. 구현·테스트</strong></td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">대화형 코딩, 기능 구현, 테스트</td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">2~3시간</td></tr>
+    <tr><td style="border:1px solid rgba(255,255,255,0.3);padding:8px"><strong>4. 배포</strong></td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">Git 커밋, PR 생성, 배포</td><td style="border:1px solid rgba(255,255,255,0.3);padding:8px">30분</td></tr>
+  </table>
+  <br>
+  <span style="font-size:1rem"><strong>축하합니다!</strong> 이 과정을 마치면 Claude Code의 중급 기능을 활용하여 체계적인 프로젝트 개발이 가능합니다.</span>
+</div>
+
+<h2 id="sources">출처</h2>
+<p>본 교안의 콘텐츠는 아래 출처에서 발췌·정리하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong><a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">Anthropic 공식 문서</a></strong></td><td>Claude Code 사용법 및 API 문서</td></tr>
+  <tr><td><strong><a href="https://modelcontextprotocol.io" target="_blank">MCP 프로토콜</a></strong></td><td>Model Context Protocol 공식 사이트</td></tr>
+  <tr><td><strong><a href="https://www.anthropic.com/blog" target="_blank">Anthropic 블로그</a></strong></td><td>Claude Code 업데이트 소식</td></tr>
+  <tr><td><strong><a href="https://github.com/anthropics/claude-code" target="_blank">Claude Code GitHub</a></strong></td><td>오픈소스 저장소</td></tr>
+</table>
+
+<p style="margin-top:24px;color:#888;font-size:0.95rem">이 교안은 <strong>김선생의 바이브코딩 가이드</strong> 프로젝트의 일부입니다.
+CLI가 처음이라면 <a href="claude-code-beginner.html">초보자편</a>부터, 서브에이전트와 CI/CD까지 다루고 싶다면 <a href="claude-code-developer.html">개발자편</a>을 참고하세요.</p>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 Claude Code(2026.3 기준)을 기반으로 작성되었습니다.
+</footer>
+
+<!-- Mobile TOC -->
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>

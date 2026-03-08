@@ -29,9 +29,13 @@
 │   └── /cursor-developer.html ─── 개발자편
 │
 ├── AI Studio Builder
-│   └── /aistudio-beginner.html ─── 초보자편
+│   ├── /aistudio-beginner.html ─── 초보자편
+│   ├── /aistudio-intermediate.html ─── 중급자편
+│   └── /aistudio-developer.html ─── 개발자편
 │
 ├── Claude Code
+│   ├── /claude-code-beginner.html ─── 초보자편
+│   ├── /claude-code-intermediate.html ─── 중급자편
 │   └── /claude-code-developer.html ─── 개발자편
 │
 ├── /compare.html ─── 도구 비교
@@ -60,8 +64,8 @@ TopNav
 │   ├── 💗 러버블 ── 초보자 · 중급자 · 개발자
 │   ├── 🚀 안티그래비티 ── 초보자 · 중급자 · 개발자
 │   ├── 💻 커서 ── 초보자 · 중급자 · 개발자
-│   ├── 🧪 AI Studio ── 초보자
-│   └── ⚡ Claude Code ── 개발자
+│   ├── 🧪 AI Studio ── 초보자 · 중급자 · 개발자
+│   └── ⚡ Claude Code ── 초보자 · 중급자 · 개발자
 ├── 링크: "도구 비교" (#compare)
 └── 모바일: 햄버거 메뉴 (☰)
 
@@ -82,8 +86,8 @@ Hero 섹션
 ├── 💗 러버블 ── 초보자·중급자·개발자 링크
 ├── 🚀 안티그래비티 ── 초보자·중급자·개발자 링크
 ├── 💻 커서 ── 초보자·중급자·개발자 링크
-├── 🧪 AI Studio ── 초보자 링크
-└── ⚡ Claude Code ── 개발자 링크
+├── 🧪 AI Studio ── 초보자·중급자·개발자 링크
+└── ⚡ Claude Code ── 초보자·중급자·개발자 링크
 
 도구 비교표 (#compare)
 ├── 유형, 설치, 코딩 필요, 주요 대상
@@ -349,7 +353,7 @@ Sidebar (목차)                     Content (본문)
 ### 11. AI Studio 초보자편 (aistudio-beginner.html)
 
 ```
-TopNav: [바이브코딩 가이드(brand)] [초보자편(active)]
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
 
 Sidebar (목차)                     Content (본문)
 ─────────────                     ──────────────
@@ -374,7 +378,7 @@ Sidebar (목차)                     Content (본문)
 ### 12. Claude Code 개발자편 (claude-code-developer.html)
 
 ```
-TopNav: [바이브코딩 가이드(brand)] [개발자편(active)]
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
 
 Sidebar (목차)                     Content (본문)
 ─────────────                     ──────────────
@@ -395,7 +399,108 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블
 ```
 
-### 13. 도구 비교 (compare.html)
+### 13. AI Studio 중급자편 (aistudio-intermediate.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 수준 안내
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 도구 비교                       5개 도구 비교표, 도구 선택 가이드
+2. AI Studio 심화 워크플로우       프롬프트 체이닝, 반복 개선 5단계
+3. 사전 준비                       Google 계정, API 키 설정, 체크리스트
+4. 기획 문서 작성 실습             PRD/IA 개념, Gemini Gem 연동
+5. AI Studio 심화 활용             고급 프롬프트, 멀티 컴포넌트, CSS 커스텀
+6. 실전 프로젝트                   멀티 섹션 대시보드, Step 1~3
+7. 배포                            링크 공유, GitHub Export, Vercel
+8. 외부 서비스 연동                Gemini API, Firebase 기초
+9. 다른 도구로 발전하기            AI Studio → Lovable/Cursor 마이그레이션
+10. 트러블슈팅                     5개 상황별 해결법
+11. FAQ                            7~8개 질문·답변
+12. 효율화 전략                    프롬프트 최적화, 세션 관리
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     4단계 플로우
+출처                               출처 테이블
+```
+
+### 14. AI Studio 개발자편 (aistudio-developer.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 추천 리소스 테이블
+1. 기술 아키텍처                   AI Studio Build 내부, 코드 생성 구조, 도구 비교
+2. 사전 준비                       GCP 프로젝트, API 키, Node.js, Git
+3. 기획 문서 체계                  PRD.md/IA.md 템플릿, 기술 제약
+4. 빌드 전략                       전략 3종 (프로토타입/하이브리드/API-first)
+5. 코드 커스터마이징               Export 코드 분석, 의존성, 환경 변수
+6. Gemini API 연동                 REST API, SDK, 스트리밍, 프롬프트 엔지니어링
+7. 외부 서비스 연동                Firebase Auth/Firestore/Hosting, Cloud Functions
+8. 배포 및 운영                    Firebase/Vercel/GitHub Pages, 모니터링
+9. 마이그레이션                    AI Studio → Lovable/Cursor/AntiGravity 전환
+10. 디버깅 가이드                  빌드·API·Export·배포 에러
+11. 다음 단계                      심화 방향
+전체 흐름 요약                     기획→빌드→운영 플로우
+출처                               출처 테이블
+```
+
+### 15. Claude Code 초보자편 (claude-code-beginner.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          어떤 교안을 봐야 할까요?
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 바이브코딩이란?                 바이브코딩 개념, 비교표, 학습 경로
+2. Claude Code란?                  CLI 개념, GUI 도구 비교, "터미널 대화" 메타포
+3. 용어 해설                       10~12개 용어 테이블
+4. 사전 준비                       Node.js 설치, npm, Claude Code 설치, 인증
+5. 아이디어 구상하기               CLI 초보 적합 프로젝트, 직업별 추천
+6. 프롬프트 작성하기               대화법, 슬래시 명령, PRD 개념 (간단)
+7. Claude Code 실습                Step 1~5 (터미널→프로젝트→커밋)
+8. 프로젝트 공개하기               GitHub push, Vercel/Netlify 배포
+9. 요금제 안내                     Max 구독, API 키, 무료 옵션
+10. 트러블슈팅                     5개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 주의사항 및 팁                 보안, 비용 관리, 흔한 실수
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     5단계 플로우
+출처                               출처 테이블
+```
+
+### 16. Claude Code 중급자편 (claude-code-intermediate.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 수준 안내
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 도구 비교                       5개 도구 비교표, Claude Code 포지셔닝
+2. Claude Code 워크플로우          5단계, 세션 관리, /compact, /cost
+3. 사전 준비                       Node.js/Git, CLAUDE.md, MCP 전제조건
+4. 기획 문서 작성 실습             PRD/IA/ERD를 Claude Code로 생성
+5. Claude Code 심화 활용           CLAUDE.md 마스터리, 모델 선택, 컨텍스트 관리
+6. 실전 프로젝트                   풀스택 프로젝트 Step 1~3
+7. 배포                            Vercel CLI, GitHub Pages, Netlify
+8. MCP 서버 연동                   MCP란, Postgres/브라우저/파일 MCP
+9. Git 워크플로우                  브랜치 전략, PR, 코드 리뷰
+10. 트러블슈팅                     6개 상황별 해결법
+11. FAQ                            8개 질문·답변
+12. 효율화 전략                    프롬프트·세션·비용 최적화
+13. 다음 단계                      학습 방향 테이블
+전체 흐름 요약                     4단계 플로우
+출처                               출처 테이블
+```
+
+### 17. 도구 비교 (compare.html)
 
 ```
 TopNav: [바이브코딩 가이드(brand)] [도구 비교(active)]
@@ -419,8 +524,8 @@ index.html (멀티 도구 허브)
     │   ├─ 러버블 → lovable-beginner / lovable-intermediate / lovable-developer
     │   ├─ 안티그래비티 → antigravity-beginner / antigravity-intermediate / antigravity-developer
     │   ├─ 커서 → cursor-beginner / cursor-intermediate / cursor-developer
-    │   ├─ AI Studio → aistudio-beginner
-    │   └─ Claude Code → claude-code-developer
+    │   ├─ AI Studio → aistudio-beginner / aistudio-intermediate / aistudio-developer
+    │   └─ Claude Code → claude-code-beginner / claude-code-intermediate / claude-code-developer
     │
     ├─[인터랙티브 퀴즈] → 추천 결과 → 교안 링크
     │
@@ -469,10 +574,28 @@ compare.html
     └─[topnav 바이브코딩 가이드]──→ index.html
 
 aistudio-beginner.html
-    └─[topnav 바이브코딩 가이드]──→ index.html
+    ├─[topnav 중급자편]──→ aistudio-intermediate.html
+    └─[topnav 개발자편]──→ aistudio-developer.html
+
+aistudio-intermediate.html
+    ├─[topnav 초보자편]──→ aistudio-beginner.html
+    └─[topnav 개발자편]──→ aistudio-developer.html
+
+aistudio-developer.html
+    ├─[topnav 초보자편]──→ aistudio-beginner.html
+    └─[topnav 중급자편]──→ aistudio-intermediate.html
+
+claude-code-beginner.html
+    ├─[topnav 중급자편]──→ claude-code-intermediate.html
+    └─[topnav 개발자편]──→ claude-code-developer.html
+
+claude-code-intermediate.html
+    ├─[topnav 초보자편]──→ claude-code-beginner.html
+    └─[topnav 개발자편]──→ claude-code-developer.html
 
 claude-code-developer.html
-    └─[topnav 바이브코딩 가이드]──→ index.html
+    ├─[topnav 초보자편]──→ claude-code-beginner.html
+    └─[topnav 중급자편]──→ claude-code-intermediate.html
 
 리다이렉트 스텁:
     beginner.html ──→ lovable-beginner.html

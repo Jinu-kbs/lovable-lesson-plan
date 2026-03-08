@@ -218,11 +218,15 @@ footer a{color:var(--text-light);text-decoration:underline}
           <div class="dropdown-tool-name"><span>🧪</span> AI Studio</div>
           <div class="dropdown-tool-levels">
             <a href="aistudio-beginner.html">초보자</a>
+            <a href="aistudio-intermediate.html">중급자</a>
+            <a href="aistudio-developer.html">개발자</a>
           </div>
         </div>
         <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>⚡</span> Claude Code</div>
           <div class="dropdown-tool-levels">
+            <a href="claude-code-beginner.html">초보자</a>
+            <a href="claude-code-intermediate.html">중급자</a>
             <a href="claude-code-developer.html">개발자</a>
           </div>
         </div>
@@ -263,11 +267,15 @@ footer a{color:var(--text-light);text-decoration:underline}
     <div class="mobile-menu-tool-name">🧪 AI Studio</div>
     <div class="mobile-menu-tool-links">
       <a href="aistudio-beginner.html">초보자</a>
+      <a href="aistudio-intermediate.html">중급자</a>
+      <a href="aistudio-developer.html">개발자</a>
     </div>
   </div>
   <div class="mobile-menu-tool">
     <div class="mobile-menu-tool-name">⚡ Claude Code</div>
     <div class="mobile-menu-tool-links">
+      <a href="claude-code-beginner.html">초보자</a>
+      <a href="claude-code-intermediate.html">중급자</a>
       <a href="claude-code-developer.html">개발자</a>
     </div>
   </div>
@@ -446,6 +454,8 @@ footer a{color:var(--text-light);text-decoration:underline}
         <p class="tool-card-desc">Google AI Studio의 빌드 기능으로 Gemini 2.5 Pro와 대화하며 웹 프로토타입을 빠르게 만들 수 있습니다. 설치 없이 무료 사용.</p>
         <div class="tool-card-levels">
           <a href="aistudio-beginner.html" class="level-link" style="--lc:var(--aistudio);--lbg:var(--aistudio-bg)">🌱 초보자</a>
+          <a href="aistudio-intermediate.html" class="level-link" style="--lc:var(--aistudio);--lbg:var(--aistudio-bg)">🚀 중급자</a>
+          <a href="aistudio-developer.html" class="level-link" style="--lc:var(--aistudio);--lbg:var(--aistudio-bg)">⚙️ 개발자</a>
         </div>
         <a href="aistudio-beginner.html" class="tool-card-cta" style="background:var(--aistudio)">교안 보기</a>
       </div>
@@ -464,9 +474,11 @@ footer a{color:var(--text-light);text-decoration:underline}
         </div>
         <p class="tool-card-desc">터미널에서 Claude와 대화하며 코딩하는 에이전트형 CLI 도구. 파일 편집, Git, 테스트, MCP까지 자동화합니다.</p>
         <div class="tool-card-levels">
+          <a href="claude-code-beginner.html" class="level-link" style="--lc:var(--claude-code);--lbg:var(--claude-code-bg)">🌱 초보자</a>
+          <a href="claude-code-intermediate.html" class="level-link" style="--lc:var(--claude-code);--lbg:var(--claude-code-bg)">🚀 중급자</a>
           <a href="claude-code-developer.html" class="level-link" style="--lc:var(--claude-code);--lbg:var(--claude-code-bg)">⚙️ 개발자</a>
         </div>
-        <a href="claude-code-developer.html" class="tool-card-cta" style="background:var(--claude-code)">교안 보기</a>
+        <a href="claude-code-beginner.html" class="tool-card-cta" style="background:var(--claude-code)">교안 보기</a>
       </div>
     </div>
   </div>
@@ -600,8 +612,8 @@ var TOOLS = {
   'lovable':     { name:'러버블',      icon:'💗', color:'#E91E63', levels:['beginner','intermediate','developer'], ready:true },
   'antigravity': { name:'안티그래비티', icon:'🚀', color:'#9C27B0', levels:['beginner','intermediate','developer'], ready:true },
   'cursor':      { name:'커서',        icon:'💻', color:'#2196F3', levels:['beginner','intermediate','developer'], ready:true },
-  'aistudio':    { name:'AI Studio',   icon:'🧪', color:'#4CAF50', levels:['beginner'], ready:true },
-  'claude-code': { name:'Claude Code', icon:'⚡', color:'#FF9800', levels:['developer'], ready:true }
+  'aistudio':    { name:'AI Studio',   icon:'🧪', color:'#4CAF50', levels:['beginner','intermediate','developer'], ready:true },
+  'claude-code': { name:'Claude Code', icon:'⚡', color:'#FF9800', levels:['beginner','intermediate','developer'], ready:true }
 };
 var LEVELS = { beginner:'초보자', intermediate:'중급자', developer:'개발자' };
 var quizTool = null;

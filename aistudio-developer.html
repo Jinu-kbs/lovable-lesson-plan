@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Studio 교안 - 개발자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#4CAF50;--primary-light:#A5D6A7;--blockquote-bg:#E8F5E9;--hover-bg:#F1F8E9}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="aistudio-beginner.html">초보자편</a>
+  <a href="aistudio-intermediate.html">중급자편</a>
+  <a href="aistudio-developer.html" class="active">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>⚙️ 개발자편</h1>
+  <div class="meta">대상: 코딩 경험자, AI Studio 빌드를 개발 워크플로우에 통합하려는 개발자 · 목표: Gemini API 연동, 코드 커스터마이징, 프로덕션 배포 · 약 4~5시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 기술 아키텍처</a>
+  <a href="#s2">2. 사전 준비</a>
+  <a href="#s3">3. 기획 문서 체계</a>
+  <a href="#s4">4. 빌드 전략</a>
+  <a href="#s5">5. 코드 커스터마이징</a>
+  <a href="#s6">6. Gemini API 연동</a>
+  <a href="#s7">7. 외부 서비스 연동</a>
+  <a href="#s8">8. 배포 및 운영</a>
+  <a href="#s9">9. 마이그레이션</a>
+  <a href="#s10">10. 디버깅 가이드</a>
+  <a href="#s11">11. 다음 단계</a>
+  <a href="#summary">전체 흐름 요약</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<p>이 교안은 <strong>코딩 경험이 있는 개발자</strong>를 위한 것입니다. AI Studio 빌드를 빠른 프로토타이핑 도구로 활용하고, Gemini API를 프로덕션 프로젝트에 직접 연동하려는 분에게 적합합니다.</p>
+<table>
+  <tr><th>항목</th><th>초보자편</th><th>개발자편 (현재)</th></tr>
+  <tr><td>코딩 경험</td><td>없음</td><td><strong>있음 (JavaScript/Python)</strong></td></tr>
+  <tr><td>API 사용 경험</td><td>없음</td><td><strong>REST API 호출 가능</strong></td></tr>
+  <tr><td>Git/GitHub</td><td>모름</td><td><strong>브랜치·배포 가능</strong></td></tr>
+  <tr><td>학습 목표</td><td>바이브코딩 체험</td><td><strong>Gemini API 연동·프로덕션 확장</strong></td></tr>
+  <tr><td>소요 시간</td><td>2~3시간</td><td><strong>4~5시간</strong></td></tr>
+</table>
+
+<blockquote>API 호출, 터미널, 패키지 매니저 경험이 없다면 <a href="aistudio-beginner.html"><strong>초보자편</strong></a>을 먼저 보세요.</blockquote>
+
+<h3 id="resources">추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>AI Studio 공식 사이트</strong></td><td>Google AI Studio 빌드 모드</td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td></tr>
+  <tr><td><strong>Google AI 개발자 문서</strong></td><td>Gemini API 공식 레퍼런스</td><td><a href="https://ai.google.dev" target="_blank">ai.google.dev</a></td></tr>
+  <tr><td><strong>Firebase 문서</strong></td><td>호스팅, Auth, Firestore 가이드</td><td><a href="https://firebase.google.com/docs" target="_blank">firebase.google.com/docs</a></td></tr>
+  <tr><td><strong>기획 도우미 Gem</strong></td><td>PRD/IA/ERD 작성 도우미 (peace 제작/공유)</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gem 바로가기</a></td></tr>
+</table>
+
+<h2 id="s1">1. 기술 아키텍처</h2>
+
+<h3>AI Studio Build 내부 구조</h3>
+<p>AI Studio Build는 Google AI Studio의 Build 탭에서 제공하는 웹 기반 코드 생성 파이프라인입니다. Gemini 2.5 Pro 모델이 프롬프트를 분석하여 HTML/CSS/JavaScript 코드를 생성합니다.</p>
+<table>
+  <tr><th>계층</th><th>설명</th></tr>
+  <tr><td><strong>UI Layer</strong></td><td>웹 브라우저 기반 에디터 + 프리뷰 패널 + 채팅 인터페이스</td></tr>
+  <tr><td><strong>AI Layer</strong></td><td>Gemini 2.5 Pro — 프롬프트 해석 및 코드 생성</td></tr>
+  <tr><td><strong>Build Pipeline</strong></td><td>프롬프트 → 코드 생성 → 실시간 프리뷰 렌더링</td></tr>
+  <tr><td><strong>Export Layer</strong></td><td>코드 복사, 공유 링크 생성, Deploy</td></tr>
+  <tr><td><strong>API Layer</strong></td><td>Gemini API — 외부에서 직접 호출 가능 (REST/SDK)</td></tr>
+</table>
+
+<h3>생성 코드 구조</h3>
+<p>AI Studio Build는 단일 HTML 파일 기반 코드를 생성합니다:</p>
+<ul>
+  <li><strong>단일 파일 구조</strong>: HTML, CSS, JS가 하나의 파일에 인라인 포함</li>
+  <li><strong>CDN 의존성</strong>: 외부 라이브러리는 CDN 링크로 참조</li>
+  <li><strong>프레임워크 없음</strong>: 바닐라 HTML/CSS/JS 기반 (요청 시 프레임워크 포함 가능)</li>
+  <li><strong>반응형 기본 적용</strong>: 모바일 대응 미디어 쿼리 포함</li>
+</ul>
+
+<h3>5대 도구 포지셔닝 비교</h3>
+<table>
+  <tr><th>항목</th><th>AI Studio</th><th>Lovable</th><th>AntiGravity</th><th>Cursor</th><th>Claude Code</th></tr>
+  <tr><td><strong>유형</strong></td><td>웹 프로토타입 빌더</td><td>풀스택 웹앱 빌더</td><td>에이전트 IDE</td><td>AI 코드 에디터</td><td>CLI 도구</td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>Gemini 2.5 Pro</td><td>Claude</td><td>Gemini</td><td>멀티 모델</td><td>Claude</td></tr>
+  <tr><td><strong>코드 접근</strong></td><td>복사/다운로드</td><td>GitHub 연동</td><td>로컬 파일시스템</td><td>로컬 파일시스템</td><td>로컬 파일시스템</td></tr>
+  <tr><td><strong>DB 지원</strong></td><td>미지원</td><td>Supabase 연동</td><td>자유 선택</td><td>자유 선택</td><td>자유 선택</td></tr>
+  <tr><td><strong>비용</strong></td><td>무료</td><td>유료 (이벤트 무료)</td><td>무료 (프리뷰)</td><td>$20/월~</td><td>종량제</td></tr>
+  <tr><td><strong>최적 용도</strong></td><td>아이디어 검증</td><td>SaaS 웹앱</td><td>멀티 에이전트</td><td>정밀 코드 제어</td><td>개발 자동화</td></tr>
+</table>
+
+<h3>언제 AI Studio를 선택할까?</h3>
+<table>
+  <tr><th>상황</th><th>추천 도구</th><th>이유</th></tr>
+  <tr><td>아이디어를 5분 만에 시각화</td><td><strong>AI Studio</strong></td><td>설치 없이 즉시 시작, 무료</td></tr>
+  <tr><td>풀스택 웹앱 제작</td><td><strong>Lovable</strong></td><td>DB, 인증, 배포 통합</td></tr>
+  <tr><td>코드 수준 정밀 제어</td><td><strong>Cursor</strong></td><td>파일시스템 직접 접근</td></tr>
+  <tr><td>대규모 코드베이스 자동화</td><td><strong>Claude Code</strong></td><td>CLI 기반 자율 실행</td></tr>
+</table>
+
+<h2 id="s2">2. 사전 준비</h2>
+
+<h3>개발 환경 요구사항</h3>
+<table>
+  <tr><th>항목</th><th>필수/권장</th><th>설명</th></tr>
+  <tr><td><strong>Google 계정</strong></td><td>필수</td><td>AI Studio 접속 및 API 키 발급</td></tr>
+  <tr><td><strong>Google Cloud 프로젝트</strong></td><td>권장</td><td>API 키 관리, 할당량 모니터링</td></tr>
+  <tr><td><strong>Node.js 18+</strong></td><td>권장</td><td>생성 코드 로컬 실행, npm 패키지</td></tr>
+  <tr><td><strong>Python 3.10+</strong></td><td>선택</td><td>Gemini Python SDK 사용 시</td></tr>
+  <tr><td><strong>Git</strong></td><td>권장</td><td>버전 관리 및 배포</td></tr>
+</table>
+
+<h3>Gemini API 키 발급</h3>
+<ol>
+  <li><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> 접속 → 좌측 메뉴 <strong>Get API key</strong> 클릭</li>
+  <li>프로젝트 선택 또는 새 프로젝트 생성</li>
+  <li>생성된 API 키를 안전하게 보관</li>
+</ol>
+<p>또는 <a href="https://console.cloud.google.com" target="_blank">console.cloud.google.com</a>에서 "Generative Language API" 활성화 후 <strong>사용자 인증 정보 → API 키 만들기</strong>로 발급합니다.</p>
+
+<blockquote>API 키는 절대 코드에 하드코딩하지 마세요. <code>.env</code> 파일에 저장하고 <code>.gitignore</code>에 추가하세요.</blockquote>
+
+<h3>개발 환경 체크리스트</h3>
+<ul class="checklist">
+  <li>Google 계정 및 AI Studio 접속 확인</li>
+  <li>Gemini API 키 발급 완료</li>
+  <li>Node.js 18+ / Git 설치 확인</li>
+  <li>코드 에디터(VS Code 또는 Cursor) 준비</li>
+  <li>API 키를 <code>.env</code> 파일에 저장, <code>.gitignore</code>에 <code>.env</code> 추가</li>
+</ul>
+
+<h2 id="s3">3. 기획 문서 체계</h2>
+
+<h3>PRD.md 템플릿</h3>
+<pre><code># PRD — [프로젝트명]
+
+## 개요
+- 목적: [프로젝트 목표]
+- 대상 사용자: [타겟 유저]
+- 기술 제약: AI Studio 빌드 (단일 HTML, 프론트엔드 전용)
+
+## 기능 우선순위
+| 우선순위 | 기능 | 설명 |
+|---------|------|------|
+| **P0** (필수) | [핵심 기능] | [설명] |
+| **P1** (중요) | [부가 기능] | [설명] |
+| **P2** (희망) | [추가 기능] | [설명] |
+
+## 기술 제약
+- 프론트엔드 전용 (서버 사이드 코드 불가)
+- localStorage 기반 데이터 저장
+- CDN 기반 외부 라이브러리</code></pre>
+
+<h3>IA.md 템플릿</h3>
+<pre><code># IA — [프로젝트명] 정보 구조
+
+## 페이지 구조
+- / (메인)
+  ├── 헤더 (네비게이션)
+  ├── 주요 콘텐츠 섹션
+  └── 푸터
+
+## 컴포넌트 구조 (Gemini API 연동 시)
+├── src/
+│   ├── components/    ← UI 컴포넌트
+│   ├── services/      ← API 호출 로직
+│   └── utils/         ← 유틸리티 함수</code></pre>
+
+<h3>Gemini를 활용한 기획 문서 생성</h3>
+<pre><code>아래 조건으로 PRD.md, IA.md를 작성해줘:
+- 이름: 학급 시간표 관리 앱
+- 기술: AI Studio 빌드 → Firebase 배포 예정
+- 핵심 기능: 시간표 CRUD, 과목별 색상, 반응형
+- P0/P1/P2 우선순위로 기능 분류해줘</code></pre>
+
+<blockquote>기획 도우미 Gem (<a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">바로가기</a>)을 사용하면 PRD/IA/ERD 작성이 더 수월합니다. — peace 제작/공유</blockquote>
+
+<h2 id="s4">4. 빌드 전략</h2>
+
+<h3>전략 1: Rapid Prototype (AI Studio 단독)</h3>
+<p>AI Studio Build만으로 MVP를 빠르게 만드는 방식입니다:</p>
+<pre><code>학급 시간표 관리 웹앱을 만들어줘.
+- 시간표 표(월~금, 1~6교시) 편집 가능
+- 과목별 색상 구분, localStorage로 데이터 저장
+- 바닐라 HTML/CSS/JavaScript, 단일 파일
+- 깔끔한 카드 레이아웃, 파스텔톤, 반응형</code></pre>
+<p><strong>장점</strong>: 5분 이내 프로토타입, 설치 불필요, 무료<br>
+<strong>단점</strong>: 단일 파일 제한, DB 미지원</p>
+
+<h3>전략 2: Hybrid (AI Studio + 수동 편집)</h3>
+<p>AI Studio에서 기본 구조 생성 → 로컬에서 코드 직접 수정:</p>
+<ol>
+  <li><strong>AI Studio</strong>: 초기 프로토타입 생성 (UI/레이아웃)</li>
+  <li><strong>코드 내보내기</strong>: 로컬 프로젝트로 복사</li>
+  <li><strong>에디터 편집</strong>: 코드 구조 분리, 리팩토링</li>
+  <li><strong>API 추가</strong>: Gemini API 연동 코드 작성</li>
+</ol>
+
+<h3>전략 3: API-First (Gemini API + 커스텀 프론트엔드)</h3>
+<p>AI Studio Build 미사용. Gemini API를 직접 호출하여 자체 앱에 통합:</p>
+<ol>
+  <li>React/Vue 등 프레임워크로 UI 구축</li>
+  <li>백엔드에서 Gemini API 직접 호출</li>
+  <li>프롬프트 엔지니어링 + 응답 파싱 + 후처리</li>
+</ol>
+
+<h3>전략 비교표</h3>
+<table>
+  <tr><th>항목</th><th>Rapid Prototype</th><th>Hybrid</th><th>API-First</th></tr>
+  <tr><td><strong>속도</strong></td><td>5분</td><td>1~2시간</td><td>반나절~</td></tr>
+  <tr><td><strong>유연성</strong></td><td>낮음</td><td>중간</td><td>높음</td></tr>
+  <tr><td><strong>코드 품질</strong></td><td>AI 생성 그대로</td><td>수동 개선</td><td>완전 제어</td></tr>
+  <tr><td><strong>DB 연동</strong></td><td>불가</td><td>가능 (수동)</td><td>가능</td></tr>
+  <tr><td><strong>적합한 상황</strong></td><td>아이디어 검증</td><td>MVP</td><td>프로덕션 서비스</td></tr>
+</table>
+
+<h2 id="s5">5. 코드 커스터마이징</h2>
+
+<h3>코드 분리 (파일 구조화)</h3>
+<p>AI Studio에서 내보낸 단일 HTML을 프로젝트 구조로 분리합니다:</p>
+<pre><code>mkdir my-project &amp;&amp; cd my-project
+# index.html → HTML 마크업만 유지
+# style.css  ← &lt;style&gt; 태그 내용 이동
+# app.js     ← &lt;script&gt; 태그 내용 이동
+# index.html에 &lt;link rel="stylesheet" href="style.css"&gt; 및
+# &lt;script src="app.js"&gt;&lt;/script&gt; 추가</code></pre>
+
+<h3>npm 의존성 추가</h3>
+<pre><code>npm init -y
+npm install chart.js        # 차트 라이브러리
+npm install marked           # Markdown 파서
+npm install dompurify        # XSS 방지</code></pre>
+
+<h3>환경 변수 설정</h3>
+<pre><code># .env 파일
+GEMINI_API_KEY=your_api_key_here
+
+# .gitignore에 추가
+echo ".env" &gt;&gt; .gitignore</code></pre>
+
+<blockquote>프론트엔드 전용 프로젝트에서 API 키는 클라이언트에 노출됩니다. 프로덕션에서는 서버 사이드 프록시를 사용하세요.</blockquote>
+
+<h3>CSS 변수 기반 테마 관리</h3>
+<pre><code>:root {
+  --primary: #4CAF50;
+  --primary-light: #A5D6A7;
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --border-radius: 8px;
+}
+/* AI 생성 코드의 하드코딩 값을 변수로 교체 */
+.card { background: var(--card-bg); border-radius: var(--border-radius); }</code></pre>
+
+<h2 id="s6">6. Gemini API 연동</h2>
+
+<h3>API 개요</h3>
+<table>
+  <tr><th>항목</th><th>설명</th></tr>
+  <tr><td><strong>엔드포인트</strong></td><td><code>https://generativelanguage.googleapis.com/v1beta/</code></td></tr>
+  <tr><td><strong>인증</strong></td><td>API 키 (쿼리 파라미터 또는 헤더)</td></tr>
+  <tr><td><strong>모델</strong></td><td><code>gemini-2.5-pro</code>, <code>gemini-2.5-flash</code> 등</td></tr>
+  <tr><td><strong>입력</strong></td><td>텍스트, 이미지, 오디오, 비디오 (멀티모달)</td></tr>
+  <tr><td><strong>무료 한도</strong></td><td>일일 요청 수 제한 (모델별 상이)</td></tr>
+</table>
+
+<h3>REST API 직접 호출</h3>
+<pre><code>curl -X POST \
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"contents": [{"parts": [{"text": "한국어로 인사말 생성해줘"}]}]}'</code></pre>
+
+<h3>JavaScript SDK</h3>
+<pre><code>// npm install @google/generative-ai
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+async function generateContent(prompt) {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const result = await model.generateContent(prompt);
+  return result.response.text();
+}</code></pre>
+
+<h3>Python SDK</h3>
+<pre><code># pip install google-generativeai
+import google.generativeai as genai
+import os
+
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+model = genai.GenerativeModel("gemini-2.5-flash")
+response = model.generate_content("서울 관광 명소 3곳 추천해줘")
+print(response.text)</code></pre>
+
+<h3>스트리밍 응답</h3>
+<pre><code>async function streamResponse(prompt, onChunk) {
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const result = await model.generateContentStream(prompt);
+  for await (const chunk of result.stream) {
+    onChunk(chunk.text());  // UI에 실시간 반영
+  }
+}</code></pre>
+
+<h3>프롬프트 엔지니어링 (API 레벨)</h3>
+<pre><code>const model = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
+  systemInstruction: `초등학교 교사를 위한 수업 설계 도우미.
+    한국어 응답. JSON 형식 출력.`,
+});
+
+const result = await model.generateContent(`
+  과학 5학년 태양계 2차시 수업 계획서 작성.
+  출력: { "title": "", "objectives": [], "activities": [{"time": "", "activity": ""}] }
+`);
+const plan = JSON.parse(result.response.text());</code></pre>
+
+<h3>멀티모달 (이미지 입력)</h3>
+<pre><code>import fs from "fs";
+
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+const imageData = fs.readFileSync("photo.jpg").toString("base64");
+
+const result = await model.generateContent([
+  { text: "이 이미지를 분석하고 설명해줘" },
+  { inlineData: { mimeType: "image/jpeg", data: imageData } },
+]);</code></pre>
+
+<h2 id="s7">7. 외부 서비스 연동</h2>
+
+<h3>Firebase 연동</h3>
+<table>
+  <tr><th>Firebase 서비스</th><th>용도</th><th>AI Studio 프로젝트 적용</th></tr>
+  <tr><td><strong>Firebase Auth</strong></td><td>사용자 인증</td><td>로그인/회원가입 추가</td></tr>
+  <tr><td><strong>Cloud Firestore</strong></td><td>NoSQL DB</td><td>localStorage 대체</td></tr>
+  <tr><td><strong>Firebase Hosting</strong></td><td>정적 배포</td><td>프로덕션 배포</td></tr>
+  <tr><td><strong>Cloud Storage</strong></td><td>파일 저장</td><td>이미지/파일 업로드</td></tr>
+</table>
+
+<pre><code>import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+
+const app = initializeApp({ apiKey: "...", projectId: "..." });
+const db = getFirestore(app);
+
+// CRUD 예시
+await addDoc(collection(db, "items"), { title: "새 항목", done: false });
+const snapshot = await getDocs(collection(db, "items"));
+const items = snapshot.docs.map(doc =&gt; ({ id: doc.id, ...doc.data() }));</code></pre>
+
+<h3>Cloud Functions (Gemini API 프록시)</h3>
+<p>API 키를 서버에서 안전하게 관리하는 서버리스 프록시:</p>
+<pre><code>// functions/index.js
+const functions = require("firebase-functions");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI(functions.config().gemini.api_key);
+
+exports.generateContent = functions.https.onCall(async (data, context) =&gt; {
+  if (!context.auth) throw new functions.https.HttpsError("unauthenticated", "인증 필요");
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const result = await model.generateContent(data.prompt);
+  return { text: result.response.text() };
+});</code></pre>
+
+<h3>환경 변수 관리</h3>
+<table>
+  <tr><th>환경</th><th>관리 방법</th><th>위치</th></tr>
+  <tr><td><strong>로컬 개발</strong></td><td><code>.env</code> 파일</td><td>프로젝트 루트</td></tr>
+  <tr><td><strong>Firebase</strong></td><td><code>functions.config()</code></td><td>Firebase CLI</td></tr>
+  <tr><td><strong>Vercel</strong></td><td>환경 변수 UI</td><td>Dashboard</td></tr>
+  <tr><td><strong>GitHub Pages</strong></td><td>Secrets</td><td>Repository Settings</td></tr>
+</table>
+
+<h2 id="s8">8. 배포 및 운영</h2>
+
+<h3>배포 플랫폼 비교</h3>
+<table>
+  <tr><th>플랫폼</th><th>적합한 프로젝트</th><th>장점</th><th>비용</th></tr>
+  <tr><td><strong>Firebase Hosting</strong></td><td>정적 사이트 + Firebase</td><td>Google 생태계 통합</td><td>무료 (Spark)</td></tr>
+  <tr><td><strong>Vercel</strong></td><td>Next.js, 정적 사이트</td><td>자동 배포, 프리뷰</td><td>Hobby 무료</td></tr>
+  <tr><td><strong>GitHub Pages</strong></td><td>정적 HTML</td><td>GitHub 통합, 무료</td><td>무료</td></tr>
+  <tr><td><strong>Netlify</strong></td><td>Jamstack</td><td>간편 설정</td><td>Starter 무료</td></tr>
+</table>
+
+<h3>Firebase Hosting 배포</h3>
+<pre><code>npm install -g firebase-tools
+firebase login
+firebase init hosting        # Public directory: public
+cp index.html style.css app.js public/
+firebase deploy --only hosting
+# → https://your-project.web.app</code></pre>
+
+<h3>Vercel / GitHub Pages 배포</h3>
+<pre><code># Vercel
+npm install -g vercel &amp;&amp; vercel --prod
+
+# GitHub Pages
+git init &amp;&amp; git add . &amp;&amp; git commit -m "초기 배포"
+git remote add origin https://github.com/user/repo.git &amp;&amp; git push -u origin main
+# Settings → Pages → Branch: main → Save
+# → https://user.github.io/repo/</code></pre>
+
+<h3>커스텀 도메인</h3>
+<p>각 플랫폼의 설정 UI에서 도메인을 추가하고, DNS에서 CNAME 레코드를 설정합니다.</p>
+
+<h3>모니터링</h3>
+<table>
+  <tr><th>도구</th><th>용도</th><th>연동 방법</th></tr>
+  <tr><td><strong>Google Analytics</strong></td><td>트래픽 분석</td><td>gtag.js 스크립트 삽입</td></tr>
+  <tr><td><strong>Sentry</strong></td><td>에러 추적</td><td><code>@sentry/browser</code> SDK</td></tr>
+  <tr><td><strong>Uptime Robot</strong></td><td>가동 모니터링</td><td>URL 등록 (무료)</td></tr>
+</table>
+
+<h2 id="s9">9. 마이그레이션</h2>
+
+<h3>AI Studio → Lovable (풀스택 SaaS가 필요할 때)</h3>
+<table>
+  <tr><th>단계</th><th>작업</th><th>비고</th></tr>
+  <tr><td>1</td><td>AI Studio 생성 코드 복사</td><td>전체 HTML</td></tr>
+  <tr><td>2</td><td>Lovable에서 새 프로젝트 생성</td><td>"기존 코드 기반으로" 프롬프트</td></tr>
+  <tr><td>3</td><td>Supabase DB, 인증 연동</td><td>Lovable 내장 기능</td></tr>
+  <tr><td>4</td><td>원클릭 배포</td><td>커스텀 도메인 설정</td></tr>
+</table>
+<p><strong>전환 시점</strong>: 사용자 인증, 데이터베이스, 결제 기능이 필요할 때</p>
+
+<h3>AI Studio → Cursor (코드 수준 제어가 필요할 때)</h3>
+<table>
+  <tr><th>단계</th><th>작업</th><th>비고</th></tr>
+  <tr><td>1</td><td>코드 로컬 저장</td><td><code>index.html</code> 파일</td></tr>
+  <tr><td>2</td><td>Cursor에서 프로젝트 열기</td><td>코드 자동 인덱싱</td></tr>
+  <tr><td>3</td><td>코드 분리 (HTML/CSS/JS)</td><td>Agent에게 요청 가능</td></tr>
+  <tr><td>4</td><td><code>.cursor/rules/</code> 추가</td><td>프로젝트 컨벤션 설정</td></tr>
+  <tr><td>5</td><td>프레임워크 전환 (필요 시)</td><td>React/Vue 등</td></tr>
+</table>
+<p><strong>전환 시점</strong>: 파일 구조 분리, 프레임워크 도입, 복잡한 상태 관리가 필요할 때</p>
+
+<h3>AI Studio → AntiGravity (멀티 에이전트가 필요할 때)</h3>
+<table>
+  <tr><th>단계</th><th>작업</th><th>비고</th></tr>
+  <tr><td>1</td><td>프로토타입으로 컨셉 확인</td><td>화면 캡처/기획서</td></tr>
+  <tr><td>2</td><td>AntiGravity에서 새 프로젝트 생성</td><td>기획서를 Agent에 전달</td></tr>
+  <tr><td>3</td><td>멀티 에이전트로 앱 구축</td><td>Plan → Build → Test</td></tr>
+</table>
+<p><strong>전환 시점</strong>: 모바일 앱, 멀티 에이전트 자율 개발이 필요할 때</p>
+
+<h3>마이그레이션 체크리스트</h3>
+<ul class="checklist">
+  <li>원본 코드 백업 완료</li>
+  <li>기획 문서(PRD/IA) 이전</li>
+  <li>의존성 설치 및 빌드 확인</li>
+  <li>환경 변수(.env) 재설정</li>
+  <li>Git 저장소 연결 및 초기 커밋</li>
+  <li>배포 환경 설정 완료</li>
+</ul>
+
+<h2 id="s10">10. 디버깅 가이드</h2>
+
+<h3>AI Studio Build 생성 오류</h3>
+<table>
+  <tr><th>증상</th><th>원인</th><th>해결 방법</th></tr>
+  <tr><td>코드 생성 멈춤</td><td>프롬프트가 너무 복잡</td><td>기능을 쪼개서 단계별 요청</td></tr>
+  <tr><td>레이아웃 깨짐</td><td>CSS 충돌/누락</td><td>"CSS를 점검하고 수정해줘" 재요청</td></tr>
+  <tr><td>JS 동작 안함</td><td>이벤트 리스너 누락</td><td>F12 콘솔에서 에러 확인</td></tr>
+  <tr><td>이전 수정 사라짐</td><td>Context Window 초과</td><td>새 대화에서 현재 코드 붙여넣기</td></tr>
+</table>
+
+<h3>Gemini API 오류</h3>
+<table>
+  <tr><th>에러 코드</th><th>원인</th><th>해결 방법</th></tr>
+  <tr><td><code>400</code></td><td>잘못된 요청 형식</td><td>JSON 구조 확인</td></tr>
+  <tr><td><code>401</code></td><td>API 키 오류</td><td>키 유효성 확인, 재발급</td></tr>
+  <tr><td><code>403</code></td><td>API 미활성화</td><td>Cloud Console에서 API 활성화</td></tr>
+  <tr><td><code>429</code></td><td>Rate Limit 초과</td><td>지수 백오프 적용 (아래 참조)</td></tr>
+  <tr><td><code>500</code></td><td>서버 일시 오류</td><td>최대 3회 재시도</td></tr>
+</table>
+
+<h3>Rate Limit 대응 패턴</h3>
+<pre><code>async function callWithRetry(fn, maxRetries = 3) {
+  for (let i = 0; i &lt; maxRetries; i++) {
+    try { return await fn(); }
+    catch (e) {
+      if (e.status === 429 &amp;&amp; i &lt; maxRetries - 1) {
+        await new Promise(r =&gt; setTimeout(r, Math.pow(2, i) * 1000));
+      } else throw e;
+    }
+  }
+}</code></pre>
+
+<h3>내보내기/배포 문제</h3>
+<table>
+  <tr><th>문제</th><th>해결 방법</th></tr>
+  <tr><td>로컬에서 동작 안함</td><td>인터넷 연결 확인 (CDN 의존성)</td></tr>
+  <tr><td>스타일 차이</td><td>CSS Reset/Normalize 추가</td></tr>
+  <tr><td>이미지 로드 실패</td><td>절대 경로 사용 또는 로컬 저장</td></tr>
+  <tr><td>Firebase <code>No site found</code></td><td><code>firebase init hosting</code> 재실행</td></tr>
+  <tr><td>GitHub Pages 404</td><td><code>index.html</code>이 루트에 있는지 확인</td></tr>
+</table>
+
+<h2 id="s11">11. 다음 단계</h2>
+<p>AI Studio 개발자편을 마치셨습니다. 다음 단계를 선택하세요:</p>
+<table>
+  <tr><th>방향</th><th>설명</th><th>추천</th></tr>
+  <tr><td><strong>Gemini API 프로덕션</strong></td><td>Rate limit 관리, 비용 최적화</td><td>고급</td></tr>
+  <tr><td><strong>Firebase 풀스택</strong></td><td>Auth + Firestore + Hosting 통합</td><td>실무</td></tr>
+  <tr><td><strong>Lovable 개발자편</strong></td><td>SaaS 빌더, Supabase 연동</td><td>추천</td></tr>
+  <tr><td><strong>Cursor 개발자편</strong></td><td>.cursor/rules, Agent 활용</td><td>추천</td></tr>
+  <tr><td><strong>Claude Code 개발자편</strong></td><td>CLI 자동화, CLAUDE.md 활용</td><td>고급</td></tr>
+</table>
+
+<h3>학습 방향 매트릭스</h3>
+<table>
+  <tr><th>현재 수준</th><th>다음 목표</th><th>추천 학습</th></tr>
+  <tr><td>AI Studio 단독 사용</td><td>프로덕션 배포</td><td>Firebase Hosting + Gemini API</td></tr>
+  <tr><td>프로토타입 위주</td><td>풀스택 웹앱</td><td>Lovable 또는 Cursor로 마이그레이션</td></tr>
+  <tr><td>Gemini API 기초</td><td>API 프로덕션</td><td>Cloud Functions + Rate Limit 관리</td></tr>
+  <tr><td>개인 프로젝트</td><td>팀 프로젝트</td><td>GitHub 협업 + CI/CD 파이프라인</td></tr>
+</table>
+
+<div id="summary" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">전체 흐름 요약</strong><br><br>
+  기획 → 빌드 → 커스터마이징 → 연동 → 배포 → 운영<br>
+  <table style="color:#FFF;margin:10px auto;border-collapse:collapse;font-size:.9rem">
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">① 기획</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">PRD.md / IA.md + 기획 도우미 Gem</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">② 빌드</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">AI Studio Build → 프로토타입 / Gemini API → 커스텀 앱</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">③ 커스터마이징</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">코드 분리 + npm 의존성 + 환경 변수</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">④ 연동</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">Firebase Auth + Firestore + Cloud Functions</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">⑤ 배포</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">Firebase Hosting / Vercel / GitHub Pages</td></tr>
+    <tr><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">⑥ 운영</td><td style="padding:4px 12px;border:1px solid rgba(255,255,255,.3)">모니터링 + API 비용 관리 + 마이그레이션 판단</td></tr>
+  </table>
+  <br>
+  <span style="font-size:1rem"><strong>축하합니다!</strong> AI Studio는 가장 빠른 프로토타이핑 도구이며, Gemini API를 통해 프로덕션으로 확장할 수 있습니다.</span>
+</div>
+
+<h2 id="sources">출처</h2>
+<p>본 교안의 구성 및 추천 리소스는 아래 출처를 참고하여 작성하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong><a href="https://aistudio.google.com" target="_blank">Google AI Studio</a></strong></td><td>AI Studio 공식 사이트</td></tr>
+  <tr><td><strong><a href="https://ai.google.dev" target="_blank">Google AI 개발자 문서</a></strong></td><td>Gemini API 공식 레퍼런스</td></tr>
+  <tr><td><strong><a href="https://firebase.google.com/docs" target="_blank">Firebase 공식 문서</a></strong></td><td>Firebase 서비스 가이드</td></tr>
+  <tr><td><strong><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">기획 도우미 Gem</a></strong></td><td>PRD/IA/ERD 작성 도우미 (peace 제작/공유)</td></tr>
+</table>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 Google AI Studio(2026.3 기준)을 기반으로 작성되었습니다.
+</footer>
+
+<!-- Mobile TOC -->
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>

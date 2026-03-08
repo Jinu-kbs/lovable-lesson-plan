@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Studio 교안 - 중급자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#4CAF50;--primary-light:#A5D6A7;--blockquote-bg:#E8F5E9;--hover-bg:#F1F8E9}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="aistudio-beginner.html">초보자편</a>
+  <a href="aistudio-intermediate.html" class="active">중급자편</a>
+  <a href="aistudio-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🚀 중급자편</h1>
+  <div class="meta">대상: AI 도구 경험자, 체계적 프로젝트를 만들고 싶은 분 · 목표: 기획 문서 기반으로 AI Studio에서 멀티 페이지 앱 제작·배포 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 바이브코딩 도구 비교</a>
+  <a href="#s2">2. 심화 워크플로우</a>
+  <a href="#s3">3. 사전 준비</a>
+  <a href="#s4">4. 기획 문서 작성</a>
+  <a href="#s5">5. AI Studio 심화 활용</a>
+  <a href="#s6">6. 실전 프로젝트</a>
+  <a href="#s7">7. 배포</a>
+  <a href="#s8">8. 외부 서비스 연동</a>
+  <a href="#s9">9. 다른 도구로 발전</a>
+  <a href="#s10">10. 트러블슈팅</a>
+  <a href="#s11">11. FAQ</a>
+  <a href="#s12">12. 효율화 전략</a>
+  <a href="#s13">13. 다음 단계</a>
+  <a href="#summary">전체 흐름 요약</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<table>
+  <tr><th>나의 상황</th><th>추천 교안</th></tr>
+  <tr><td>AI 도구 자체가 처음이에요</td><td>→ <a href="aistudio-beginner.html"><strong>AI Studio 초보자편</strong></a></td></tr>
+  <tr><td>AI 챗봇은 써봤고, AI Studio 빌드로 체계적인 프로젝트를 만들고 싶어요</td><td>→ <strong>이 교안 (AI Studio 중급자편)</strong></td></tr>
+  <tr><td>코딩 경험이 있고 본격적인 개발을 원해요</td><td>→ <a href="cursor-intermediate.html"><strong>커서 중급자편</strong></a> 또는 <a href="antigravity-intermediate.html"><strong>안티그래비티 중급자편</strong></a></td></tr>
+  <tr><td>CLI 기반 자동화를 배우고 싶어요</td><td>→ <a href="claude-code-developer.html"><strong>Claude Code 개발자편</strong></a></td></tr>
+</table>
+
+<blockquote>AI Studio 초보자편을 아직 안 보셨다면 → <a href="aistudio-beginner.html"><strong>초보자편</strong></a> 교안을 먼저 보세요.<br>
+코딩 경험이 있고 데스크톱 도구를 쓰고 싶다면 → <a href="antigravity-intermediate.html"><strong>안티그래비티 중급자편</strong></a> 또는 <a href="cursor-intermediate.html"><strong>커서 중급자편</strong></a>을 추천합니다.</blockquote>
+
+<h3 id="resources">📌 추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>AI Studio 공식 사이트</strong></td><td>Google AI Studio 접속 및 빌드 모드</td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td></tr>
+  <tr><td><strong>Google AI 개발자 문서</strong></td><td>AI Studio 관련 공식 가이드</td><td><a href="https://ai.google.dev" target="_blank">ai.google.dev</a></td></tr>
+  <tr><td><strong>기획 도우미 Gem</strong></td><td>PRD/IA 작성을 도와주는 AI (peace 제작/공유)</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gem 바로가기</a></td></tr>
+  <tr><td><strong>러버블 5분 만들기 영상</strong></td><td>바이브코딩 전체 흐름을 빠르게 이해하기 (peace 채널)</td><td><a href="https://youtu.be/bWY5n0GYgG8" target="_blank">YouTube 보기</a></td></tr>
+</table>
+
+<h2 id="s1">1. 바이브코딩 도구 비교</h2>
+
+<h3>5개 도구 비교표</h3>
+<table>
+  <tr><th>항목</th><th>러버블</th><th>안티그래비티</th><th>커서</th><th>AI Studio</th><th>Claude Code</th></tr>
+  <tr><td><strong>유형</strong></td><td>웹 빌더</td><td>에이전트 IDE</td><td>AI IDE</td><td>웹 빌더</td><td>CLI 도구</td></tr>
+  <tr><td><strong>설치</strong></td><td>불필요 (웹)</td><td>필요 (데스크톱)</td><td>필요 (데스크톱)</td><td>불필요 (웹)</td><td>필요 (터미널)</td></tr>
+  <tr><td><strong>코딩 필요</strong></td><td>불필요</td><td>선택적</td><td>필요</td><td>불필요</td><td>필요</td></tr>
+  <tr><td><strong>주요 대상</strong></td><td>웹사이트/웹앱</td><td>모든 프로젝트</td><td>코드 제어</td><td>빠른 프로토타입</td><td>터미널 개발</td></tr>
+  <tr><td><strong>난이도</strong></td><td>쉬움</td><td>보통</td><td>어려움</td><td>매우 쉬움</td><td>어려움</td></tr>
+  <tr><td><strong>추천 대상</strong></td><td>비개발자~중급</td><td>입문자~개발자</td><td>개발자</td><td>완전 입문자~중급</td><td>개발자</td></tr>
+</table>
+
+<h3>AI Studio의 위치</h3>
+<p>AI Studio 빌드는 "설치 없이 브라우저에서 가장 빠르게 프로토타입을 만들 수 있는 도구"입니다. 초보자편에서는 한 페이지 프로토타입을 만들었다면, 중급자편에서는 기획 문서를 기반으로 더 복잡한 구조의 앱을 만들어봅니다.</p>
+
+<h3>도구 선택 가이드</h3>
+<table>
+  <tr><th>상황</th><th>추천 도구</th></tr>
+  <tr><td>설치 없이 빠르게 프로토타입을 만들고 싶을 때</td><td><strong>AI Studio</strong></td></tr>
+  <tr><td>설치 없이 완성도 높은 웹앱을 만들고 싶을 때</td><td><strong>러버블</strong></td></tr>
+  <tr><td>AI 에이전트에게 복잡한 작업을 맡기고 싶을 때</td><td><strong>안티그래비티</strong></td></tr>
+  <tr><td>코드를 직접 제어하며 AI 도움을 받고 싶을 때</td><td><strong>커서</strong></td></tr>
+  <tr><td>터미널에서 모든 것을 해결하고 싶을 때</td><td><strong>Claude Code</strong></td></tr>
+</table>
+
+<h2 id="s2">2. AI Studio 심화 워크플로우</h2>
+
+<h3>초보자 vs 중급자 워크플로우</h3>
+<p>초보자편에서는 "프롬프트 → 프리뷰 → 수정"의 단순한 흐름을 사용했습니다. 중급자편에서는 기획 단계를 추가하여 더 체계적으로 접근합니다.</p>
+<table>
+  <tr><th>단계</th><th>초보자</th><th>중급자</th></tr>
+  <tr><td>1단계</td><td>바로 프롬프트 입력</td><td>기획 문서(PRD/IA) 먼저 작성</td></tr>
+  <tr><td>2단계</td><td>결과 보며 즉흥 수정</td><td>기획 기반 구조화된 프롬프트</td></tr>
+  <tr><td>3단계</td><td>완성되면 공유</td><td>반복 수정 (3~5회 체계적 개선)</td></tr>
+  <tr><td>4단계</td><td>—</td><td>코드 검토 및 Export</td></tr>
+  <tr><td>5단계</td><td>—</td><td>외부 배포 (GitHub Pages / Vercel)</td></tr>
+</table>
+
+<h3>5단계 반복 개선 워크플로우</h3>
+<pre><code>1단계: 기획
+  ↓ PRD/IA 작성 (Gemini Gem 활용)
+2단계: 초기 빌드
+  ↓ AI Studio Build 탭 → 기획 기반 프롬프트 입력
+3단계: 구조 검토
+  ↓ 레이아웃, 섹션 구성, 네비게이션 확인
+4단계: 반복 수정 (3~5회)
+  ↓ 세부 디자인, 기능, 인터랙션 개선
+5단계: 완성 및 배포
+  ↓ 코드 Export → 로컬 테스트 → 배포</code></pre>
+
+<h3>프롬프트 체이닝 전략</h3>
+<p>복잡한 앱을 만들 때는 하나의 프롬프트로 모든 것을 요청하지 마세요. 프롬프트를 단계별로 나누어 보내는 "프롬프트 체이닝" 전략이 효과적입니다.</p>
+<pre><code>[1번째 프롬프트] 전체 레이아웃과 네비게이션 구조를 먼저 만들어줘.
+[2번째 프롬프트] 첫 번째 섹션(대시보드)의 콘텐츠를 채워줘.
+[3번째 프롬프트] 두 번째 섹션(목록 페이지)을 추가해줘.
+[4번째 프롬프트] 디자인을 통일하고 반응형으로 수정해줘.
+[5번째 프롬프트] 인터랙션(버튼 클릭, 필터링 등)을 추가해줘.</code></pre>
+
+<blockquote><strong>활용 가이드</strong>: "큰 집을 짓듯이, 먼저 뼈대(구조)를 잡고 → 벽(콘텐츠)을 채우고 → 인테리어(디자인)를 하는 순서가 좋습니다." — 활용 가이드</blockquote>
+
+<h2 id="s3">3. 사전 준비</h2>
+
+<h3>계정 및 환경</h3>
+<table>
+  <tr><th>항목</th><th>설명</th><th>필수</th></tr>
+  <tr><td><strong>Google 계정</strong></td><td>Gmail 계정으로 AI Studio 접속</td><td>필수</td></tr>
+  <tr><td><strong>AI Studio 접속</strong></td><td><a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></td><td>필수</td></tr>
+  <tr><td><strong>Build 탭 확인</strong></td><td>AI Studio 상단/좌측 메뉴에서 Build 탭 위치 파악</td><td>필수</td></tr>
+  <tr><td><strong>GitHub 계정</strong></td><td>코드 Export 후 배포에 필요</td><td>권장</td></tr>
+  <tr><td><strong>Gemini Gem</strong></td><td>기획 문서 작성 도우미 (선택)</td><td>권장</td></tr>
+</table>
+
+<h3>Gemini API 키 설정 (선택)</h3>
+<p>AI Studio 빌드 탭에서는 API 키 없이도 사용할 수 있습니다. 하지만 코드를 Export한 후 로컬에서 Gemini API를 직접 호출하고 싶다면 API 키가 필요합니다.</p>
+<ol>
+  <li>AI Studio 좌측 메뉴에서 <strong>Get API key</strong> 클릭</li>
+  <li><strong>Create API key</strong> 버튼 클릭</li>
+  <li>발급된 키를 안전한 곳에 저장</li>
+</ol>
+
+<blockquote><strong>주의</strong>: API 키는 절대 공개 저장소에 올리지 마세요. 코드에 직접 쓰지 말고 환경변수로 관리하세요.</blockquote>
+
+<h3>사전 준비 체크리스트</h3>
+<ul class="checklist">
+  <li>Google 계정(Gmail) 준비 완료</li>
+  <li>AI Studio (aistudio.google.com) 접속 확인</li>
+  <li>Build 탭 위치 확인</li>
+  <li>기획 도우미 Gem 접속 확인 (선택)</li>
+  <li>GitHub 계정 준비 (선택, 배포 시 필요)</li>
+  <li>만들고 싶은 프로젝트 아이디어 구상</li>
+</ul>
+
+<h2 id="s4">4. 기획 문서 작성 실습</h2>
+
+<h3>PRD / IA 개념 (AI Studio 버전)</h3>
+<p>기획 문서를 먼저 작성하면 AI Studio에서 훨씬 정확한 결과물을 얻을 수 있습니다. AI Studio에서는 ERD(데이터 구조)까지는 불필요하고, PRD와 IA 수준이면 충분합니다.</p>
+<table>
+  <tr><th>문서</th><th>역할</th><th>AI Studio에서의 활용</th></tr>
+  <tr><td><strong>PRD</strong></td><td>무엇을 만들 것인가?</td><td>프로젝트 목적, 기능 목록, 디자인 요구사항 정리</td></tr>
+  <tr><td><strong>IA</strong></td><td>어떻게 구조를 잡을 것인가?</td><td>섹션 구성, 탭 네비게이션, 콘텐츠 배치 계획</td></tr>
+</table>
+
+<blockquote><strong>참고</strong>: 러버블이나 안티그래비티에서는 ERD(데이터 구조)도 작성하지만, AI Studio는 데이터베이스를 직접 연동하지 않으므로 PRD와 IA만으로 충분합니다.</blockquote>
+
+<h3>Gemini Gem으로 기획 문서 생성</h3>
+<p><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">기획 도우미 Gem</a> (peace 제작/공유)을 활용하면 기획 문서를 빠르게 작성할 수 있습니다.</p>
+<p><strong>사용법:</strong></p>
+<ol>
+  <li>Gem 링크에 접속</li>
+  <li>만들고 싶은 프로젝트를 설명</li>
+  <li>Gem이 PRD와 IA를 자동 생성</li>
+  <li>생성된 기획 문서를 AI Studio 프롬프트에 활용</li>
+</ol>
+
+<h3>PRD 작성 프롬프트 예시</h3>
+<p>AI(ChatGPT, 제미나이 등)에게 PRD 작성을 요청하세요:</p>
+<pre><code>교사용 학급 관리 대시보드의 PRD를 작성해줘.
+
+포함할 내용:
+1. 프로젝트 개요 (목적, 대상 사용자)
+2. 핵심 기능 목록 (우선순위별)
+3. 섹션별 기능 상세 (대시보드, 학생 목록, 일정, 공지)
+4. 디자인 요구사항 (색상, 레이아웃, 반응형)
+
+대상: 초등학교 교사
+주요 기능: 학생 관리, 출석 현황, 오늘의 일정, 공지사항</code></pre>
+
+<h3>IA 작성 프롬프트 예시</h3>
+<pre><code>위 PRD를 기반으로 IA(정보 구조)를 작성해줘.
+
+포함할 내용:
+1. 전체 섹션 구성 (탭 또는 스크롤 기반)
+2. 각 섹션의 주요 컴포넌트
+3. 네비게이션 흐름
+4. 모바일에서의 레이아웃 변화
+
+AI Studio 빌드에서 만들 예정이므로,
+단일 HTML 파일에 탭 전환 방식으로 구성해줘.</code></pre>
+
+<blockquote><strong>팁</strong>: AI Studio 빌드는 단일 HTML 파일 기반이므로, IA를 작성할 때 "탭 전환" 또는 "스크롤 섹션" 방식으로 멀티 페이지를 구현하는 것이 좋습니다.</blockquote>
+
+<h2 id="s5">5. AI Studio 심화 활용</h2>
+
+<h3>심화 프롬프트 패턴</h3>
+<p>중급자는 단순한 요청을 넘어 체계적인 프롬프트 패턴을 활용합니다.</p>
+
+<p><strong>패턴 1: 역할 부여</strong></p>
+<pre><code>너는 10년 경력의 프론트엔드 개발자야.
+교사용 학급 관리 대시보드를 만들어줘.
+모던한 UI/UX를 적용하고, 접근성도 고려해줘.</code></pre>
+
+<p><strong>패턴 2: 단계별 지시</strong></p>
+<pre><code>아래 단계별로 진행해줘:
+
+1단계: 전체 레이아웃을 먼저 잡아줘
+  - 상단 헤더 (로고, 네비게이션)
+  - 좌측 사이드바 (메뉴)
+  - 중앙 콘텐츠 영역
+
+2단계: 콘텐츠 영역에 4개 카드 위젯 배치
+  - 총 학생 수
+  - 오늘 출석률
+  - 미제출 과제
+  - 다가오는 일정
+
+3단계: 카드 아래에 상세 테이블 추가</code></pre>
+
+<p><strong>패턴 3: 부정 프롬프트 (하지 말아야 할 것)</strong></p>
+<pre><code>대시보드를 만들어줘.
+
+[하지 말 것]
+- 외부 라이브러리(CDN) 사용하지 마
+- 인라인 스타일 사용하지 마
+- 스크롤이 끊기는 레이아웃 만들지 마
+
+[해야 할 것]
+- 순수 HTML/CSS/JS만 사용
+- CSS 변수로 테마 관리
+- 부드러운 스크롤과 애니메이션</code></pre>
+
+<h3>멀티 컴포넌트 빌드 (탭 구조)</h3>
+<p>AI Studio에서 멀티 페이지 효과를 내려면 <strong>탭 기반 구조</strong>를 활용합니다:</p>
+<pre><code>탭 기반 학급 관리 앱을 만들어줘.
+
+[탭 구성]
+- 탭 1: 대시보드 (요약 카드 4개 + 차트)
+- 탭 2: 학생 목록 (테이블 + 검색 + 필터)
+- 탭 3: 일정 관리 (캘린더 뷰)
+- 탭 4: 공지사항 (목록 + 작성 폼)
+
+[공통 요소]
+- 상단 네비게이션 바 (탭 전환)
+- 하단 푸터
+
+탭 전환 시 페이지 리로드 없이 JavaScript로 전환되도록 해줘.</code></pre>
+
+<h3>CSS 커스터마이징 프롬프트</h3>
+<p>디자인을 세밀하게 조절하고 싶을 때:</p>
+<pre><code>현재 디자인에서 아래만 수정해줘:
+
+1. 전체 색상 테마를 아래 팔레트로 변경:
+   - 메인 색상: #4CAF50
+   - 보조 색상: #A5D6A7
+   - 배경: #F5F5F5
+   - 텍스트: #333333
+
+2. 카드에 그림자 효과 추가 (box-shadow)
+3. 호버 시 카드가 살짝 올라오는 애니메이션
+4. 폰트를 Pretendard로 변경 (CDN 사용 가능)</code></pre>
+
+<h3>코드 Export 및 수정 기초</h3>
+<p>AI Studio에서 생성된 코드는 Export하여 로컬에서 수정할 수 있습니다:</p>
+<ol>
+  <li>생성된 코드를 <strong>전체 선택하여 복사</strong></li>
+  <li>텍스트 에디터에 붙여넣고 <code>index.html</code>로 저장</li>
+  <li>브라우저에서 열어 동작 확인</li>
+  <li>필요한 부분을 직접 수정 (코드 이해가 필요)</li>
+</ol>
+
+<blockquote><strong>팁</strong>: 코드를 직접 수정하는 것이 어렵다면, AI Studio에서 프롬프트로 수정하는 것이 더 효율적입니다. 코드 수정은 "배우면 좋지만 필수는 아닌" 영역입니다.</blockquote>
+
+<h2 id="s6">6. 실전 프로젝트: 멀티 섹션 대시보드</h2>
+<p>교사용 학급 관리 대시보드를 단계별로 만들어봅시다.</p>
+
+<h3>Step 1: 기획 및 프롬프트 작성 (PRD 기반)</h3>
+<p>먼저 기획 문서를 정리하고, 이를 기반으로 첫 번째 프롬프트를 작성합니다:</p>
+<pre><code>교사용 학급 관리 대시보드를 만들어줘.
+
+## 프로젝트 개요
+- 대상: 초등학교 담임교사
+- 목적: 학급 현황을 한눈에 파악
+
+## 구조 (탭 기반)
+- 탭 1 — 대시보드: 요약 카드 4개 (학생 수, 출석률, 미제출 과제, 다음 일정)
+- 탭 2 — 학생 목록: 학생 이름, 출석 상태, 메모 (테이블)
+- 탭 3 — 일정: 이번 주 일정 목록
+- 탭 4 — 공지: 공지사항 목록
+
+## 디자인 요구사항
+- 색상: 초록 계열 (#4CAF50 메인)
+- 카드 UI, 둥근 모서리, 그림자
+- 반응형 (모바일 대응)
+- 탭 전환은 JavaScript로 처리 (새로고침 없이)
+
+## 데이터
+- localStorage로 데이터 저장 (서버 없이)
+- 샘플 데이터 5명분 미리 포함</code></pre>
+
+<h3>Step 2: 빌드 및 반복 수정 (3~5회 반복)</h3>
+<p>첫 번째 결과를 확인한 후, 아래와 같이 반복 수정합니다:</p>
+
+<p><strong>수정 1회차 — 구조 보완:</strong></p>
+<pre><code>대시보드 탭의 요약 카드에 아이콘을 추가해줘.
+카드를 클릭하면 해당 탭으로 이동하게 해줘.</code></pre>
+
+<p><strong>수정 2회차 — 기능 추가:</strong></p>
+<pre><code>학생 목록 탭에 검색 기능을 추가해줘.
+이름으로 검색하면 테이블이 필터링되도록.
+출석 상태를 클릭하면 토글(출석/결석/지각)되도록 해줘.</code></pre>
+
+<p><strong>수정 3회차 — 디자인 개선:</strong></p>
+<pre><code>전체적으로 디자인을 다듬어줘:
+- 탭 전환 시 부드러운 페이드 애니메이션
+- 카드 호버 시 살짝 올라오는 효과
+- 모바일에서 탭이 가로 스크롤되도록
+- 현재 선택된 탭에 하이라이트 표시</code></pre>
+
+<p><strong>수정 4회차 — 데이터 연동:</strong></p>
+<pre><code>학생 데이터와 일정 데이터를 localStorage에 저장하고 불러오게 해줘.
+새 학생 추가, 학생 삭제 기능도 넣어줘.
+일정 추가 폼도 만들어줘.</code></pre>
+
+<h3>Step 3: 완성 및 코드 검토</h3>
+<p>최종 결과물이 만족스러우면 코드를 검토합니다:</p>
+<pre><code>현재 코드를 검토하고, 아래 사항을 확인해줘:
+1. HTML 구조가 시맨틱하게 작성되었는지
+2. CSS에 중복이 없는지
+3. JavaScript에 오류가 없는지
+4. 모바일에서 깨지는 부분이 없는지
+5. localStorage 저장/불러오기가 정상 동작하는지</code></pre>
+
+<blockquote><strong>실사용자 후기</strong>: "처음에는 한 번에 완벽하게 만들려고 했는데, 3~4번 나눠서 요청하니까 훨씬 결과가 좋았어요. AI도 단계별로 하는 게 더 정확합니다." — 실사용자 후기</blockquote>
+
+<h2 id="s7">7. 배포</h2>
+
+<h3>방법 1: AI Studio 내 공유 링크 (간단)</h3>
+<p>가장 간단한 방법입니다. AI Studio에서 바로 공유할 수 있습니다.</p>
+<ol>
+  <li>빌드 완료 후 <strong>Deploy</strong> 또는 <strong>공유</strong> 버튼 클릭</li>
+  <li>생성된 URL을 복사</li>
+  <li>카카오톡, 이메일 등으로 공유</li>
+</ol>
+<p><strong>장점:</strong> 즉시 공유 가능, 별도 설정 불필요<br>
+<strong>단점:</strong> AI Studio 서비스에 의존, 커스텀 도메인 불가</p>
+
+<h3>방법 2: 코드 Export → GitHub Pages (본격)</h3>
+<p>코드를 내 저장소에 올리고 GitHub Pages로 배포합니다.</p>
+
+<p><strong>Step 1: 코드 Export</strong></p>
+<ol>
+  <li>AI Studio에서 생성된 전체 코드를 복사</li>
+  <li>텍스트 에디터에 <code>index.html</code>로 저장</li>
+  <li>로컬 브라우저에서 열어 정상 동작 확인</li>
+</ol>
+
+<p><strong>Step 2: GitHub 저장소 생성 및 업로드</strong></p>
+<ol>
+  <li><a href="https://github.com" target="_blank">github.com</a>에서 <strong>New Repository</strong> 생성</li>
+  <li><strong>Upload files</strong> → <code>index.html</code> 파일 드래그 앤 드롭 → <strong>Commit changes</strong></li>
+</ol>
+
+<p><strong>Step 3: GitHub Pages 활성화</strong></p>
+<ol>
+  <li>저장소 <strong>Settings</strong> → <strong>Pages</strong></li>
+  <li>Branch를 <strong>main</strong> 선택 → <strong>Save</strong></li>
+  <li>1~2분 후 <code>https://사용자이름.github.io/저장소이름</code> 으로 접속 가능</li>
+</ol>
+
+<h3>방법 3: Vercel 배포 (선택)</h3>
+<p>더 빠른 배포와 커스텀 도메인을 원한다면:</p>
+<ol>
+  <li><a href="https://vercel.com" target="_blank">vercel.com</a>에서 GitHub 계정으로 로그인</li>
+  <li><strong>Import Project</strong> → GitHub 저장소 선택</li>
+  <li>자동 빌드 및 배포 (1분 이내)</li>
+  <li><code>https://프로젝트명.vercel.app</code>으로 접속 가능</li>
+</ol>
+
+<h2 id="s8">8. 외부 서비스 연동</h2>
+
+<h3>Gemini API 연동 개념</h3>
+<p>AI Studio 빌드에서 만든 웹앱에 Gemini API를 직접 호출하여 AI 기능을 추가할 수 있습니다.</p>
+
+<p><strong>활용 예시:</strong></p>
+<ul>
+  <li>사용자 입력을 Gemini에 보내 답변 생성</li>
+  <li>이미지를 업로드하면 Gemini가 분석</li>
+  <li>채팅봇 기능 추가</li>
+</ul>
+
+<p><strong>프롬프트 예시:</strong></p>
+<pre><code>이 대시보드에 AI 도우미 채팅 기능을 추가해줘.
+
+- 화면 우하단에 채팅 버튼
+- 클릭하면 채팅 패널이 슬라이드로 열림
+- Gemini API를 호출하여 답변 생성
+- API 키는 사용자가 설정 화면에서 입력하도록
+
+주의: API 키를 코드에 하드코딩하지 말고,
+사용자가 직접 입력하는 방식으로 구현해줘.</code></pre>
+
+<blockquote><strong>주의</strong>: Gemini API를 프론트엔드(HTML/JS)에서 직접 호출하면 API 키가 노출될 수 있습니다. 학습용이나 개인 프로젝트에서만 사용하고, 실서비스에서는 백엔드를 통해 호출하세요.</blockquote>
+
+<h3>Firebase 기초 (선택)</h3>
+<p>AI Studio에서 만든 프로젝트에 Firebase를 연동하면 데이터를 영구 저장할 수 있습니다:</p>
+<table>
+  <tr><th>Firebase 기능</th><th>용도</th><th>난이도</th></tr>
+  <tr><td><strong>Hosting</strong></td><td>웹사이트 배포</td><td>쉬움</td></tr>
+  <tr><td><strong>Firestore</strong></td><td>데이터 저장 (NoSQL DB)</td><td>보통</td></tr>
+  <tr><td><strong>Auth</strong></td><td>로그인/인증</td><td>보통</td></tr>
+</table>
+
+<pre><code>이 프로젝트에 Firebase Firestore를 연동해줘.
+
+- 학생 데이터를 Firestore에 저장
+- 데이터 추가/수정/삭제 기능
+- Firebase SDK는 CDN으로 불러와줘
+- 설정값은 상수로 분리해줘
+
+Firebase 프로젝트 ID: (내 프로젝트 ID)</code></pre>
+
+<h3>AI Studio의 한계와 우회 방법</h3>
+<table>
+  <tr><th>한계</th><th>설명</th><th>우회 방법</th></tr>
+  <tr><td><strong>단일 파일</strong></td><td>기본적으로 하나의 HTML 파일</td><td>탭/섹션 기반 멀티 페이지 구현</td></tr>
+  <tr><td><strong>백엔드 없음</strong></td><td>서버 사이드 코드 실행 불가</td><td>외부 API 호출 (Gemini, Firebase)</td></tr>
+  <tr><td><strong>DB 없음</strong></td><td>데이터베이스 직접 연동 불가</td><td>localStorage 또는 Firebase 활용</td></tr>
+  <tr><td><strong>파일 업로드</strong></td><td>서버에 파일 저장 불가</td><td>Base64 변환 또는 외부 스토리지</td></tr>
+  <tr><td><strong>복잡한 라우팅</strong></td><td>URL 기반 페이지 전환 어려움</td><td>JavaScript 기반 뷰 전환</td></tr>
+</table>
+
+<blockquote><strong>실사용자 후기</strong>: "AI Studio로 프로토타입을 빠르게 만들고, 한계를 느끼면 러버블이나 커서로 옮겨서 완성하는 게 효율적이었어요." — 실사용자 후기</blockquote>
+
+<h2 id="s9">9. 다른 도구로 발전하기</h2>
+
+<h3>AI Studio가 충분하지 않을 때</h3>
+<p>아래 상황이 되면 다른 도구로 전환을 고려하세요:</p>
+<table>
+  <tr><th>상황</th><th>필요한 기능</th><th>추천 도구</th></tr>
+  <tr><td>데이터를 영구 저장해야 할 때</td><td>데이터베이스</td><td><strong>러버블</strong> (Supabase 연동)</td></tr>
+  <tr><td>회원가입/로그인이 필요할 때</td><td>사용자 인증</td><td><strong>러버블</strong></td></tr>
+  <tr><td>여러 페이지로 구성된 앱</td><td>라우팅, 멀티 페이지</td><td><strong>러버블</strong> 또는 <strong>안티그래비티</strong></td></tr>
+  <tr><td>코드를 직접 수정하고 싶을 때</td><td>코드 에디터</td><td><strong>커서</strong></td></tr>
+  <tr><td>복잡한 백엔드가 필요할 때</td><td>API 서버</td><td><strong>안티그래비티</strong> 또는 <strong>커서</strong></td></tr>
+</table>
+
+<h3>AI Studio → 러버블 마이그레이션</h3>
+<p>AI Studio에서 만든 프로토타입을 러버블로 옮기는 방법:</p>
+<ol>
+  <li>AI Studio에서 만든 디자인의 <strong>스크린샷</strong> 저장</li>
+  <li>러버블에서 새 프로젝트 생성</li>
+  <li>스크린샷을 참고하며 러버블에 프롬프트 입력</li>
+  <li>또는 AI Studio 코드를 러버블 프롬프트에 "이 코드를 기반으로 만들어줘"라고 전달</li>
+</ol>
+
+<pre><code>[러버블 프롬프트 예시]
+아래 HTML 코드를 기반으로 학급 관리 대시보드를 만들어줘.
+Supabase 데이터베이스를 연동하고,
+사용자 인증(로그인) 기능을 추가해줘.
+
+(AI Studio에서 Export한 코드 붙여넣기)</code></pre>
+
+<h3>AI Studio → 커서 마이그레이션</h3>
+<p>코드를 직접 다루고 싶다면 커서로 전환합니다:</p>
+<ol>
+  <li>AI Studio에서 Export한 <code>index.html</code> 파일을 프로젝트 폴더에 저장</li>
+  <li>커서에서 해당 폴더를 열기</li>
+  <li>AI Chat에 "이 코드를 React/Vue로 리팩토링해줘"라고 요청</li>
+  <li>파일 분리, 컴포넌트화, 상태 관리 추가</li>
+</ol>
+
+<h3>마이그레이션 결정 기준</h3>
+<table>
+  <tr><th>기준</th><th>AI Studio 유지</th><th>다른 도구 전환</th></tr>
+  <tr><td>프로젝트 규모</td><td>1~2 페이지 수준</td><td>3개 이상 페이지</td></tr>
+  <tr><td>데이터 저장</td><td>localStorage로 충분</td><td>서버 DB 필요</td></tr>
+  <tr><td>사용자 수</td><td>나 혼자 또는 소수</td><td>다수 사용자</td></tr>
+  <tr><td>유지보수</td><td>일회성 프로젝트</td><td>지속적 업데이트</td></tr>
+  <tr><td>코드 관리</td><td>단일 파일로 충분</td><td>파일 분리 필요</td></tr>
+</table>
+
+<h2 id="s10">10. 문제가 생겼을 때 (트러블슈팅)</h2>
+
+<details>
+<summary>상황 1: 빌드가 실패할 때</summary>
+<div class="inner">
+<p>AI Studio에서 프롬프트를 보냈는데 결과가 생성되지 않거나 빈 화면이 나올 때:</p>
+<ol>
+  <li>프롬프트가 너무 길거나 복잡하지 않은지 확인</li>
+  <li>프롬프트를 짧고 구체적으로 다시 작성</li>
+  <li>브라우저를 새로고침(F5)한 후 다시 시도</li>
+  <li>새 대화를 시작하여 처음부터 다시 빌드</li>
+</ol>
+</div>
+</details>
+
+<details>
+<summary>상황 2: 프리뷰가 깨질 때</summary>
+<div class="inner">
+<p>레이아웃이 엉키거나, 요소가 겹치거나, 스타일이 적용되지 않을 때:</p>
+<ol>
+  <li>"레이아웃이 깨져있어. 전체 CSS를 점검하고 수정해줘"라고 요청</li>
+  <li>구체적으로 깨진 부분을 설명: "학생 목록 테이블이 화면 밖으로 벗어나"</li>
+  <li>"모바일 뷰에서 확인하고 반응형으로 수정해줘"라고 요청</li>
+  <li>심한 경우 새 대화에서 다시 빌드하는 것이 빠를 수 있음</li>
+</ol>
+</div>
+</details>
+
+<details>
+<summary>상황 3: 코드 Export가 안 될 때</summary>
+<div class="inner">
+<p>코드를 복사했는데 로컬에서 동작하지 않을 때:</p>
+<ol>
+  <li>외부 CDN 리소스(폰트, 아이콘 등)가 로드되는지 확인</li>
+  <li>인터넷 연결 상태 확인 (CDN은 온라인 필요)</li>
+  <li>코드에 <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code> 태그가 완전한지 확인</li>
+  <li>AI Studio에 "이 코드를 완전한 HTML 문서로 만들어줘"라고 요청</li>
+</ol>
+</div>
+</details>
+
+<details>
+<summary>상황 4: API 할당량 초과</summary>
+<div class="inner">
+<p>"Rate limit exceeded" 또는 사용량 초과 메시지가 나올 때:</p>
+<ol>
+  <li>잠시 기다리기 (무료 할당량은 시간/일 단위로 리셋)</li>
+  <li>프롬프트를 더 효율적으로 작성 (한 번에 여러 수정사항 전달)</li>
+  <li>기다리는 동안 기획 문서를 보완하거나 아이디어를 정리</li>
+  <li>다음 날 다시 시도</li>
+</ol>
+</div>
+</details>
+
+<details>
+<summary>상황 5: 응답이 너무 느릴 때</summary>
+<div class="inner">
+<p>AI의 응답이 30초 이상 걸리거나 멈춰 있을 때:</p>
+<ol>
+  <li>요청이 너무 복잡하지 않은지 확인 — 단순화 시도</li>
+  <li>브라우저 탭을 닫지 말고 기다려보기 (최대 2~3분)</li>
+  <li>그래도 안 되면 페이지 새로고침 후 다시 시도</li>
+  <li>사용자가 많은 시간대(오전 9~11시)를 피해서 시도</li>
+</ol>
+</div>
+</details>
+
+<h2 id="s11">11. 자주 묻는 질문 (FAQ)</h2>
+
+<details>
+<summary>Q1: 초보자편과 뭐가 다른가요?</summary>
+<div class="inner"><p>초보자편은 AI Studio의 기본 사용법과 간단한 한 페이지 프로토타입 제작에 초점을 맞춥니다. 중급자편에서는 기획 문서를 기반으로 체계적인 프로젝트를 만들고, 멀티 섹션 앱 구축, 코드 Export 및 배포, 외부 서비스 연동까지 다룹니다.</p></div>
+</details>
+
+<details>
+<summary>Q2: AI Studio에서 멀티 페이지를 만들 수 있나요?</summary>
+<div class="inner"><p>URL 기반의 실제 멀티 페이지는 어렵지만, <strong>탭 전환</strong> 또는 <strong>섹션 스크롤</strong> 방식으로 멀티 페이지 효과를 낼 수 있습니다. JavaScript로 뷰를 전환하는 SPA(Single Page Application) 방식입니다.</p></div>
+</details>
+
+<details>
+<summary>Q3: AI Studio에서 만든 것을 러버블로 옮길 수 있나요?</summary>
+<div class="inner"><p>직접적인 Import 기능은 없지만, AI Studio의 코드를 러버블 프롬프트에 붙여넣으며 "이 코드를 기반으로 만들어줘"라고 요청하면 됩니다. 또는 디자인 스크린샷을 참고하며 러버블에서 새로 만드는 방법도 있습니다.</p></div>
+</details>
+
+<details>
+<summary>Q4: 기획 문서(PRD/IA)를 꼭 써야 하나요?</summary>
+<div class="inner"><p>필수는 아니지만, 강력히 추천합니다. 기획 문서 없이 바로 빌드하면 수정 횟수가 많아지고, 결과물의 일관성이 떨어집니다. 5~10분 투자하여 기획 문서를 정리하면 전체 작업 시간이 오히려 줄어듭니다.</p></div>
+</details>
+
+<details>
+<summary>Q5: Gemini API 키가 꼭 필요한가요?</summary>
+<div class="inner"><p>AI Studio Build 탭에서 프로토타입을 만드는 데는 API 키가 필요 없습니다. 코드를 Export한 후 로컬에서 Gemini API를 직접 호출하고 싶을 때만 필요합니다.</p></div>
+</details>
+
+<details>
+<summary>Q6: 코드를 전혀 몰라도 중급자편을 따라할 수 있나요?</summary>
+<div class="inner"><p>네, 코드를 직접 수정하지 않아도 프롬프트만으로 진행할 수 있습니다. 다만 코드 Export 후 수정, Gemini API 연동 등 일부 심화 내용은 기본적인 HTML/CSS 이해가 있으면 더 수월합니다.</p></div>
+</details>
+
+<details>
+<summary>Q7: 여러 사람이 동시에 편집할 수 있나요?</summary>
+<div class="inner"><p>AI Studio 빌드의 동시 편집(협업) 기능은 제한적입니다. 한 명이 빌드한 후 공유 링크를 통해 결과물을 공유하는 방식이 현실적입니다. 협업이 중요하다면 GitHub 기반 도구(커서, 안티그래비티)를 추천합니다.</p></div>
+</details>
+
+<details>
+<summary>Q8: localStorage에 저장한 데이터가 사라질 수 있나요?</summary>
+<div class="inner"><p>네. localStorage는 브라우저 캐시를 삭제하거나, 시크릿 모드에서 접속하면 데이터가 사라집니다. 중요한 데이터는 Firebase 등 외부 DB에 저장하거나, Export 기능을 만들어 백업하세요.</p></div>
+</details>
+
+<h2 id="s12">12. 효율화 전략</h2>
+
+<h3>프롬프트 최적화</h3>
+<table>
+  <tr><th>전략</th><th>나쁜 예</th><th>좋은 예</th></tr>
+  <tr><td><strong>구체성</strong></td><td>"이쁘게 만들어줘"</td><td>"배경을 #F5F5F5로, 카드에 border-radius: 12px, box-shadow 적용"</td></tr>
+  <tr><td><strong>범위 제한</strong></td><td>"전체를 다시 만들어줘"</td><td>"학생 목록 탭의 테이블만 수정해줘"</td></tr>
+  <tr><td><strong>단계별</strong></td><td>"로그인부터 대시보드까지 전부"</td><td>"1단계: 대시보드 레이아웃 먼저"</td></tr>
+  <tr><td><strong>참고 제시</strong></td><td>"좋은 디자인으로"</td><td>"네이버 캘린더처럼 깔끔한 일정 뷰"</td></tr>
+</table>
+
+<h3>세션 관리 (대화 흐름 유지)</h3>
+<p>AI Studio에서는 대화가 길어질수록 Context Window에 가까워져 이전 지시를 잊을 수 있습니다.</p>
+
+<p><strong>세션 관리 팁:</strong></p>
+<ul>
+  <li>하나의 대화에서 <strong>10~15회 이내</strong>로 수정 요청</li>
+  <li>큰 변경이 필요하면 <strong>새 대화를 시작</strong>하고 기존 코드를 붙여넣기</li>
+  <li>중간 결과물을 <strong>반드시 코드로 백업</strong> (복사해두기)</li>
+  <li>대화 시작 시 <strong>기획 문서(PRD)를 먼저 전달</strong>하면 일관성 유지</li>
+</ul>
+
+<h3>반복 패턴 (점진적 개선)</h3>
+<p>효율적인 빌드를 위한 반복 패턴:</p>
+<pre><code>Round 1: 전체 구조와 레이아웃 (뼈대 잡기)
+  → 확인: 섹션이 모두 있는지, 네비게이션이 동작하는지
+
+Round 2: 콘텐츠 채우기 (내용물 넣기)
+  → 확인: 텍스트, 데이터, 이미지가 적절한지
+
+Round 3: 디자인 다듬기 (인테리어)
+  → 확인: 색상, 폰트, 간격, 그림자가 균일한지
+
+Round 4: 인터랙션 추가 (기능 동작)
+  → 확인: 버튼, 필터, 검색, 데이터 저장이 동작하는지
+
+Round 5: 반응형 및 마무리 (최종 점검)
+  → 확인: 모바일, 태블릿에서 깨지지 않는지</code></pre>
+
+<h3>AI 검증 프롬프트</h3>
+<p>최종 결과물의 품질을 검증하는 프롬프트:</p>
+<pre><code>현재 코드를 아래 기준으로 검증해줘:
+
+1. [접근성] 시맨틱 HTML 태그를 사용했는지
+2. [반응형] 모바일(375px)에서 깨지는 부분이 없는지
+3. [성능] 불필요한 중복 코드가 없는지
+4. [기능] localStorage 저장/불러오기가 정상 동작하는지
+5. [디자인] 색상, 폰트, 간격이 일관적인지
+
+문제가 있으면 수정해줘.</code></pre>
+
+<h2 id="s13">13. 다음 단계</h2>
+<p>AI Studio 중급자편을 마치셨습니다! 다음 단계를 선택하세요:</p>
+<table>
+  <tr><th>방향</th><th>설명</th><th>추천</th></tr>
+  <tr><td><strong><a href="lovable-beginner.html">러버블 초보자편</a></strong></td><td>웹 기반 풀스택 빌더로 완성도 높은 웹앱 제작</td><td>★★★</td></tr>
+  <tr><td><strong><a href="lovable-intermediate.html">러버블 중급자편</a></strong></td><td>기획 문서 기반 체계적 웹앱 개발 + Supabase DB</td><td>★★★</td></tr>
+  <tr><td><strong><a href="antigravity-beginner.html">안티그래비티 초보자편</a></strong></td><td>AI 에이전트에게 개발을 맡기는 경험</td><td>★★☆</td></tr>
+  <tr><td><strong><a href="cursor-beginner.html">커서 초보자편</a></strong></td><td>AI 코드 에디터로 직접 개발 시작</td><td>★★☆</td></tr>
+  <tr><td><strong>실전 프로젝트</strong></td><td>AI Studio로 프로토타입 3개 이상 만들어보기</td><td>★★★</td></tr>
+</table>
+
+<blockquote><strong>추천 경로</strong>: AI Studio 중급 → <a href="lovable-beginner.html"><strong>러버블 초보자편</strong></a> → <a href="lovable-intermediate.html">러버블 중급자편</a> 순서가 가장 자연스럽습니다. AI Studio에서 프로토타입을 만드는 감각을 익혔으니, 러버블에서 본격적인 웹앱을 만들어보세요.</blockquote>
+
+<h2 id="summary">전체 흐름 요약</h2>
+<pre><code>1단계: 기획
+  ↓ PRD/IA 작성 (Gemini Gem 또는 AI 도우미 활용)
+2단계: 프롬프트
+  ↓ 기획 문서 기반 구조화된 프롬프트 작성
+3단계: 빌드 · 반복
+  ↓ AI Studio Build → 프리뷰 확인 → 수정 (3~5회)
+4단계: 배포
+  ↓ 공유 링크 / GitHub Pages / Vercel</code></pre>
+
+<table>
+  <tr><th>단계</th><th>할 일</th><th>소요 시간</th></tr>
+  <tr><td>1 기획</td><td>PRD/IA 작성 (Gem 활용)</td><td>30~40분</td></tr>
+  <tr><td>2 프롬프트</td><td>기획 기반 초기 프롬프트 작성</td><td>15~20분</td></tr>
+  <tr><td>3 빌드</td><td>AI Studio에서 빌드 + 반복 수정</td><td>1.5~2시간</td></tr>
+  <tr><td>4 배포</td><td>코드 Export → GitHub Pages 배포</td><td>30분</td></tr>
+</table>
+
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">축하합니다!</strong><br><br>
+  이 과정을 마치면 기획 문서를 기반으로 체계적인 웹 프로토타입을 만들고 배포하는 경험을 갖게 됩니다.<br>
+  이제 러버블이나 안티그래비티로 넘어가 더 완성도 높은 프로젝트에 도전해보세요!
+</div>
+
+<h2 id="sources">출처</h2>
+<p>본 교안의 구성 및 추천 리소스는 아래 출처를 참고하여 작성하였습니다.</p>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><strong><a href="https://aistudio.google.com" target="_blank">Google AI Studio</a></strong></td><td>AI Studio 공식 사이트</td></tr>
+  <tr><td><strong><a href="https://ai.google.dev" target="_blank">Google AI 개발자 문서</a></strong></td><td>Gemini API 공식 문서</td></tr>
+  <tr><td><strong>러버블 바이브코딩 카카오톡 대화방</strong></td><td>2026년 3월 8일 대화 기록 (참여자: 김병선, peace, 이운희, 송윤임, 우대윤, 서진영 외)</td></tr>
+  <tr><td><strong><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">peace Gemini Gem</a></strong></td><td>기획 도우미 Gem</td></tr>
+</table>
+
+<p style="text-align:center;color:var(--text-light);font-size:.85rem;margin-top:32px"><em>본 교안은 2026년 3월 바이브코딩 가이드 프로젝트의 일부로 작성되었습니다. AI Studio 중급자편은 초보자편의 기본기 위에 체계적인 기획과 심화 활용을 더한 교안입니다.</em></p>
+
+</main>
+</div>
+
+<footer style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border);">
+  <p>본 교안은 Google AI Studio(2026.3 기준)을 기반으로 작성되었습니다.</p>
+  <p>김선생의 바이브코딩 가이드 · <a href="index.html">메인으로 돌아가기</a></p>
+</footer>
+
+<!-- Mobile TOC -->
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>

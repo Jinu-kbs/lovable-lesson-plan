@@ -50,9 +50,17 @@
 ├── 교안_cursor_developer.md       ← 커서 개발자편 MD 원본
 │
 ├── aistudio-beginner.html         ← AI Studio 초보자편 교안
+├── aistudio-intermediate.html     ← AI Studio 중급자편 교안
+├── aistudio-developer.html        ← AI Studio 개발자편 교안
 ├── 교안_aistudio_beginner.md      ← AI Studio 초보자편 MD 원본
+├── 교안_aistudio_intermediate.md  ← AI Studio 중급자편 MD 원본
+├── 교안_aistudio_developer.md     ← AI Studio 개발자편 MD 원본
 │
+├── claude-code-beginner.html      ← Claude Code 초보자편 교안
+├── claude-code-intermediate.html  ← Claude Code 중급자편 교안
 ├── claude-code-developer.html     ← Claude Code 개발자편 교안
+├── 교안_claude-code_beginner.md   ← Claude Code 초보자편 MD 원본
+├── 교안_claude-code_intermediate.md ← Claude Code 중급자편 MD 원본
 ├── 교안_claude-code_developer.md  ← Claude Code 개발자편 MD 원본
 │
 ├── compare.html                   ← 도구 비교 독립 페이지
@@ -153,8 +161,8 @@
 | **Lovable** | `#00B894` (초록) | `#55EFC4` | 초보/중급/개발자 |
 | **AntiGravity** | `#9C27B0` (보라) | `#CE93D8` | 초보/중급/개발자 |
 | **Cursor** | `#2196F3` (파랑) | `#90CAF9` | 초보/중급/개발자 |
-| **AI Studio** | `#4CAF50` (초록) | `#A5D6A7` | 초보자만 |
-| **Claude Code** | `#FF9800` (오렌지) | `#FFCC80` | 개발자만 |
+| **AI Studio** | `#4CAF50` (초록) | `#A5D6A7` | 초보/중급/개발자 |
+| **Claude Code** | `#FF9800` (오렌지) | `#FFCC80` | 초보/중급/개발자 |
 
 ### HTML 공통 구조
 
