@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>러버블 입문 교안 - 초보자편</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#00B894;--primary-light:#55EFC4;--bg:#FAFAFA;--card-bg:#FFF;--text:#2D3436;--text-light:#636E72;--border:#E0E0E0;--code-bg:#F8F9FA;--code-border:#E9ECEF}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+/* NAV */
+.topnav{background:#FFF;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
+.topnav a{text-decoration:none;color:var(--text-light);font-size:.9rem;font-weight:500}
+.topnav a:hover{color:var(--text)}
+.topnav .brand{font-weight:700;color:var(--text);margin-right:auto}
+.topnav .active{color:var(--primary);font-weight:700}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:60px 20px;text-align:center}
+.hero h1{font-size:2rem;margin-bottom:8px;font-weight:800}
+.hero .meta{opacity:.9;font-size:.95rem}
+/* LAYOUT */
+.layout{display:flex;max-width:1200px;margin:0 auto;gap:0}
+/* SIDEBAR TOC */
+.sidebar{width:260px;padding:24px 16px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;border-right:1px solid var(--border);background:#FFF;flex-shrink:0}
+.sidebar h3{font-size:.8rem;text-transform:uppercase;color:var(--text-light);letter-spacing:1px;margin-bottom:12px}
+.sidebar a{display:block;padding:6px 12px;text-decoration:none;color:var(--text-light);font-size:.85rem;border-radius:6px;margin-bottom:2px;line-height:1.5}
+.sidebar a:hover{background:var(--bg);color:var(--text)}
+.sidebar a.s2{padding-left:24px;font-size:.8rem}
+/* CONTENT */
+.content{flex:1;padding:40px;max-width:800px;min-width:0}
+.content h2{font-size:1.5rem;font-weight:700;margin:48px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+.content h2:first-child{margin-top:0}
+.content h3{font-size:1.15rem;font-weight:600;margin:32px 0 12px;color:var(--text)}
+.content p{margin-bottom:16px;font-size:.95rem}
+.content ul,.content ol{margin:0 0 16px 24px;font-size:.95rem}
+.content li{margin-bottom:6px}
+.content a{color:var(--primary);text-decoration:none}
+.content a:hover{text-decoration:underline}
+/* TABLES */
+.content table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.9rem}
+.content th{background:var(--code-bg);font-weight:600;text-align:left;padding:10px 12px;border:1px solid var(--border)}
+.content td{padding:10px 12px;border:1px solid var(--border)}
+.content tr:hover td{background:#FAFFFE}
+/* CODE */
+.content pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0 24px;font-size:.85rem;line-height:1.6}
+.content code{font-family:'Fira Code',Consolas,monospace;font-size:.85rem}
+.content p code,.content li code{background:var(--code-bg);padding:2px 6px;border-radius:4px;border:1px solid var(--code-border)}
+/* BLOCKQUOTE */
+.content blockquote{border-left:4px solid var(--primary);background:#F0FFF4;padding:16px 20px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:.9rem}
+.content blockquote strong{color:var(--primary)}
+/* CHECKLIST */
+.content ul.checklist{list-style:none;margin-left:0}
+.content ul.checklist li{padding:4px 0}
+.content ul.checklist li::before{content:'☐ ';color:var(--primary)}
+/* COLLAPSIBLE */
+details{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;margin:12px 0;padding:0}
+details summary{padding:14px 16px;cursor:pointer;font-weight:600;font-size:.95rem;user-select:none}
+details summary:hover{background:var(--bg)}
+details .inner{padding:0 16px 16px}
+/* FOOTER */
+footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border)}
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .content{padding:24px 16px}
+  .hero h1{font-size:1.5rem}
+  .content h2{font-size:1.3rem}
+  .content table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">러버블 교안</a>
+  <a href="beginner.html" class="active">초보자편</a>
+  <a href="intermediate.html">중급자편</a>
+  <a href="developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🌱 초보자편</h1>
+  <div class="meta">대상: 바이브코딩/노코드 툴을 처음 접하는 분 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#s1">1. 바이브코딩이란?</a>
+  <a href="#s2">2. 러버블이란?</a>
+  <a href="#s3">3. 용어 해설</a>
+  <a href="#s4">4. 사전 준비</a>
+  <a href="#s5">5. 아이디어 구상하기</a>
+  <a href="#s6">6. PRD 만들기</a>
+  <a href="#s7">7. 러버블 실습</a>
+  <a href="#s8">8. 웹사이트 공개하기</a>
+  <a href="#s9">9. 이벤트 참여 미션</a>
+  <a href="#s10">10. 트러블슈팅</a>
+  <a href="#s11">11. FAQ</a>
+  <a href="#s12">12. 주의사항 및 팁</a>
+  <a href="#s13">13. 다음 단계</a>
+</aside>
+
+<main class="content">
+
+<h2 id="s1">1. 바이브코딩이란?</h2>
+<p><strong>바이브코딩(Vibe Coding)</strong>은 코딩을 직접 하지 않고, AI에게 일상 언어로 원하는 것을 설명하면 AI가 코드를 작성해주는 방식입니다.</p>
+<ul>
+  <li>프로그래밍 언어를 몰라도 됩니다</li>
+  <li>"이런 웹사이트를 만들어줘"라고 말하면 AI가 만들어줍니다</li>
+  <li>마치 디자이너에게 의뢰하듯이 대화로 진행합니다</li>
+</ul>
+<h3>왜 주목받고 있을까?</h3>
+<ul>
+  <li>아이디어만 있으면 누구나 웹사이트/앱을 만들 수 있습니다</li>
+  <li>전문 개발자를 고용하지 않아도 프로토타입을 빠르게 만들 수 있습니다</li>
+  <li>교육, 소상공인, 프리랜서, 동호회 등 다양한 분야에서 활용 가능합니다</li>
+</ul>
+
+<h2 id="s2">2. 러버블(Lovable)이란?</h2>
+<p><strong>Lovable</strong>(lovable.dev)은 AI 기반 웹 앱 빌더입니다. 채팅하듯이 원하는 것을 말하면 웹사이트를 만들어줍니다.</p>
+<table>
+  <tr><th>장점</th><th>설명</th></tr>
+  <tr><td><strong>설치 불필요</strong></td><td>웹 브라우저만 있으면 바로 시작 가능</td></tr>
+  <tr><td><strong>대화형 제작</strong></td><td>채팅하듯이 원하는 기능을 요청</td></tr>
+  <tr><td><strong>즉시 미리보기</strong></td><td>만든 결과물을 실시간으로 확인 가능</td></tr>
+  <tr><td><strong>원클릭 배포</strong></td><td>클릭 몇 번으로 인터넷에 공개 가능</td></tr>
+  <tr><td><strong>한국어 프롬프트</strong></td><td>UI는 영어지만, 요청은 한국어로 해도 잘 동작</td></tr>
+</table>
+<blockquote><strong>실전 팁:</strong> "대부분 설치하다 끝나는데, 러버블은 따로 설치할 게 없으니 신세계입니다"</blockquote>
+
+<h3>알아두세요: 러버블 화면은 영어입니다</h3>
+<p>러버블의 버튼과 메뉴는 영어로 되어 있지만 걱정하지 마세요. 주요 버튼만 기억하면 됩니다:</p>
+<table>
+  <tr><th>영어 버튼</th><th>의미</th></tr>
+  <tr><td>New Project</td><td>새 프로젝트 만들기</td></tr>
+  <tr><td>Chat</td><td>대화 모드 (꼭 활성화!)</td></tr>
+  <tr><td>Preview</td><td>미리보기</td></tr>
+  <tr><td>Publish</td><td>바로 공개하기</td></tr>
+  <tr><td>Download</td><td>파일 내려받기</td></tr>
+</table>
+
+<h2 id="s3">3. 용어 해설</h2>
+<table>
+  <tr><th>용어</th><th>쉬운 설명</th></tr>
+  <tr><td><strong>웹사이트/웹앱</strong></td><td>인터넷 브라우저로 접속하는 페이지 또는 앱</td></tr>
+  <tr><td><strong>프롬프트</strong></td><td>AI에게 보내는 요청 메시지</td></tr>
+  <tr><td><strong>배포(Deploy)</strong></td><td>만든 웹사이트를 인터넷에 공개하는 것</td></tr>
+  <tr><td><strong>GitHub</strong></td><td>코드(파일)를 저장하는 인터넷 창고</td></tr>
+  <tr><td><strong>Vercel</strong></td><td>웹사이트를 인터넷에 올려주는 서비스</td></tr>
+  <tr><td><strong>저장소(Repository)</strong></td><td>GitHub에서 하나의 프로젝트 폴더</td></tr>
+  <tr><td><strong>PRD</strong></td><td>만들 것을 정리한 기획서 (요구정의서)</td></tr>
+  <tr><td><strong>크레딧</strong></td><td>러버블 사용권 (1회 요청 ≈ 1크레딧)</td></tr>
+  <tr><td><strong>반응형</strong></td><td>PC와 스마트폰 모두에서 잘 보이는 디자인</td></tr>
+</table>
+
+<h2 id="s4">4. 사전 준비</h2>
+<h3>4-1. GitHub 가입</h3>
+<p>코드를 저장하고 관리하는 서비스입니다.</p>
+<ol>
+  <li><a href="https://github.com" target="_blank">github.com</a> 접속</li>
+  <li><strong>Sign up</strong> 클릭</li>
+  <li>이메일, 비밀번호, 사용자 이름 입력</li>
+  <li>이메일 인증 완료</li>
+</ol>
+
+<h3>4-2. Vercel 가입</h3>
+<p>웹사이트를 인터넷에 공개(배포)해주는 무료 서비스입니다.</p>
+<ol>
+  <li><a href="https://vercel.com" target="_blank">vercel.com</a> 접속</li>
+  <li><strong>Sign Up</strong> 클릭</li>
+  <li><strong>Continue with GitHub</strong> 선택</li>
+</ol>
+
+<h3>4-3. Lovable 가입</h3>
+<ol>
+  <li><a href="https://lovable.dev" target="_blank">lovable.dev</a> 접속</li>
+  <li><strong>Sign up</strong> 또는 <strong>Get Started</strong> 클릭</li>
+  <li>GitHub 계정으로 연동 가입 추천</li>
+</ol>
+
+<h3>사전 준비 체크리스트</h3>
+<ul class="checklist">
+  <li>GitHub 계정 생성 완료</li>
+  <li>Vercel 계정 생성 완료 (GitHub 연동)</li>
+  <li>Lovable 계정 생성 완료</li>
+  <li>만들고 싶은 웹사이트 아이디어 1개 이상 구상</li>
+</ul>
+
+<h2 id="s5">5. 아이디어 구상하기</h2>
+<h3>직군별 추천 프로젝트</h3>
+<table>
+  <tr><th>직군/상황</th><th>프로젝트 아이디어</th><th>난이도</th></tr>
+  <tr><td>교사</td><td>학급 소식 / 학부모 안내 사이트</td><td>★☆☆</td></tr>
+  <tr><td>강사/튜터</td><td>수업 일정 + 수강 신청 페이지</td><td>★★☆</td></tr>
+  <tr><td>프리랜서</td><td>개인 포트폴리오 / 작업물 소개</td><td>★☆☆</td></tr>
+  <tr><td>소상공인</td><td>가게 소개 + 메뉴판 + 위치 안내</td><td>★☆☆</td></tr>
+  <tr><td>동호회/모임</td><td>모임 일정 + 사진 갤러리 + 가입 안내</td><td>★★☆</td></tr>
+  <tr><td>취준생</td><td>이력서형 자기소개 웹사이트</td><td>★☆☆</td></tr>
+  <tr><td>누구나</td><td>이벤트/행사 안내 원페이지</td><td>★☆☆</td></tr>
+</table>
+
+<h3>AI에게 아이디어 정리 요청하기</h3>
+
+<details>
+<summary>예시: 교사용 프롬프트</summary>
+<div class="inner">
+<pre><code>나는 초등학교 교사입니다.
+학부모에게 학급 소식을 전달하는 웹사이트를 만들고 싶어요.
+- 학급 공지사항을 올릴 수 있고
+- 주간 학습 계획을 볼 수 있고
+- 사진 갤러리가 있으면 좋겠어요
+
+이 아이디어를 구체적으로 정리해주세요.
+필요한 페이지와 기능 목록을 만들어주세요.</code></pre>
+</div>
+</details>
+
+<details>
+<summary>예시: 소상공인용 프롬프트</summary>
+<div class="inner">
+<pre><code>나는 카페를 운영하고 있습니다.
+카페를 소개하는 웹사이트를 만들고 싶어요.
+- 카페 소개와 분위기 사진
+- 메뉴판 (음료, 디저트)
+- 영업시간과 위치 (지도)
+- 인스타그램 링크
+
+필요한 페이지와 기능을 정리해주세요.</code></pre>
+</div>
+</details>
+
+<details>
+<summary>예시: 프리랜서용 프롬프트</summary>
+<div class="inner">
+<pre><code>나는 디자이너/개발자/작가입니다.
+나를 소개하는 포트폴리오 웹사이트를 만들고 싶어요.
+- 자기소개
+- 작업물/프로젝트 목록 (이미지 + 설명)
+- 연락처 (이메일, SNS)
+
+깔끔한 느낌으로 정리해주세요.</code></pre>
+</div>
+</details>
+
+<h2 id="s6">6. PRD(요구정의서) 만들기</h2>
+<p><strong>PRD</strong>는 "내가 만들 것을 정리한 기획서"입니다. 러버블에 입력하기 전에 만들어두면 훨씬 좋은 결과물을 얻을 수 있습니다.</p>
+<blockquote>
+  <strong>실전 팁:</strong> "그냥 막 던지면 코드 수정이 어렵거나 돌아올 수 없는 강을 건너기도 해요"<br>
+  "만들고 있던 앱의 명세서를 넣고 한 번 하니까 크레딧이 끝났어요"
+</blockquote>
+
+<h3>간단한 PRD 작성 프롬프트</h3>
+<pre><code>아까 정리한 [프로젝트 이름]에 대해
+PRD(요구정의서)를 작성해줘.
+
+아래 항목을 포함해줘:
+1. 프로젝트 이름
+2. 프로젝트 목적
+3. 누가 사용하나?
+4. 어떤 기능이 필요한가?
+5. 어떤 페이지가 필요한가?
+6. 디자인 느낌 (색상, 분위기)</code></pre>
+
+<details>
+<summary>PRD 예시 보기 (카페 소개 사이트)</summary>
+<div class="inner">
+<pre><code># PRD: 해피빈 카페 소개 사이트
+
+## 프로젝트 목적
+카페를 방문하려는 손님에게 필요한 정보를 한눈에 제공
+
+## 대상 사용자
+- 카페를 찾는 손님
+- 카페 사장님 (관리자)
+
+## 핵심 기능
+1. 카페 소개 (스토리, 분위기 사진)
+2. 메뉴판 (음료/디저트, 가격)
+3. 영업시간 및 위치
+4. 인스타그램/네이버 지도 링크
+
+## 페이지 구성
+- 홈: 카페 대표 이미지 + 한 줄 소개
+- 메뉴: 음료/디저트 목록
+- 오시는 길: 주소, 영업시간, 지도
+- 소개: 카페 이야기
+
+## 디자인 요구사항
+- 따뜻하고 아늑한 느낌 (베이지, 브라운 톤)
+- 사진이 돋보이는 레이아웃
+- 스마트폰에서도 잘 보이게</code></pre>
+</div>
+</details>
+
+<h2 id="s7">7. 러버블 실습: 나만의 사이트 만들기</h2>
+
+<h3>이벤트 시간 활용 전략 (25시간 무료)</h3>
+<table>
+  <tr><th>시간대</th><th>할 일</th><th>설명</th></tr>
+  <tr><td><strong>시작 전</strong></td><td>아이디어 + PRD 준비</td><td>AI 도구로 미리 기획 완료</td></tr>
+  <tr><td><strong>처음 1시간</strong></td><td>첫 빌드</td><td>PRD를 넣고 기본 사이트 생성</td></tr>
+  <tr><td><strong>2~3시간</strong></td><td>세부 수정</td><td>디자인, 내용, 레이아웃 조정</td></tr>
+  <tr><td><strong>4시간~</strong></td><td>배포 + 추가 실험</td><td>공개하기 + 다른 아이디어 시도</td></tr>
+</table>
+
+<h3>Step 1: 프로젝트 시작</h3>
+<ol>
+  <li>lovable.dev 로그인</li>
+  <li><strong>New Project</strong> 클릭</li>
+  <li>프로젝트 이름 입력 (예: "my-cafe-site")</li>
+</ol>
+
+<h3>Step 2: Chat 버튼 활성화 (매우 중요!)</h3>
+<blockquote>
+  <strong>반드시 기억하세요:</strong> 러버블에서 <strong>Chat 버튼</strong>을 꼭 활성화하세요!<br><br>
+  Chat 기능을 켜고 요청하면 러버블이 <strong>먼저 생각하고 보완한 후</strong>에 코드를 생성합니다.
+  약 1크레딧이 추가 소모되지만 훨씬 나은 결과를 받을 수 있습니다.
+  이것은 일종의 <strong>"플랜 모드"</strong>입니다.
+</blockquote>
+
+<h3>Step 3: 첫 프롬프트 입력</h3>
+<p>Chat 창에 준비한 PRD를 통째로 붙여넣습니다.</p>
+
+<details>
+<summary>예시 프롬프트: 카페 소개 사이트</summary>
+<div class="inner">
+<pre><code>한국어로 된 카페 소개 웹사이트를 만들어주세요.
+
+포함할 내용:
+- 상단에 카페 이름과 대표 이미지
+- 메뉴판 (음료, 디저트 목록과 가격)
+- 오시는 길 (주소, 영업시간)
+- 카페 소개 스토리
+- 하단에 인스타그램 링크
+
+디자인:
+- 따뜻한 베이지/브라운 톤
+- 사진이 돋보이는 레이아웃
+- 스마트폰에서도 잘 보이게</code></pre>
+</div>
+</details>
+
+<details>
+<summary>예시 프롬프트: 포트폴리오 사이트</summary>
+<div class="inner">
+<pre><code>한국어로 된 개인 포트폴리오 웹사이트를 만들어주세요.
+
+포함할 내용:
+- 상단에 이름과 한 줄 소개
+- 자기소개 섹션
+- 작업물 목록 (카드 형태, 이미지 + 설명)
+- 보유 기술 또는 관심 분야
+- 연락처 (이메일, SNS 링크)
+
+디자인:
+- 깔끔하고 모던한 느낌
+- 스마트폰에서도 잘 보이게
+- 부드러운 스크롤 효과</code></pre>
+</div>
+</details>
+
+<h3>Step 4: 결과 확인 및 수정</h3>
+<p>수정 요청은 <strong>한 번에 하나씩, 구체적으로</strong> 하세요.</p>
+<pre><code>- 전체적인 색상을 좀 더 따뜻한 느낌으로 바꿔주세요
+- 메뉴 카드를 좀 더 크게 만들어주세요
+- 상단 메뉴바를 스크롤해도 항상 보이게 고정해주세요
+- 글자 크기를 좀 더 키워주세요</code></pre>
+<blockquote><strong>팁:</strong> "좀 더 이쁘게"처럼 모호한 요청보다는 "배경색을 연한 노란색으로", "글자를 더 크게" 등 구체적으로 요청하세요.</blockquote>
+
+<h3>Step 5: 프로젝트 저장</h3>
+<ul>
+  <li>러버블은 <strong>자동 저장</strong>됩니다</li>
+  <li>마음에 드는 결과물은 꼭 <strong>Download</strong>로 소스 코드를 다운로드해두세요</li>
+</ul>
+
+<h2 id="s8">8. 웹사이트 공개하기 (배포)</h2>
+
+<h3>방법 1: 러버블 자체 배포 (가장 쉬움)</h3>
+<ol>
+  <li>프로젝트 화면에서 <strong>Publish</strong> 버튼 클릭</li>
+  <li>러버블이 자동으로 URL을 생성해줍니다</li>
+  <li>해당 URL을 공유하면 끝!</li>
+</ol>
+
+<h3>방법 2: GitHub + Vercel 배포 (추천)</h3>
+<p>더 안정적이고 나만의 주소를 가질 수 있습니다.</p>
+<ol>
+  <li>러버블에서 <strong>GitHub 연동</strong> → Push</li>
+  <li>Vercel에서 <strong>Add New Project</strong> → GitHub 저장소 Import</li>
+  <li><strong>Deploy</strong> 클릭 → 1~2분 후 배포 완료</li>
+  <li><code>https://프로젝트이름.vercel.app</code> URL 생성</li>
+</ol>
+
+<h3>방법 3: 수동 업로드</h3>
+<ol>
+  <li>러버블에서 <strong>Download</strong> (ZIP)</li>
+  <li>GitHub에서 <strong>New Repository</strong> → <strong>Upload files</strong></li>
+  <li>Vercel에서 Import → Deploy</li>
+</ol>
+
+<h2 id="s9">9. 이벤트 참여 미션</h2>
+<table>
+  <tr><th>혜택</th><th>내용</th><th>받는 방법</th></tr>
+  <tr><td><strong>무료 빌드</strong></td><td>25시간 동안 무제한 빌드</td><td>이벤트 시간에 lovable.dev 접속</td></tr>
+  <tr><td><strong>$100 API 크레딧</strong></td><td>Claude API 크레딧 (약 13만원)</td><td>Lovable 대시보드 내 링크에서 수령</td></tr>
+  <tr><td><strong>$250 Stripe 크레딧</strong></td><td>결제 시스템 수수료 면제</td><td>Stripe 연동 시 적용</td></tr>
+</table>
+<blockquote><strong>$100 API 크레딧은 꼭 받으세요!</strong> 대시보드에 접속하면 크레딧 수령 링크가 있습니다.</blockquote>
+
+<h3>SNS 공유 미션</h3>
+<ol>
+  <li>만든 웹사이트의 스크린샷 또는 URL 캡처</li>
+  <li>인스타그램, X(트위터) 등에 게시</li>
+  <li>태그: <strong>@lovable.community</strong>, <strong>@lovable.dev</strong></li>
+  <li>해시태그: <strong>#SheBuildsonLovable</strong></li>
+</ol>
+
+<h2 id="s10">10. 문제가 생겼을 때 (트러블슈팅)</h2>
+
+<details>
+<summary>"결과물이 마음에 안 들어요"</summary>
+<div class="inner">
+<ul>
+  <li>구체적으로 수정 요청하세요: "전체적으로 바꿔줘" 대신 "헤더 부분의 색상을 연한 파란색으로"</li>
+  <li>한 번에 하나씩 수정하세요</li>
+  <li>PRD를 다시 확인하고 처음 의도 기반으로 재요청하세요</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"크레딧이 빨리 줄어들어요"</summary>
+<div class="inner">
+<ul>
+  <li>무료 이벤트 시간을 활용하세요</li>
+  <li>PRD를 미리 작성해서 한 번에 정확하게 요청하세요</li>
+  <li>모호한 요청은 재수정 → 크레딧 낭비의 원인입니다</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"러버블이 이상한 결과를 만들었어요"</summary>
+<div class="inner">
+<ul>
+  <li>되돌리기(Undo) 기능으로 이전 상태로 복원하세요</li>
+  <li>마음에 드는 상태에서 미리 파일을 다운로드해두면 안전합니다</li>
+  <li>새 프로젝트를 만들어 PRD를 다시 넣는 것도 방법입니다</li>
+</ul>
+</div>
+</details>
+
+<details>
+<summary>"GitHub/Vercel 연동이 안 돼요"</summary>
+<div class="inner">
+<ul>
+  <li>GitHub 계정으로 Lovable에 가입했는지 확인하세요</li>
+  <li>Lovable 설정에서 GitHub 연결 권한을 허용했는지 확인하세요</li>
+  <li>그래도 안 되면 수동 업로드(방법 3)를 시도하세요</li>
+</ul>
+</div>
+</details>
+
+<h2 id="s11">11. 자주 묻는 질문 (FAQ)</h2>
+
+<details>
+<summary>Q: 무료 계정이면 몇 번 대화할 수 있나요?</summary>
+<div class="inner"><p>제한된 크레딧이 주어지며, Chat 모드 1회에 약 1크레딧 소모됩니다. <strong>이벤트 기간(25시간 무료)</strong>을 적극 활용하세요.</p></div>
+</details>
+
+<details>
+<summary>Q: 러버블에 자체 데이터베이스가 있나요?</summary>
+<div class="inner"><p>아니요. 정적 소개 사이트는 DB 없이 가능하지만, 게시판처럼 데이터를 저장하려면 외부 서비스(Supabase 등)를 연결해야 합니다.</p></div>
+</details>
+
+<details>
+<summary>Q: 프롬프트를 한국어로 써도 되나요?</summary>
+<div class="inner"><p>네! UI는 영어지만 프롬프트는 한국어로 작성해도 잘 동작합니다.</p></div>
+</details>
+
+<details>
+<summary>Q: 이벤트 시작 전에 만들어도 되나요?</summary>
+<div class="inner"><p>가능하지만 무료 크레딧이 제한되어 있어 금방 소진됩니다. <strong>아이디어와 PRD는 미리 준비하고, 빌드는 이벤트 시작 후에</strong> 하세요.</p></div>
+</details>
+
+<details>
+<summary>Q: 꼭 GitHub과 Vercel을 써야 하나요?</summary>
+<div class="inner"><p>아니요. 러버블 자체 Publish 기능으로도 바로 공개할 수 있습니다. 다만 GitHub + Vercel을 쓰면 나만의 URL과 코드 백업이 가능합니다.</p></div>
+</details>
+
+<h2 id="s12">12. 주의사항 및 팁</h2>
+<h3>자주 하는 실수</h3>
+<table>
+  <tr><th>실수</th><th>해결 방법</th></tr>
+  <tr><td>기획 없이 바로 시작</td><td>PRD를 먼저 만들어서 한 번에 정확하게 요청</td></tr>
+  <tr><td>큰 프로젝트를 한 번에 요청</td><td>작은 단위로 나누어서 요청 (페이지별)</td></tr>
+  <tr><td>모호한 수정 요청</td><td>"좀 더 이쁘게" 대신 구체적 색상/크기/위치 지정</td></tr>
+  <tr><td>백업 없이 큰 수정</td><td>마음에 드는 상태에서 Download 해두기</td></tr>
+</table>
+
+<h3>실전 노하우</h3>
+<ul>
+  <li><strong>Chat 버튼</strong> 꼭 활성화 — AI가 먼저 생각한 후 답변 (플랜 모드)</li>
+  <li>다른 AI(ChatGPT, 제미나이 등)에서 미리 아이디어를 정리해두기</li>
+  <li>마음에 드는 결과물은 바로 <strong>파일 다운로드</strong></li>
+  <li>러버블은 <strong>Anthropic의 Claude 모델</strong>을 사용합니다</li>
+</ul>
+
+<h2 id="s13">13. 다음 단계</h2>
+<table>
+  <tr><th>단계</th><th>추천 학습</th></tr>
+  <tr><td>레벨 업</td><td><a href="intermediate.html">중급자편</a> 교안으로 PRD/IA/ERD 심화 학습</td></tr>
+  <tr><td>다른 도구</td><td>AI Studio 빌더로 바이브코딩 개념 확장</td></tr>
+  <tr><td>데이터베이스</td><td>Supabase 등 외부 DB 연결하여 동적 기능 추가</td></tr>
+  <tr><td>커뮤니티</td><td>Lovable 커뮤니티에서 다른 프로젝트 참고</td></tr>
+</table>
+
+<div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#FFF;padding:24px;border-radius:12px;text-align:center;margin-top:40px">
+  <strong style="font-size:1.1rem">전체 흐름 요약</strong><br><br>
+  아이디어 구상 → AI로 PRD 작성 → 러버블에서 제작 → 배포 (공개) → SNS 공유<br>
+  <span style="opacity:.8;font-size:.9rem">이 과정을 마치면 나만의 웹사이트가 인터넷에 공개됩니다!</span>
+</div>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.
+</footer>
+
+</body>
+</html>

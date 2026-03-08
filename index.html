@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>러버블(Lovable) 입문 교안</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#6C5CE7;--primary-light:#A29BFE;--bg:#FAFAFA;--card-bg:#FFF;--text:#2D3436;--text-light:#636E72;--border:#E0E0E0;--accent-green:#00B894;--accent-blue:#0984E3;--accent-orange:#E17055}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+.hero{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;padding:80px 20px;text-align:center}
+.hero h1{font-size:2.5rem;margin-bottom:16px;font-weight:800}
+.hero p{font-size:1.15rem;opacity:.9;max-width:600px;margin:0 auto 12px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.2);padding:6px 16px;border-radius:20px;font-size:.85rem;margin-top:8px}
+.container{max-width:1000px;margin:0 auto;padding:40px 20px}
+.section-title{text-align:center;font-size:1.6rem;font-weight:700;margin-bottom:12px}
+.section-desc{text-align:center;color:var(--text-light);margin-bottom:40px;font-size:1rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:60px}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px 28px;transition:transform .2s,box-shadow .2s;cursor:pointer;text-decoration:none;color:var(--text);display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.card-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:20px}
+.card-icon.green{background:#E8F8F5;color:var(--accent-green)}
+.card-icon.blue{background:#E3F2FD;color:var(--accent-blue)}
+.card-icon.orange{background:#FDEBD0;color:var(--accent-orange)}
+.card h3{font-size:1.25rem;margin-bottom:8px;font-weight:700}
+.card .level{font-size:.8rem;color:var(--primary);font-weight:600;margin-bottom:12px}
+.card p{color:var(--text-light);font-size:.95rem;flex:1}
+.card .tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.card .tag{background:#F0F0F0;padding:4px 10px;border-radius:8px;font-size:.75rem;color:var(--text-light)}
+.card .cta{display:inline-block;margin-top:20px;color:var(--primary);font-weight:600;font-size:.9rem}
+.card .cta::after{content:' →'}
+.self-check{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:60px}
+.self-check h2{font-size:1.3rem;margin-bottom:20px;font-weight:700}
+.check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.check-item{background:var(--bg);border-radius:12px;padding:20px;border:1px solid var(--border)}
+.check-item .q{font-weight:600;margin-bottom:8px;font-size:.95rem}
+.check-item .a{font-size:.85rem;color:var(--text-light)}
+.check-item .a span{color:var(--primary);font-weight:600}
+.event-banner{background:linear-gradient(135deg,#FFEAA7,#FDCB6E);border-radius:16px;padding:32px;text-align:center;margin-bottom:60px}
+.event-banner h2{font-size:1.3rem;margin-bottom:12px;color:#2D3436}
+.event-banner p{color:#636E72;font-size:.95rem;margin-bottom:8px}
+.event-banner .benefits{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px}
+.event-banner .benefit{background:rgba(255,255,255,.7);padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600}
+footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border)}
+@media(max-width:600px){.hero h1{font-size:1.7rem}.hero p{font-size:1rem}.cards{grid-template-columns:1fr}.check-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>러버블(Lovable) 입문 교안</h1>
+  <p>바이브코딩으로 나만의 웹사이트를 만들고 배포하기까지, 수준별 맞춤 가이드 </p>
+  <div class="badge">2026년 3월 She Builds on Lovable 이벤트</div>
+</div>
+
+<div class="container">
+
+  <div class="self-check">
+    <h2>어떤 교안을 봐야 할까요?</h2>
+    <div class="check-grid">
+      <div class="check-item">
+        <div class="q">AI 챗봇(ChatGPT, 제미나이 등)을 써본 적이 있나요?</div>
+        <div class="a">아니오 → <span>초보자편</span> &nbsp;|&nbsp; 예 → 다음 질문으로</div>
+      </div>
+      <div class="check-item">
+        <div class="q">"프론트엔드", "백엔드" 같은 개발 용어가 익숙한가요?</div>
+        <div class="a">아니오 → <span>중급자편</span> &nbsp;|&nbsp; 예 → 다음 질문으로</div>
+      </div>
+      <div class="check-item">
+        <div class="q">코딩(HTML/JS/Python 등)을 직접 해본 경험이 있나요?</div>
+        <div class="a">아니오 → <span>중급자편</span> &nbsp;|&nbsp; 예 → <span>개발자편</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">수준별 교안 선택</h2>
+  <p class="section-desc">나에게 맞는 교안을 선택하세요. 모든 교안에 사전 준비부터 배포까지 포함되어 있습니다.</p>
+
+  <div class="cards">
+    <a href="beginner.html" class="card">
+      <div class="card-icon green">🌱</div>
+      <h3>초보자편</h3>
+      <div class="level">BEGINNER · 약 3~4시간</div>
+      <p>바이브코딩과 노코드 툴을 처음 접하는 분을 위한 교안. 용어 해설부터 시작하여 나만의 웹사이트를 만들고 공개합니다.</p>
+      <div class="tag-list">
+        <span class="tag">용어 해설</span>
+        <span class="tag">가입 가이드</span>
+        <span class="tag">포트폴리오 실습</span>
+        <span class="tag">FAQ</span>
+      </div>
+      <span class="cta">교안 보기</span>
+    </a>
+
+    <a href="intermediate.html" class="card">
+      <div class="card-icon blue">🚀</div>
+      <h3>중급자편</h3>
+      <div class="level">INTERMEDIATE · 약 4~5시간</div>
+      <p>AI 도구 경험이 있는 분을 위한 교안. 체계적인 기획 문서(PRD/IA/ERD)로 기능성 웹앱을 제작합니다.</p>
+      <div class="tag-list">
+        <span class="tag">도구 비교</span>
+        <span class="tag">PRD 작성 실습</span>
+        <span class="tag">Chat 모드 전략</span>
+        <span class="tag">DB 연결</span>
+      </div>
+      <span class="cta">교안 보기</span>
+    </a>
+
+    <a href="developer.html" class="card">
+      <div class="card-icon orange">⚡</div>
+      <h3>개발자편</h3>
+      <div class="level">DEVELOPER · 약 3~4시간</div>
+      <p>코딩 기초가 있는 분을 위한 교안. 기술 아키텍처를 이해하고, 생성된 코드를 커스터마이징하여 활용합니다.</p>
+      <div class="tag-list">
+        <span class="tag">React 스택 분석</span>
+        <span class="tag">코드 수정</span>
+        <span class="tag">서비스 연동</span>
+        <span class="tag">마이그레이션</span>
+      </div>
+      <span class="cta">교안 보기</span>
+    </a>
+  </div>
+
+  <div class="event-banner">
+    <h2>She Builds on Lovable 이벤트 혜택</h2>
+    <p>참가 자격 제한 없이 누구나 참여 가능합니다</p>
+    <div class="benefits">
+      <div class="benefit">🔨 25시간 무료 빌드</div>
+      <div class="benefit">💰 $100 API 크레딧</div>
+      <div class="benefit">💳 $250 Stripe 크레딧</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.
+</footer>
+
+</body>
+</html>
