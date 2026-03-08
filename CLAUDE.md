@@ -55,6 +55,8 @@
 ├── claude-code-developer.html     ← Claude Code 개발자편 교안
 ├── 교안_claude-code_developer.md  ← Claude Code 개발자편 MD 원본
 │
+├── compare.html                   ← 도구 비교 독립 페이지
+│
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
 ├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
 ├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html

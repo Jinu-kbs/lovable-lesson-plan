@@ -34,7 +34,7 @@
 ├── Claude Code
 │   └── /claude-code-developer.html ─── 개발자편
 │
-├── /compare.html ─── 도구 비교 (준비 중)
+├── /compare.html ─── 도구 비교
 │
 └── 리다이렉트 스텁 (기존 URL 호환)
     ├── /beginner.html → lovable-beginner.html
@@ -395,6 +395,21 @@ Sidebar (목차)                     Content (본문)
 출처                               출처 테이블
 ```
 
+### 13. 도구 비교 (compare.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [도구 비교(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+1. 한눈에 비교                     확장 비교표 (13행×5열)
+2. 도구별 상세                     5개 도구 카드 (특징·장단점·교안 링크)
+3. 상황별 추천                     직군별 추천 매트릭스
+4. 조합 활용                       도구 조합 전략
+5. 요금 비교                       무료/유료 요금제 비교표
+6. 학습 경로                       수준별 학습 순서 다이어그램
+```
+
 ## 네비게이션 흐름
 
 ```
@@ -449,6 +464,9 @@ cursor-intermediate.html
 cursor-developer.html
     ├─[topnav 초보자편]──→ cursor-beginner.html
     └─[topnav 중급자편]──→ cursor-intermediate.html
+
+compare.html
+    └─[topnav 바이브코딩 가이드]──→ index.html
 
 aistudio-beginner.html
     └─[topnav 바이브코딩 가이드]──→ index.html
