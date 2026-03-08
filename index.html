@@ -75,13 +75,7 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
 .bulletin-board button:hover {background: var(--primary-light);}
 .bulletin-board .bb-posts {list-style: none; padding: 0; margin: 0;}
 .bulletin-board .bb-posts li {background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: .95rem;}
-.bulletin-board {margin: 40px auto; max-width: 800px; padding: 20px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;}
-.bulletin-board .bb-form {display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;}
-.bulletin-board textarea {resize: vertical; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit;}
-.bulletin-board button {align-self: flex-start; background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer;}
-.bulletin-board button:hover {background: var(--primary-light);}
-.bulletin-board .bb-posts {list-style: none; padding: 0; margin: 0;}
-.bulletin-board .bb-posts li {background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: .95rem;}
+.bulletin-board .bb-empty {color: var(--text-light); text-align: center; padding: 20px; font-size: .9rem;}
 </style>
 </head>
 <body>
@@ -100,8 +94,8 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
     바이브코딩으로 나만의 웹사이트를 만들고 배포하기까지, 저만 믿고 따라오세요!</p>
   <p>아래에서 초급, 중급, 고급 중 본인에게 맞는 교안을 선택하여 시작해 보세요.</p>
   <div class="social-links" style="margin-top:10px;">
-    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" style="color: var(--text-light); text-decoration: underline; margin-right:10px;">쓰레드(Threads)</a>
-    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" style="color: var(--text-light); text-decoration: underline;">인스타그램(Instagram)</a>
+    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,.85); text-decoration: underline; margin-right:10px;">쓰레드(Threads)</a>
+    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: rgba(255,255,255,.85); text-decoration: underline;">인스타그램(Instagram)</a>
   </div>
   <p>본 자료는 생성형인공지능을 사용한 자료입니다.<br>
   현실을 제대로 반영하지 못했을 수도 있습니다.<br>
@@ -193,18 +187,19 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
   <h2 class="section-title">사용자 후기·질문</h2>
   <p class="section-desc">로그인 없이 자유롭게 의견을 남겨 주세요. 모두가 함께 답변합니다.</p>
   <form id="bb-form" class="bb-form">
-    <textarea id="bb-input" placeholder="여기에 의견을 입력하세요..." rows="3" required></textarea>
+    <textarea id="bb-input" placeholder="여기에 의견을 입력하세요..." rows="3" maxlength="500" required></textarea>
     <button type="submit">작성</button>
   </form>
   <ul id="bb-posts" class="bb-posts"></ul>
 </section>
 <footer>
   <div style="margin-bottom: 10px;">본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.</div>
-  <div>
-    제공: 김선생 | 
-    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" style="color: var(--text-light); text-decoration: underline;">쓰레드(Threads)</a> | 
-    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" style="color: var(--text-light); text-decoration: underline;">인스타그램(Instagram)</a>
+  <div style="margin-bottom: 10px;">
+    제공: 김선생 |
+    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: underline;">쓰레드(Threads)</a> |
+    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer" style="color: var(--text-light); text-decoration: underline;">인스타그램(Instagram)</a>
   </div>
+  <div style="font-size: .8rem; color: var(--text-light);">본 교안은 자유롭게 공유할 수 있습니다. 블로그, SNS 등에 공유 시 출처(URL)를 함께 표기해 주세요.</div>
 </footer>
 
 <script>
@@ -218,6 +213,13 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
     const stored = localStorage.getItem(STORAGE_KEY);
     const posts = stored ? JSON.parse(stored) : [];
     postsUl.innerHTML = '';
+    if (posts.length === 0) {
+      const empty = document.createElement('li');
+      empty.className = 'bb-empty';
+      empty.textContent = '아직 작성된 글이 없습니다. 첫 번째 의견을 남겨보세요!';
+      postsUl.appendChild(empty);
+      return;
+    }
     posts.forEach(p => {
       const li = document.createElement('li');
       li.textContent = `${p.time} - ${p.text}`;
