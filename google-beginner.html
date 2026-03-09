@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구글 생태계 교안 - 초보자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#4285F4;--primary-light:#AECBFA;--blockquote-bg:#E8F0FE;--hover-bg:#F5F9FF}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="google-beginner.html" class="active">초보자편</a>
+  <a href="google-intermediate.html">중급자편</a>
+  <a href="google-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🔍 초보자편</h1>
+  <div class="meta">대상: 구글 계정은 있지만 도구를 체계적으로 활용하지 못하는 입문자 · 목표: 핵심 구글 도구의 기본 기능을 이해하고 실습 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 구글 생태계란?</a>
+  <a href="#s2">2. Google 계정과 Workspace</a>
+  <a href="#s3">3. Google Docs</a>
+  <a href="#s4">4. Google Sheets</a>
+  <a href="#s5">5. Google Slides</a>
+  <a href="#s6">6. Google Forms</a>
+  <a href="#s7">7. Google Drive</a>
+  <a href="#s8">8. NotebookLM 입문</a>
+  <a href="#s9">9. Gemini 활용 기초</a>
+  <a href="#s10">10. Google Maps·번역·렌즈</a>
+  <a href="#s11">11. 종합 실습</a>
+  <a href="#s12">12. 트러블슈팅 &amp; FAQ</a>
+  <a href="#s13">13. 다음 단계</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<p>이 교안은 <strong>구글 계정은 있지만 도구를 체계적으로 사용해본 적 없는 분</strong>을 위한 입문 과정입니다.</p>
+<table>
+  <tr><th>항목</th><th>자가 점검</th></tr>
+  <tr><td>구글 계정</td><td>구글 계정으로 로그인할 수 있다</td></tr>
+  <tr><td>Google Docs</td><td>문서를 만들어본 적이 있다</td></tr>
+  <tr><td>Google Sheets</td><td>스프레드시트에 데이터를 입력해본 적이 있다</td></tr>
+  <tr><td>Google Drive</td><td>파일을 업로드하거나 공유해본 적이 있다</td></tr>
+</table>
+<blockquote><p>위 항목 중 2개 이상 해당하지 않는다면 → <strong>이 교안(초보자편)</strong>이 딱 맞습니다!<br>위 항목 모두 해당하고 고급 함수·자동화를 배우고 싶다면 → <strong>중급자편</strong> 교안을 추천합니다.</p></blockquote>
+
+<h3 id="resources">📌 추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Google Workspace 학습 센터</strong></td><td>구글 공식 도움말 및 튜토리얼</td><td><a href="https://support.google.com/a/users" target="_blank">support.google.com/a/users</a></td></tr>
+  <tr><td><strong>Google Docs 도움말</strong></td><td>Docs 공식 사용 가이드</td><td><a href="https://support.google.com/docs" target="_blank">support.google.com/docs</a></td></tr>
+  <tr><td><strong>Google Sheets 함수 목록</strong></td><td>Sheets 전체 함수 레퍼런스</td><td><a href="https://support.google.com/docs/table/25273" target="_blank">support.google.com/docs/table/25273</a></td></tr>
+  <tr><td><strong>NotebookLM</strong></td><td>Google AI 기반 리서치 도구</td><td><a href="https://notebooklm.google.com/" target="_blank">notebooklm.google.com</a></td></tr>
+  <tr><td><strong>Gemini</strong></td><td>Google AI 챗봇</td><td><a href="https://gemini.google.com/" target="_blank">gemini.google.com</a></td></tr>
+</table>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. 구글 생태계란?</h2>
+<h3>학습 목표</h3>
+<ul><li>구글이 제공하는 주요 서비스와 각각의 용도를 파악한다</li><li>구글 생태계의 핵심 강점을 이해한다</li><li>무료와 유료(Google Workspace) 플랜의 차이를 안다</li></ul>
+<h3>1-1. 주요 서비스 한눈에 보기</h3>
+<p>구글은 하나의 계정으로 수십 가지 서비스를 무료로 이용할 수 있는 거대한 디지털 생태계입니다.</p>
+<div class="table-wrapper"><table>
+  <tr><th>서비스</th><th>아이콘</th><th>설명</th><th>주요 용도</th></tr>
+  <tr><td><strong>Gmail</strong></td><td>✉️</td><td>이메일 서비스</td><td>메일 송수신, 일정 연동</td></tr>
+  <tr><td><strong>Google Drive</strong></td><td>📁</td><td>클라우드 저장소</td><td>파일 저장, 공유, 협업</td></tr>
+  <tr><td><strong>Google Docs</strong></td><td>📝</td><td>문서 작성 도구</td><td>보고서, 기안문, 회의록</td></tr>
+  <tr><td><strong>Google Sheets</strong></td><td>📊</td><td>스프레드시트</td><td>데이터 관리, 계산, 차트</td></tr>
+  <tr><td><strong>Google Slides</strong></td><td>📽️</td><td>프레젠테이션</td><td>발표 자료 제작</td></tr>
+  <tr><td><strong>Google Forms</strong></td><td>📋</td><td>설문조사 도구</td><td>설문, 퀴즈, 신청서</td></tr>
+  <tr><td><strong>Google Calendar</strong></td><td>📅</td><td>일정 관리</td><td>스케줄, 미팅, 알림</td></tr>
+  <tr><td><strong>Google Meet</strong></td><td>🎥</td><td>화상 회의</td><td>온라인 미팅, 수업</td></tr>
+  <tr><td><strong>Google Maps</strong></td><td>🗺️</td><td>지도 서비스</td><td>길찾기, 장소 검색</td></tr>
+  <tr><td><strong>Google 번역</strong></td><td>🌐</td><td>번역 서비스</td><td>텍스트/음성/카메라 번역</td></tr>
+  <tr><td><strong>Google 렌즈</strong></td><td>🔍</td><td>이미지 인식</td><td>사진 검색, 텍스트 추출</td></tr>
+  <tr><td><strong>YouTube</strong></td><td>▶️</td><td>동영상 플랫폼</td><td>영상 시청, 업로드</td></tr>
+  <tr><td><strong>Google Photos</strong></td><td>🖼️</td><td>사진 저장소</td><td>사진/동영상 백업, 편집</td></tr>
+  <tr><td><strong>NotebookLM</strong></td><td>📓</td><td>AI 리서치 도구</td><td>자료 분석, 요약</td></tr>
+  <tr><td><strong>Gemini</strong></td><td>✨</td><td>AI 챗봇</td><td>질문 답변, 글쓰기, 분석</td></tr>
+</table></div>
+<h3>1-2. 구글 생태계의 핵심 강점</h3>
+<p><strong>1. 무료</strong> — 대부분의 핵심 서비스를 무료로 이용할 수 있습니다.</p>
+<ul><li>Gmail 15GB, Drive 15GB, Docs/Sheets/Slides 무제한 생성</li><li>추가 비용 없이 팀 협업 기능까지 제공</li></ul>
+<p><strong>2. 통합</strong> — 하나의 계정으로 모든 서비스가 연결됩니다.</p>
+<ul><li>Gmail에서 받은 첨부파일이 자동으로 Drive에 저장</li><li>Docs에서 작성한 문서를 Slides에서 바로 참조</li><li>Calendar 일정에 Meet 링크 자동 생성</li></ul>
+<p><strong>3. 클라우드</strong> — 인터넷만 있으면 어디서든 접근할 수 있습니다.</p>
+<ul><li>설치할 프로그램이 없습니다 (브라우저에서 모두 실행)</li><li>자동 저장 — 별도로 저장 버튼을 누를 필요가 없습니다</li><li>PC, 스마트폰, 태블릿 어디서든 동일한 파일에 접근</li></ul>
+<p><strong>4. 협업</strong> — 여러 사람이 동시에 같은 문서를 편집할 수 있습니다.</p>
+<ul><li>실시간 공동 편집 (다른 사람의 커서가 보임)</li><li>댓글, 제안 모드로 피드백 교환</li><li>공유 링크 하나로 누구에게나 전달 가능</li></ul>
+<h3>1-3. 무료 vs 유료(Google Workspace) 비교</h3>
+<div class="table-wrapper"><table>
+  <tr><th>항목</th><th>무료 (개인 계정)</th><th>Google Workspace (유료)</th></tr>
+  <tr><td>이메일</td><td>Gmail (@gmail.com)</td><td>맞춤 도메인 (@회사명.com)</td></tr>
+  <tr><td>저장 용량</td><td>15GB (Gmail+Drive+Photos 합산)</td><td>30GB ~ 무제한 (플랜별 상이)</td></tr>
+  <tr><td>관리 콘솔</td><td>없음</td><td>조직 관리, 사용자 관리 가능</td></tr>
+  <tr><td>보안</td><td>기본</td><td>고급 보안, DLP, 감사 로그</td></tr>
+  <tr><td>지원</td><td>커뮤니티 포럼</td><td>24/7 기술 지원</td></tr>
+  <tr><td>Gemini</td><td>기본 (Flash 모델)</td><td>Advanced (Ultra 모델)</td></tr>
+  <tr><td>가격</td><td>무료</td><td>월 $7.20~ (플랜별 상이)</td></tr>
+</table></div>
+<blockquote><p><strong>팁</strong>: 개인 사용자라면 무료 계정으로도 충분합니다. 학교·기업 등 조직 단위로 사용할 때 Google Workspace를 고려하세요.</p></blockquote>
+<h3>1-4. 구글 앱 생태계 전체 조감도</h3>
+<p>구글 서비스들은 서로 긴밀하게 연결되어 있습니다.</p>
+<pre><code>        Gmail (이메일)
+            │ 첨부파일 자동 저장
+        Google Drive (클라우드)
+       ┌────┼────┐
+    Docs  Sheets  Slides
+       └────┼────┘
+          Forms (설문조사)
+            │ 응답 데이터
+        NotebookLM ◄── Gemini (AI 지원)</code></pre>
+<blockquote><p><strong>팁</strong>: 구글 서비스의 가장 큰 매력은 이 연동입니다. Forms의 응답이 Sheets로 자동 저장되고, Docs의 내용을 NotebookLM에서 분석할 수 있습니다.</p></blockquote>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. Google 계정과 Workspace</h2>
+<h3>학습 목표</h3>
+<ul><li>구글 계정을 만들고 기본 설정을 관리할 수 있다</li><li>2단계 인증을 설정하여 계정 보안을 강화할 수 있다</li><li>계정 복구 방법을 알고 대비할 수 있다</li></ul>
+<h3>2-1. 구글 계정 만들기</h3>
+<p>구글 계정은 모든 구글 서비스의 출발점입니다. 이미 Gmail 주소가 있다면 별도 가입 없이 바로 사용할 수 있습니다.</p>
+<pre><code>1. accounts.google.com 접속
+2. "계정 만들기" 클릭
+3. 이름 입력 (성, 이름)
+4. 원하는 Gmail 주소 선택 (예: myname@gmail.com)
+5. 비밀번호 설정 (8자 이상, 영문+숫자+특수문자 조합 권장)
+6. 전화번호 인증 (선택이지만 보안을 위해 권장)
+7. 복구 이메일 설정 (비밀번호 분실 시 필요)
+8. 생년월일, 성별 입력
+9. 약관 동의 후 완료</code></pre>
+<blockquote><p><strong>주의</strong>: 이미 구글 계정이 있다면 새로 만들 필요 없습니다. 하나의 계정으로 모든 서비스를 이용할 수 있습니다.</p></blockquote>
+<h3>2-2. 계정 관리하기</h3>
+<p>계정 설정은 <a href="https://myaccount.google.com" target="_blank">myaccount.google.com</a>에서 관리합니다.</p>
+<div class="table-wrapper"><table>
+  <tr><th>메뉴</th><th>설명</th><th>확인 사항</th></tr>
+  <tr><td><strong>개인정보</strong></td><td>이름, 생일, 프로필 사진</td><td>프로필 사진 설정</td></tr>
+  <tr><td><strong>데이터 및 개인 정보 보호</strong></td><td>활동 기록, 광고 설정</td><td>웹 활동 기록 관리</td></tr>
+  <tr><td><strong>보안</strong></td><td>비밀번호, 2단계 인증</td><td>보안 점검 실행</td></tr>
+  <tr><td><strong>사람 및 공유</strong></td><td>연락처, 공유 설정</td><td>공유 기본값 확인</td></tr>
+  <tr><td><strong>결제 및 구독</strong></td><td>Google One, 결제 수단</td><td>구독 상태 확인</td></tr>
+</table></div>
+<h3>2-3. 2단계 인증 설정 (필수!)</h3>
+<p>2단계 인증은 비밀번호가 유출되더라도 계정을 보호하는 가장 중요한 보안 설정입니다.</p>
+<pre><code>1. myaccount.google.com → 보안 탭
+2. "Google에 로그인하는 방법" 섹션
+3. "2단계 인증" 클릭 → "시작하기"
+4. 인증 방법 선택:
+   - Google 메시지 (추천): 스마트폰에 알림
+   - 인증 앱: Google Authenticator 등
+   - 문자 메시지: SMS 인증 코드
+   - 보안 키: 물리적 USB 키
+5. 백업 코드 저장 (반드시 안전한 곳에 보관!)</code></pre>
+<blockquote><p><strong>⚠️ 중요</strong>: 백업 코드는 스마트폰을 분실했을 때 계정에 접근하는 유일한 방법입니다. 반드시 인쇄하거나 안전한 곳에 저장하세요.</p></blockquote>
+<h3>2-4. Google Workspace 개요</h3>
+<div class="table-wrapper"><table>
+  <tr><th>구분</th><th>개인 계정</th><th>Google Workspace</th></tr>
+  <tr><td>대상</td><td>개인 사용자</td><td>기업, 학교, 단체</td></tr>
+  <tr><td>이메일</td><td>@gmail.com</td><td>@회사명.com (맞춤 도메인)</td></tr>
+  <tr><td>관리</td><td>본인만 관리</td><td>IT 관리자가 조직 전체 관리</td></tr>
+  <tr><td>비용</td><td>무료</td><td>유료 (교육기관은 무료 가능)</td></tr>
+  <tr><td>특징</td><td>개인 파일 관리</td><td>공유 드라이브, 관리 콘솔, 감사 로그</td></tr>
+</table></div>
+<blockquote><p><strong>팁</strong>: 학교에서 Google Workspace for Education을 사용한다면 <code>@학교도메인.kr</code> 형태의 계정이 제공됩니다.</p></blockquote>
+<h3>2-5. 보안 설정 필수 항목</h3>
+<pre><code>✅ 체크리스트:
+□ 2단계 인증 활성화    □ 복구 전화번호 등록
+□ 복구 이메일 등록     □ 보안 점검 실행
+□ 연결된 타사 앱 검토  □ 최근 보안 활동 확인
+□ 백업 코드 저장</code></pre>
+<h3>2-6. 계정 복구 방법</h3>
+<pre><code>1. accounts.google.com/signin/recovery 접속
+2. 이메일 주소 입력
+3. 복구 옵션 선택:
+   - 등록된 전화번호로 인증 코드 수신
+   - 복구 이메일로 인증 코드 수신
+   - 백업 코드 입력
+4. 본인 확인 후 새 비밀번호 설정</code></pre>
+<blockquote><p><strong>팁</strong>: 복구 전화번호와 복구 이메일을 미리 등록해두는 것이 가장 중요합니다.</p></blockquote>
+<h3>실습 과제: 계정 보안 점검</h3>
+<pre><code>[실습] 내 구글 계정 보안 강화하기
+
+1. myaccount.google.com 접속 → 보안 탭
+2. 2단계 인증 활성화 확인 (없으면 지금 설정)
+3. 복구 전화번호·이메일 등록 확인
+4. "보안 점검" 실행 → 모든 항목 초록색으로
+5. 연결된 타사 앱 검토 → 미사용 앱 삭제
+
+⏱️ 예상 소요: 10~15분</code></pre>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. Google Docs</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Docs에서 새 문서를 만들고 기본 서식을 적용할 수 있다</li><li>실시간 협업 기능(공유, 댓글, 제안 모드)을 사용할 수 있다</li><li>문서를 다양한 형식(PDF, Word)으로 내보낼 수 있다</li></ul>
+<h3>3-1. 문서 작성 기초</h3>
+<p>Google Docs는 클라우드 기반 문서 작성 도구입니다. Microsoft Word와 비슷하지만, 설치 없이 브라우저에서 바로 사용할 수 있고, 자동 저장됩니다.</p>
+<pre><code>새 문서 만들기:
+  방법 1: docs.google.com → "빈 문서" 클릭
+  방법 2: drive.google.com → "새로 만들기" → "Google 문서"
+  방법 3: 브라우저 주소창에 docs.new 입력</code></pre>
+<blockquote><p><strong>팁</strong>: <code>docs.new</code>를 주소창에 입력하면 즉시 새 문서가 열립니다. <code>sheets.new</code>, <code>slides.new</code>, <code>forms.new</code>도 마찬가지입니다!</p></blockquote>
+<h3>3-2. 기본 서식 적용</h3>
+<div class="table-wrapper"><table>
+  <tr><th>서식</th><th>방법</th><th>단축키</th></tr>
+  <tr><td><strong>굵게</strong></td><td>도구 모음의 B</td><td><code>Ctrl + B</code></td></tr>
+  <tr><td><em>기울임</em></td><td>도구 모음의 I</td><td><code>Ctrl + I</code></td></tr>
+  <tr><td><u>밑줄</u></td><td>도구 모음의 U</td><td><code>Ctrl + U</code></td></tr>
+  <tr><td><s>취소선</s></td><td>서식 → 텍스트 → 취소선</td><td><code>Alt + Shift + 5</code></td></tr>
+  <tr><td>글꼴 변경</td><td>도구 모음 드롭다운</td><td>—</td></tr>
+  <tr><td>글자 크기</td><td>도구 모음 크기 입력</td><td>—</td></tr>
+</table></div>
+<h3>3-3. 제목/본문 스타일과 목차</h3>
+<pre><code>스타일 적용:
+  1. 텍스트 선택 → "일반 텍스트" 드롭다운 클릭
+  2. 스타일 선택: 제목/부제목/제목 1~3/일반 텍스트
+
+목차 자동 생성:
+  1. 커서를 원하는 위치에 놓기
+  2. 메뉴 → 삽입 → 목차 → 스타일 선택
+  3. 제목 변경 시 목차 옆 🔄 버튼으로 업데이트</code></pre>
+<blockquote><p><strong>팁</strong>: 제목 스타일을 쓰면 문서 좌측 "개요" 패널에서도 빠르게 이동할 수 있습니다. (보기 → 개요 표시)</p></blockquote>
+<h3>3-4. 실시간 협업</h3>
+<pre><code>문서 공유하기:
+  1. 우측 상단 "공유" 버튼 클릭
+  2. 특정 사용자: 이메일 입력 / 링크 공유: "링크가 있는 모든 사용자"
+  3. 권한: 뷰어(보기만) / 댓글 작성자 / 편집자
+
+댓글 달기:
+  텍스트 선택 → 💬 아이콘 (또는 Ctrl+Alt+M) → 댓글 입력
+
+제안 모드:
+  우측 상단 ✏️ → "제안" 선택 → 원본 유지하며 수정 제안</code></pre>
+<blockquote><p><strong>팁</strong>: 제안 모드는 교사가 학생 글을 첨삭하거나, 팀원이 보고서를 검토할 때 매우 유용합니다.</p></blockquote>
+<h3>3-5. 음성 입력 활용</h3>
+<pre><code>1. 메뉴 → 도구 → 음성 입력 (또는 Ctrl + Shift + S)
+2. 마이크 아이콘 클릭 → 말하기 → 자동 텍스트 변환
+음성 명령: "마침표" → .  "쉼표" → ,  "줄 바꿈" "새 단락"</code></pre>
+<blockquote><p><strong>주의</strong>: 음성 입력은 Chrome 브라우저에서만 지원됩니다.</p></blockquote>
+<h3>3-6. 문서 내보내기</h3>
+<pre><code>메뉴 → 파일 → 다운로드
+지원: Word(.docx), PDF, RTF, TXT, HTML, EPUB</code></pre>
+<h3>실습 과제: 간단한 보고서 작성</h3>
+<pre><code>[실습] "내가 좋아하는 여행지" 보고서 만들기
+
+1. docs.new로 새 문서 생성
+2. 제목: "내가 좋아하는 여행지 TOP 3"
+3. 제목 스타일 적용 (제목 1: 여행지, 제목 2: 위치/추천이유/꿀팁)
+4. 각 여행지 2~3줄 설명 + 이미지 삽입
+5. 목차 자동 생성 → PDF 내보내기
+
+⏱️ 예상 소요: 20~30분</code></pre>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. Google Sheets</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Sheets의 기본 인터페이스와 셀/행/열 개념을 이해한다</li><li>핵심 함수 10가지를 사용하여 데이터를 계산할 수 있다</li><li>차트를 만들고, 필터와 정렬로 데이터를 정리할 수 있다</li></ul>
+<h3>4-1. 스프레드시트 기초</h3>
+<p>Google Sheets는 데이터를 표 형태로 관리하고 계산하는 도구입니다. Microsoft Excel과 유사합니다.</p>
+<div class="table-wrapper"><table>
+  <tr><th>용어</th><th>설명</th><th>예시</th></tr>
+  <tr><td><strong>셀(Cell)</strong></td><td>데이터를 입력하는 가장 작은 단위</td><td>A1, B3, C10</td></tr>
+  <tr><td><strong>행(Row)</strong></td><td>가로줄 (숫자로 표시)</td><td>1행, 2행, 3행...</td></tr>
+  <tr><td><strong>열(Column)</strong></td><td>세로줄 (알파벳으로 표시)</td><td>A열, B열, C열...</td></tr>
+  <tr><td><strong>시트(Sheet)</strong></td><td>하나의 탭 (하단에 탭으로 표시)</td><td>Sheet1, Sheet2</td></tr>
+  <tr><td><strong>범위(Range)</strong></td><td>여러 셀의 묶음</td><td>A1:C10</td></tr>
+  <tr><td><strong>수식(Formula)</strong></td><td>계산을 위한 식 (= 으로 시작)</td><td>=A1+B1</td></tr>
+</table></div>
+<pre><code>새 스프레드시트 만들기:
+  방법 1: sheets.google.com → "빈 스프레드시트"
+  방법 2: 브라우저 주소창에 sheets.new 입력
+  방법 3: Drive → 새로 만들기 → Google 스프레드시트</code></pre>
+<h3>4-2. 핵심 함수 10선</h3>
+<p>함수는 <code>=함수이름(인수)</code> 형태로 셀에 입력합니다.</p>
+<pre><code>1. SUM — 합계
+  =SUM(A1:A10)          → A1~A10의 합계
+
+2. AVERAGE — 평균
+  =AVERAGE(A1:A10)      → A1~A10의 평균값
+
+3. COUNT / COUNTA — 개수 세기
+  =COUNT(A1:A10)        → 숫자가 있는 셀 개수
+  =COUNTA(A1:A10)       → 비어있지 않은 셀 개수
+
+4. MAX / MIN — 최대값 / 최소값
+  =MAX(A1:A10)          → 최대값
+  =MIN(A1:A10)          → 최소값
+
+5. IF — 조건 판단
+  =IF(A1>=60, "합격", "불합격")
+
+6. VLOOKUP — 세로 검색
+  =VLOOKUP("사과", A1:C10, 3, FALSE)
+
+7. CONCATENATE — 텍스트 합치기
+  =A1 &amp; " " &amp; B1
+
+8. TODAY / NOW — 오늘 날짜 / 현재 시간
+  =TODAY()    =NOW()
+
+9. COUNTIF — 조건부 개수
+  =COUNTIF(A1:A10, "합격")
+
+10. SUMIF — 조건부 합계
+  =SUMIF(A1:A10, "서울", C1:C10)</code></pre>
+<blockquote><p><strong>팁</strong>: 함수를 외울 필요 없습니다! 셀에 <code>=</code>을 입력하고 함수 이름의 처음 몇 글자만 치면 자동완성 목록이 나타납니다.</p></blockquote>
+<h3>4-3. 서식 지정</h3>
+<pre><code>조건부 서식:
+  1. 범위 선택 → 서식 → 조건부 서식
+  2. 조건 설정 (예: 90 이상 → 초록, 60 미만 → 빨강)
+
+셀 병합: 범위 선택 → 도구 모음 "셀 병합" 아이콘
+테두리: 범위 선택 → 도구 모음 "테두리" 아이콘</code></pre>
+<h3>4-4. 차트 만들기</h3>
+<pre><code>1. 데이터 범위 선택 (헤더 포함)
+2. 삽입 → 차트
+3. 차트 유형 선택 → 맞춤설정으로 제목·색상 수정</code></pre>
+<div class="table-wrapper"><table>
+  <tr><th>차트 유형</th><th>적합한 상황</th><th>예시</th></tr>
+  <tr><td>막대형</td><td>항목별 비교</td><td>과목별 성적, 월별 매출</td></tr>
+  <tr><td>원형</td><td>비율/구성</td><td>지출 비율, 시장 점유율</td></tr>
+  <tr><td>꺾은선형</td><td>시간 변화 추이</td><td>기온 변화, 주가 추이</td></tr>
+  <tr><td>분산형</td><td>상관관계</td><td>키와 몸무게, 공부시간과 성적</td></tr>
+</table></div>
+<h3>4-5. 필터와 정렬</h3>
+<pre><code>정렬: 열 클릭 → 데이터 → 시트 정렬 (A→Z 또는 Z→A)
+필터: 데이터 → 필터 만들기 → 드롭다운(▼)에서 값 선택</code></pre>
+<blockquote><p><strong>팁</strong>: "필터 보기"를 사용하면 다른 사용자에게 영향 주지 않고 본인만의 필터를 적용할 수 있습니다.</p></blockquote>
+<h3>실습 과제: 가계부 만들기</h3>
+<pre><code>[실습] 1주일 가계부 만들기
+
+1. sheets.new로 새 스프레드시트 생성
+2. 헤더: 날짜 | 분류 | 내용 | 수입 | 지출
+3. 7~10건 데이터 입력
+4. 함수: SUM(총수입/총지출), AVERAGE, MAX, COUNTIF, SUMIF
+5. 조건부 서식: 지출 50,000원 이상 → 빨간 배경
+6. 분류별 지출 원형 차트 만들기
+
+⏱️ 예상 소요: 25~30분</code></pre>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. Google Slides</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Slides에서 프레젠테이션을 처음부터 만들 수 있다</li><li>테마, 이미지, 도형 등을 활용하여 시각적인 슬라이드를 제작할 수 있다</li><li>발표자 모드를 사용하여 효과적으로 발표할 수 있다</li></ul>
+<h3>5-1. 프레젠테이션 작성 기초</h3>
+<pre><code>새 프레젠테이션 만들기:
+  방법 1: slides.google.com → "빈 프레젠테이션"
+  방법 2: 브라우저 주소창에 slides.new 입력
+  방법 3: Drive → 새로 만들기 → Google 프레젠테이션</code></pre>
+<h3>5-2. 테마 선택과 마스터 슬라이드</h3>
+<pre><code>테마 적용: 슬라이드 → 테마 변경 → 원하는 테마 클릭</code></pre>
+<div class="table-wrapper"><table>
+  <tr><th>레이아웃</th><th>용도</th></tr>
+  <tr><td>제목 슬라이드</td><td>첫 페이지, 큰 제목과 부제</td></tr>
+  <tr><td>섹션 헤더</td><td>새로운 장(섹션)의 시작</td></tr>
+  <tr><td>제목과 본문</td><td>가장 일반적, 제목 + 내용</td></tr>
+  <tr><td>제목만</td><td>제목 아래 자유 배치</td></tr>
+  <tr><td>빈 슬라이드</td><td>완전 자유 레이아웃</td></tr>
+  <tr><td>두 열</td><td>좌우 비교, 대조</td></tr>
+</table></div>
+<h3>5-3. 콘텐츠 삽입</h3>
+<pre><code>이미지: 삽입 → 이미지 → 컴퓨터/웹검색/Drive/URL/카메라
+도형:  삽입 → 도형 → 카테고리 선택 → 드래그 (더블클릭으로 텍스트 입력)</code></pre>
+<h3>5-4. 전환 효과와 애니메이션</h3>
+<pre><code>슬라이드 전환: 슬라이드 → 전환 → 효과 선택 (페이드, 디졸브 등)
+개체 애니메이션: 개체 클릭 → 삽입 → 애니메이션 → 유형/시작조건/속도 설정</code></pre>
+<blockquote><p><strong>팁</strong>: 전환 효과와 애니메이션은 적당히 사용하세요. 프로페셔널한 발표에서는 "페이드" 정도만 사용하는 경우가 많습니다.</p></blockquote>
+<h3>5-5. 발표자 모드 활용</h3>
+<pre><code>발표자 보기: 슬라이드쇼 → 발표자 보기
+  - 현재/다음 슬라이드, 발표자 노트, 경과 시간 표시
+  - Q&amp;A 기능: 청중이 URL로 실시간 질문 가능</code></pre>
+<h3>실습 과제: 자기소개 프레젠테이션</h3>
+<pre><code>[실습] "나를 소개합니다" 프레젠테이션 (5~7장)
+
+1장: 제목 (이름, 한 줄 소개)
+2장: 기본 정보
+3장: 관심사/취미 (이미지 포함)
+4장: 좋아하는 것 (도형 활용)
+5장: 올해의 목표
+6장: Q&amp;A / 감사 인사
+→ 이미지 3장+, 발표자 노트, 전환 효과 적용
+
+⏱️ 예상 소요: 25~30분</code></pre>
+
+<!-- SECTION 6 -->
+<h2 id="s6">6. Google Forms</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Forms로 다양한 유형의 설문조사를 만들 수 있다</li><li>섹션과 논리 분기를 활용하여 맞춤형 설문을 구성할 수 있다</li><li>응답 결과를 확인하고 스프레드시트로 내보낼 수 있다</li></ul>
+<h3>6-1. 설문조사 만들기</h3>
+<pre><code>forms.google.com → "빈 양식" 또는 forms.new
+→ 제목·설명 입력 → 문항 추가</code></pre>
+<h3>6-2. 문항 유형</h3>
+<div class="table-wrapper"><table>
+  <tr><th>유형</th><th>설명</th><th>적합한 상황</th></tr>
+  <tr><td><strong>단답형</strong></td><td>한 줄 텍스트</td><td>이름, 이메일</td></tr>
+  <tr><td><strong>장문형</strong></td><td>여러 줄 텍스트</td><td>의견, 소감</td></tr>
+  <tr><td><strong>객관식</strong></td><td>하나만 선택</td><td>성별, 만족도</td></tr>
+  <tr><td><strong>체크박스</strong></td><td>여러 개 선택</td><td>관심 분야, 참석 요일</td></tr>
+  <tr><td><strong>드롭다운</strong></td><td>목록에서 선택</td><td>학년, 지역</td></tr>
+  <tr><td><strong>파일 업로드</strong></td><td>파일 첨부</td><td>과제, 사진</td></tr>
+  <tr><td><strong>선형 배율</strong></td><td>숫자 척도 (1~10)</td><td>만족도, 동의 정도</td></tr>
+  <tr><td><strong>객관식 그리드</strong></td><td>행렬 형태 객관식</td><td>여러 항목 평가</td></tr>
+  <tr><td><strong>날짜/시간</strong></td><td>날짜 또는 시간 선택</td><td>생년월일, 희망 날짜</td></tr>
+</table></div>
+<h3>6-3. 섹션 나누기와 논리 분기</h3>
+<pre><code>섹션 나누기: 도구 모음 "섹션 추가" → 별도 페이지로 표시
+
+논리 분기:
+  객관식 문항 → ⋮ → "응답을 기반으로 섹션 이동"
+  각 옵션별 이동할 섹션 선택</code></pre>
+<blockquote><p><strong>팁</strong>: 논리 분기를 사용하면 응답자에게 꼭 필요한 질문만 보여줄 수 있어 설문 완료율이 높아집니다.</p></blockquote>
+<h3>6-4. 응답 수집과 스프레드시트 연동</h3>
+<pre><code>응답 확인: "응답" 탭 → 요약/질문별/개별 보기
+
+스프레드시트 연동:
+  "응답" 탭 → 스프레드시트 아이콘(📊) 클릭
+  → 새 스프레드시트 만들기 → 자동으로 응답 기록</code></pre>
+<h3>6-5. 퀴즈 모드 활용</h3>
+<pre><code>설정(톱니바퀴) → "퀴즈로 설정" 활성화
+→ 각 문항에서 "답안" 클릭하여 정답·배점 설정
+→ 오답 피드백 메시지 입력 가능</code></pre>
+<h3>실습 과제: 만족도 설문 만들기</h3>
+<pre><code>[실습] "워크숍 만족도 설문" 만들기
+
+섹션 1 — 기본 정보: 이름(단답형), 소속(드롭다운), 경력(객관식)
+섹션 2 — 만족도: 전체 만족도(선형 배율), 항목별(그리드), 유익한 내용(체크박스)
+섹션 3 — 서술형: 좋았던 점, 개선사항, 희망 주제
+→ 스프레드시트 연동 후 미리보기 테스트
+
+⏱️ 예상 소요: 20~25분</code></pre>
+
+<!-- SECTION 7 -->
+<h2 id="s7">7. Google Drive</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Drive에 파일을 업로드하고 체계적인 폴더 구조를 만들 수 있다</li><li>공유 권한(뷰어, 댓글 작성자, 편집자)을 이해하고 설정할 수 있다</li><li>검색 기능과 오프라인 설정을 활용할 수 있다</li></ul>
+<h3>7-1. 파일 업로드와 폴더 구조</h3>
+<pre><code>업로드: 드래그 앤 드롭 / "새로 만들기" → 파일·폴더 업로드
+
+효율적인 폴더 구조 예시:
+📁 내 드라이브
+├── 📁 업무 (학기별 하위 폴더)
+├── 📁 개인 (가계부, 여행, 자기개발)
+├── 📁 공유 프로젝트
+└── 📁 임시</code></pre>
+<blockquote><p><strong>팁</strong>: 폴더 이름 앞에 번호를 붙이면 원하는 순서로 정렬할 수 있습니다. 예: <code>01_수업자료</code>, <code>02_평가자료</code></p></blockquote>
+<h3>7-2. 공유 권한 설정</h3>
+<div class="table-wrapper"><table>
+  <tr><th>권한</th><th>설명</th><th>사용 예시</th></tr>
+  <tr><td><strong>뷰어</strong></td><td>보기만 가능</td><td>공지사항, 완성된 보고서</td></tr>
+  <tr><td><strong>댓글 작성자</strong></td><td>보기 + 댓글</td><td>초안 피드백 요청</td></tr>
+  <tr><td><strong>편집자</strong></td><td>모든 편집 가능</td><td>공동 작업 문서</td></tr>
+</table></div>
+<pre><code>공유 방법:
+  1. 파일 우클릭 → "공유" → 이메일 입력 또는 링크 공유
+  2. 권한 설정 후 "보내기"</code></pre>
+<blockquote><p><strong>⚠️ 주의</strong>: "링크가 있는 모든 사용자"로 공유하면 링크를 가진 누구나 접근할 수 있습니다. 민감한 자료는 특정 사용자에게만 공유하세요.</p></blockquote>
+<h3>7-3. 공유 드라이브 vs 내 드라이브</h3>
+<div class="table-wrapper"><table>
+  <tr><th>구분</th><th>내 드라이브</th><th>공유 드라이브</th></tr>
+  <tr><td>소유자</td><td>개인</td><td>팀/조직</td></tr>
+  <tr><td>멤버 탈퇴 시</td><td>파일은 본인 소유</td><td>파일은 팀에 그대로</td></tr>
+  <tr><td>사용 가능</td><td>모든 구글 계정</td><td>Workspace 계정만</td></tr>
+</table></div>
+<h3>7-4. 용량 관리 (15GB 무료)</h3>
+<pre><code>용량 차지: Gmail 첨부파일, 업로드 파일, Photos 원본
+용량 미차지: Docs/Sheets/Slides 자체, 타인이 공유한 파일
+
+용량 확보: Drive → 저장용량 → 큰 파일 정렬 → 삭제 → 휴지통 비우기</code></pre>
+<h3>7-5. 오프라인 설정</h3>
+<pre><code>Chrome에서: drive.google.com → 설정 → "오프라인" 체크
+개별 파일: 파일 우클릭 → "오프라인으로 사용 가능" 체크</code></pre>
+<h3>7-6. 검색 기능 활용</h3>
+<pre><code>검색 연산자:
+  type:document / type:spreadsheet / type:pdf
+  owner:me / before:2026-01-01 / after:2025-12-01
+  is:starred</code></pre>
+<h3>실습 과제: 프로젝트 폴더 구성</h3>
+<pre><code>[실습] 프로젝트 폴더 체계 만들기
+
+1. "구글 도구 실습" 폴더 생성
+2. 하위 폴더: 01_문서, 02_스프레드시트, 03_프레젠테이션, 04_설문조사, 05_참고자료
+3. 이전 실습 파일을 해당 폴더로 이동
+4. 별표 표시 → 검색 기능으로 파일 찾기
+
+⏱️ 예상 소요: 10~15분</code></pre>
+
+<!-- SECTION 8 -->
+<h2 id="s8">8. NotebookLM 입문</h2>
+<h3>학습 목표</h3>
+<ul><li>NotebookLM의 개념과 기본 사용법을 이해한다</li><li>소스를 업로드하고 AI에게 질문하여 정보를 추출할 수 있다</li><li>Audio Overview(오디오 브리핑)를 만들 수 있다</li></ul>
+<h3>8-1. NotebookLM이란?</h3>
+<p>NotebookLM은 Google이 만든 AI 기반 리서치 어시스턴트입니다. 내가 올린 자료를 바탕으로 AI가 요약하고, 질문에 답하고, 새로운 콘텐츠를 만들어줍니다.</p>
+<div class="table-wrapper"><table>
+  <tr><th>항목</th><th>설명</th></tr>
+  <tr><td>접속 주소</td><td><a href="https://notebooklm.google.com/" target="_blank">notebooklm.google.com</a></td></tr>
+  <tr><td>비용</td><td>무료 (Google 계정 필요)</td></tr>
+  <tr><td>핵심 기능</td><td>AI 요약, Q&amp;A, Audio Overview, 노트 정리</td></tr>
+  <tr><td>특징</td><td>내가 올린 자료만을 근거로 답변 (환각 최소화)</td></tr>
+</table></div>
+<p><strong>일반 챗봇 vs NotebookLM</strong>:</p>
+<div class="table-wrapper"><table>
+  <tr><th>구분</th><th>일반 AI 챗봇</th><th>NotebookLM</th></tr>
+  <tr><td>정보 소스</td><td>인터넷 전체 학습 데이터</td><td>내가 올린 자료만</td></tr>
+  <tr><td>정확도</td><td>때때로 잘못된 정보 (환각)</td><td>소스 기반, 환각 최소화</td></tr>
+  <tr><td>출처 표시</td><td>없거나 불분명</td><td>답변마다 소스 출처 표시</td></tr>
+  <tr><td>활용</td><td>범용 질문, 창의적 작업</td><td>특정 자료 분석, 연구</td></tr>
+</table></div>
+<h3>8-2. 소스 업로드</h3>
+<div class="table-wrapper"><table>
+  <tr><th>소스 유형</th><th>설명</th><th>제한</th></tr>
+  <tr><td><strong>PDF</strong></td><td>문서, 논문, 보고서</td><td>최대 500,000단어</td></tr>
+  <tr><td><strong>Google Docs/Slides</strong></td><td>내 문서 연결</td><td>Drive에서 선택</td></tr>
+  <tr><td><strong>웹페이지 URL</strong></td><td>웹 기사, 블로그</td><td>URL 붙여넣기</td></tr>
+  <tr><td><strong>YouTube 영상</strong></td><td>자막이 있는 영상</td><td>URL 붙여넣기</td></tr>
+  <tr><td><strong>텍스트</strong></td><td>직접 텍스트 입력</td><td>복사해서 붙여넣기</td></tr>
+</table></div>
+<pre><code>소스 추가:
+  1. notebooklm.google.com → "새 노트북"
+  2. "소스 추가" → 유형 선택 → 파일 업로드 또는 URL 입력
+  3. 하나의 노트북에 최대 50개 소스 추가 가능</code></pre>
+<h3>8-3. AI 요약과 Q&amp;A 기능</h3>
+<pre><code>소스 업로드 시 자동 생성: 소스 요약, 주요 주제 목록, 제안 질문
+
+질문 예시:
+  "이 문서의 핵심 주장은?"
+  "저자가 제시한 근거를 정리해주세요"
+  "이 내용을 초등학생도 이해할 수 있게 설명해주세요"
+  "자료 A와 자료 B의 공통점과 차이점은?"
+
+답변 특징: 소스 출처 [1][2] 표시, 클릭 시 원문 이동</code></pre>
+<h3>8-4. Audio Overview (오디오 브리핑)</h3>
+<p>업로드한 자료를 바탕으로 두 명의 진행자가 대화하는 형태의 오디오 브리핑을 자동 생성합니다.</p>
+<pre><code>1. "Audio Overview" 섹션 → "생성" 클릭
+2. 커스텀 지시: "한국어로 쉽게 설명해주세요"
+3. 생성 시간: 약 2~5분 → 재생 또는 다운로드</code></pre>
+<blockquote><p><strong>팁</strong>: 커스텀 지시에 "한국어로 만들어주세요"라고 입력하면 한국어로 생성됩니다. 통학이나 운동 중 들으면 효율적입니다.</p></blockquote>
+<h3>8-5. 노트 작성과 정리</h3>
+<pre><code>노트 저장: AI 답변 하단 "노트에 저장" → 제목 편집 → 내용 추가/수정
+노트 정리: 병합, 태그 분류, 추가 질문, Google Docs 내보내기</code></pre>
+<h3>8-6. 활용 사례</h3>
+<div class="table-wrapper"><table>
+  <tr><th>활용 분야</th><th>설명</th><th>소스 예시</th></tr>
+  <tr><td><strong>논문 분석</strong></td><td>여러 논문 비교 분석</td><td>PDF 논문 5~10편</td></tr>
+  <tr><td><strong>수업 준비</strong></td><td>교과서·참고 자료 분석</td><td>교과서 PDF, 교육과정 문서</td></tr>
+  <tr><td><strong>뉴스 분석</strong></td><td>여러 기사 종합 분석</td><td>웹페이지 URL 여러 개</td></tr>
+  <tr><td><strong>영상 학습</strong></td><td>YouTube 강의 정리</td><td>YouTube URL</td></tr>
+</table></div>
+<h3>실습 과제: PDF 업로드 후 AI 질문</h3>
+<pre><code>[실습] NotebookLM으로 자료 분석하기
+
+1. notebooklm.google.com → 새 노트북
+2. 관심 주제 웹 기사 URL 2~3개 추가
+3. AI 질문 3가지: 공통 주장, 핵심 키워드 5개, 3줄 요약
+4. 마음에 드는 답변을 노트로 저장 (2개 이상)
+5. Audio Overview 생성 (한국어, 초보자 대상)
+
+⏱️ 예상 소요: 20~25분</code></pre>
+
+<!-- SECTION 9 -->
+<h2 id="s9">9. Gemini 활용 기초</h2>
+<h3>학습 목표</h3>
+<ul><li>Gemini의 개념과 모델 종류를 이해한다</li><li>기본적인 텍스트 대화와 이미지 분석을 할 수 있다</li><li>Google 서비스(Gmail, Docs, Sheets)에서 Gemini를 활용할 수 있다</li></ul>
+<h3>9-1. Gemini란?</h3>
+<p>Gemini는 Google이 개발한 AI 챗봇입니다. 구글 서비스와 긴밀하게 통합되어 있는 것이 가장 큰 장점입니다.</p>
+<pre><code>접속: gemini.google.com / Google Gemini 앱 / Gmail·Docs·Sheets 사이드 패널</code></pre>
+<h3>9-2. Gemini 모델 종류</h3>
+<div class="table-wrapper"><table>
+  <tr><th>모델</th><th>특징</th><th>사용 가능</th></tr>
+  <tr><td><strong>Gemini Flash</strong></td><td>빠르고 가벼운 모델</td><td>무료</td></tr>
+  <tr><td><strong>Gemini Pro</strong></td><td>균형 잡힌 성능</td><td>무료/유료</td></tr>
+  <tr><td><strong>Gemini Ultra</strong></td><td>최고 성능, 고급 분석</td><td>Google One AI Premium</td></tr>
+  <tr><td><strong>Gemini Nano</strong></td><td>온디바이스, 오프라인</td><td>지원 기기</td></tr>
+</table></div>
+<blockquote><p><strong>팁</strong>: 무료 계정으로도 Flash와 기본 Pro 모델을 사용할 수 있습니다. 일상적인 용도에는 무료 모델로 충분합니다.</p></blockquote>
+<h3>9-3. 기본 사용법</h3>
+<pre><code>텍스트 대화 예시:
+  "파이썬이 뭔지 초등학생도 이해하게 설명해줘"
+  "이메일 답장을 공손하게 써줘"
+  "3월 서울 여행 2박 3일 일정표 짜줘"
+
+효과적인 질문 팁:
+  - 구체적으로: "좋은 글 써줘" ✗ → "초등 5학년 대상 독서 감상문 써줘" ✓
+  - 형식 지정: "표로 정리해줘", "목록으로 만들어줘"
+  - 역할 부여: "초등학교 교사의 관점에서 설명해줘"
+
+이미지 분석:
+  채팅창 📷 아이콘 → 이미지 업로드 → 질문 입력
+  활용: 식물 식별, 메뉴판 번역, 수학 문제 풀이, 에러 해결</code></pre>
+<h3>9-4. Google 검색 연동 (Grounding)</h3>
+<pre><code>실시간 검색 결과 참고:
+  "오늘 서울 날씨" → 실시간 날씨
+  "최근 AI 교육 뉴스" → 최신 기사 기반 답변
+  답변에 출처 링크가 함께 표시</code></pre>
+<h3>9-5. Google 서비스에서 Gemini 사용</h3>
+<pre><code>Gmail: 이메일 요약, 답장 초안, 이메일 작성
+Docs:  글 작성 도움, 요약, 교정, 톤 변경
+Sheets: 데이터 분석, 수식 추천, 차트 추천</code></pre>
+<blockquote><p><strong>팁</strong>: Docs나 Sheets에서 Gemini를 사용하면 현재 문서의 내용을 맥락으로 이해하므로 더 정확한 답변을 받을 수 있습니다.</p></blockquote>
+<h3>실습 과제: Gemini로 여행 계획 세우기</h3>
+<pre><code>[실습] "제주도 2박 3일 여행 계획"
+
+1. gemini.google.com 접속
+2. 요청: "제주도 2박 3일 가족 여행 일정표 (표 형태)"
+3. 후속: 입장료/운영시간, 예상 비용, 비 올 때 대안
+4. 이미지 분석: 관광지 사진 업로드 → 장소 정보 요청
+5. 결과를 Google Docs에 복사하여 여행 계획서 완성
+
+⏱️ 예상 소요: 15~20분</code></pre>
+
+<!-- SECTION 10 -->
+<h2 id="s10">10. Google Maps·번역·렌즈</h2>
+<h3>학습 목표</h3>
+<ul><li>Google Maps로 길찾기, 장소 저장, 리뷰 확인을 할 수 있다</li><li>Google 번역으로 텍스트, 음성, 카메라 번역을 할 수 있다</li><li>Google 렌즈로 이미지 검색과 텍스트 인식을 할 수 있다</li></ul>
+<h3>10-1. Google Maps</h3>
+<div class="table-wrapper"><table>
+  <tr><th>기능</th><th>설명</th><th>사용법</th></tr>
+  <tr><td><strong>길찾기</strong></td><td>자동차, 대중교통, 도보, 자전거</td><td>출발지→도착지 입력</td></tr>
+  <tr><td><strong>장소 저장</strong></td><td>즐겨찾는 장소를 저장</td><td>장소 클릭 → ♡ 저장</td></tr>
+  <tr><td><strong>오프라인 지도</strong></td><td>인터넷 없이 사용</td><td>영역 선택 → 다운로드</td></tr>
+  <tr><td><strong>리뷰</strong></td><td>다른 사용자 평가</td><td>장소 클릭 → 리뷰 탭</td></tr>
+  <tr><td><strong>스트리트 뷰</strong></td><td>360도 거리 사진</td><td>사람 아이콘 드래그</td></tr>
+  <tr><td><strong>실시간 교통</strong></td><td>현재 교통 상황</td><td>레이어 → 교통정보</td></tr>
+</table></div>
+<h3>10-2. Google 번역</h3>
+<div class="table-wrapper"><table>
+  <tr><th>방식</th><th>설명</th><th>사용법</th></tr>
+  <tr><td><strong>텍스트</strong></td><td>입력 텍스트 번역</td><td>translate.google.com</td></tr>
+  <tr><td><strong>문서</strong></td><td>파일 전체 번역</td><td>"문서" 탭 → 업로드</td></tr>
+  <tr><td><strong>웹사이트</strong></td><td>웹페이지 전체 번역</td><td>"웹사이트" 탭 → URL</td></tr>
+  <tr><td><strong>음성</strong></td><td>실시간 음성 번역</td><td>마이크 아이콘</td></tr>
+  <tr><td><strong>카메라</strong></td><td>카메라로 비추면 번역</td><td>앱 → 카메라 아이콘</td></tr>
+  <tr><td><strong>대화</strong></td><td>두 언어 실시간 통역</td><td>앱 → 대화 모드</td></tr>
+</table></div>
+<blockquote><p><strong>팁</strong>: 카메라 번역은 Google 번역 앱에서 사용할 수 있습니다. 카메라를 비추면 원문 위에 번역이 실시간으로 표시됩니다.</p></blockquote>
+<h3>10-3. Google 렌즈</h3>
+<div class="table-wrapper"><table>
+  <tr><th>기능</th><th>설명</th><th>활용</th></tr>
+  <tr><td><strong>이미지 검색</strong></td><td>사진으로 유사 이미지 검색</td><td>제품명, 식물/동물 식별</td></tr>
+  <tr><td><strong>텍스트 인식(OCR)</strong></td><td>이미지에서 텍스트 추출</td><td>명함, 문서, 간판</td></tr>
+  <tr><td><strong>번역</strong></td><td>이미지 속 텍스트 번역</td><td>메뉴판, 안내문</td></tr>
+  <tr><td><strong>제품 검색</strong></td><td>사진으로 제품 찾기</td><td>쇼핑, 가격 비교</td></tr>
+  <tr><td><strong>숙제 도움</strong></td><td>수학 문제 풀이</td><td>수학 문제 사진 촬영</td></tr>
+</table></div>
+<pre><code>사용 방법:
+  스마트폰: Google 앱 → 렌즈 아이콘 / Google 렌즈 앱
+  PC: Google 이미지 검색 → 카메라 아이콘 / Chrome에서 이미지 우클릭 → "Google 렌즈로 검색"</code></pre>
+<h3>실습 과제: 일상에서 활용하기</h3>
+<pre><code>[실습] Google Maps·번역·렌즈 체험
+
+1. Maps: 가까운 도서관까지 대중교통 길찾기 → 저장 → 리뷰 확인
+2. 번역: 한국어 → 영어/일본어/중국어 번역 → 발음 확인
+3. 렌즈: 책 표지 사진으로 검색 → 정보/가격 확인
+
+⏱️ 예상 소요: 15~20분</code></pre>
+
+<!-- SECTION 11 -->
+<h2 id="s11">11. 종합 실습</h2>
+<h3>학습 목표</h3>
+<ul><li>지금까지 배운 구글 도구를 연계하여 하나의 프로젝트를 완성할 수 있다</li><li>각 도구의 강점을 파악하고 적절한 상황에 맞는 도구를 선택할 수 있다</li></ul>
+<h3>프로젝트: "구글 도구로 이벤트 기획서 만들기"</h3>
+<p>지금까지 배운 구글 도구를 모두 활용하여 작은 이벤트(동아리 모임, 학급 행사 등)를 기획해봅니다.</p>
+<h3>Step 1: Gemini로 아이디어 브레인스토밍</h3>
+<pre><code>Gemini에게 요청:
+  "초등학교 3학년 학급에서 진행할 수 있는
+  봄맞이 야외 활동 아이디어 5가지를 제안해줘.
+  준비물, 소요시간, 난이도를 표로 정리해줘."</code></pre>
+<h3>Step 2: Docs로 기획서 초안 작성</h3>
+<pre><code>구성: 행사 개요 / 프로그램 일정 / 준비물 목록
+      역할 분담 / 예산 계획 / 안전 수칙
+→ 목차 자동 생성</code></pre>
+<h3>Step 3: Sheets로 예산표 작성</h3>
+<pre><code>항목 | 단가 | 수량 | 소계(=단가*수량) | 비고
+→ SUM 합계, 항목별 예산 원형 차트</code></pre>
+<h3>Step 4: Forms로 참가 신청서</h3>
+<pre><code>이름(단답형) / 반(드롭다운) / 참가 여부(객관식)
+알레르기(객관식+기타) / 보호자 연락처 / 희망 활동(체크박스)
+→ 스프레드시트 연동</code></pre>
+<h3>Step 5: Slides로 발표 자료 제작</h3>
+<pre><code>5~8장: 제목 → 목적 → 일정표 → 준비물 → 예산 차트
+       → 신청 방법(Forms 링크) → 안전 수칙 → Q&amp;A</code></pre>
+<h3>Step 6: Drive에 모든 파일 정리</h3>
+<pre><code>📁 봄맞이 야외 활동
+├── 📄 기획서 (Docs)    ├── 📊 예산표 (Sheets)
+├── 📋 참가 신청서 (Forms) ├── 📽️ 발표 자료 (Slides)
+└── 📁 참고 자료
+→ 관련 교사에게 편집자 권한 공유</code></pre>
+<h3>Step 7: NotebookLM으로 관련 자료 분석</h3>
+<pre><code>1. 새 노트북 "야외 활동 기획 참고"
+2. 소스: 관련 URL + 작성한 기획서 (Docs 연결)
+3. AI 질문: "빠진 부분?", "안전 수칙 추가 사항?", "비 올 때 대안?"</code></pre>
+<h3>완성 체크리스트</h3>
+<pre><code>✅ 종합 실습 체크리스트:
+□ Gemini 브레인스토밍  □ Docs 기획서 (목차 포함)
+□ Sheets 예산표 (함수+차트) □ Forms 신청서 (5개+ 문항)
+□ Slides 발표 자료 (5장+) □ Drive 폴더 정리
+□ NotebookLM 기획서 보완 □ 폴더 공유
+
+⏱️ 예상 소요: 60~90분</code></pre>
+
+<!-- SECTION 12 -->
+<h2 id="s12">12. 트러블슈팅 &amp; FAQ</h2>
+<h3>자주 발생하는 문제와 해결책</h3>
+<p><strong>문제 1: Google Drive 용량이 부족합니다</strong></p>
+<pre><code>원인: Gmail + Drive + Photos 합산 15GB 초과
+해결: 큰 파일 정렬 삭제, 휴지통 비우기,
+  Gmail "has:attachment larger:10M" 검색,
+  Photos 화질 변환, 필요시 Google One 구독</code></pre>
+<p><strong>문제 2: 공유 문서를 편집할 수 없습니다</strong></p>
+<pre><code>원인: "뷰어" 권한만 부여됨
+해결: "편집 액세스 요청" 클릭 → 소유자가 편집자로 변경</code></pre>
+<p><strong>문제 3: Google Docs에서 글꼴이 깨져 보입니다</strong></p>
+<pre><code>원인: Word → Docs 변환 시 호환성 문제
+해결: 지원되는 글꼴로 변경 (나눔고딕, 나눔명조, 맑은 고딕)</code></pre>
+<p><strong>문제 4: Sheets 함수 에러</strong></p>
+<pre><code>#REF!   → 참조 범위 오류
+#N/A    → 값을 찾을 수 없음
+#VALUE! → 값 유형 오류
+#DIV/0! → 0으로 나눔 → =IF(B1=0, 0, A1/B1) 사용
+#NAME?  → 함수 이름 철자 확인
+#ERROR! → 괄호, 쉼표 확인</code></pre>
+<p><strong>문제 5: Forms 설문 접근 불가</strong></p>
+<pre><code>원인: Workspace 계정에서 조직 외부 응답 차단
+해결: Forms 설정 → "사용자로 제한" 해제 또는 개인 Gmail로 작성</code></pre>
+<p><strong>문제 6: NotebookLM 소스 추가 불가</strong></p>
+<pre><code>해결: PDF 크기 확인 (500,000단어 이하),
+  지원 형식 확인, 스캔 PDF는 OCR 처리 필요,
+  YouTube는 자막이 있는 영상만 지원</code></pre>
+<p><strong>문제 7: Gemini가 한국어로 답변하지 않음</strong></p>
+<pre><code>해결: 한국어로 질문, "한국어로 답변해주세요" 명시,
+  설정에서 기본 언어를 한국어로 변경</code></pre>
+<p><strong>문제 8: 오프라인에서 편집 불가</strong></p>
+<pre><code>해결: 인터넷 연결 시 미리 설정 필요, Chrome만 지원,
+  Drive 설정 → "오프라인" 활성화, 파일 미리 열어두기</code></pre>
+
+<h3>자주 묻는 질문 (FAQ)</h3>
+<p><strong>Q1: Google Docs와 Microsoft Word, 어떤 걸 써야 하나요?</strong></p>
+<blockquote><p>협업이 많고 클라우드 기반 작업이 필요하면 Google Docs, 복잡한 서식이나 고급 편집이 필요하면 Word를 추천합니다. Docs에서 Word 파일을 열고 편집할 수도 있습니다.</p></blockquote>
+<p><strong>Q2: Drive 용량 15GB가 부족하면?</strong></p>
+<blockquote><p>불필요한 파일과 휴지통을 정리하세요. 그래도 부족하면 Google One을 구독할 수 있습니다 (100GB: 월 2,400원). 학교 Workspace 계정이라면 더 큰 용량이 제공될 수 있습니다.</p></blockquote>
+<p><strong>Q3: NotebookLM과 Gemini의 차이점?</strong></p>
+<blockquote><p>Gemini는 범용 AI 챗봇, NotebookLM은 내가 올린 특정 자료만을 근거로 답변합니다. 일반 질문은 Gemini, 특정 자료 분석은 NotebookLM을 사용하세요.</p></blockquote>
+<p><strong>Q4: 구글 서비스 개인정보 안전한가요?</strong></p>
+<blockquote><p>구글은 강력한 보안 시스템을 갖추고 있으나, 사용자도 2단계 인증, 강력한 비밀번호, 공유 권한 관리에 신경 써야 합니다.</p></blockquote>
+<p><strong>Q5: 스마트폰에서도 사용 가능한가요?</strong></p>
+<blockquote><p>모든 구글 도구는 스마트폰 앱으로 제공됩니다. Play 스토어(Android) 또는 App Store(iOS)에서 설치하세요.</p></blockquote>
+<p><strong>Q6: 여러 구글 계정을 동시에 사용할 수 있나요?</strong></p>
+<blockquote><p>가능합니다. Chrome에서 프로필 아이콘 클릭 → 다른 계정 추가. 또는 Chrome 프로필을 별도로 만들면 완전히 분리된 환경을 사용할 수 있습니다.</p></blockquote>
+<p><strong>Q7: Forms 응답을 엑셀로 내보낼 수 있나요?</strong></p>
+<blockquote><p>가능합니다. 응답을 스프레드시트에 연동한 후 파일 → 다운로드 → Excel(.xlsx) 또는 CSV로 내보내면 됩니다.</p></blockquote>
+<p><strong>Q8: Gemini는 무료인가요?</strong></p>
+<blockquote><p>기본 Gemini (Flash, Pro)는 무료입니다. 고급 기능(Ultra 모델)은 Google One AI Premium (월 $19.99)에서 사용할 수 있습니다.</p></blockquote>
+
+<!-- SECTION 13 -->
+<h2 id="s13">13. 다음 단계</h2>
+<h3>중급자편 안내</h3>
+<p>초보자편을 마치셨다면, 다음 단계인 <strong>중급자편</strong>에서 더 깊은 활용법을 배울 수 있습니다.</p>
+<div class="table-wrapper"><table>
+  <tr><th>주제</th><th>초보자편 (이번 과정)</th><th>중급자편 (다음 과정)</th></tr>
+  <tr><td><strong>Sheets</strong></td><td>기본 함수 10선, 차트</td><td>QUERY, ARRAYFORMULA, 피벗 테이블</td></tr>
+  <tr><td><strong>자동화</strong></td><td>—</td><td>Apps Script, 트리거, 자동 이메일</td></tr>
+  <tr><td><strong>NotebookLM</strong></td><td>소스 업로드, Q&amp;A</td><td>멀티 소스 분석, 연구 워크플로</td></tr>
+  <tr><td><strong>Gemini</strong></td><td>기본 대화, 이미지 분석</td><td>Gems 제작, Workspace 심화 연동</td></tr>
+  <tr><td><strong>Sites</strong></td><td>—</td><td>Google Sites로 웹사이트 제작</td></tr>
+  <tr><td><strong>Classroom</strong></td><td>—</td><td>학급 관리, 과제, 성적 관리</td></tr>
+  <tr><td><strong>Chrome 확장</strong></td><td>—</td><td>생산성 확장 프로그램 활용</td></tr>
+</table></div>
+<h3>추천 학습 경로</h3>
+<pre><code>📍 현재 위치: 구글 생태계 초보자편 ✅
+
+경로 A: 구글 심화
+  → 구글 생태계 중급자편 (Apps Script, Sheets 고급, Sites)
+  → 구글 생태계 개발자편 (API 활용, 고급 자동화)
+
+경로 B: AI 도구 활용
+  → AI Studio 초보자편 (Google AI Studio 빌더 활용)
+  → ChatGPT 초보자편 (ChatGPT 기초 활용법)
+
+경로 C: 바이브코딩 도전
+  → 러버블 초보자편 (노코드 웹사이트 제작)
+  → 커서 초보자편 (AI 기반 코딩 도구)
+
+경로 D: 프롬프트 역량 강화
+  → 프롬프트 엔지니어링 초보자편</code></pre>
+<h3>유용한 리소스 링크</h3>
+<div class="table-wrapper"><table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Google Workspace 학습 센터</strong></td><td>공식 도움말 및 튜토리얼</td><td><a href="https://support.google.com/a/users" target="_blank">support.google.com/a/users</a></td></tr>
+  <tr><td><strong>Google Sheets 함수 목록</strong></td><td>전체 함수 레퍼런스</td><td><a href="https://support.google.com/docs/table/25273" target="_blank">support.google.com/docs/table/25273</a></td></tr>
+  <tr><td><strong>Google for Education</strong></td><td>교육용 구글 도구 가이드</td><td><a href="https://edu.google.com/" target="_blank">edu.google.com</a></td></tr>
+  <tr><td><strong>NotebookLM</strong></td><td>AI 리서치 도구</td><td><a href="https://notebooklm.google.com/" target="_blank">notebooklm.google.com</a></td></tr>
+  <tr><td><strong>Gemini</strong></td><td>Google AI 챗봇</td><td><a href="https://gemini.google.com/" target="_blank">gemini.google.com</a></td></tr>
+  <tr><td><strong>Google Workspace 업데이트</strong></td><td>새 기능 및 변경 사항</td><td><a href="https://workspaceupdates.googleblog.com/" target="_blank">workspaceupdates.googleblog.com</a></td></tr>
+</table></div>
+
+<blockquote><p><strong>수고하셨습니다!</strong> 이 교안을 따라 하셨다면 구글의 핵심 도구를 모두 체험해보신 것입니다. 구글 생태계의 가장 큰 장점은 모든 도구가 하나로 연결된다는 것입니다. 하나씩 익숙해지면서 도구 간 연동을 시도해보세요.</p></blockquote>
+
+<h2 id="sources">출처</h2>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><a href="https://support.google.com/" target="_blank">Google 공식 도움말</a></td><td>Google 서비스 공식 지원</td></tr>
+  <tr><td><a href="https://support.google.com/a/users" target="_blank">Google Workspace 학습 센터</a></td><td>Workspace 도움말 및 튜토리얼</td></tr>
+  <tr><td><a href="https://jinu-kbs.github.io/lovable-lesson-plan/" target="_blank">김선생의 바이브코딩 가이드</a></td><td>바이브코딩 교안 허브</td></tr>
+</table>
+
+</main>
+</div>
+
+<footer class="footer">
+  <p>김선생의 바이브코딩 가이드 · 구글 생태계 초보자편 · 2026년 3월</p>
+  <p>바이브코딩으로 나만의 서비스를 만들고 배포하기까지, 이 교안이 여러분의 시작을 돕겠습니다.</p>
+</footer>
+
+<button class="mobile-toc-btn" id="mobileTocBtn">☰ 목차</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-sheet" id="mobileTocSheet">
+  <div class="mobile-toc-header">
+    <span>목차</span>
+    <button class="mobile-toc-close" id="mobileTocClose">&times;</button>
+  </div>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 구글 생태계란?</a>
+  <a href="#s2">2. Google 계정과 Workspace</a>
+  <a href="#s3">3. Google Docs</a>
+  <a href="#s4">4. Google Sheets</a>
+  <a href="#s5">5. Google Slides</a>
+  <a href="#s6">6. Google Forms</a>
+  <a href="#s7">7. Google Drive</a>
+  <a href="#s8">8. NotebookLM 입문</a>
+  <a href="#s9">9. Gemini 활용 기초</a>
+  <a href="#s10">10. Google Maps·번역·렌즈</a>
+  <a href="#s11">11. 종합 실습</a>
+  <a href="#s12">12. 트러블슈팅 &amp; FAQ</a>
+  <a href="#s13">13. 다음 단계</a>
+  <a href="#sources">출처</a>
+</div>
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">&uarr;</button>
+<script src="common.js"></script>
+</body>
+</html>

@@ -88,7 +88,10 @@ Q2: 현재 기술 수준은? (단일 수준 도구는 Q2 생략)
 | F58 | 배포 초보자편 교안 | 10개 섹션, GitHub Pages/Vercel/Netlify | 완료 |
 | F59 | 배포 중급자편 교안 | 10개 섹션, CI·CD/환경 관리 | 완료 |
 | F60 | 배포 개발자편 교안 | 10개 섹션, Docker/K8s/IaC | 완료 |
-| F61 | AI 도구 비교 페이지 | Claude vs ChatGPT 비교 분석, 9개 섹션 | 완료 |
+| F61 | AI 도구 5종 비교 페이지 | Claude/ChatGPT/Gemini/Genspark/Perplexity 비교 분석, 9개 섹션+3부록 | 완료 |
+| F62 | 구글 생태계 초보자편 교안 | 13개 섹션, Docs/Sheets/Forms/Drive/NotebookLM/Gemini 기초 | 완료 |
+| F63 | 구글 생태계 중급자편 교안 | 12개 섹션, Sheets 고급/Apps Script/NotebookLM 심화/자동화 | 완료 |
+| F64 | 구글 생태계 개발자편 교안 | 11개 섹션, Google API/Cloud Functions/Gemini API/Firebase | 완료 |
 | F05 | 도구별 네비게이션 | 드롭다운 메뉴로 도구별·수준별 교안 이동 + 모바일 햄버거 메뉴 | 완료 |
 | F06 | 섹션 내 목차 | sidebar 좌측 목차로 섹션 내 빠른 이동 | 완료 |
 | F07 | 반응형 레이아웃 | 모바일(≤600px) / 데스크톱(>600px) 대응 | 완료 |
@@ -181,6 +184,7 @@ Q2: 현재 기술 수준은? (단일 수준 도구는 Q2 생략)
 | 프롬프트 엔지니어링 | #E91E63 (핑크) | #FCE4EC | 🎯 |
 | Git/GitHub | #F44336 (레드) | #FFEBEE | 🐙 |
 | 배포 | #00BCD4 (시안) | #E0F7FA | 🌐 |
+| 구글 생태계 | #4285F4 (구글블루) | #E8F0FE | 🔍 |
 
 **러버블 교안 수준별 색상:**
 

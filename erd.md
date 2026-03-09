@@ -49,7 +49,7 @@
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
-| `tool` | enum | `lovable` / `antigravity` / `cursor` / `aistudio` / `claude-code` / `devinterface` / `chatgpt` / `prompt` / `github` / `deployment` |
+| `tool` | enum | `lovable` / `antigravity` / `cursor` / `aistudio` / `claude-code` / `devinterface` / `chatgpt` / `prompt` / `github` / `deployment` / `google` |
 | `level` | enum | `beginner` / `intermediate` / `developer` |
 | `title` | string | 교안 제목 |
 | `target` | string | 대상 수강자 설명 |

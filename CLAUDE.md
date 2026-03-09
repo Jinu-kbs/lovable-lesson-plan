@@ -98,8 +98,15 @@
 ├── 교안_deployment_intermediate.md ← 배포 중급자편 MD 원본
 ├── 교안_deployment_developer.md   ← 배포 개발자편 MD 원본
 │
-├── ai-compare.html                ← AI 도구 비교 페이지 (Claude vs ChatGPT)
-├── ai-compare.md                  ← AI 도구 비교 MD 원본
+├── google-beginner.html            ← 구글 생태계 초보자편 교안
+├── google-intermediate.html       ← 구글 생태계 중급자편 교안
+├── google-developer.html          ← 구글 생태계 개발자편 교안
+├── 교안_google_beginner.md        ← 구글 생태계 초보자편 MD 원본
+├── 교안_google_intermediate.md    ← 구글 생태계 중급자편 MD 원본
+├── 교안_google_developer.md       ← 구글 생태계 개발자편 MD 원본
+│
+├── ai-compare.html                ← AI 도구 5종 비교 페이지
+├── ai-compare.md                  ← AI 도구 5종 비교 MD 원본
 │
 ├── compare.html                   ← 도구 비교 독립 페이지
 │
@@ -120,7 +127,7 @@
 - **HTML**: `{tool}-{level}.html` (예: `cursor-beginner.html`)
 - **MD**: `교안_{tool}_{level}.md` (예: `교안_cursor_beginner.md`)
 - **Level**: `beginner`, `intermediate`, `developer`
-- **Tool**: `lovable`, `antigravity`, `cursor`, `aistudio`, `claude-code`, `devinterface`, `chatgpt`, `prompt`, `github`, `deployment`
+- **Tool**: `lovable`, `antigravity`, `cursor`, `aistudio`, `claude-code`, `devinterface`, `chatgpt`, `prompt`, `github`, `deployment`, `google`
 
 ## 공통 코드 구조
 
@@ -206,6 +213,7 @@
 | **프롬프트 엔지니어링** | `#E91E63` (핑크) | `#F48FB1` | 초보/중급/개발자 |
 | **Git/GitHub** | `#F44336` (레드) | `#EF9A9A` | 초보/중급/개발자 |
 | **배포** | `#00BCD4` (시안) | `#80DEEA` | 초보/중급/개발자 |
+| **구글 생태계** | `#4285F4` (구글블루) | `#AECBFA` | 초보/중급/개발자 |
 
 ### HTML 공통 구조
 
