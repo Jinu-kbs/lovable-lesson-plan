@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git/GitHub 입문 교안 - 초보자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#F44336;--primary-light:#EF9A9A;--blockquote-bg:#FFEBEE;--hover-bg:#FFF5F5}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="github-beginner.html" class="active">초보자편</a>
+  <a href="github-intermediate.html">중급자편</a>
+  <a href="github-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🌱 초보자편</h1>
+  <div class="meta">대상: Git을 한 번도 써본 적 없는 완전 입문자 · 목표: Git으로 버전 관리하고 GitHub에 코드 올리기 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 버전 관리란?</a>
+  <a href="#s2">2. Git 설치</a>
+  <a href="#s3">3. 핵심 개념 5가지</a>
+  <a href="#s4">4. 기본 명령어 실습</a>
+  <a href="#s5">5. GitHub 가입과 연결</a>
+  <a href="#s6">6. push와 pull</a>
+  <a href="#s7">7. VS Code에서 Git 사용</a>
+  <a href="#s8">8. .gitignore와 README</a>
+  <a href="#s9">9. 종합 실습</a>
+  <a href="#s10">10. 트러블슈팅 &amp; FAQ</a>
+  <a href="#appendix">부록: 용어 사전</a>
+  <a href="#next">다음 단계</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<p>아래 질문에 답해보세요:</p>
+<table>
+  <tr><th>질문</th><th>예 →</th><th>아니오 →</th></tr>
+  <tr><td>"버전 관리"가 뭔지 설명할 수 있나요?</td><td>섹션 3부터 시작</td><td><strong>이 교안 처음부터</strong> 시작하세요!</td></tr>
+  <tr><td>Git을 설치해본 적이 있나요?</td><td>섹션 4부터 시작</td><td><strong>섹션 2(Git 설치)</strong>부터 시작하세요!</td></tr>
+  <tr><td><code>git commit</code>이 무슨 뜻인지 아나요?</td><td>섹션 5 이후로</td><td><strong>이 교안 처음부터</strong> 시작하세요!</td></tr>
+  <tr><td>GitHub에 코드를 올려본 적이 있나요?</td><td>이 교안은 쉬울 수 있어요</td><td><strong>이 교안이 딱 맞아요!</strong></td></tr>
+</table>
+<blockquote><p>하나라도 "아니오"라면 이 교안부터 시작하세요!</p></blockquote>
+
+<h3 id="resources">추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Git 공식 사이트</strong></td><td>Git 다운로드 및 공식 문서</td><td><a href="https://git-scm.com" target="_blank">git-scm.com</a></td></tr>
+  <tr><td><strong>GitHub 공식 사이트</strong></td><td>계정 생성 및 저장소 관리</td><td><a href="https://github.com" target="_blank">github.com</a></td></tr>
+  <tr><td><strong>GitHub Docs</strong></td><td>GitHub 공식 한국어 문서</td><td><a href="https://docs.github.com/ko" target="_blank">docs.github.com/ko</a></td></tr>
+  <tr><td><strong>VS Code 다운로드</strong></td><td>코드 편집기</td><td><a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a></td></tr>
+</table>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. 버전 관리란?</h2>
+
+<h3>1-1. 파일 관리, 이렇게 해본 적 있나요?</h3>
+<p>여러분의 컴퓨터 바탕화면이나 폴더에 이런 파일이 있지는 않나요?</p>
+<pre><code>보고서_최종.docx
+보고서_최종_수정.docx
+보고서_최종_수정_진짜최종.docx
+보고서_최종_수정_진짜최종_v2.docx
+보고서_최종_수정_진짜최종_v2_교장님피드백.docx</code></pre>
+<p>또는 이런 경험은요?</p>
+<ul>
+  <li>파일을 수정했는데 이전 버전이 더 나았던 적</li>
+  <li>동료가 같은 파일을 동시에 수정해서 충돌이 난 적</li>
+  <li>USB에 복사했는데 어떤 게 최신인지 헷갈린 적</li>
+  <li>"어제 지운 그 부분"을 다시 살리고 싶었던 적</li>
+</ul>
+<p>이 모든 문제를 해결하는 것이 바로 <strong>버전 관리(Version Control)</strong> 입니다.</p>
+
+<h3>1-2. 게임 세이브 비유로 이해하기</h3>
+<p>버전 관리를 가장 쉽게 이해하는 방법은 <strong>게임 세이브</strong>에 비유하는 것입니다.</p>
+<pre><code>게임 세이브                          Git 버전 관리
+─────────────                    ─────────────────
+세이브 슬롯 1: 마을 도착           commit 1: 프로젝트 시작
+세이브 슬롯 2: 보스방 앞           commit 2: 메인 페이지 완성
+세이브 슬롯 3: 보스 클리어          commit 3: 로그인 기능 추가
+세이브 슬롯 4: 엔딩                commit 4: 디자인 수정
+
+→ 보스전에서 죽으면?               → 코드를 망쳤으면?
+→ 슬롯 2를 불러온다!               → commit 2로 되돌린다!</code></pre>
+<p><strong>핵심 포인트:</strong></p>
+<ul>
+  <li>원하는 시점으로 언제든 되돌아갈 수 있습니다</li>
+  <li>각 세이브(커밋)에는 "무엇을 했는지" 메모가 남습니다</li>
+  <li>여러 갈래의 진행(브랜치)이 가능합니다</li>
+</ul>
+
+<h3>1-3. 기존 방법 vs Git</h3>
+<table>
+  <tr><th>방법</th><th>장점</th><th>단점</th></tr>
+  <tr><td><strong>USB 복사</strong></td><td>간단함</td><td>분실 위험, 버전 혼동</td></tr>
+  <tr><td><strong>이메일 첨부</strong></td><td>전송 기록 남음</td><td>파일 크기 제한, 정리 어려움</td></tr>
+  <tr><td><strong>파일명에 날짜 추가</strong></td><td>직관적</td><td>파일 개수 폭증, 차이점 파악 불가</td></tr>
+  <tr><td><strong>클라우드 동기화</strong></td><td>자동 백업</td><td>세밀한 버전 관리 불가</td></tr>
+  <tr><td><strong>Git</strong></td><td>모든 변경 이력 추적, 협업 용이, 되돌리기 자유</td><td>초기 학습 곡선 있음</td></tr>
+</table>
+
+<h3>1-4. Git과 GitHub는 다릅니다</h3>
+<p>이 부분은 처음 배울 때 많이 헷갈리는 부분입니다.</p>
+<pre><code>Git = 내 컴퓨터에서 돌아가는 버전 관리 "프로그램"
+     (설치해서 사용하는 도구)
+
+GitHub = Git으로 관리하는 코드를 인터넷에 올리는 "서비스"
+        (웹사이트, 클라우드 저장소)</code></pre>
+<p>쉽게 비유하면:</p>
+<table>
+  <tr><th>비유</th><th>Git</th><th>GitHub</th></tr>
+  <tr><td><strong>카메라와 앨범</strong></td><td>사진을 찍는 카메라</td><td>사진을 공유하는 온라인 앨범</td></tr>
+  <tr><td><strong>일기와 블로그</strong></td><td>일기를 쓰는 행위</td><td>일기를 공개하는 블로그</td></tr>
+  <tr><td><strong>문서와 구글 드라이브</strong></td><td>워드로 문서 작성</td><td>구글 드라이브에 업로드</td></tr>
+</table>
+<blockquote><p><strong>기억하세요</strong>: Git은 내 컴퓨터에서 작동하고, GitHub는 인터넷에서 작동합니다. Git 없이 GitHub를 쓸 수 없고, GitHub 없이도 Git은 사용할 수 있습니다.</p></blockquote>
+
+<h3>1-5. 누가 Git을 쓰나요?</h3>
+<p>Git은 개발자만 쓰는 도구가 아닙니다:</p>
+<ul>
+  <li><strong>개발자</strong>: 코드 버전 관리 (가장 대표적)</li>
+  <li><strong>디자이너</strong>: 디자인 파일 버전 관리</li>
+  <li><strong>작가/번역가</strong>: 원고 버전 관리</li>
+  <li><strong>연구자</strong>: 논문, 데이터 분석 코드 관리</li>
+  <li><strong>학생</strong>: 과제, 프로젝트 관리</li>
+  <li><strong>바이브코더</strong>: AI로 만든 프로젝트 관리와 배포</li>
+</ul>
+
+<h3>1-6. 실제 활용 사례</h3>
+<p><strong>사례 1: 개인 프로젝트</strong></p>
+<pre><code>혼자서 웹사이트를 만들고 있습니다.
+→ 새 기능을 추가하다가 사이트가 망가졌습니다.
+→ Git이 있으면? 이전 커밋으로 바로 되돌립니다!
+→ Git이 없으면? Ctrl+Z를 수십 번 누르거나, 백업이 없으면 처음부터...</code></pre>
+<p><strong>사례 2: 팀 프로젝트</strong></p>
+<pre><code>3명이 함께 앱을 개발합니다.
+→ 각자 다른 기능을 동시에 개발합니다.
+→ Git이 있으면? 브랜치로 나눠 작업 후 합칩니다.
+→ Git이 없으면? 카톡으로 파일 주고받으며 수동으로 합칩니다...</code></pre>
+<p><strong>사례 3: 바이브코딩 프로젝트</strong></p>
+<pre><code>러버블/커서로 프로젝트를 만들었습니다.
+→ GitHub에 올려두면 어디서든 코드를 확인할 수 있습니다.
+→ GitHub Pages로 무료 웹사이트 배포도 가능합니다!</code></pre>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>버전 관리가 왜 필요한지 이해했다</li>
+  <li>Git과 GitHub의 차이를 설명할 수 있다</li>
+  <li>게임 세이브 비유로 커밋 개념을 이해했다</li>
+</ul>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. Git 설치</h2>
+
+<h3>2-1. Windows에서 설치하기</h3>
+<h4>단계 1: 다운로드</h4>
+<ol>
+  <li>웹 브라우저에서 <a href="https://git-scm.com" target="_blank">git-scm.com</a> 접속</li>
+  <li>화면 중앙의 <strong>"Download for Windows"</strong> 버튼 클릭</li>
+  <li><strong>"64-bit Git for Windows Setup"</strong> 선택하여 다운로드</li>
+</ol>
+
+<h4>단계 2: 설치 프로그램 실행</h4>
+<p>다운로드된 <code>Git-2.xx.x-64-bit.exe</code> 파일을 더블클릭합니다.</p>
+
+<h4>단계 3: 설치 옵션 선택 (화면별 안내)</h4>
+<p>설치 마법사가 여러 화면을 보여줍니다. 대부분 기본값으로 진행하면 됩니다.</p>
+<p><strong>화면 1 — 라이선스 동의</strong></p>
+<pre><code>GNU General Public License 내용이 표시됩니다.
+→ [Next] 클릭</code></pre>
+<p><strong>화면 2 — 설치 경로</strong></p>
+<pre><code>기본 경로: C:\Program Files\Git
+→ 그대로 두고 [Next] 클릭</code></pre>
+<p><strong>화면 3 — 구성 요소 선택</strong></p>
+<pre><code>기본 선택된 항목을 그대로 유지합니다.
+특히 아래 항목이 체크되어 있는지 확인하세요:
+  [v] Git Bash Here
+  [v] Git GUI Here
+  [v] Git LFS (Large File Support)
+→ [Next] 클릭</code></pre>
+<p><strong>화면 4 — 시작 메뉴 폴더</strong></p>
+<pre><code>기본값(Git)을 그대로 유지합니다.
+→ [Next] 클릭</code></pre>
+<p><strong>화면 5 — 기본 편집기 선택</strong></p>
+<pre><code>"Use Visual Studio Code as Git's default editor"를 선택합니다.
+(VS Code가 설치되어 있지 않다면 Notepad를 선택해도 됩니다)
+→ [Next] 클릭</code></pre>
+<p><strong>화면 6 — 초기 브랜치 이름</strong></p>
+<pre><code>"Override the default branch name for new repositories"를 선택하고,
+입력란에 "main"을 입력합니다.
+(최신 관례는 master 대신 main을 사용합니다)
+→ [Next] 클릭</code></pre>
+<p><strong>화면 7 — PATH 환경 변수</strong></p>
+<pre><code>"Git from the command line and also from 3rd-party software"를 선택합니다.
+(이 옵션이 기본 선택되어 있습니다)
+→ [Next] 클릭</code></pre>
+<p><strong>화면 8~12 — 나머지 옵션들</strong></p>
+<pre><code>나머지 화면은 모두 기본값으로 진행합니다.
+계속 [Next]를 클릭하다가 마지막에 [Install]을 클릭합니다.</code></pre>
+<p><strong>화면 13 — 설치 완료</strong></p>
+<pre><code>"Launch Git Bash" 체크 후 [Finish] 클릭
+→ Git Bash 터미널 창이 열립니다!</code></pre>
+
+<h4>단계 4: 설치 확인</h4>
+<p>검은색 터미널 창(Git Bash)이 열리면 아래 명령어를 입력합니다:</p>
+<pre><code>git --version</code></pre>
+<p>아래와 비슷한 결과가 나오면 성공입니다:</p>
+<pre><code>git version 2.47.1.windows.1</code></pre>
+<blockquote><p><strong>Windows 팁</strong>: Git Bash 외에도 <strong>PowerShell</strong>이나 <strong>명령 프롬프트(cmd)</strong>에서도 git 명령어를 사용할 수 있습니다. 하지만 이 교안에서는 Git Bash를 기준으로 설명합니다. Git Bash는 리눅스/맥과 동일한 명령어를 사용할 수 있어서 인터넷의 대부분의 Git 튜토리얼과 호환됩니다.</p></blockquote>
+
+<h3>2-2. Mac에서 설치하기</h3>
+<p>Mac에서는 여러 가지 방법으로 Git을 설치할 수 있습니다.</p>
+<h4>방법 A: Xcode Command Line Tools (가장 간단)</h4>
+<ol>
+  <li><strong>터미널</strong>을 엽니다
+    <ul><li><code>Cmd + Space</code> → "터미널" 검색 → 엔터</li>
+    <li>또는 Finder → 응용 프로그램 → 유틸리티 → 터미널</li></ul></li>
+  <li>아래 명령어를 입력합니다:</li>
+</ol>
+<pre><code>git --version</code></pre>
+<ol start="3">
+  <li>Git이 설치되어 있지 않으면, <strong>자동으로 설치 안내 팝업</strong>이 나타납니다</li>
+  <li><strong>"설치"</strong> 버튼을 클릭합니다</li>
+  <li>설치가 완료되면 다시 <code>git --version</code>으로 확인합니다</li>
+</ol>
+
+<h4>방법 B: Homebrew 사용 (개발자 추천)</h4>
+<pre><code># Homebrew가 없다면 먼저 설치
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Git 설치
+brew install git
+
+# 설치 확인
+git --version</code></pre>
+<blockquote><p><strong>Mac 팁</strong>: 대부분의 Mac 사용자는 <strong>방법 A</strong>로 충분합니다. 터미널에서 <code>git --version</code>만 입력하면 자동으로 설치 안내가 나옵니다.</p></blockquote>
+
+<h3>2-3. 첫 설정 (Windows/Mac 공통)</h3>
+<p>Git을 설치한 후 <strong>반드시</strong> 사용자 정보를 설정해야 합니다. 이 정보는 누가 코드를 수정했는지 기록하는 데 사용됩니다.</p>
+<h4>사용자 이름 설정</h4>
+<pre><code>git config --global user.name "홍길동"</code></pre>
+<h4>이메일 설정</h4>
+<pre><code>git config --global user.email "hong@example.com"</code></pre>
+<blockquote><p><strong>중요</strong>: 이메일은 나중에 GitHub 가입할 때 사용할 이메일과 <strong>동일하게</strong> 설정하세요! GitHub에서 커밋 기록을 내 계정과 연결해줍니다.</p></blockquote>
+<h4>설정 확인</h4>
+<pre><code>git config --global --list</code></pre>
+<p>아래와 비슷한 결과가 나오면 성공입니다:</p>
+<pre><code>user.name=홍길동
+user.email=hong@example.com</code></pre>
+<h4>기본 브랜치 이름 설정 (선택)</h4>
+<pre><code>git config --global init.defaultBranch main</code></pre>
+<p>이렇게 하면 새 저장소를 만들 때 기본 브랜치 이름이 <code>main</code>으로 설정됩니다.</p>
+<h4>한글 파일명 표시 설정 (Windows 필수)</h4>
+<p>Windows에서 한글 파일명이 깨지는 것을 방지합니다:</p>
+<pre><code>git config --global core.quotepath false</code></pre>
+
+<h3>2-4. 설치 확인 체크리스트</h3>
+<p>아래 명령어들을 차례로 입력해서 모두 정상 작동하는지 확인하세요:</p>
+<pre><code># 1. Git 버전 확인
+git --version
+
+# 2. 사용자 이름 확인
+git config user.name
+
+# 3. 이메일 확인
+git config user.email
+
+# 4. 전체 설정 확인
+git config --global --list</code></pre>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>Git이 설치되었다 (<code>git --version</code>으로 확인)</li>
+  <li>사용자 이름이 설정되었다 (<code>git config user.name</code>)</li>
+  <li>이메일이 설정되었다 (<code>git config user.email</code>)</li>
+  <li>한글 파일명 설정을 완료했다 (Windows)</li>
+</ul>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. 핵심 개념 5가지</h2>
+<p>Git을 사용하기 전에 반드시 알아야 할 5가지 핵심 개념이 있습니다. 이 개념을 이해하면 Git 명령어가 "왜" 그렇게 작동하는지 자연스럽게 알 수 있습니다.</p>
+
+<h3>3-1. Working Directory (작업 디렉토리)</h3>
+<p><strong>한 줄 설명</strong>: 내가 실제로 파일을 만들고 수정하는 폴더</p>
+<pre><code>비유: 책상 위에 펼쳐놓은 서류들
+
+내 프로젝트 폴더/
+├── index.html     ← 이 파일들이 있는 폴더 자체가
+├── style.css      ← Working Directory입니다
+└── script.js      ← 여기서 파일을 만들고, 수정하고, 삭제합니다</code></pre>
+<p><strong>특징:</strong></p>
+<ul>
+  <li>여러분의 눈에 보이는 실제 폴더입니다</li>
+  <li>탐색기(Windows)나 Finder(Mac)에서 볼 수 있습니다</li>
+  <li>이 폴더에서 파일을 자유롭게 생성, 수정, 삭제합니다</li>
+  <li>Git이 이 폴더의 변경사항을 감시합니다</li>
+</ul>
+
+<h3>3-2. Staging Area (스테이징 영역)</h3>
+<p><strong>한 줄 설명</strong>: 다음 커밋에 포함할 변경사항을 골라놓는 대기실</p>
+<pre><code>비유: 택배 보내기 전 포장 구역
+
+  수정한 파일이 10개 있다고 합시다.
+  그중에서 지금 보내고 싶은 3개만 골라서
+  포장 구역(Staging Area)에 올려놓습니다.
+
+  ┌──────────────────────────────────────────┐
+  │  Staging Area (포장 구역)                 │
+  │                                          │
+  │  [index.html]  [style.css]  [README.md]  │
+  │   ← 이 3개만 다음 커밋에 포함됩니다        │
+  └──────────────────────────────────────────┘</code></pre>
+<p><strong>왜 필요한가요?</strong></p>
+<p>파일 10개를 수정했는데, 그중 3개는 "로그인 기능"이고 7개는 "디자인 수정"일 수 있습니다. 스테이징 영역이 있으면:</p>
+<ul>
+  <li>"로그인 기능" 관련 3개만 먼저 골라서 커밋</li>
+  <li>"디자인 수정" 관련 7개는 나중에 따로 커밋</li>
+</ul>
+<p>이렇게 <strong>의미 있는 단위로 나누어 커밋</strong>할 수 있습니다.</p>
+<p><strong>관련 명령어:</strong></p>
+<pre><code>git add 파일명      # 특정 파일을 스테이징 영역에 추가
+git add .           # 모든 변경된 파일을 스테이징 영역에 추가</code></pre>
+
+<h3>3-3. Repository (저장소)</h3>
+<p><strong>한 줄 설명</strong>: Git이 모든 버전 기록을 저장하는 데이터베이스</p>
+<pre><code>비유: 은행 금고 (모든 거래 내역이 기록됨)
+
+  내 프로젝트 폴더/
+  ├── .git/          ← 이 숨겨진 폴더가 바로 Repository!
+  │   ├── objects/   ← 모든 파일의 모든 버전이 여기에 저장됩니다
+  │   ├── refs/      ← 브랜치와 태그 정보
+  │   └── HEAD       ← 현재 작업 중인 브랜치
+  ├── index.html
+  ├── style.css
+  └── script.js</code></pre>
+<p><strong>저장소는 2종류가 있습니다:</strong></p>
+<table>
+  <tr><th>종류</th><th>위치</th><th>설명</th></tr>
+  <tr><td><strong>로컬 저장소</strong></td><td>내 컴퓨터</td><td><code>.git</code> 폴더 안에 있음</td></tr>
+  <tr><td><strong>원격 저장소</strong></td><td>GitHub 서버</td><td>인터넷에 있음, 다른 사람과 공유</td></tr>
+</table>
+<pre><code>┌──────────────────┐    push     ┌──────────────────┐
+│   로컬 저장소      │  ------→   │   원격 저장소      │
+│  (내 컴퓨터)       │  ←------   │  (GitHub)         │
+│   .git 폴더       │    pull    │   github.com/...  │
+└──────────────────┘            └──────────────────┘</code></pre>
+<blockquote><p><strong>주의</strong>: <code>.git</code> 폴더는 숨겨져 있습니다. 절대로 직접 수정하거나 삭제하지 마세요! Git이 관리하는 폴더입니다.</p></blockquote>
+
+<h3>3-4. Commit (커밋)</h3>
+<p><strong>한 줄 설명</strong>: 현재 상태를 "세이브"하는 행위 (스냅샷)</p>
+<pre><code>비유: 게임 세이브 + 일기 한 줄
+
+  커밋 = 그 시점의 모든 파일 상태 저장
+       + "무엇을 했는지" 메시지 기록
+       + 언제, 누가 했는지 자동 기록
+
+  예시:
+  ┌─────────────────────────────────────────┐
+  │  커밋 #a1b2c3d                           │
+  │  작성자: 홍길동                           │
+  │  날짜: 2026-03-09 14:30                  │
+  │  메시지: "메인 페이지 헤더 디자인 완성"     │
+  │                                         │
+  │  변경된 파일:                              │
+  │   - index.html (수정)                     │
+  │   - style.css (수정)                      │
+  │   - header.png (추가)                     │
+  └─────────────────────────────────────────┘</code></pre>
+<p><strong>좋은 커밋 메시지 작성법:</strong></p>
+<table>
+  <tr><th>나쁜 예</th><th>좋은 예</th></tr>
+  <tr><td>"수정"</td><td>"로그인 버튼 클릭 시 에러 수정"</td></tr>
+  <tr><td>"업데이트"</td><td>"회원가입 이메일 인증 기능 추가"</td></tr>
+  <tr><td>"ㅎㅎ"</td><td>"메인 페이지 반응형 레이아웃 적용"</td></tr>
+  <tr><td>"asdf"</td><td>"README에 설치 방법 문서 추가"</td></tr>
+</table>
+<p><strong>커밋 메시지 규칙:</strong></p>
+<ul>
+  <li>무엇을 <strong>왜</strong> 변경했는지 간단히 적습니다</li>
+  <li>한국어 또는 영어 모두 괜찮습니다</li>
+  <li>현재형으로 적는 것이 관례입니다 (예: "추가", "수정", "삭제")</li>
+</ul>
+
+<h3>3-5. Branch (브랜치)</h3>
+<p><strong>한 줄 설명</strong>: 독립된 작업 공간을 만드는 기능 (가지치기)</p>
+<pre><code>비유: 평행 세계
+
+  메인 세계(main)에서 새로운 세계(branch)를 만들어
+  실험해보고, 성공하면 합치고, 실패하면 버립니다.
+
+  main ─────●─────●─────●─────●─────●──────
+                   \                 ↑
+  feature ──────────●─────●─────●───┘ (성공! 합치기)
+
+  main ─────●─────●─────●─────●──────
+                   \
+  experiment ───────●─────●───✕ (실패... 버리기)</code></pre>
+<p><strong>왜 필요한가요?</strong></p>
+<ol>
+  <li><strong>안전한 실험</strong>: 새 기능을 시도하다 망해도 main은 무사합니다</li>
+  <li><strong>동시 작업</strong>: 여러 기능을 동시에 개발할 수 있습니다</li>
+  <li><strong>코드 리뷰</strong>: 합치기 전에 다른 사람이 검토할 수 있습니다</li>
+</ol>
+<blockquote><p><strong>초보자를 위한 팁</strong>: 브랜치는 처음에는 사용하지 않아도 괜찮습니다. <code>main</code> 브랜치 하나로 시작하고, 나중에 필요할 때 배워도 됩니다. 이 교안에서는 브랜치를 만드는 실습은 하지 않습니다.</p></blockquote>
+
+<h3>3-6. 전체 흐름 다이어그램</h3>
+<p>5가지 개념이 어떻게 연결되는지 전체 그림을 봅시다:</p>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                         Git의 전체 흐름                          │
+│                                                                 │
+│  ① Working Directory    ② Staging Area    ③ Local Repository    │
+│  (작업 디렉토리)          (스테이징 영역)     (로컬 저장소)         │
+│                                                                 │
+│  파일 생성/수정/삭제       커밋할 파일 선택     버전 기록 저장       │
+│                                                                 │
+│       │                      │                    │             │
+│       │    git add            │    git commit      │             │
+│       │ ─────────────→        │ ─────────────→     │             │
+│       │                      │                    │             │
+│       │              git status로 상태 확인         │             │
+│       │ ←───────────────────────────────────────── │             │
+│                                                                 │
+│                                                    │             │
+│                                          git push  │             │
+│                                         ─────────→ │             │
+│                                                    ↓             │
+│                                         ④ Remote Repository     │
+│                                           (원격 저장소/GitHub)    │
+│                                                                 │
+│  ⑤ Branch: 이 모든 과정이 독립적인 작업 공간(브랜치)에서 진행됩니다  │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+<p><strong>한 줄 요약:</strong></p>
+<pre><code>파일 수정 → git add(스테이징) → git commit(저장) → git push(업로드)</code></pre>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>Working Directory가 무엇인지 안다</li>
+  <li>Staging Area가 왜 필요한지 이해했다</li>
+  <li>Repository(저장소)의 두 종류를 안다</li>
+  <li>Commit이 무엇인지 게임 세이브로 비유할 수 있다</li>
+  <li>Branch의 개념을 이해했다 (나중에 써도 OK)</li>
+</ul>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. 기본 명령어 실습</h2>
+<p>이제 직접 명령어를 하나씩 입력해봅시다! 터미널(Git Bash 또는 Mac 터미널)을 열어주세요.</p>
+
+<h3>4-0. 터미널 열기</h3>
+<p><strong>Windows:</strong></p>
+<ul>
+  <li>바탕화면에서 마우스 오른쪽 클릭 → "Git Bash Here" 선택</li>
+  <li>또는 시작 메뉴 → "Git Bash" 검색 → 실행</li>
+</ul>
+<p><strong>Mac:</strong></p>
+<ul>
+  <li><code>Cmd + Space</code> → "터미널" 입력 → 엔터</li>
+</ul>
+
+<h3>4-1. 실습 폴더 만들기</h3>
+<p>먼저 실습용 폴더를 만들고 이동합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>mkdir my-first-git
+cd my-first-git</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>(아무 출력 없음 = 성공!)
+프롬프트가 ~/my-first-git 으로 변경됩니다</code></pre>
+<blockquote><p><strong>명령어 해설</strong>: <code>mkdir</code> = make directory, 새 폴더를 만듭니다 / <code>cd</code> = change directory, 해당 폴더로 이동합니다</p></blockquote>
+
+<h3>4-2. git init — 저장소 초기화</h3>
+<p>이 폴더를 Git으로 관리하겠다고 선언합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git init</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>Initialized empty Git repository in /Users/홍길동/my-first-git/.git/</code></pre>
+<p>이제 이 폴더 안에 <code>.git</code>이라는 숨겨진 폴더가 생겼습니다. 확인해볼까요?</p>
+<p><strong>입력:</strong></p>
+<pre><code>ls -la</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>total 0
+drwxr-xr-x   3 홍길동  staff    96  3  9 14:00 .
+drwxr-xr-x  10 홍길동  staff   320  3  9 14:00 ..
+drwxr-xr-x   9 홍길동  staff   288  3  9 14:00 .git</code></pre>
+<p><code>.git</code> 폴더가 보이면 성공입니다! (이 폴더는 건드리지 마세요)</p>
+
+<h3>4-3. 파일 만들기</h3>
+<p>실습용 파일을 만들어봅시다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>echo "안녕하세요! 나의 첫 Git 프로젝트입니다." &gt; README.md</code></pre>
+<p>파일이 잘 만들어졌는지 확인합니다:</p>
+<p><strong>입력:</strong></p>
+<pre><code>cat README.md</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>안녕하세요! 나의 첫 Git 프로젝트입니다.</code></pre>
+
+<h3>4-4. git status — 상태 확인</h3>
+<p>현재 Git 상태를 확인합니다. <strong>이 명령어는 가장 자주 사용합니다!</strong></p>
+<p><strong>입력:</strong></p>
+<pre><code>git status</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        README.md
+
+nothing added to commit but untracked files present (use "git add" to track)</code></pre>
+<p><strong>결과 해석:</strong></p>
+<table>
+  <tr><th>부분</th><th>의미</th></tr>
+  <tr><td><code>On branch main</code></td><td>현재 main 브랜치에 있습니다</td></tr>
+  <tr><td><code>No commits yet</code></td><td>아직 커밋한 적이 없습니다</td></tr>
+  <tr><td><code>Untracked files</code></td><td>Git이 아직 추적하지 않는 새 파일이 있습니다</td></tr>
+  <tr><td><code>README.md</code></td><td>이 파일이 새로 생겼습니다 (빨간색으로 표시)</td></tr>
+</table>
+<blockquote><p><strong>팁</strong>: <code>git status</code>는 <strong>아무것도 바꾸지 않는</strong> 안전한 명령어입니다. 헷갈릴 때마다 입력해서 현재 상태를 확인하세요!</p></blockquote>
+
+<h3>4-5. git add — 스테이징 영역에 추가</h3>
+<p>이제 README.md를 스테이징 영역(포장 구역)에 올립니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git add README.md</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>(아무 출력 없음 = 성공!)</code></pre>
+<p>상태를 다시 확인해봅시다:</p>
+<p><strong>입력:</strong></p>
+<pre><code>git status</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+        new file:   README.md</code></pre>
+<p><code>README.md</code>가 <strong>"Changes to be committed"</strong> 아래로 이동했습니다! (초록색으로 표시) 이제 커밋할 준비가 된 것입니다.</p>
+<p><strong>git add 다양한 사용법:</strong></p>
+<pre><code>git add 파일이름       # 특정 파일 1개 추가
+git add file1 file2   # 여러 파일 추가
+git add *.html        # 모든 .html 파일 추가
+git add .             # 현재 폴더의 모든 변경 파일 추가</code></pre>
+
+<h3>4-6. git commit — 커밋하기 (세이브!)</h3>
+<p>스테이징 영역에 올린 파일을 커밋(세이브)합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git commit -m "첫 번째 커밋: README 파일 생성"</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>[main (root-commit) a1b2c3d] 첫 번째 커밋: README 파일 생성
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md</code></pre>
+<p><strong>결과 해석:</strong></p>
+<table>
+  <tr><th>부분</th><th>의미</th></tr>
+  <tr><td><code>main</code></td><td>main 브랜치에 커밋함</td></tr>
+  <tr><td><code>(root-commit)</code></td><td>이 저장소의 첫 번째 커밋</td></tr>
+  <tr><td><code>a1b2c3d</code></td><td>커밋의 고유 ID (줄인 것)</td></tr>
+  <tr><td><code>1 file changed</code></td><td>1개 파일이 변경됨</td></tr>
+  <tr><td><code>1 insertion(+)</code></td><td>1줄이 추가됨</td></tr>
+</table>
+<blockquote><p><strong><code>-m</code> 옵션</strong>: <code>-m</code> 뒤에 큰따옴표로 커밋 메시지를 적습니다. <code>-m</code>을 빼면 편집기가 열리는데, 초보자는 <code>-m</code>을 쓰는 것이 편합니다.</p></blockquote>
+
+<h3>4-7. 파일 수정 후 다시 커밋하기</h3>
+<p>파일을 수정하고 다시 커밋하는 과정을 연습합시다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>echo "" &gt;&gt; README.md
+echo "## 프로젝트 소개" &gt;&gt; README.md
+echo "Git을 배우기 위한 연습 프로젝트입니다." &gt;&gt; README.md</code></pre>
+<p>상태 확인:</p>
+<p><strong>입력:</strong></p>
+<pre><code>git status</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>On branch main
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -am")</code></pre>
+<p>이번에는 <code>modified</code>(수정됨)로 표시됩니다. 스테이징하고 커밋합시다:</p>
+<p><strong>입력:</strong></p>
+<pre><code>git add README.md
+git commit -m "README에 프로젝트 소개 섹션 추가"</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>[main b2c3d4e] README에 프로젝트 소개 섹션 추가
+ 1 file changed, 3 insertions(+)</code></pre>
+
+<h3>4-8. 새 파일 추가하고 커밋하기</h3>
+<p>HTML 파일을 하나 만들어서 커밋해봅시다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>cat &gt; index.html &lt;&lt; 'EOF'
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;나의 첫 웹페이지&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;안녕하세요!&lt;/h1&gt;
+    &lt;p&gt;Git으로 관리하는 나의 첫 웹페이지입니다.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF</code></pre>
+<p><strong>입력:</strong></p>
+<pre><code>git add index.html
+git commit -m "index.html 메인 페이지 추가"</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>[main c3d4e5f] index.html 메인 페이지 추가
+ 1 file changed, 11 insertions(+)
+ create mode 100644 index.html</code></pre>
+
+<h3>4-9. git log — 커밋 기록 보기</h3>
+<p>지금까지의 커밋 기록을 확인합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git log</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>commit c3d4e5f... (HEAD -&gt; main)
+Author: 홍길동 &lt;hong@example.com&gt;
+Date:   Sun Mar 9 14:30:00 2026 +0900
+
+    index.html 메인 페이지 추가
+
+commit b2c3d4e...
+Author: 홍길동 &lt;hong@example.com&gt;
+Date:   Sun Mar 9 14:25:00 2026 +0900
+
+    README에 프로젝트 소개 섹션 추가
+
+commit a1b2c3d...
+Author: 홍길동 &lt;hong@example.com&gt;
+Date:   Sun Mar 9 14:20:00 2026 +0900
+
+    첫 번째 커밋: README 파일 생성</code></pre>
+<blockquote><p><strong>팁</strong>: 커밋 기록이 길 때 <code>q</code>를 누르면 나갈 수 있습니다.</p></blockquote>
+<p><strong>간단한 한 줄 로그:</strong></p>
+<p><strong>입력:</strong></p>
+<pre><code>git log --oneline</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>c3d4e5f (HEAD -&gt; main) index.html 메인 페이지 추가
+b2c3d4e README에 프로젝트 소개 섹션 추가
+a1b2c3d 첫 번째 커밋: README 파일 생성</code></pre>
+<p>이 형태가 훨씬 보기 좋습니다! <code>--oneline</code> 옵션을 자주 사용하게 될 것입니다.</p>
+
+<h3>4-10. 명령어 요약 표</h3>
+<table>
+  <tr><th>명령어</th><th>의미</th><th>비유</th></tr>
+  <tr><td><code>git init</code></td><td>Git 저장소 시작</td><td>새 게임 시작</td></tr>
+  <tr><td><code>git status</code></td><td>현재 상태 확인</td><td>인벤토리 확인</td></tr>
+  <tr><td><code>git add 파일</code></td><td>스테이징에 추가</td><td>택배 포장 구역에 올리기</td></tr>
+  <tr><td><code>git add .</code></td><td>전부 스테이징</td><td>모든 물건 포장</td></tr>
+  <tr><td><code>git commit -m "메시지"</code></td><td>커밋(세이브)</td><td>게임 세이브</td></tr>
+  <tr><td><code>git log</code></td><td>커밋 기록 보기</td><td>세이브 목록 보기</td></tr>
+  <tr><td><code>git log --oneline</code></td><td>간단한 기록 보기</td><td>세이브 목록 (요약)</td></tr>
+</table>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li><code>git init</code>으로 저장소를 만들 수 있다</li>
+  <li><code>git status</code>로 상태를 확인할 수 있다</li>
+  <li><code>git add</code> → <code>git commit</code> 흐름을 이해했다</li>
+  <li><code>git log</code>로 커밋 기록을 볼 수 있다</li>
+  <li>커밋 메시지를 의미 있게 작성할 수 있다</li>
+</ul>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. GitHub 가입과 연결</h2>
+<p>지금까지 내 컴퓨터(로컬)에서만 Git을 사용했습니다. 이제 <strong>GitHub에 올려서</strong> 인터넷 어디서나 접근할 수 있게 만들어봅시다.</p>
+
+<h3>5-1. GitHub 계정 만들기</h3>
+<h4>단계 1: 사이트 접속</h4>
+<ol>
+  <li>브라우저에서 <a href="https://github.com" target="_blank">github.com</a> 접속</li>
+  <li>우측 상단의 <strong>"Sign up"</strong> 클릭</li>
+</ol>
+<h4>단계 2: 정보 입력</h4>
+<ol>
+  <li><strong>Email</strong>: 이메일 주소 입력 — Git 설정에서 사용한 이메일과 <strong>동일하게</strong> 입력하세요!</li>
+  <li><strong>Password</strong>: 비밀번호 입력 (15자 이상 또는 8자 이상 + 숫자)</li>
+  <li><strong>Username</strong>: 사용자 이름 입력
+    <ul>
+      <li>영문, 숫자, 하이픈(-) 사용 가능</li>
+      <li>이 이름이 프로필 URL이 됩니다 (github.com/여기에표시)</li>
+      <li>예: <code>hong-gildong</code>, <code>my-dev-2026</code></li>
+    </ul></li>
+  <li><strong>이메일 수신</strong>: 원하는 대로 선택</li>
+</ol>
+<h4>단계 3: 보안 인증</h4>
+<ol>
+  <li>퍼즐 인증(CAPTCHA)을 완료합니다</li>
+  <li><strong>"Create account"</strong> 클릭</li>
+  <li>이메일로 전송된 <strong>인증 코드</strong>를 입력합니다</li>
+</ol>
+<h4>단계 4: 초기 설정</h4>
+<ol>
+  <li>환영 화면에서 간단한 설문에 답합니다 (건너뛰기 가능)</li>
+  <li>무료 플랜(Free)을 선택합니다</li>
+</ol>
+<blockquote><p><strong>축하합니다!</strong> GitHub 계정이 만들어졌습니다.</p></blockquote>
+
+<h3>5-2. SSH 키 설정 (Windows)</h3>
+<p>SSH 키는 비밀번호를 매번 입력하지 않고 GitHub에 안전하게 연결하는 방법입니다.</p>
+<blockquote><p><strong>비유</strong>: SSH 키는 "출입증"과 같습니다. 한 번 만들어 등록하면, 매번 비밀번호를 입력하지 않아도 GitHub에 자유롭게 드나들 수 있습니다.</p></blockquote>
+<h4>단계 1: SSH 키 생성</h4>
+<p>Git Bash를 열고 아래 명령어를 입력합니다:</p>
+<pre><code>ssh-keygen -t ed25519 -C "hong@example.com"</code></pre>
+<p>(이메일을 본인 이메일로 바꾸세요)</p>
+<p>아래 질문들이 나옵니다. <strong>모두 엔터만 누르면 됩니다:</strong></p>
+<pre><code>Generating public/private ed25519 key pair.
+Enter file in which to save the key (/c/Users/홍길동/.ssh/id_ed25519): [엔터]
+Enter passphrase (empty for no passphrase): [엔터]
+Enter same passphrase again: [엔터]</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>Your identification has been saved in /c/Users/홍길동/.ssh/id_ed25519
+Your public key has been saved in /c/Users/홍길동/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:AbCdEfGhIjKlMnOpQrStUvWxYz hong@example.com</code></pre>
+
+<h4>단계 2: SSH 에이전트 시작 및 키 등록</h4>
+<pre><code>eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>Agent pid 12345
+Identity added: /c/Users/홍길동/.ssh/id_ed25519 (hong@example.com)</code></pre>
+
+<h4>단계 3: 공개 키 복사</h4>
+<pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAbCdEfGh... hong@example.com</code></pre>
+<p>이 <strong>전체 내용</strong>을 마우스로 선택한 후 복사합니다 (Ctrl+C).</p>
+<blockquote><p><strong>중요</strong>: <code>id_ed25519.pub</code>은 <strong>공개 키</strong>입니다. 공유해도 안전합니다. <code>id_ed25519</code>(확장자 없는 파일)은 <strong>비밀 키</strong>이므로 절대 공유하지 마세요!</p></blockquote>
+
+<h4>단계 4: GitHub에 공개 키 등록</h4>
+<ol>
+  <li>GitHub 로그인 → 우측 상단 <strong>프로필 아이콘</strong> 클릭 → <strong>Settings</strong></li>
+  <li>왼쪽 메뉴에서 <strong>"SSH and GPG keys"</strong> 클릭</li>
+  <li><strong>"New SSH key"</strong> 버튼 클릭</li>
+  <li>입력:
+    <ul>
+      <li><strong>Title</strong>: <code>내 윈도우 PC</code> (원하는 이름)</li>
+      <li><strong>Key type</strong>: Authentication Key (기본값)</li>
+      <li><strong>Key</strong>: 아까 복사한 공개 키 붙여넣기</li>
+    </ul></li>
+  <li><strong>"Add SSH key"</strong> 클릭</li>
+</ol>
+
+<h4>단계 5: 연결 테스트</h4>
+<pre><code>ssh -T git@github.com</code></pre>
+<p>처음 연결할 때 아래 메시지가 나옵니다:</p>
+<pre><code>The authenticity of host 'github.com (...)' can't be established.
+ED25519 key fingerprint is SHA256:...
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</code></pre>
+<p><code>yes</code>를 입력하면:</p>
+<pre><code>Hi hong-gildong! You've been successfully authenticated, but GitHub does not provide shell access.</code></pre>
+<p>이 메시지가 나오면 <strong>SSH 연결 성공</strong>입니다!</p>
+
+<h3>5-3. SSH 키 설정 (Mac)</h3>
+<p>Mac에서도 과정은 거의 동일합니다.</p>
+<h4>단계 1: SSH 키 생성</h4>
+<p>터미널을 열고 아래 명령어를 입력합니다:</p>
+<pre><code>ssh-keygen -t ed25519 -C "hong@example.com"</code></pre>
+<p>모든 질문에 엔터만 누릅니다.</p>
+
+<h4>단계 2: SSH 에이전트 시작 및 키 등록</h4>
+<pre><code>eval "$(ssh-agent -s)"</code></pre>
+<p>Mac의 경우 SSH config 파일을 먼저 만듭니다:</p>
+<pre><code>touch ~/.ssh/config
+open ~/.ssh/config</code></pre>
+<p>열린 편집기에 아래 내용을 추가하고 저장합니다:</p>
+<pre><code>Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519</code></pre>
+<p>그 다음 키를 등록합니다:</p>
+<pre><code>ssh-add --apple-use-keychain ~/.ssh/id_ed25519</code></pre>
+
+<h4>단계 3: 공개 키 복사</h4>
+<pre><code>pbcopy &lt; ~/.ssh/id_ed25519.pub</code></pre>
+<p>Mac에서는 <code>pbcopy</code>를 사용하면 클립보드에 자동으로 복사됩니다!</p>
+
+<h4>단계 4~5: GitHub 등록 및 테스트</h4>
+<p>Windows와 동일합니다. GitHub Settings → SSH and GPG keys → New SSH key → 붙여넣기 → 추가</p>
+<p>연결 테스트:</p>
+<pre><code>ssh -T git@github.com</code></pre>
+
+<h3>5-4. 대안: HTTPS 방식 (SSH가 어려운 경우)</h3>
+<p>SSH 설정이 어려우면 HTTPS 방식을 사용할 수 있습니다. 다만 매번 인증이 필요할 수 있습니다.</p>
+<p><strong>HTTPS vs SSH 비교:</strong></p>
+<table>
+  <tr><th>항목</th><th>HTTPS</th><th>SSH</th></tr>
+  <tr><td><strong>설정 난이도</strong></td><td>쉬움</td><td>약간 복잡</td></tr>
+  <tr><td><strong>인증 방식</strong></td><td>토큰 입력</td><td>키 등록 (1회)</td></tr>
+  <tr><td><strong>편의성</strong></td><td>매번 토큰 입력 (또는 저장)</td><td>한 번 설정하면 끝</td></tr>
+  <tr><td><strong>추천</strong></td><td>임시 사용</td><td>장기 사용 (추천!)</td></tr>
+</table>
+<p>HTTPS를 사용하려면:</p>
+<ol>
+  <li>GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</li>
+  <li><strong>"Generate new token"</strong> 클릭</li>
+  <li>이름 입력, 만료일 선택, <strong>repo</strong> 권한 체크</li>
+  <li>생성된 토큰을 복사해서 비밀번호 대신 사용</li>
+</ol>
+<blockquote><p><strong>추천</strong>: 처음에 SSH 설정이 어렵더라도 SSH 방식을 추천합니다. 한 번만 설정하면 이후에는 훨씬 편합니다.</p></blockquote>
+
+<h3>5-5. GitHub에 원격 저장소 만들기</h3>
+<h4>단계 1: 새 저장소 생성</h4>
+<ol>
+  <li>GitHub 로그인 후 우측 상단의 <strong><code>+</code></strong> 버튼 → <strong>"New repository"</strong> 클릭</li>
+  <li>입력:
+    <ul>
+      <li><strong>Repository name</strong>: <code>my-first-git</code> (로컬 폴더 이름과 동일하게)</li>
+      <li><strong>Description</strong>: <code>Git 연습 프로젝트</code> (선택사항)</li>
+      <li><strong>Public</strong> 선택 (다른 사람도 볼 수 있음)</li>
+      <li><strong>Add a README file</strong>: 체크하지 <strong>않음</strong> (이미 로컬에 만들었으므로)</li>
+      <li><strong>Add .gitignore</strong>: 선택하지 않음</li>
+      <li><strong>Choose a license</strong>: 선택하지 않음</li>
+    </ul></li>
+  <li><strong>"Create repository"</strong> 클릭</li>
+</ol>
+
+<h4>단계 2: 나타난 안내 화면</h4>
+<p>저장소가 만들어지면 GitHub이 <strong>"Quick setup"</strong> 안내를 보여줍니다. 우리는 이미 로컬에 프로젝트가 있으므로, <strong>"...or push an existing repository from the command line"</strong> 부분을 따라합니다.</p>
+<pre><code># SSH 방식 (추천)
+git remote add origin git@github.com:사용자이름/my-first-git.git
+git push -u origin main</code></pre>
+<p>또는</p>
+<pre><code># HTTPS 방식
+git remote add origin https://github.com/사용자이름/my-first-git.git
+git push -u origin main</code></pre>
+<blockquote><p><strong><code>사용자이름</code></strong>을 본인의 GitHub 사용자이름으로 바꾸세요!</p></blockquote>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>GitHub 계정이 만들어졌다</li>
+  <li>SSH 키가 생성되고 GitHub에 등록되었다</li>
+  <li><code>ssh -T git@github.com</code>이 성공했다</li>
+  <li>GitHub에 원격 저장소가 만들어졌다</li>
+</ul>
+
+<!-- SECTION 6 -->
+<h2 id="s6">6. push와 pull</h2>
+
+<h3>6-1. 개념 이해</h3>
+<pre><code>비유: 구글 드라이브와 내 컴퓨터
+
+  push = 내 컴퓨터에서 구글 드라이브로 파일 올리기 (업로드)
+  pull = 구글 드라이브에서 내 컴퓨터로 파일 받기 (다운로드)
+
+  ┌──────────────┐                ┌──────────────┐
+  │   내 컴퓨터    │   push →      │   GitHub     │
+  │  (로컬 저장소) │               │ (원격 저장소)  │
+  │              │   ← pull      │              │
+  └──────────────┘                └──────────────┘</code></pre>
+
+<h3>6-2. git remote add — 원격 저장소 연결</h3>
+<p>로컬 저장소와 GitHub 원격 저장소를 연결합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git remote add origin git@github.com:사용자이름/my-first-git.git</code></pre>
+<p><strong>각 부분의 의미:</strong></p>
+<table>
+  <tr><th>부분</th><th>의미</th></tr>
+  <tr><td><code>git remote add</code></td><td>원격 저장소를 추가하겠다</td></tr>
+  <tr><td><code>origin</code></td><td>원격 저장소의 별명 (관례적으로 origin 사용)</td></tr>
+  <tr><td><code>git@github.com:...</code></td><td>원격 저장소의 주소 (SSH 방식)</td></tr>
+</table>
+<p>연결 확인:</p>
+<p><strong>입력:</strong></p>
+<pre><code>git remote -v</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>origin  git@github.com:사용자이름/my-first-git.git (fetch)
+origin  git@github.com:사용자이름/my-first-git.git (push)</code></pre>
+
+<h3>6-3. git push — GitHub에 올리기</h3>
+<p>로컬 커밋을 GitHub에 업로드합니다.</p>
+<p><strong>입력:</strong></p>
+<pre><code>git push -u origin main</code></pre>
+<p><strong>각 부분의 의미:</strong></p>
+<table>
+  <tr><th>부분</th><th>의미</th></tr>
+  <tr><td><code>git push</code></td><td>올리겠다</td></tr>
+  <tr><td><code>-u</code></td><td>upstream 설정 (다음부터 <code>git push</code>만 입력하면 됨)</td></tr>
+  <tr><td><code>origin</code></td><td>어디에? origin(GitHub)에</td></tr>
+  <tr><td><code>main</code></td><td>어떤 브랜치를? main 브랜치를</td></tr>
+</table>
+<p><strong>결과:</strong></p>
+<pre><code>Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 789 bytes | 789.00 KiB/s, done.
+Total 9 (delta 1), reused 0 (delta 0), pack-reused 0
+To github.com:사용자이름/my-first-git.git
+ * [new branch]      main -&gt; main
+branch 'main' set up to track 'origin/main'.</code></pre>
+<p><strong>GitHub에서 확인하기:</strong></p>
+<ol>
+  <li>브라우저에서 <code>github.com/사용자이름/my-first-git</code> 접속</li>
+  <li>README.md와 index.html이 보이면 성공!</li>
+  <li>커밋 기록도 확인할 수 있습니다 ("3 commits" 클릭)</li>
+</ol>
+<blockquote><p><strong>이후부터는</strong> <code>-u</code> 없이 <code>git push</code>만 입력하면 됩니다.</p></blockquote>
+
+<h3>6-4. git pull — GitHub에서 받기</h3>
+<p>다른 컴퓨터에서 작업했거나, GitHub 웹에서 직접 수정한 내용을 받아옵니다.</p>
+<p><strong>실습: GitHub에서 직접 파일 수정하기</strong></p>
+<ol>
+  <li>GitHub에서 <code>my-first-git</code> 저장소 페이지 접속</li>
+  <li><code>README.md</code> 파일 클릭</li>
+  <li>연필 아이콘(Edit this file) 클릭</li>
+  <li>파일 맨 아래에 아래 내용 추가:
+<pre><code>## 수정 이력
+- GitHub 웹에서 직접 수정 테스트</code></pre></li>
+  <li>하단의 <strong>"Commit changes"</strong> 버튼 클릭</li>
+</ol>
+<p>이제 <strong>GitHub에는 있지만 내 컴퓨터에는 없는</strong> 변경사항이 생겼습니다.</p>
+<p><strong>입력 (터미널에서):</strong></p>
+<pre><code>git pull</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:사용자이름/my-first-git
+   c3d4e5f..d4e5f6g  main       -&gt; origin/main
+Updating c3d4e5f..d4e5f6g
+Fast-forward
+ README.md | 3 +++
+ 1 file changed, 3 insertions(+)</code></pre>
+<p>내 컴퓨터의 파일이 GitHub 최신 상태로 업데이트되었습니다!</p>
+
+<h3>6-5. git clone — 저장소 복제하기</h3>
+<p><code>clone</code>은 GitHub에 있는 저장소를 내 컴퓨터로 <strong>통째로 복사</strong>하는 명령어입니다.</p>
+<pre><code>비유: 도서관에서 책을 빌리는 것이 아니라,
+     책 전체를 복사해서 가져오는 것!
+     (원본도 그대로 있고, 내 복사본도 있음)</code></pre>
+<p><strong>사용 상황:</strong></p>
+<ul>
+  <li>새 컴퓨터에서 기존 프로젝트를 이어서 작업할 때</li>
+  <li>다른 사람의 오픈소스 프로젝트를 가져올 때</li>
+  <li>팀 프로젝트에 처음 참여할 때</li>
+</ul>
+<p><strong>입력:</strong></p>
+<pre><code># 바탕화면이나 원하는 위치로 이동
+cd ~/Desktop
+
+# 저장소 복제
+git clone git@github.com:사용자이름/my-first-git.git</code></pre>
+<p><strong>결과:</strong></p>
+<pre><code>Cloning into 'my-first-git'...
+remote: Enumerating objects: 12, done.
+remote: Counting objects: 100% (12/12), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 12 (delta 2), reused 12 (delta 2), pack-reused 0
+Receiving objects: 100% (12/12), done.
+Resolving deltas: 100% (2/2), done.</code></pre>
+<p><code>my-first-git</code> 폴더가 생기고, 모든 파일과 커밋 기록이 들어있습니다.</p>
+<blockquote><p><strong>참고</strong>: <code>clone</code>으로 가져온 저장소는 <code>remote</code>가 자동으로 설정되어 있어서 바로 <code>push</code>/<code>pull</code>이 가능합니다.</p></blockquote>
+
+<h3>6-6. push/pull 일상 워크플로우</h3>
+<p>매일 작업할 때의 기본 흐름입니다:</p>
+<pre><code>1. 작업 시작 전:  git pull        (최신 코드 받기)
+2. 파일 수정:     열심히 작업
+3. 상태 확인:     git status      (뭘 수정했는지 확인)
+4. 스테이징:      git add .       (변경 파일 스테이징)
+5. 커밋:          git commit -m "메시지"  (세이브)
+6. 업로드:        git push        (GitHub에 올리기)</code></pre>
+<p><strong>이 6단계를 습관으로 만들면 Git 마스터입니다!</strong></p>
+
+<h3>6-7. 명령어 정리</h3>
+<table>
+  <tr><th>명령어</th><th>방향</th><th>설명</th><th>비유</th></tr>
+  <tr><td><code>git remote add origin 주소</code></td><td>설정</td><td>원격 저장소 연결</td><td>배송지 등록</td></tr>
+  <tr><td><code>git push</code></td><td>로컬 → GitHub</td><td>커밋 업로드</td><td>택배 보내기</td></tr>
+  <tr><td><code>git pull</code></td><td>GitHub → 로컬</td><td>최신 변경 다운로드</td><td>택배 받기</td></tr>
+  <tr><td><code>git clone 주소</code></td><td>GitHub → 로컬</td><td>저장소 전체 복사</td><td>매장 통째로 복제</td></tr>
+</table>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li><code>git remote add</code>로 원격 저장소를 연결할 수 있다</li>
+  <li><code>git push</code>로 코드를 GitHub에 올릴 수 있다</li>
+  <li><code>git pull</code>로 최신 코드를 받을 수 있다</li>
+  <li><code>git clone</code>으로 저장소를 복제할 수 있다</li>
+  <li>push/pull 일상 워크플로우를 이해했다</li>
+</ul>
+
+<!-- SECTION 7 -->
+<h2 id="s7">7. VS Code에서 Git 사용</h2>
+<p>터미널 명령어가 익숙하지 않다면, VS Code의 그래픽 인터페이스로 Git을 더 쉽게 사용할 수 있습니다.</p>
+
+<h3>7-1. VS Code 설치 (아직 안 했다면)</h3>
+<ol>
+  <li><a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a> 접속</li>
+  <li>본인 OS에 맞는 버전 다운로드</li>
+  <li>설치 시 아래 옵션 체크 (Windows):
+    <ul>
+      <li>[v] Add "Open with Code" action to file context menu</li>
+      <li>[v] Add "Open with Code" action to directory context menu</li>
+      <li>[v] Add to PATH</li>
+    </ul></li>
+  <li>설치 완료 후 VS Code 실행</li>
+</ol>
+
+<h3>7-2. VS Code에서 프로젝트 열기</h3>
+<p><strong>방법 1: 터미널에서 열기</strong></p>
+<pre><code>cd ~/my-first-git
+code .</code></pre>
+<p><strong>방법 2: VS Code에서 열기</strong></p>
+<ol>
+  <li>VS Code 실행</li>
+  <li>File → Open Folder</li>
+  <li><code>my-first-git</code> 폴더 선택</li>
+</ol>
+<p><strong>방법 3: 우클릭으로 열기 (Windows)</strong></p>
+<ol>
+  <li><code>my-first-git</code> 폴더를 탐색기에서 찾기</li>
+  <li>마우스 오른쪽 클릭 → "Open with Code"</li>
+</ol>
+
+<h3>7-3. 소스 제어 패널 (Git 패널)</h3>
+<p>VS Code 왼쪽 사이드바에 <strong>가지 모양 아이콘</strong>(Source Control)이 Git 패널입니다.</p>
+<pre><code>VS Code 왼쪽 사이드바:
+
+  [파일 탐색기 아이콘]    ← 파일 관리
+  [검색 아이콘]          ← 검색
+  [가지 아이콘]          ← Git (소스 제어) ★ 이것!
+  [벌레 아이콘]          ← 디버거
+  [퍼즐 아이콘]          ← 확장</code></pre>
+<p><strong>단축키</strong>: <code>Ctrl+Shift+G</code> (Windows) / <code>Cmd+Shift+G</code> (Mac)</p>
+
+<h3>7-4. VS Code에서 커밋하기</h3>
+<h4>단계 1: 파일 수정</h4>
+<p>VS Code에서 <code>index.html</code>을 열고 내용을 수정합니다. 예를 들어 <code>&lt;body&gt;</code> 안에 새 내용을 추가합니다:</p>
+<pre><code>&lt;body&gt;
+    &lt;h1&gt;안녕하세요!&lt;/h1&gt;
+    &lt;p&gt;Git으로 관리하는 나의 첫 웹페이지입니다.&lt;/p&gt;
+    &lt;p&gt;VS Code에서 수정했습니다!&lt;/p&gt;
+&lt;/body&gt;</code></pre>
+
+<h4>단계 2: 변경사항 확인</h4>
+<p>소스 제어 패널에 숫자가 표시됩니다 (변경된 파일 수).</p>
+<pre><code>소스 제어 패널:
+
+  변경 사항 (Changes)
+  ────────────────────
+  M  index.html        [+] [-] [되돌리기]
+  │
+  ├─ M = Modified (수정됨)
+  ├─ [+] = 스테이징에 추가 (git add)
+  ├─ [-] = 스테이징에서 제거
+  └─ [되돌리기] = 수정 취소 (주의!)</code></pre>
+
+<h4>단계 3: 스테이징 (git add)</h4>
+<ul>
+  <li>파일 오른쪽의 <strong><code>+</code></strong> 아이콘을 클릭합니다</li>
+  <li>또는 "Changes" 옆의 <strong><code>+</code></strong> 아이콘을 클릭하면 모든 파일이 스테이징됩니다</li>
+</ul>
+<pre><code>소스 제어 패널:
+
+  스테이지된 변경 사항 (Staged Changes)
+  ────────────────────
+  M  index.html        [-] [되돌리기]
+
+  변경 사항 (Changes)
+  ────────────────────
+  (없음)</code></pre>
+
+<h4>단계 4: 커밋 메시지 입력</h4>
+<p>상단의 메시지 입력란에 커밋 메시지를 입력합니다:</p>
+<pre><code>VS Code에서 첫 커밋 테스트</code></pre>
+
+<h4>단계 5: 커밋</h4>
+<p><strong>체크(V) 버튼</strong>을 클릭하거나 <code>Ctrl+Enter</code>(Windows) / <code>Cmd+Enter</code>(Mac)를 누릅니다.</p>
+<blockquote><p><strong>완료!</strong> 터미널을 열지 않고도 커밋할 수 있습니다.</p></blockquote>
+
+<h3>7-5. VS Code에서 push/pull</h3>
+<p>커밋 후 하단 상태 표시줄에 동기화 아이콘이 나타납니다:</p>
+<pre><code>VS Code 하단 상태 표시줄:
+
+  main ↑1 ↓0  [동기화 아이콘]
+  │     │  │
+  ├─ 현재 브랜치: main
+  ├─ ↑1: push할 커밋 1개
+  └─ ↓0: pull할 커밋 0개</code></pre>
+<p><strong>동기화 아이콘</strong>을 클릭하면 push와 pull을 동시에 수행합니다.</p>
+<p>또는:</p>
+<ul>
+  <li><code>Ctrl+Shift+P</code> → "Git: Push" 입력 → 엔터 (push만)</li>
+  <li><code>Ctrl+Shift+P</code> → "Git: Pull" 입력 → 엔터 (pull만)</li>
+</ul>
+
+<h3>7-6. 커밋 기록 보기</h3>
+<p>VS Code에서 커밋 기록을 보는 방법:</p>
+<p><strong>방법 1: 기본 기능</strong></p>
+<ul><li>소스 제어 패널 상단의 <strong>"..."</strong> 메뉴 → <strong>"View History"</strong></li></ul>
+<p><strong>방법 2: 터미널</strong></p>
+<ul>
+  <li>VS Code 내장 터미널 열기: <code>Ctrl+`</code> (백틱)</li>
+  <li><code>git log --oneline</code> 입력</li>
+</ul>
+<p><strong>방법 3: GitLens 확장 (추천)</strong></p>
+<ul><li>다음 섹션에서 설명합니다</li></ul>
+
+<h3>7-7. GitLens 확장 프로그램 설치</h3>
+<p>GitLens는 VS Code에서 Git을 훨씬 편하게 사용할 수 있게 해주는 확장 프로그램입니다.</p>
+<h4>설치 방법</h4>
+<ol>
+  <li>VS Code 왼쪽 사이드바에서 <strong>퍼즐 아이콘</strong>(확장) 클릭</li>
+  <li>검색창에 <strong>"GitLens"</strong> 입력</li>
+  <li>"GitLens - Git supercharged" 항목의 <strong>Install</strong> 클릭</li>
+</ol>
+<h4>GitLens의 유용한 기능</h4>
+<table>
+  <tr><th>기능</th><th>설명</th></tr>
+  <tr><td><strong>Blame 표시</strong></td><td>각 줄을 누가, 언제 수정했는지 바로 보여줌</td></tr>
+  <tr><td><strong>커밋 히스토리</strong></td><td>파일별, 줄별 변경 이력을 시각적으로 표시</td></tr>
+  <tr><td><strong>비교 뷰</strong></td><td>이전 버전과 현재 버전의 차이를 나란히 비교</td></tr>
+  <tr><td><strong>그래프 뷰</strong></td><td>브랜치와 커밋을 시각적 그래프로 표시</td></tr>
+</table>
+<p><strong>설치 후 확인:</strong></p>
+<ul>
+  <li>코드의 각 줄 옆에 회색으로 "누가, 언제 수정했는지" 정보가 표시됩니다</li>
+  <li>소스 제어 패널에 "GITLENS" 섹션이 추가됩니다</li>
+</ul>
+
+<h3>7-8. VS Code Git 단축키 정리</h3>
+<table>
+  <tr><th>단축키 (Windows)</th><th>단축키 (Mac)</th><th>기능</th></tr>
+  <tr><td><code>Ctrl+Shift+G</code></td><td><code>Cmd+Shift+G</code></td><td>소스 제어 패널 열기</td></tr>
+  <tr><td><code>Ctrl+`</code></td><td><code>Cmd+`</code></td><td>터미널 열기</td></tr>
+  <tr><td><code>Ctrl+Shift+P</code></td><td><code>Cmd+Shift+P</code></td><td>명령 팔레트 (Git 명령 검색)</td></tr>
+  <tr><td><code>Ctrl+Enter</code></td><td><code>Cmd+Enter</code></td><td>커밋 (메시지 입력 후)</td></tr>
+</table>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>VS Code에서 소스 제어 패널을 찾을 수 있다</li>
+  <li>VS Code에서 커밋할 수 있다 (add → 메시지 → 커밋)</li>
+  <li>VS Code에서 push/pull을 할 수 있다</li>
+  <li>GitLens 확장을 설치했다</li>
+</ul>
+
+<!-- SECTION 8 -->
+<h2 id="s8">8. .gitignore와 README</h2>
+
+<h3>8-1. .gitignore란?</h3>
+<p><code>.gitignore</code>는 <strong>Git이 무시해야 할 파일 목록</strong>을 적어놓는 파일입니다.</p>
+<pre><code>비유: 집에 CCTV가 있는데,
+     화장실과 드레스룸은 촬영하지 않도록
+     "촬영 제외 구역"을 지정하는 것과 같습니다.</code></pre>
+<p><strong>왜 필요한가요?</strong></p>
+<p>모든 파일을 Git에 올리면 안 되는 경우가 있습니다:</p>
+<table>
+  <tr><th>올리면 안 되는 것</th><th>이유</th><th>예시</th></tr>
+  <tr><td><strong>비밀 정보</strong></td><td>해킹 위험</td><td><code>.env</code>, API 키, 비밀번호</td></tr>
+  <tr><td><strong>의존성 폴더</strong></td><td>용량이 크고, 필요 시 재설치 가능</td><td><code>node_modules/</code></td></tr>
+  <tr><td><strong>빌드 결과물</strong></td><td>소스로부터 재생성 가능</td><td><code>dist/</code>, <code>build/</code></td></tr>
+  <tr><td><strong>OS 생성 파일</strong></td><td>개발과 무관</td><td><code>.DS_Store</code>, <code>Thumbs.db</code></td></tr>
+  <tr><td><strong>편집기 설정</strong></td><td>개인 설정</td><td><code>.vscode/settings.json</code></td></tr>
+</table>
+
+<h3>8-2. .gitignore 만들기</h3>
+<p>프로젝트 루트에 <code>.gitignore</code> 파일을 만듭니다.</p>
+<p><strong>터미널에서:</strong></p>
+<pre><code>cd ~/my-first-git</code></pre>
+<p><strong>VS Code에서 새 파일 만들기:</strong></p>
+<ol>
+  <li>파일 탐색기에서 새 파일 아이콘 클릭</li>
+  <li>파일 이름: <code>.gitignore</code> (반드시 점(.)으로 시작!)</li>
+  <li>아래 내용 입력</li>
+</ol>
+
+<h3>8-3. 프로젝트별 .gitignore 예시</h3>
+<h4>기본 .gitignore (모든 프로젝트 공통)</h4>
+<pre><code># OS 관련 파일
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 편집기 설정
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 환경 변수 (비밀 정보!)
+.env
+.env.local
+.env.production
+
+# 로그 파일
+*.log
+npm-debug.log*</code></pre>
+
+<h4>Node.js 프로젝트용</h4>
+<pre><code># 위의 기본 내용 + 아래 추가
+
+# 의존성 폴더 (npm install로 재설치 가능)
+node_modules/
+
+# 빌드 결과물
+dist/
+build/
+.next/
+
+# 패키지 관련
+package-lock.json  # (선택사항, 프로젝트에 따라 포함할 수도 있음)</code></pre>
+
+<h4>Python 프로젝트용</h4>
+<pre><code># 위의 기본 내용 + 아래 추가
+
+# 가상환경
+venv/
+.venv/
+env/
+
+# 컴파일된 파일
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 배포 관련
+*.egg-info/
+dist/
+build/</code></pre>
+
+<h4>러버블(Lovable) 프로젝트용</h4>
+<pre><code># 위의 기본 내용 + Node.js 내용 + 아래 추가
+
+# Supabase 로컬 설정
+supabase/.temp/</code></pre>
+
+<h3>8-4. .gitignore 작성 규칙</h3>
+<table>
+  <tr><th>패턴</th><th>의미</th><th>예시</th></tr>
+  <tr><td><code>파일명</code></td><td>특정 파일 무시</td><td><code>.env</code></td></tr>
+  <tr><td><code>폴더명/</code></td><td>특정 폴더 전체 무시</td><td><code>node_modules/</code></td></tr>
+  <tr><td><code>*.확장자</code></td><td>해당 확장자 모든 파일 무시</td><td><code>*.log</code></td></tr>
+  <tr><td><code>!파일명</code></td><td>무시하지 않음 (예외)</td><td><code>!important.log</code></td></tr>
+  <tr><td><code>#</code></td><td>주석</td><td><code># 이것은 주석입니다</code></td></tr>
+  <tr><td><code>**</code></td><td>모든 하위 디렉토리</td><td><code>**/test/</code></td></tr>
+</table>
+
+<h3>8-5. 이미 추적 중인 파일을 .gitignore에 추가한 경우</h3>
+<p><code>.gitignore</code>에 추가하기 <strong>전에</strong> 이미 Git이 추적하고 있는 파일은, <code>.gitignore</code>에 추가해도 무시되지 않습니다. 이 경우 캐시를 지워야 합니다:</p>
+<pre><code># 특정 파일의 추적 해제
+git rm --cached .env
+
+# 특정 폴더의 추적 해제
+git rm -r --cached node_modules/
+
+# 커밋
+git commit -m ".gitignore 적용: 불필요한 파일 추적 해제"</code></pre>
+<blockquote><p><strong>주의</strong>: <code>git rm --cached</code>는 Git 추적만 해제하는 것이며, 실제 파일은 삭제되지 않습니다. <code>--cached</code> 없이 <code>git rm</code>을 사용하면 파일이 실제로 삭제됩니다!</p></blockquote>
+
+<h3>8-6. README.md란?</h3>
+<p><code>README.md</code>는 프로젝트의 <strong>"첫인상"</strong>입니다. GitHub 저장소 페이지에 접속하면 가장 먼저 보이는 문서입니다.</p>
+<p><strong>README가 왜 중요한가요?</strong></p>
+<ul>
+  <li>프로젝트가 뭔지 한눈에 파악할 수 있습니다</li>
+  <li>다른 사람이 프로젝트를 이해하고 사용하는 데 도움을 줍니다</li>
+  <li>미래의 나 자신도 "이 프로젝트가 뭐였더라?" 할 때 도움이 됩니다</li>
+</ul>
+
+<h3>8-7. README.md 작성법</h3>
+<h4>Markdown 기본 문법</h4>
+<p>README.md는 <strong>Markdown</strong> 형식으로 작성합니다. 간단한 문법만 알면 됩니다:</p>
+<pre><code># 제목 1 (가장 큰 제목)
+## 제목 2
+### 제목 3
+
+**굵게**
+*기울임*
+
+- 목록 1
+- 목록 2
+
+1. 순서 있는 목록
+2. 순서 있는 목록
+
+[링크 텍스트](https://url.com)
+
+![이미지 설명](이미지주소.png)
+
+`코드` (인라인)
+
+```
+코드 블록
+```</code></pre>
+
+<h4>README 템플릿</h4>
+<pre><code># 프로젝트 이름
+
+프로젝트에 대한 한 줄 설명을 적어주세요.
+
+## 소개
+
+이 프로젝트는 무엇을 하기 위해 만들어졌는지 설명합니다.
+
+## 주요 기능
+
+- 기능 1: 설명
+- 기능 2: 설명
+- 기능 3: 설명
+
+## 시작하기
+
+### 사전 요구사항
+
+- Node.js 18 이상
+- npm 또는 yarn
+
+### 설치 방법
+
+```bash
+# 저장소 복제
+git clone https://github.com/사용자이름/프로젝트이름.git
+
+# 폴더 이동
+cd 프로젝트이름
+
+# 의존성 설치
+npm install
+
+# 실행
+npm start
+```
+
+## 사용 방법
+
+사용 방법이나 스크린샷을 넣어주세요.
+
+## 라이선스
+
+MIT License</code></pre>
+
+<h3>8-8. 라이선스 선택 가이드</h3>
+<p>라이선스는 다른 사람이 내 코드를 어떻게 사용할 수 있는지 규칙을 정하는 것입니다.</p>
+<table>
+  <tr><th>라이선스</th><th>제한 수준</th><th>특징</th><th>추천 상황</th></tr>
+  <tr><td><strong>MIT</strong></td><td>매우 자유</td><td>누구나 자유롭게 사용/수정/배포 가능</td><td>대부분의 개인 프로젝트</td></tr>
+  <tr><td><strong>Apache 2.0</strong></td><td>자유</td><td>MIT와 비슷 + 특허 관련 보호</td><td>기업 프로젝트</td></tr>
+  <tr><td><strong>GPL 3.0</strong></td><td>엄격</td><td>수정 후 배포 시 소스 공개 의무</td><td>오픈소스 철학 강조 시</td></tr>
+  <tr><td><strong>없음</strong></td><td>기본적으로 저작권 보호</td><td>명시적 허가 없이 사용 불가</td><td>비공개 프로젝트</td></tr>
+</table>
+<blockquote><p><strong>초보자 추천</strong>: 특별한 이유가 없다면 <strong>MIT 라이선스</strong>를 선택하세요. 가장 간단하고 널리 사용됩니다.</p></blockquote>
+<p><strong>라이선스 파일 만들기:</strong></p>
+<p>GitHub에서 저장소 생성 시 라이선스를 선택하거나, 수동으로 <code>LICENSE</code> 파일을 만들 수 있습니다.</p>
+
+<h3>8-9. .gitignore와 README 커밋하기</h3>
+<p>지금까지 만든 파일들을 커밋합니다:</p>
+<pre><code>git add .gitignore README.md
+git commit -m ".gitignore와 README 추가"
+git push</code></pre>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>.gitignore가 왜 필요한지 이해했다</li>
+  <li>프로젝트에 맞는 .gitignore를 작성할 수 있다</li>
+  <li>README.md를 Markdown으로 작성할 수 있다</li>
+  <li>라이선스의 기본 개념을 이해했다</li>
+</ul>
+
+<!-- SECTION 9 -->
+<h2 id="s9">9. 종합 실습</h2>
+<p>지금까지 배운 모든 내용을 활용하여 <strong>처음부터 끝까지</strong> 프로젝트를 만들어봅시다.</p>
+
+<h3>9-1. 실습 목표</h3>
+<pre><code>새 프로젝트를 만들고 → Git으로 관리하고 → GitHub에 올리기
+
+완성 후 결과:
+- 로컬: 깔끔하게 관리된 프로젝트 폴더
+- GitHub: 커밋 기록이 남은 원격 저장소
+- 배포: GitHub Pages로 웹사이트 공개 (보너스!)</code></pre>
+
+<h3>9-2. 단계 1: 프로젝트 폴더 만들기</h3>
+<pre><code># 바탕화면 또는 원하는 위치로 이동
+cd ~/Desktop
+
+# 프로젝트 폴더 만들기
+mkdir my-portfolio
+cd my-portfolio
+
+# Git 초기화
+git init</code></pre>
+<p><strong>확인:</strong></p>
+<pre><code>git status</code></pre>
+<pre><code>On branch main
+No commits yet
+nothing to commit (create copy and track files)</code></pre>
+
+<h3>9-3. 단계 2: 기본 파일 만들기</h3>
+<h4>.gitignore 만들기</h4>
+<pre><code>cat &gt; .gitignore &lt;&lt; 'EOF'
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# 편집기
+.vscode/
+.idea/
+
+# 환경 변수
+.env
+.env.local
+EOF</code></pre>
+<h4>README.md 만들기</h4>
+<pre><code>cat &gt; README.md &lt;&lt; 'EOF'
+# 나의 포트폴리오
+
+Git과 GitHub을 배우며 만든 첫 포트폴리오 웹사이트입니다.
+
+## 기술 스택
+
+- HTML5
+- CSS3
+
+## 라이선스
+
+MIT License
+EOF</code></pre>
+<h4>index.html 만들기</h4>
+<pre><code>cat &gt; index.html &lt;&lt; 'EOF'
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;나의 포트폴리오&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;홍길동의 포트폴리오&lt;/h1&gt;
+        &lt;p&gt;안녕하세요! 만나서 반갑습니다.&lt;/p&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section&gt;
+            &lt;h2&gt;소개&lt;/h2&gt;
+            &lt;p&gt;저는 Git과 GitHub을 배우고 있는 초보 개발자입니다.&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;2026 홍길동. All rights reserved.&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+EOF</code></pre>
+
+<h3>9-4. 단계 3: 첫 번째 커밋</h3>
+<pre><code># 상태 확인
+git status
+
+# 전체 스테이징
+git add .
+
+# 상태 다시 확인 (초록색으로 변경)
+git status
+
+# 커밋
+git commit -m "프로젝트 초기 설정: README, .gitignore, index.html"</code></pre>
+<p><strong>예상 결과:</strong></p>
+<pre><code>[main (root-commit) abc1234] 프로젝트 초기 설정: README, .gitignore, index.html
+ 3 files changed, 40 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 README.md
+ create mode 100644 index.html</code></pre>
+
+<h3>9-5. 단계 4: CSS 추가 — 두 번째 커밋</h3>
+<pre><code>cat &gt; style.css &lt;&lt; 'EOF'
+/* 전체 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    color: #667eea;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #f5f5f5;
+    color: #666;
+    margin-top: 60px;
+}
+EOF</code></pre>
+<pre><code>git add style.css
+git commit -m "스타일시트 추가: 헤더 그라디언트, 레이아웃 정리"</code></pre>
+
+<h3>9-6. 단계 5: 콘텐츠 보강 — 세 번째 커밋</h3>
+<p><code>index.html</code>의 <code>&lt;main&gt;</code> 섹션에 내용을 추가합니다. VS Code에서 파일을 열고 수정합니다:</p>
+<pre><code>    &lt;main&gt;
+        &lt;section&gt;
+            &lt;h2&gt;소개&lt;/h2&gt;
+            &lt;p&gt;저는 Git과 GitHub을 배우고 있는 초보 개발자입니다.&lt;/p&gt;
+            &lt;p&gt;바이브코딩을 통해 웹 개발의 세계에 입문했습니다.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+            &lt;h2&gt;배운 것들&lt;/h2&gt;
+            &lt;ul&gt;
+                &lt;li&gt;Git 기본 명령어 (init, add, commit, push)&lt;/li&gt;
+                &lt;li&gt;GitHub 저장소 관리&lt;/li&gt;
+                &lt;li&gt;HTML/CSS 기초&lt;/li&gt;
+                &lt;li&gt;.gitignore와 README 작성법&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+            &lt;h2&gt;프로젝트&lt;/h2&gt;
+            &lt;p&gt;앞으로 더 많은 프로젝트를 추가할 예정입니다!&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+            &lt;h2&gt;연락처&lt;/h2&gt;
+            &lt;p&gt;GitHub: &lt;a href="https://github.com/사용자이름"&gt;github.com/사용자이름&lt;/a&gt;&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;</code></pre>
+<pre><code>git add index.html
+git commit -m "포트폴리오 콘텐츠 보강: 배운 것, 프로젝트, 연락처 섹션 추가"</code></pre>
+
+<h3>9-7. 단계 6: GitHub에 올리기</h3>
+<h4>GitHub에서 저장소 만들기</h4>
+<ol>
+  <li>GitHub → <code>+</code> → New repository</li>
+  <li>Repository name: <code>my-portfolio</code></li>
+  <li>Public 선택</li>
+  <li>README 추가 <strong>안 함</strong> (이미 있으므로)</li>
+  <li>Create repository</li>
+</ol>
+<h4>원격 연결 및 push</h4>
+<pre><code># SSH 방식
+git remote add origin git@github.com:사용자이름/my-portfolio.git
+
+# push
+git push -u origin main</code></pre>
+
+<h3>9-8. 단계 7: GitHub에서 확인하기</h3>
+<p>브라우저에서 <code>github.com/사용자이름/my-portfolio</code>에 접속합니다.</p>
+<p><strong>확인할 것:</strong></p>
+<ol>
+  <li><strong>파일 목록</strong>: <code>.gitignore</code>, <code>README.md</code>, <code>index.html</code>, <code>style.css</code>가 보이는가?</li>
+  <li><strong>README 미리보기</strong>: 하단에 README.md 내용이 렌더링되어 보이는가?</li>
+  <li><strong>커밋 기록</strong>: "3 commits" 클릭 → 3개의 커밋이 순서대로 보이는가?</li>
+  <li><strong>.gitignore</strong>: <code>.DS_Store</code> 같은 파일이 올라가지 않았는가?</li>
+</ol>
+
+<h3>9-9. 보너스: GitHub Pages로 웹사이트 배포</h3>
+<p>GitHub에 올린 HTML 파일을 <strong>무료 웹사이트</strong>로 공개할 수 있습니다!</p>
+<h4>설정 방법</h4>
+<ol>
+  <li>GitHub 저장소 페이지 → <strong>Settings</strong> 탭</li>
+  <li>왼쪽 메뉴에서 <strong>"Pages"</strong> 클릭</li>
+  <li><strong>Source</strong>: "Deploy from a branch" 선택</li>
+  <li><strong>Branch</strong>: <code>main</code> 선택, 폴더는 <code>/ (root)</code> 유지</li>
+  <li><strong>Save</strong> 클릭</li>
+</ol>
+<h4>배포 확인</h4>
+<p>1~2분 후 상단에 URL이 표시됩니다:</p>
+<pre><code>https://사용자이름.github.io/my-portfolio/</code></pre>
+<p>이 URL로 접속하면 만든 포트폴리오 웹사이트가 보입니다!</p>
+<blockquote><p><strong>팁</strong>: 변경사항을 push하면 자동으로 GitHub Pages에도 반영됩니다. 다만 반영까지 1~2분 정도 걸릴 수 있습니다.</p></blockquote>
+
+<h3>9-10. 커밋 기록 최종 확인</h3>
+<pre><code>git log --oneline</code></pre>
+<p><strong>예상 결과:</strong></p>
+<pre><code>e5f6g7h (HEAD -&gt; main, origin/main) 포트폴리오 콘텐츠 보강: 배운 것, 프로젝트, 연락처 섹션 추가
+d4e5f6g 스타일시트 추가: 헤더 그라디언트, 레이아웃 정리
+abc1234 프로젝트 초기 설정: README, .gitignore, index.html</code></pre>
+<p>3개의 커밋이 의미 있는 메시지와 함께 깔끔하게 기록되어 있습니다!</p>
+
+<h3>체크포인트</h3>
+<ul class="checklist">
+  <li>새 프로젝트를 만들고 Git으로 초기화했다</li>
+  <li>.gitignore와 README.md를 작성했다</li>
+  <li>의미 있는 단위로 3회 커밋했다</li>
+  <li>GitHub에 push했다</li>
+  <li>GitHub에서 파일과 커밋 기록을 확인했다</li>
+  <li>(보너스) GitHub Pages로 배포했다</li>
+</ul>
+
+<!-- SECTION 10 -->
+<h2 id="s10">10. 트러블슈팅 &amp; FAQ</h2>
+
+<h3>10-1. 트러블슈팅 — 자주 겪는 문제 8가지</h3>
+
+<h4>문제 1: push 시 인증 실패</h4>
+<pre><code>remote: Support for password authentication was removed.
+fatal: Authentication failed for 'https://github.com/...'</code></pre>
+<p><strong>원인</strong>: GitHub는 2021년부터 비밀번호 인증을 지원하지 않습니다.</p>
+<p><strong>해결 방법:</strong></p>
+<p><strong>방법 A: SSH 방식으로 전환 (추천)</strong></p>
+<pre><code># 현재 원격 주소 확인
+git remote -v
+
+# HTTPS를 SSH로 변경
+git remote set-url origin git@github.com:사용자이름/저장소이름.git
+
+# 확인
+git remote -v
+
+# 다시 push
+git push</code></pre>
+<p><strong>방법 B: Personal Access Token 사용</strong></p>
+<ol>
+  <li>GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</li>
+  <li>Generate new token → 이름 입력, repo 권한 체크 → Generate</li>
+  <li>생성된 토큰을 비밀번호 대신 입력</li>
+</ol>
+
+<h4>문제 2: push 거부 (reject)</h4>
+<pre><code>! [rejected]        main -&gt; main (non-fast-forward)
+error: failed to push some refs to 'github.com:...'
+hint: Updates were rejected because the remote contains work that you do not have locally.</code></pre>
+<p><strong>원인</strong>: GitHub에 내 컴퓨터에 없는 커밋이 있습니다 (다른 곳에서 수정했거나, GitHub 웹에서 직접 수정한 경우).</p>
+<p><strong>해결 방법:</strong></p>
+<pre><code># 먼저 pull로 최신 변경사항 받기
+git pull
+
+# (충돌이 없으면) 다시 push
+git push</code></pre>
+<p>만약 <code>git pull</code> 시 충돌(conflict)이 발생하면:</p>
+<pre><code># 충돌 파일을 열어서 수동으로 수정
+# &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+# 내 코드
+# =======
+# 원격의 코드
+# &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main
+
+# 충돌 표시(&lt;&lt;&lt;, ===, &gt;&gt;&gt;)를 지우고 원하는 내용으로 수정
+
+# 수정 후 커밋
+git add .
+git commit -m "merge 충돌 해결"
+git push</code></pre>
+
+<h4>문제 3: 한글 파일명 깨짐</h4>
+<pre><code>$ git status
+"\355\225\234\352\270\200\355\214\214\354\235\274.txt"</code></pre>
+<p><strong>원인</strong>: Git이 한글 파일명을 이스케이프 문자로 표시하고 있습니다.</p>
+<p><strong>해결 방법:</strong></p>
+<pre><code>git config --global core.quotepath false</code></pre>
+<p>이후 <code>git status</code>를 다시 실행하면 한글이 정상적으로 표시됩니다:</p>
+<pre><code>한글파일.txt</code></pre>
+
+<h4>문제 4: "fatal: not a git repository"</h4>
+<pre><code>fatal: not a git repository (or any of the parent directories): .git</code></pre>
+<p><strong>원인</strong>: 현재 디렉토리가 Git 저장소가 아닙니다.</p>
+<p><strong>해결 방법:</strong></p>
+<pre><code># 현재 위치 확인
+pwd
+
+# 프로젝트 폴더로 이동
+cd ~/my-first-git
+
+# 또는 Git 초기화가 안 됐다면
+git init</code></pre>
+
+<h4>문제 5: 실수로 커밋한 파일 되돌리기</h4>
+<p><strong>상황</strong>: <code>.env</code> 파일을 실수로 커밋해버렸습니다!</p>
+<p><strong>해결 방법:</strong></p>
+<pre><code># 1. .gitignore에 추가
+echo ".env" &gt;&gt; .gitignore
+
+# 2. Git 추적에서 제거 (파일은 삭제하지 않음)
+git rm --cached .env
+
+# 3. 커밋
+git commit -m ".env 파일 Git 추적 해제 및 .gitignore 추가"
+
+# 4. push
+git push</code></pre>
+<blockquote><p><strong>주의</strong>: GitHub에 한 번이라도 올라간 비밀 정보(API 키 등)는 커밋 기록에 남아있을 수 있습니다. 비밀 키가 노출된 경우 해당 키를 즉시 재발급하세요!</p></blockquote>
+
+<h4>문제 6: 커밋 메시지를 잘못 작성한 경우</h4>
+<p><strong>상황</strong>: 커밋 메시지에 오타가 있습니다.</p>
+<p><strong>해결 방법 (아직 push하기 전):</strong></p>
+<pre><code># 마지막 커밋 메시지만 수정
+git commit --amend -m "올바른 커밋 메시지"</code></pre>
+<blockquote><p><strong>주의</strong>: 이미 push한 커밋의 메시지를 수정하면 복잡해집니다. 초보자는 push하기 전에 커밋 메시지를 꼼꼼히 확인하세요.</p></blockquote>
+
+<h4>문제 7: SSH 키 관련 오류</h4>
+<pre><code>Permission denied (publickey).
+fatal: Could not read from remote repository.</code></pre>
+<p><strong>원인</strong>: SSH 키가 등록되지 않았거나, SSH 에이전트가 실행되지 않았습니다.</p>
+<p><strong>해결 방법:</strong></p>
+<pre><code># 1. SSH 키가 있는지 확인
+ls -la ~/.ssh/
+
+# 2. SSH 에이전트 시작
+eval "$(ssh-agent -s)"
+
+# 3. SSH 키 등록
+ssh-add ~/.ssh/id_ed25519
+
+# 4. 연결 테스트
+ssh -T git@github.com</code></pre>
+<p>SSH 키가 없다면 섹션 5를 참고하여 새로 만들어주세요.</p>
+
+<h4>문제 8: git pull 시 "error: Your local changes would be overwritten"</h4>
+<pre><code>error: Your local changes to the following files would be overwritten by merge:
+        index.html
+Please commit your changes or stash them before you can merge.</code></pre>
+<p><strong>원인</strong>: 로컬에서 수정한 파일이 있는데, 원격에서도 같은 파일이 수정되었습니다.</p>
+<p><strong>해결 방법:</strong></p>
+<p><strong>방법 A: 로컬 변경사항을 먼저 커밋</strong></p>
+<pre><code>git add .
+git commit -m "작업 중인 변경사항 임시 저장"
+git pull</code></pre>
+<p><strong>방법 B: 로컬 변경사항을 임시 보관 (stash)</strong></p>
+<pre><code># 변경사항 임시 보관
+git stash
+
+# pull
+git pull
+
+# 보관한 변경사항 다시 적용
+git stash pop</code></pre>
+
+<h3>10-2. 자주 묻는 질문 (FAQ) — 8가지</h3>
+
+<h4>FAQ 1: Git과 GitHub는 꼭 같이 써야 하나요?</h4>
+<p><strong>아니요!</strong> Git은 내 컴퓨터에서만 사용할 수도 있습니다. GitHub 없이도 로컬에서 버전 관리가 가능합니다.</p>
+<p>하지만 GitHub를 함께 쓰면:</p>
+<ul>
+  <li>코드 백업이 됩니다 (컴퓨터가 고장나도 안전)</li>
+  <li>여러 컴퓨터에서 작업할 수 있습니다</li>
+  <li>다른 사람과 협업할 수 있습니다</li>
+  <li>GitHub Pages로 웹사이트를 무료 배포할 수 있습니다</li>
+</ul>
+
+<h4>FAQ 2: 커밋은 얼마나 자주 해야 하나요?</h4>
+<p><strong>"의미 있는 단위"</strong>로 커밋하는 것이 좋습니다.</p>
+<table>
+  <tr><th>너무 적은 커밋</th><th>적절한 커밋</th><th>너무 많은 커밋</th></tr>
+  <tr><td>"프로젝트 완성" (1개)</td><td>"헤더 디자인 완성"</td><td>"a 추가"</td></tr>
+  <tr><td>변경사항 파악 불가</td><td>각 커밋이 하나의 기능/수정</td><td>의미 없는 커밋 과다</td></tr>
+</table>
+<p><strong>초보자 가이드라인:</strong></p>
+<ul>
+  <li>새 기능을 하나 완성했을 때</li>
+  <li>버그를 하나 수정했을 때</li>
+  <li>작업을 중단하기 전 (세이브!)</li>
+  <li>대략 30분~1시간에 한 번</li>
+</ul>
+
+<h4>FAQ 3: Private(비공개) 저장소를 쓸 수 있나요?</h4>
+<p><strong>네!</strong> GitHub 무료 계정에서도 Private 저장소를 <strong>무제한</strong>으로 만들 수 있습니다.</p>
+<p>저장소 생성 시 <strong>Private</strong>을 선택하면 본인과 초대한 사람만 볼 수 있습니다.</p>
+<table>
+  <tr><th>Public (공개)</th><th>Private (비공개)</th></tr>
+  <tr><td>누구나 코드를 볼 수 있음</td><td>본인과 초대받은 사람만 접근</td></tr>
+  <tr><td>오픈소스, 포트폴리오에 적합</td><td>개인 프로젝트, 회사 코드에 적합</td></tr>
+  <tr><td>GitHub Pages 무료 사용</td><td>GitHub Pages는 Pro 계정 필요</td></tr>
+</table>
+
+<h4>FAQ 4: <code>git add .</code>과 <code>git add -A</code>의 차이는?</h4>
+<p>대부분의 경우 동일하게 작동합니다.</p>
+<table>
+  <tr><th>명령어</th><th>설명</th></tr>
+  <tr><td><code>git add .</code></td><td>현재 디렉토리와 하위 디렉토리의 모든 변경 추가</td></tr>
+  <tr><td><code>git add -A</code></td><td>저장소 전체의 모든 변경 추가 (삭제 포함)</td></tr>
+  <tr><td><code>git add 파일명</code></td><td>지정한 파일만 추가</td></tr>
+</table>
+<blockquote><p><strong>초보자 추천</strong>: 프로젝트 루트에서 <code>git add .</code>을 사용하면 충분합니다.</p></blockquote>
+
+<h4>FAQ 5: 이전 커밋으로 되돌리고 싶어요</h4>
+<p><strong>방법 1: 특정 파일만 되돌리기</strong></p>
+<pre><code># 특정 파일을 마지막 커밋 상태로 되돌리기
+git checkout -- 파일이름</code></pre>
+<p><strong>방법 2: 커밋 자체를 되돌리기 (안전한 방법)</strong></p>
+<pre><code># 해당 커밋의 변경을 취소하는 새 커밋 생성
+git revert 커밋ID</code></pre>
+<p><strong>방법 3: 커밋 기록까지 되돌리기 (주의!)</strong></p>
+<pre><code># 해당 커밋 시점으로 완전히 되돌아감 (이후 커밋 삭제)
+git reset --hard 커밋ID</code></pre>
+<blockquote><p><strong>초보자 추천</strong>: <code>revert</code>를 사용하세요. 기록이 보존되어 안전합니다.</p></blockquote>
+
+<h4>FAQ 6: GitHub Desktop이라는 것도 있던데, 그걸 써도 되나요?</h4>
+<p><strong>네!</strong> <a href="https://desktop.github.com" target="_blank">GitHub Desktop</a>은 GUI(그래픽) 방식의 Git 클라이언트입니다.</p>
+<table>
+  <tr><th>방법</th><th>장점</th><th>단점</th></tr>
+  <tr><td><strong>터미널 (CLI)</strong></td><td>모든 기능 사용 가능, 어디서나 동일</td><td>명령어 암기 필요</td></tr>
+  <tr><td><strong>VS Code Git 패널</strong></td><td>코딩하면서 바로 사용</td><td>복잡한 기능은 터미널 필요</td></tr>
+  <tr><td><strong>GitHub Desktop</strong></td><td>가장 직관적, 초보자 친화적</td><td>고급 기능 제한</td></tr>
+</table>
+<blockquote><p><strong>추천</strong>: 처음에는 어떤 방법이든 괜찮습니다. 하지만 터미널 명령어를 함께 익혀두면 나중에 큰 도움이 됩니다.</p></blockquote>
+
+<h4>FAQ 7: 바이브코딩(러버블, 커서 등)에서 Git은 어떻게 쓰이나요?</h4>
+<table>
+  <tr><th>도구</th><th>Git 사용 방식</th></tr>
+  <tr><td><strong>러버블 (Lovable)</strong></td><td>프로젝트가 GitHub에 자동 연동, 저장소에서 코드 확인 가능</td></tr>
+  <tr><td><strong>커서 (Cursor)</strong></td><td>VS Code 기반이므로 Git 패널 내장, 직접 커밋/push</td></tr>
+  <tr><td><strong>안티그래비티</strong></td><td>프로젝트를 GitHub에 내보내기 가능</td></tr>
+  <tr><td><strong>Claude Code</strong></td><td>CLI 환경에서 Git 직접 사용, 커밋/push 명령 실행</td></tr>
+</table>
+<p>바이브코딩 도구를 사용하더라도 Git의 기본 개념을 이해하고 있으면:</p>
+<ul>
+  <li>프로젝트 이력을 파악할 수 있습니다</li>
+  <li>문제가 생겼을 때 이전 버전으로 되돌릴 수 있습니다</li>
+  <li>코드를 다른 환경으로 옮길 수 있습니다</li>
+</ul>
+
+<h4>FAQ 8: Git을 더 깊이 배우려면 어디서 공부하나요?</h4>
+<p><strong>무료 학습 자료:</strong></p>
+<table>
+  <tr><th>자료</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Git 공식 도서 (Pro Git)</strong></td><td>무료 온라인 도서, 한국어 번역</td><td><a href="https://git-scm.com/book/ko/v2" target="_blank">git-scm.com/book/ko</a></td></tr>
+  <tr><td><strong>GitHub Skills</strong></td><td>GitHub 공식 대화형 학습</td><td><a href="https://skills.github.com" target="_blank">skills.github.com</a></td></tr>
+  <tr><td><strong>Learn Git Branching</strong></td><td>시각적으로 Git 학습</td><td><a href="https://learngitbranching.js.org/?locale=ko" target="_blank">learngitbranching.js.org</a></td></tr>
+  <tr><td><strong>생활코딩 Git</strong></td><td>한국어 입문 강의</td><td><a href="https://opentutorials.org/course/3837" target="_blank">opentutorials.org</a></td></tr>
+</table>
+<p><strong>다음에 배울 것들:</strong></p>
+<ul>
+  <li>브랜치 만들기와 합치기 (merge)</li>
+  <li>Pull Request (PR) 만들기</li>
+  <li>충돌(conflict) 해결하기</li>
+  <li>Git Flow 워크플로우</li>
+  <li>GitHub Actions (자동화)</li>
+</ul>
+
+<h3>10-3. Git 명령어 치트시트</h3>
+<p>자주 사용하는 명령어를 한눈에 정리합니다:</p>
+<h4>초기 설정</h4>
+<pre><code>git config --global user.name "이름"          # 사용자 이름 설정
+git config --global user.email "이메일"       # 이메일 설정
+git config --global core.quotepath false      # 한글 파일명 설정
+git config --global init.defaultBranch main   # 기본 브랜치 이름 설정</code></pre>
+<h4>기본 워크플로우</h4>
+<pre><code>git init                    # 새 저장소 초기화
+git status                  # 현재 상태 확인
+git add 파일명              # 파일 스테이징
+git add .                   # 모든 변경 파일 스테이징
+git commit -m "메시지"      # 커밋 (세이브)
+git log --oneline           # 커밋 기록 보기</code></pre>
+<h4>원격 저장소</h4>
+<pre><code>git remote add origin 주소  # 원격 저장소 연결
+git remote -v               # 원격 저장소 확인
+git push -u origin main     # 첫 push (이후 git push만)
+git push                    # GitHub에 올리기
+git pull                    # GitHub에서 받기
+git clone 주소              # 저장소 복제</code></pre>
+<h4>확인 및 되돌리기</h4>
+<pre><code>git diff                    # 변경 내용 비교
+git log                     # 상세 커밋 기록
+git log --oneline           # 한 줄 커밋 기록
+git checkout -- 파일명      # 파일 변경 취소
+git reset HEAD 파일명       # 스테이징 취소</code></pre>
+
+<!-- APPENDIX -->
+<h2 id="appendix">부록: 용어 사전</h2>
+<table>
+  <tr><th>용어</th><th>영문</th><th>설명</th></tr>
+  <tr><td><strong>저장소</strong></td><td>Repository</td><td>Git이 파일 이력을 저장하는 공간 (폴더 + .git)</td></tr>
+  <tr><td><strong>커밋</strong></td><td>Commit</td><td>변경사항을 저장하는 행위, 또는 그 기록 (세이브)</td></tr>
+  <tr><td><strong>스테이징</strong></td><td>Staging</td><td>커밋할 파일을 선택하는 과정 (git add)</td></tr>
+  <tr><td><strong>브랜치</strong></td><td>Branch</td><td>독립된 작업 공간 (가지치기)</td></tr>
+  <tr><td><strong>푸시</strong></td><td>Push</td><td>로컬 커밋을 원격 저장소에 업로드</td></tr>
+  <tr><td><strong>풀</strong></td><td>Pull</td><td>원격 저장소의 변경사항을 로컬에 다운로드</td></tr>
+  <tr><td><strong>클론</strong></td><td>Clone</td><td>원격 저장소를 로컬에 통째로 복사</td></tr>
+  <tr><td><strong>원격 저장소</strong></td><td>Remote</td><td>인터넷(GitHub)에 있는 저장소</td></tr>
+  <tr><td><strong>로컬 저장소</strong></td><td>Local</td><td>내 컴퓨터에 있는 저장소</td></tr>
+  <tr><td><strong>작업 디렉토리</strong></td><td>Working Directory</td><td>실제 파일을 편집하는 폴더</td></tr>
+  <tr><td><strong>충돌</strong></td><td>Conflict</td><td>같은 파일의 같은 부분을 다르게 수정한 경우</td></tr>
+  <tr><td><strong>머지</strong></td><td>Merge</td><td>두 브랜치를 합치는 것</td></tr>
+  <tr><td><strong>SSH 키</strong></td><td>SSH Key</td><td>비밀번호 없이 안전하게 인증하는 암호화 키</td></tr>
+  <tr><td><strong>.gitignore</strong></td><td>.gitignore</td><td>Git이 무시할 파일 목록</td></tr>
+  <tr><td><strong>README</strong></td><td>README</td><td>프로젝트 소개 문서</td></tr>
+  <tr><td><strong>HEAD</strong></td><td>HEAD</td><td>현재 작업 중인 커밋을 가리키는 포인터</td></tr>
+  <tr><td><strong>origin</strong></td><td>Origin</td><td>원격 저장소의 기본 별명</td></tr>
+  <tr><td><strong>main</strong></td><td>Main</td><td>기본 브랜치의 이름 (과거에는 master)</td></tr>
+  <tr><td><strong>diff</strong></td><td>Diff</td><td>두 버전 간의 차이점</td></tr>
+  <tr><td><strong>stash</strong></td><td>Stash</td><td>작업 중인 변경사항을 임시 보관</td></tr>
+</table>
+
+<!-- NEXT -->
+<h2 id="next">다음 단계</h2>
+<p>이 교안을 완료했다면, 다음으로 도전해볼 수 있는 것들입니다:</p>
+
+<h3>바이브코딩 도구와 함께 사용하기</h3>
+<pre><code>Git/GitHub 기초 (지금 여기!)
+  ↓
+러버블 (Lovable) → GitHub 연동으로 코드 확인
+  ↓
+커서 (Cursor) → Git 패널로 버전 관리하며 개발
+  ↓
+Claude Code → CLI에서 Git 직접 사용</code></pre>
+
+<h3>Git 심화 학습 경로</h3>
+<pre><code>1단계: 기본 (지금 여기!)
+  init, add, commit, push, pull, clone
+
+2단계: 브랜치 활용
+  branch, checkout, merge, rebase
+
+3단계: 협업
+  Pull Request, Code Review, Fork
+
+4단계: 고급
+  Git Flow, Cherry-pick, Submodule, GitHub Actions</code></pre>
+
+<h3>실전 프로젝트 아이디어</h3>
+<table>
+  <tr><th>프로젝트</th><th>난이도</th><th>배울 수 있는 것</th></tr>
+  <tr><td>개인 포트폴리오</td><td>★☆☆</td><td>GitHub Pages 배포</td></tr>
+  <tr><td>TIL(Today I Learned) 저장소</td><td>★☆☆</td><td>매일 커밋 습관</td></tr>
+  <tr><td>오픈소스 README 번역 기여</td><td>★★☆</td><td>Fork, PR, 협업</td></tr>
+  <tr><td>팀 프로젝트</td><td>★★☆</td><td>브랜치, 머지, 충돌 해결</td></tr>
+  <tr><td>GitHub Actions 자동화</td><td>★★★</td><td>CI/CD, 자동 배포</td></tr>
+</table>
+
+<!-- SOURCES -->
+<h2 id="sources">출처 및 참고 자료</h2>
+<table>
+  <tr><th>자료</th><th>설명</th></tr>
+  <tr><td><a href="https://git-scm.com" target="_blank">Git 공식 사이트</a></td><td>Git 다운로드, 공식 문서</td></tr>
+  <tr><td><a href="https://docs.github.com/ko" target="_blank">GitHub 공식 문서</a></td><td>GitHub 한국어 공식 가이드</td></tr>
+  <tr><td><a href="https://git-scm.com/book/ko/v2" target="_blank">Pro Git Book (한국어)</a></td><td>Git 공식 무료 도서</td></tr>
+  <tr><td><a href="https://skills.github.com" target="_blank">GitHub Skills</a></td><td>GitHub 공식 대화형 학습</td></tr>
+  <tr><td><a href="https://learngitbranching.js.org/?locale=ko" target="_blank">Learn Git Branching</a></td><td>시각적 Git 브랜치 학습</td></tr>
+  <tr><td>김선생의 바이브코딩 가이드</td><td>본 교안 프로젝트</td></tr>
+</table>
+
+<blockquote><p><strong>수고하셨습니다!</strong> 이제 여러분은 Git과 GitHub의 기초를 익혔습니다. 처음에는 명령어가 낯설고 어렵게 느껴지겠지만, 매일 조금씩 사용하다 보면 자연스러워집니다. "commit 습관"을 들이는 것이 가장 중요합니다. 화이팅!</p></blockquote>
+
+</main>
+</div>
+<footer>본 교안은 Git/GitHub 입문 학습을 위해 작성되었습니다.</footer>
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel"><h3>목차</h3></div>
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+<script src="common.js"></script>
+</body>
+</html>

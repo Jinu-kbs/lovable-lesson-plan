@@ -38,6 +38,32 @@
 │   ├── /claude-code-intermediate.html ─── 중급자편
 │   └── /claude-code-developer.html ─── 개발자편
 │
+├── 개발 인터페이스 (CLI/IDE/CMD) — 기초 지식
+│   ├── /devinterface-beginner.html ─── 초보자편
+│   ├── /devinterface-intermediate.html ─── 중급자편
+│   └── /devinterface-developer.html ─── 개발자편
+│
+├── ChatGPT/Codex — AI 코딩 도구
+│   ├── /chatgpt-beginner.html ─── 초보자편
+│   ├── /chatgpt-intermediate.html ─── 중급자편
+│   └── /chatgpt-developer.html ─── 개발자편
+│
+├── 프롬프트 엔지니어링 — AI 대화 스킬
+│   ├── /prompt-beginner.html ─── 초보자편
+│   ├── /prompt-intermediate.html ─── 중급자편
+│   └── /prompt-developer.html ─── 개발자편
+│
+├── Git/GitHub — 버전 관리 · 협업
+│   ├── /github-beginner.html ─── 초보자편
+│   ├── /github-intermediate.html ─── 중급자편
+│   └── /github-developer.html ─── 개발자편
+│
+├── 배포 (Deployment) — 웹 공개
+│   ├── /deployment-beginner.html ─── 초보자편
+│   ├── /deployment-intermediate.html ─── 중급자편
+│   └── /deployment-developer.html ─── 개발자편
+│
+├── /ai-compare.html ─── AI 도구 비교 (Claude vs ChatGPT)
 ├── /compare.html ─── 도구 비교
 │
 └── 리다이렉트 스텁 (기존 URL 호환)
@@ -88,6 +114,14 @@ Hero 섹션
 ├── 💻 커서 ── 초보자·중급자·개발자 링크
 ├── 🧪 AI Studio ── 초보자·중급자·개발자 링크
 └── ⚡ Claude Code ── 초보자·중급자·개발자 링크
+
+스킬 & 기초 교안 카드 그리드 (6개)
+├── 🖥️ 개발 인터페이스 ── 초보자·중급자·개발자 링크
+├── 🎓 ChatGPT/Codex ── 초보자·중급자·개발자 링크
+├── 🎯 프롬프트 엔지니어링 ── 초보자·중급자·개발자 링크
+├── 🐙 Git/GitHub ── 초보자·중급자·개발자 링크
+├── 🌐 배포 ── 초보자·중급자·개발자 링크
+└── 🤖 AI 도구 비교 ── 비교 분석 링크
 
 도구 비교표 (#compare)
 ├── 유형, 설치, 코딩 필요, 주요 대상
@@ -525,7 +559,12 @@ index.html (멀티 도구 허브)
     │   ├─ 안티그래비티 → antigravity-beginner / antigravity-intermediate / antigravity-developer
     │   ├─ 커서 → cursor-beginner / cursor-intermediate / cursor-developer
     │   ├─ AI Studio → aistudio-beginner / aistudio-intermediate / aistudio-developer
-    │   └─ Claude Code → claude-code-beginner / claude-code-intermediate / claude-code-developer
+    │   ├─ Claude Code → claude-code-beginner / claude-code-intermediate / claude-code-developer
+    │   ├─ 개발 인터페이스 → devinterface-beginner / devinterface-intermediate / devinterface-developer
+    │   ├─ ChatGPT/Codex → chatgpt-beginner / chatgpt-intermediate / chatgpt-developer
+    │   ├─ 프롬프트 → prompt-beginner / prompt-intermediate / prompt-developer
+    │   ├─ Git/GitHub → github-beginner / github-intermediate / github-developer
+    │   └─ 배포 → deployment-beginner / deployment-intermediate / deployment-developer
     │
     ├─[인터랙티브 퀴즈] → 추천 결과 → 교안 링크
     │
@@ -597,10 +636,146 @@ claude-code-developer.html
     ├─[topnav 초보자편]──→ claude-code-beginner.html
     └─[topnav 중급자편]──→ claude-code-intermediate.html
 
+devinterface-beginner.html
+    ├─[topnav 중급자편]──→ devinterface-intermediate.html
+    └─[topnav 개발자편]──→ devinterface-developer.html
+
+devinterface-intermediate.html
+    ├─[topnav 초보자편]──→ devinterface-beginner.html
+    └─[topnav 개발자편]──→ devinterface-developer.html
+
+devinterface-developer.html
+    ├─[topnav 초보자편]──→ devinterface-beginner.html
+    └─[topnav 중급자편]──→ devinterface-intermediate.html
+
+chatgpt-beginner.html
+    ├─[topnav 중급자편]──→ chatgpt-intermediate.html
+    └─[topnav 개발자편]──→ chatgpt-developer.html
+
+chatgpt-intermediate.html
+    ├─[topnav 초보자편]──→ chatgpt-beginner.html
+    └─[topnav 개발자편]──→ chatgpt-developer.html
+
+chatgpt-developer.html
+    ├─[topnav 초보자편]──→ chatgpt-beginner.html
+    └─[topnav 중급자편]──→ chatgpt-intermediate.html
+
+prompt-beginner.html
+    ├─[topnav 중급자편]──→ prompt-intermediate.html
+    └─[topnav 개발자편]──→ prompt-developer.html
+
+prompt-intermediate.html
+    ├─[topnav 초보자편]──→ prompt-beginner.html
+    └─[topnav 개발자편]──→ prompt-developer.html
+
+prompt-developer.html
+    ├─[topnav 초보자편]──→ prompt-beginner.html
+    └─[topnav 중급자편]──→ prompt-intermediate.html
+
+github-beginner.html
+    ├─[topnav 중급자편]──→ github-intermediate.html
+    └─[topnav 개발자편]──→ github-developer.html
+
+github-intermediate.html
+    ├─[topnav 초보자편]──→ github-beginner.html
+    └─[topnav 개발자편]──→ github-developer.html
+
+github-developer.html
+    ├─[topnav 초보자편]──→ github-beginner.html
+    └─[topnav 중급자편]──→ github-intermediate.html
+
+deployment-beginner.html
+    ├─[topnav 중급자편]──→ deployment-intermediate.html
+    └─[topnav 개발자편]──→ deployment-developer.html
+
+deployment-intermediate.html
+    ├─[topnav 초보자편]──→ deployment-beginner.html
+    └─[topnav 개발자편]──→ deployment-developer.html
+
+deployment-developer.html
+    ├─[topnav 초보자편]──→ deployment-beginner.html
+    └─[topnav 중급자편]──→ deployment-intermediate.html
+
 리다이렉트 스텁:
     beginner.html ──→ lovable-beginner.html
     intermediate.html ──→ lovable-intermediate.html
     developer.html ──→ lovable-developer.html
+```
+
+### 18. 개발 인터페이스 초보자편 (devinterface-beginner.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편(active)] [중급자편] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          어떤 교안을 봐야 할까요?
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. 개발 환경이 뭔가요?             GUI vs CLI 비유, 5대 도구 인터페이스 표
+2. 용어 사전                       12개 핵심 용어 (비유 포함)
+3. 터미널 열기 (OS별)              Windows/Mac 단계별 안내, 프롬프트 설명
+4. CMD vs PowerShell               비교표, PowerShell 추천 이유
+5. 파일과 폴더                     디렉토리 트리, 절대/상대 경로, 한글 경로 주의
+6. 첫 번째 명령어                  cd/mkdir/ls/cd ../clear (Bash/CMD/PS 3열 비교)
+7. 두 번째 명령어                  touch/cat/cp/mv/rm (파일 다루기)
+8. PowerShell 더 알아보기          Cmdlet, Tab 자동완성, Get-Help, 실행 정책
+9. VS Code 설치                    Windows/Mac 설치, 5가지 초기 설정, 추천 확장 5선
+10. VS Code 핵심 기능              5대 영역, 필수 단축키 10선, Emmet
+11. VS Code 터미널                 통합 터미널, 셸 변경, code . 명령
+12. Git 기초                       게임 세이브 비유, 설치, add/commit 흐름
+13. 종합 미니 프로젝트             자기소개 페이지 만들기 + Git 커밋 2번
+14. 트러블슈팅                     8개 문제 상세 해결
+15. FAQ                            10개 질문·답변
+16. 다음 단계                      중급편/바이브코딩 도구 연결
+출처                               출처 테이블
+```
+
+### 19. 개발 인터페이스 중급자편 (devinterface-intermediate.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편(active)] [개발자편]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 수준 안내
+추천 리소스                        추천 리소스 테이블 (4개 링크)
+1. CLI 심화 명령어                 리다이렉션/파이프/체이닝, Bash vs PS 비교
+2. 파일 검색과 텍스트 처리         grep/find vs Select-String, 정규식
+3. PowerShell 중급 활용            파이프라인 객체, Where-Object, 프로파일, 대응표 20선
+4. 프로세스·권한 관리              ps/kill, 실행 정책 심화
+5. VS Code 확장과 고급 설정        필수 확장 15선, settings.json, 스니펫
+6. VS Code 디버깅 마스터           중단점, launch.json, 디버그 콘솔
+7. Git branch와 협업               브랜치, 충돌 해결, PR, GitLens
+8. CLI 기반 프로그램 실행          npm/pip, 패키지 매니저 심화
+9. 로그 분석과 모니터링            tail -f vs Get-Content -Wait
+10. 개발 작업 자동화 기초          npm scripts, alias, 환경변수
+11. 바이브코딩 도구 환경 설정      .cursor/rules, CLAUDE.md, 도구 연동
+12. 트러블슈팅 & FAQ              6개 문제 + 8개 FAQ
+13. 다음 단계                      고급편 안내, 학습 경로
+출처                               출처 테이블
+```
+
+### 20. 개발 인터페이스 개발자편 (devinterface-developer.html)
+
+```
+TopNav: [바이브코딩 가이드(brand)] [초보자편] [중급자편] [개발자편(active)]
+
+Sidebar (목차)                     Content (본문)
+─────────────                     ──────────────
+자가 진단                          대상 설명, 추천 리소스 테이블
+1. Bash Shell Script               변수, 조건문, 반복, 함수, 인수, trap
+2. PowerShell 스크립팅             .ps1, 함수/파라미터, 모듈, 변환 가이드
+3. 자동화 스크립트 실전            Bash 5가지 + PS 3가지 실전 스크립트
+4. CLI 파이프라인과 데이터 처리    sed/awk, jq, ConvertFrom-Json
+5. 환경 변수와 시크릿 관리         .env, dotenv, 12-Factor App
+6. 개발 환경 설정 자동화           dotfiles, winget/scoop, Oh My Zsh
+7. VS Code 고급 활용               Remote-SSH/WSL/Containers, Dev Containers
+8. Docker 기반 개발 환경           Dockerfile, docker-compose, 멀티스테이지
+9. 배포와 CI/CD                    Makefile, GitHub Actions
+10. 종합 프로젝트                  Bash+PS+Docker+CI/CD 통합
+11. 바이브코딩 도구 연계 심화      CLAUDE.md 고급, MCP, AI+셸 통합
+12. 다음 단계                      인프라/플랫폼 엔지니어링 경로
+출처                               출처 테이블
 ```
 
 ## 외부 링크 목록

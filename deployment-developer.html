@@ -1,0 +1,2790 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>배포 가이드 개발자 교안 - 개발자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#00BCD4;--primary-light:#80DEEA;--blockquote-bg:#E0F7FA;--hover-bg:#F0FDFF}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">🎵 바이브코딩 가이드</a>
+  <div class="nav-links">
+    <a href="deployment-beginner.html">초보자편</a>
+    <a href="deployment-intermediate.html">중급자편</a>
+    <a href="deployment-developer.html" class="active">개발자편</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>📘 개발자편</h1>
+  <div class="meta">대상: 프로덕션 환경 배포와 인프라 관리에 관심 있는 개발자 · 목표: Docker 배포, 클라우드 인프라, IaC, 무중단 배포 전략 · 약 5~6시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 프로덕션 아키텍처</a>
+  <a href="#s2">2. Docker 프로덕션 배포</a>
+  <a href="#s3">3. 클라우드 플랫폼 비교와 활용</a>
+  <a href="#s4">4. IaC — Infrastructure as Code</a>
+  <a href="#s5">5. 쿠버네티스 입문</a>
+  <a href="#s6">6. CI/CD 파이프라인 고급</a>
+  <a href="#s7">7. 무중단 배포 전략</a>
+  <a href="#s8">8. 모니터링과 로깅</a>
+  <a href="#s9">9. 보안과 시크릿 관리</a>
+  <a href="#s10">10. 종합 프로젝트</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<!-- 자가 진단 -->
+<h2 id="diag">이 교안이 나에게 맞을까요? (자가 진단)</h2>
+<p>이 교안은 <strong>배포 경험이 있거나 인프라에 관심 있는 개발자</strong>를 대상으로 합니다.</p>
+<div class="table-responsive"><table>
+  <tr><th>항목</th><th>필요 수준</th></tr>
+  <tr><td>코딩 경험</td><td><strong>필수</strong> — 1개 이상 언어로 프로젝트 경험</td></tr>
+  <tr><td>터미널 사용</td><td><strong>필수</strong> — cd, ls, ssh, curl 등 기본 명령어 숙지</td></tr>
+  <tr><td>Git/GitHub</td><td><strong>필수</strong> — 커밋, 브랜치, PR, GitHub Actions 기초</td></tr>
+  <tr><td>Docker 기초</td><td><strong>권장</strong> — docker run, docker build 경험</td></tr>
+  <tr><td>네트워크 기초</td><td><strong>권장</strong> — IP, 포트, DNS, HTTP/HTTPS 개념</td></tr>
+  <tr><td>Linux 서버</td><td><strong>권장</strong> — 기본적인 서버 접속 및 관리 경험</td></tr>
+</table></div>
+<blockquote>
+<p>위 항목 중 코딩 경험과 터미널 사용이 해당하지 않는다면, <strong>배포 가이드 초보자편</strong>으로 먼저 시작하세요.<br>Docker가 처음이라면 <strong>개발 인터페이스 개발자편</strong>의 Docker 섹션을 먼저 학습하세요.</p>
+</blockquote>
+
+<!-- 추천 리소스 -->
+<h3 id="resources">추천 리소스</h3>
+<div class="table-responsive"><table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Docker 공식 문서</strong></td><td>컨테이너 빌드 및 배포 가이드</td><td><a href="https://docs.docker.com/" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>Kubernetes 공식 문서</strong></td><td>쿠버네티스 개념 및 튜토리얼</td><td><a href="https://kubernetes.io/ko/docs/home/" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>Terraform 공식 문서</strong></td><td>HCL 문법 및 프로바이더 레퍼런스</td><td><a href="https://developer.hashicorp.com/terraform/docs" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>AWS Well-Architected</strong></td><td>클라우드 아키텍처 모범 사례</td><td><a href="https://aws.amazon.com/architecture/well-architected/" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>The Twelve-Factor App</strong></td><td>SaaS 앱 개발 원칙</td><td><a href="https://12factor.net/ko/" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>CNCF Landscape</strong></td><td>클라우드 네이티브 생태계 지도</td><td><a href="https://landscape.cncf.io/" target="_blank">바로가기</a></td></tr>
+</table></div>
+
+<!-- 1. 프로덕션 아키텍처 -->
+<section id="s1">
+<h2>1. 프로덕션 아키텍처</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>프로덕션 환경의 핵심 구성 요소(로드 밸런서, CDN, 오토 스케일링)를 이해한다</li>
+  <li>모놀리식과 마이크로서비스 아키텍처의 장단점을 비교한다</li>
+  <li>고가용성(HA) 아키텍처를 설계할 수 있다</li>
+  <li>프로덕션 인프라를 텍스트 다이어그램으로 표현할 수 있다</li>
+</ul>
+
+<h3>1.1 프로덕션 환경이란?</h3>
+<p>개발 환경(Development)에서 작동하는 코드가 프로덕션(Production)에서 반드시 잘 동작하지는 않습니다. 프로덕션 환경은 실제 사용자가 접속하는 환경이며, 다음 요소들이 추가로 필요합니다.</p>
+
+<div class="table-responsive"><table>
+  <tr><th>요소</th><th>개발 환경</th><th>프로덕션 환경</th></tr>
+  <tr><td>트래픽</td><td>개발자 1명</td><td>수백~수백만 사용자</td></tr>
+  <tr><td>가용성</td><td>중단 허용</td><td>99.9% 이상 업타임</td></tr>
+  <tr><td>보안</td><td>로컬 방화벽</td><td>TLS, WAF, 네트워크 격리</td></tr>
+  <tr><td>데이터</td><td>테스트 데이터</td><td>실제 사용자 데이터 (백업 필수)</td></tr>
+  <tr><td>로깅</td><td>console.log</td><td>구조화된 로깅 + 모니터링</td></tr>
+  <tr><td>배포</td><td>수동 (npm start)</td><td>자동화된 CI/CD 파이프라인</td></tr>
+</table></div>
+
+<h3>1.2 핵심 구성 요소</h3>
+
+<h4>로드 밸런서 (Load Balancer)</h4>
+<p>로드 밸런서는 들어오는 트래픽을 여러 서버에 분산시킵니다. 단일 서버 장애 시에도 서비스를 유지할 수 있는 핵심 컴포넌트입니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>                    ┌──────────────┐
+                    │   사용자들    │
+                    └──────┬───────┘
+                           │
+                    ┌──────▼───────┐
+                    │  로드 밸런서  │
+                    │  (L4/L7)     │
+                    └──┬───┬───┬───┘
+                       │   │   │
+                ┌──────┘   │   └──────┐
+                ▼          ▼          ▼
+          ┌──────────┐ ┌──────────┐ ┌──────────┐
+          │ Server 1 │ │ Server 2 │ │ Server 3 │
+          │ (Active) │ │ (Active) │ │ (Active) │
+          └──────────┘ └──────────┘ └──────────┘</code></pre></div>
+
+<p>로드 밸런싱 알고리즘 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>알고리즘</th><th>설명</th><th>적합한 경우</th></tr>
+  <tr><td>Round Robin</td><td>순서대로 분배</td><td>서버 성능이 동일할 때</td></tr>
+  <tr><td>Weighted Round Robin</td><td>가중치 기반 분배</td><td>서버 성능이 다를 때</td></tr>
+  <tr><td>Least Connections</td><td>연결 수 적은 서버로</td><td>요청 처리 시간이 다양할 때</td></tr>
+  <tr><td>IP Hash</td><td>클라이언트 IP 기반</td><td>세션 유지가 필요할 때</td></tr>
+  <tr><td>Least Response Time</td><td>응답 속도 빠른 서버로</td><td>지연시간이 중요할 때</td></tr>
+</table></div>
+
+<p>Nginx 로드 밸런서 설정 예시:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># /etc/nginx/conf.d/loadbalancer.conf
+
+upstream app_servers {
+    # Least Connections 알고리즘
+    least_conn;
+
+    server 10.0.1.10:3000 weight=3;   # 고성능 서버
+    server 10.0.1.11:3000 weight=2;   # 중간 성능
+    server 10.0.1.12:3000 weight=1;   # 저성능 서버
+
+    # 헬스체크 — 3번 실패 시 30초간 제외
+    server 10.0.1.13:3000 max_fails=3 fail_timeout=30s;
+
+    # 백업 서버 — 다른 서버 모두 실패 시 사용
+    server 10.0.1.99:3000 backup;
+}
+
+server {
+    listen 80;
+    server_name myapp.example.com;
+
+    # HTTPS 리다이렉트
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name myapp.example.com;
+
+    ssl_certificate     /etc/ssl/certs/myapp.crt;
+    ssl_certificate_key /etc/ssl/private/myapp.key;
+
+    location / {
+        proxy_pass http://app_servers;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 타임아웃 설정
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 60s;
+        proxy_send_timeout 60s;
+    }
+
+    # 헬스체크 엔드포인트
+    location /health {
+        proxy_pass http://app_servers;
+        access_log off;
+    }
+}</code></pre></div>
+
+<h4>CDN (Content Delivery Network)</h4>
+<p>CDN은 정적 파일(이미지, CSS, JS)을 사용자와 가까운 엣지 서버에서 제공하여 응답 속도를 높입니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>    한국 사용자 ──→ 서울 엣지 서버 (캐시 HIT → 즉시 응답)
+                                    │
+    미국 사용자 ──→ 버지니아 엣지   │ (캐시 MISS → 오리진 요청)
+                                    │
+                          ┌─────────▼──────────┐
+                          │   오리진 서버       │
+                          │   (S3 / 앱 서버)   │
+                          └────────────────────┘</code></pre></div>
+
+<p>주요 CDN 서비스 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>서비스</th><th>무료 티어</th><th>특징</th></tr>
+  <tr><td>Cloudflare</td><td>무제한 대역폭</td><td>DDoS 방어 포함, 가장 많이 사용</td></tr>
+  <tr><td>AWS CloudFront</td><td>1TB/월 (12개월)</td><td>S3 연동 우수, Lambda@Edge</td></tr>
+  <tr><td>Google Cloud CDN</td><td>없음</td><td>GCP 통합, Cloud Armor</td></tr>
+  <tr><td>Vercel Edge Network</td><td>100GB/월</td><td>Next.js 최적화, 자동 설정</td></tr>
+</table></div>
+
+<h4>오토 스케일링 (Auto Scaling)</h4>
+<p>트래픽에 따라 서버 수를 자동으로 조절합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>트래픽 변화와 서버 수 (시간축)
+
+서버 수
+  6 │                    ╭───╮
+  5 │                 ╭──╯   ╰──╮
+  4 │              ╭──╯         ╰──╮
+  3 │           ╭──╯               ╰──╮
+  2 │  ╭────────╯                      ╰────────╮
+  1 │──╯                                        ╰──
+    └────────────────────────────────────────────────
+    00:00  06:00  09:00  12:00  15:00  18:00  24:00
+          (새벽)  (출근)  (점심)  (오후)  (퇴근)  (새벽)</code></pre></div>
+
+<p>AWS Auto Scaling 정책 예시:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>{
+  "AutoScalingGroupName": "my-app-asg",
+  "MinSize": 2,
+  "MaxSize": 10,
+  "DesiredCapacity": 3,
+  "TargetTrackingConfiguration": {
+    "TargetValue": 70.0,
+    "PredefinedMetricSpecification": {
+      "PredefinedMetricType": "ASGAverageCPUUtilization"
+    },
+    "ScaleOutCooldown": 120,
+    "ScaleInCooldown": 300
+  }
+}</code></pre></div>
+
+<h3>1.3 모놀리식 vs 마이크로서비스</h3>
+
+<h4>모놀리식 아키텍처</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>┌─────────────────────────────────────┐
+│       모놀리식 애플리케이션           │
+│                                     │
+│  ┌──────────┐  ┌──────────┐        │
+│  │ 사용자    │  │ 상품     │        │
+│  │ 모듈     │  │ 모듈     │        │
+│  ├──────────┤  ├──────────┤        │
+│  │ 주문     │  │ 결제     │        │
+│  │ 모듈     │  │ 모듈     │        │
+│  └──────────┘  └──────────┘        │
+│                                     │
+│        ┌──────────────┐            │
+│        │  공유 DB      │            │
+│        └──────────────┘            │
+└─────────────────────────────────────┘</code></pre></div>
+
+<h4>마이크로서비스 아키텍처</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐
+│ 사용자     │  │ 상품      │  │ 주문      │  │ 결제      │
+│ 서비스    │  │ 서비스    │  │ 서비스    │  │ 서비스    │
+│           │  │           │  │           │  │           │
+│  ┌─────┐  │  │  ┌─────┐  │  │  ┌─────┐  │  │  ┌─────┐  │
+│  │ DB  │  │  │  │ DB  │  │  │  │ DB  │  │  │  │ DB  │  │
+│  └─────┘  │  │  └─────┘  │  │  └─────┘  │  │  └─────┘  │
+└─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘
+      │              │              │              │
+      └──────────────┴──────┬───────┴──────────────┘
+                            │
+                     ┌──────▼──────┐
+                     │ API Gateway │
+                     │ / 메시지 큐  │
+                     └─────────────┘</code></pre></div>
+
+<p>비교표:</p>
+<div class="table-responsive"><table>
+  <tr><th>항목</th><th>모놀리식</th><th>마이크로서비스</th></tr>
+  <tr><td>복잡도</td><td>낮음 (단일 코드베이스)</td><td>높음 (분산 시스템)</td></tr>
+  <tr><td>배포</td><td>전체 배포</td><td>서비스별 독립 배포</td></tr>
+  <tr><td>확장</td><td>전체 스케일링</td><td>서비스별 스케일링</td></tr>
+  <tr><td>기술 스택</td><td>단일</td><td>서비스별 다른 기술 가능</td></tr>
+  <tr><td>팀 구조</td><td>작은 팀 적합</td><td>팀별 서비스 소유</td></tr>
+  <tr><td>장애 범위</td><td>전체 영향</td><td>해당 서비스만 영향</td></tr>
+  <tr><td>초기 비용</td><td>낮음</td><td>높음 (인프라, 모니터링)</td></tr>
+  <tr><td>추천 시점</td><td>MVP, 소규모</td><td>대규모, 팀 분리 필요 시</td></tr>
+</table></div>
+
+<div class="tip-box"><strong>실무 조언</strong>: 처음부터 마이크로서비스로 시작하지 마세요. 모놀리식으로 시작하여 서비스 경계를 파악한 후 점진적으로 분리하는 것이 현실적입니다.</div>
+
+<h3>1.4 프로덕션 인프라 전체 아키텍처</h3>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>┌─────────────────────────────────────────────────────────────────────┐
+│                    프로덕션 인프라 전체 구조                          │
+│                                                                     │
+│  사용자 → DNS(Route53) → CDN(CloudFront) → WAF                    │
+│                                              │                      │
+│                                    ┌─────────▼──────────┐          │
+│                                    │   ALB (로드밸런서)   │          │
+│                                    └────┬────┬────┬─────┘          │
+│                                         │    │    │                 │
+│                          ┌──────────────┘    │    └──────────┐     │
+│                          ▼                   ▼               ▼     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                ECS / Kubernetes Cluster                      │   │
+│  │                                                             │   │
+│  │  ┌─────────┐    ┌─────────┐    ┌─────────┐                │   │
+│  │  │ Task 1  │    │ Task 2  │    │ Task 3  │   Auto Scaling │   │
+│  │  │ (App)   │    │ (App)   │    │ (App)   │                │   │
+│  │  └─────────┘    └─────────┘    └─────────┘                │   │
+│  └─────────────────────────────────────────────────────────────┘   │
+│                          │                                         │
+│              ┌───────────┴───────────┐                             │
+│              ▼                       ▼                             │
+│     ┌──────────────┐      ┌──────────────┐                        │
+│     │ RDS (Primary)│──────│ RDS (Replica)│                        │
+│     └──────────────┘      └──────────────┘                        │
+│              │                                                     │
+│     ┌────────┴────────┐                                           │
+│     ▼                 ▼                                           │
+│  ┌────────┐    ┌───────────┐    ┌──────────────┐                  │
+│  │ Redis  │    │ S3 Bucket │    │ CloudWatch   │                  │
+│  │ Cache  │    │ (Storage) │    │ (Monitoring) │                  │
+│  └────────┘    └───────────┘    └──────────────┘                  │
+└─────────────────────────────────────────────────────────────────────┘</code></pre></div>
+
+<h3>실습: 아키텍처 문서 작성</h3>
+<p>자신의 프로젝트(또는 가상 프로젝트)를 위한 아키텍처 문서를 작성해 보세요.</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 프로젝트명: 온라인 쇼핑몰
+
+## 요구 사항
+- 동시 사용자: 최대 10,000명
+- 가용성: 99.9% (연간 다운타임 8.76시간 이내)
+- 응답 시간: P95 &lt; 500ms
+- 데이터 백업: 일 1회, 7일 보존
+
+## 아키텍처 결정 사항
+- [ ] 모놀리식 vs 마이크로서비스: ____________
+- [ ] 로드밸런서 종류: ____________
+- [ ] CDN 사용 여부: ____________
+- [ ] 오토 스케일링 정책: ____________
+- [ ] 데이터베이스 구성: ____________</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>로드 밸런서의 역할과 주요 알고리즘 3가지를 설명할 수 있다</li>
+  <li>CDN의 동작 원리(캐시 HIT/MISS)를 이해한다</li>
+  <li>오토 스케일링의 Scale Out/In 개념을 설명할 수 있다</li>
+  <li>모놀리식과 마이크로서비스의 장단점을 비교할 수 있다</li>
+  <li>프로덕션 인프라의 전체 흐름(DNS → CDN → LB → App → DB)을 그릴 수 있다</li>
+</ul>
+</section>
+
+<!-- 2. Docker 프로덕션 배포 -->
+<section id="s2">
+<h2>2. Docker 프로덕션 배포</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>멀티스테이지 빌드를 사용하여 최적화된 프로덕션 이미지를 만든다</li>
+  <li>Docker Compose로 프로덕션 환경을 구성한다</li>
+  <li>컨테이너 레지스트리(Docker Hub, GHCR)에 이미지를 배포한다</li>
+  <li>컨테이너 보안 모범 사례를 적용한다</li>
+</ul>
+
+<h3>2.1 멀티스테이지 Dockerfile</h3>
+<p>멀티스테이지 빌드는 빌드 환경과 실행 환경을 분리하여 최종 이미지 크기를 최소화합니다.</p>
+
+<h4>Node.js 앱 — 기본 vs 멀티스테이지 비교</h4>
+
+<p>나쁜 예 (단일 스테이지):</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 나쁜 예 — 이미지 크기 ~1.2GB
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+# 문제: devDependencies, 소스코드, 빌드 도구가 모두 포함됨</code></pre></div>
+
+<p>좋은 예 (멀티스테이지):</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># ──────────────────────────────────────
+# Stage 1: 의존성 설치 (Dependencies)
+# ──────────────────────────────────────
+FROM node:20-alpine AS deps
+WORKDIR /app
+
+# package.json만 먼저 복사 → 캐시 레이어 활용
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
+
+# ──────────────────────────────────────
+# Stage 2: 빌드 (Build)
+# ──────────────────────────────────────
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
+# ──────────────────────────────────────
+# Stage 3: 실행 (Production)
+# ──────────────────────────────────────
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+# 보안: non-root 사용자 생성
+RUN addgroup --system --gid 1001 nodejs &amp;&amp; \
+    adduser --system --uid 1001 appuser
+
+# 프로덕션 의존성만 복사
+COPY --from=deps /app/node_modules ./node_modules
+
+# 빌드 결과물만 복사
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+
+# non-root 사용자로 전환
+USER appuser
+
+# 환경 변수
+ENV NODE_ENV=production
+ENV PORT=3000
+
+EXPOSE 3000
+
+# 헬스체크
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
+
+CMD ["node", "dist/server.js"]</code></pre></div>
+
+<p>이미지 크기 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>방식</th><th>베이스 이미지</th><th>최종 크기</th></tr>
+  <tr><td>단일 스테이지 (node:20)</td><td>~1.1GB</td><td>~1.3GB</td></tr>
+  <tr><td>멀티스테이지 (node:20-alpine)</td><td>~130MB</td><td>~180MB</td></tr>
+  <tr><td>distroless 사용</td><td>~20MB</td><td>~80MB</td></tr>
+</table></div>
+
+<h4>Next.js 앱 Dockerfile</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Stage 1: Dependencies
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+    if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+    elif [ -f package-lock.json ]; then npm ci; \
+    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm &amp;&amp; pnpm i --frozen-lockfile; \
+    else echo "Lockfile not found." &amp;&amp; exit 1; \
+    fi
+
+# Stage 2: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Next.js 텔레메트리 비활성화
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN npm run build
+
+# Stage 3: Runner
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs &amp;&amp; \
+    adduser --system --uid 1001 nextjs
+
+# Next.js standalone output 활용
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]</code></pre></div>
+
+<h4>Python(FastAPI) 앱 Dockerfile</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Stage 1: Build
+FROM python:3.12-slim AS builder
+WORKDIR /app
+
+# 가상환경 생성
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stage 2: Production
+FROM python:3.12-slim AS runner
+WORKDIR /app
+
+# 보안: non-root 사용자
+RUN groupadd --system appgroup &amp;&amp; \
+    useradd --system --gid appgroup appuser
+
+# 가상환경만 복사
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY . .
+
+USER appuser
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]</code></pre></div>
+
+<h3>2.2 Docker Compose 프로덕션 구성</h3>
+<p>개발용 Compose와 프로덕션용 Compose를 분리합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># docker-compose.yml (기본 — 공통 설정)
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># docker-compose.prod.yml (프로덕션 오버라이드)
+version: "3.9"
+
+services:
+  app:
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 128M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+    ports:
+      - "3000:3000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db:
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+
+  redis:
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+
+volumes:
+  postgres_data:
+  redis_data:</code></pre></div>
+
+<p>프로덕션 실행 명령:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 프로덕션 환경으로 실행
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# 로그 확인
+docker compose -f docker-compose.yml -f docker-compose.prod.yml logs -f app
+
+# 스케일링 (앱 인스턴스 5개로)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --scale app=5
+
+# 롤링 업데이트
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps app</code></pre></div>
+
+<h3>2.3 컨테이너 레지스트리</h3>
+<p>빌드한 이미지를 레지스트리에 푸시하여 어디서든 배포할 수 있게 합니다.</p>
+
+<h4>Docker Hub</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 로그인
+docker login
+
+# 이미지 태깅 (시맨틱 버전 + latest)
+docker build -t myapp:latest .
+docker tag myapp:latest myuser/myapp:1.2.3
+docker tag myapp:latest myuser/myapp:latest
+
+# 푸시
+docker push myuser/myapp:1.2.3
+docker push myuser/myapp:latest</code></pre></div>
+
+<h4>GitHub Container Registry (GHCR)</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># GitHub Personal Access Token으로 로그인
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+
+# 이미지 태깅
+docker tag myapp:latest ghcr.io/myuser/myapp:1.2.3
+
+# 푸시
+docker push ghcr.io/myuser/myapp:1.2.3</code></pre></div>
+
+<p>GitHub Actions로 자동 빌드 &amp; 푸시:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># .github/workflows/docker-publish.yml
+name: Docker Build &amp; Push
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max</code></pre></div>
+
+<h3>2.4 컨테이너 보안 모범 사례</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 보안 체크리스트를 적용한 Dockerfile 예시
+
+# 1. 최소 베이스 이미지 사용
+FROM node:20-alpine
+
+# 2. 패키지 업데이트 및 불필요 도구 제거
+RUN apk update &amp;&amp; apk upgrade &amp;&amp; \
+    apk add --no-cache dumb-init &amp;&amp; \
+    rm -rf /var/cache/apk/*
+
+# 3. non-root 사용자 사용
+RUN addgroup --system --gid 1001 appgroup &amp;&amp; \
+    adduser --system --uid 1001 --ingroup appgroup appuser
+
+WORKDIR /app
+
+# 4. 의존성만 먼저 설치 (캐시 최적화)
+COPY --chown=appuser:appgroup package*.json ./
+RUN npm ci --only=production &amp;&amp; npm cache clean --force
+
+# 5. 소스 코드 복사 (불필요 파일 .dockerignore로 제외)
+COPY --chown=appuser:appgroup . .
+
+# 6. 파일 권한 최소화
+RUN chmod -R 550 /app
+
+# 7. non-root로 전환
+USER appuser
+
+# 8. 시그널 처리를 위한 init 시스템
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "server.js"]</code></pre></div>
+
+<p><code>.dockerignore</code> 파일:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># .dockerignore
+node_modules
+npm-debug.log*
+.git
+.gitignore
+.env
+.env.*
+Dockerfile
+docker-compose*.yml
+README.md
+.vscode
+.idea
+coverage
+tests
+__tests__
+*.test.js
+*.spec.js</code></pre></div>
+
+<h3>실습: 프로덕션 Docker 환경 구성</h3>
+<ol>
+  <li>자신의 프로젝트에 멀티스테이지 Dockerfile을 작성하세요.</li>
+  <li>Docker Compose로 앱 + DB + Redis + Nginx 구성을 만드세요.</li>
+  <li>GHCR에 이미지를 푸시하고 다른 머신에서 pull하여 실행해 보세요.</li>
+</ol>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 실습 순서
+
+# 1. 프로젝트 디렉토리 생성
+mkdir my-production-app &amp;&amp; cd my-production-app
+
+# 2. Dockerfile 작성 (위의 멀티스테이지 템플릿 활용)
+vim Dockerfile
+
+# 3. .dockerignore 작성
+vim .dockerignore
+
+# 4. 빌드 및 크기 확인
+docker build -t my-app:v1 .
+docker images my-app
+
+# 5. 로컬 실행 테스트
+docker run -p 3000:3000 --rm my-app:v1
+
+# 6. Compose로 전체 스택 실행
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# 7. 헬스체크 확인
+docker compose ps
+curl http://localhost:3000/health</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>멀티스테이지 빌드의 장점과 구조를 설명할 수 있다</li>
+  <li>프로덕션용 Docker Compose 파일을 작성할 수 있다</li>
+  <li>Docker Hub 또는 GHCR에 이미지를 푸시할 수 있다</li>
+  <li>컨테이너 보안 모범 사례 5가지를 나열할 수 있다</li>
+  <li>GitHub Actions로 이미지 자동 빌드 파이프라인을 구성할 수 있다</li>
+</ul>
+</section>
+
+<!-- 3. 클라우드 플랫폼 비교와 활용 -->
+<section id="s3">
+<h2>3. 클라우드 플랫폼 비교와 활용</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>AWS, GCP, Azure의 핵심 서비스를 비교하고 적합한 서비스를 선택한다</li>
+  <li>프리 티어를 활용하여 비용 없이 인프라를 구성한다</li>
+  <li>서버리스(Lambda, Cloud Run)와 컨테이너(ECS, GKE) 배포를 이해한다</li>
+  <li>월 비용을 예측하고 최적화할 수 있다</li>
+</ul>
+
+<h3>3.1 3대 클라우드 플랫폼 비교</h3>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>┌──────────────────────────────────────────────────────────────┐
+│                클라우드 시장 점유율 (2026)                      │
+│                                                              │
+│  AWS    ████████████████████████████████  31%                │
+│  Azure  ██████████████████████████       25%                 │
+│  GCP    ███████████████                  12%                 │
+│  기타   ████████████████████████████████  32%                │
+└──────────────────────────────────────────────────────────────┘</code></pre></div>
+
+<p>핵심 서비스 대응표:</p>
+<div class="table-responsive"><table>
+  <tr><th>카테고리</th><th>AWS</th><th>GCP</th><th>Azure</th></tr>
+  <tr><td><strong>컴퓨팅 (VM)</strong></td><td>EC2</td><td>Compute Engine</td><td>Virtual Machines</td></tr>
+  <tr><td><strong>컨테이너</strong></td><td>ECS / EKS</td><td>Cloud Run / GKE</td><td>ACI / AKS</td></tr>
+  <tr><td><strong>서버리스</strong></td><td>Lambda</td><td>Cloud Functions</td><td>Functions</td></tr>
+  <tr><td><strong>오브젝트 스토리지</strong></td><td>S3</td><td>Cloud Storage</td><td>Blob Storage</td></tr>
+  <tr><td><strong>관계형 DB</strong></td><td>RDS / Aurora</td><td>Cloud SQL</td><td>Azure SQL</td></tr>
+  <tr><td><strong>NoSQL</strong></td><td>DynamoDB</td><td>Firestore</td><td>Cosmos DB</td></tr>
+  <tr><td><strong>캐시</strong></td><td>ElastiCache</td><td>Memorystore</td><td>Cache for Redis</td></tr>
+  <tr><td><strong>CDN</strong></td><td>CloudFront</td><td>Cloud CDN</td><td>Azure CDN</td></tr>
+  <tr><td><strong>DNS</strong></td><td>Route 53</td><td>Cloud DNS</td><td>Azure DNS</td></tr>
+  <tr><td><strong>CI/CD</strong></td><td>CodePipeline</td><td>Cloud Build</td><td>Azure DevOps</td></tr>
+  <tr><td><strong>모니터링</strong></td><td>CloudWatch</td><td>Cloud Monitoring</td><td>Azure Monitor</td></tr>
+  <tr><td><strong>IAM</strong></td><td>IAM</td><td>Cloud IAM</td><td>Azure AD</td></tr>
+</table></div>
+
+<h3>3.2 AWS 핵심 서비스</h3>
+
+<h4>EC2 (Elastic Compute Cloud) — 가상 서버</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># AWS CLI로 EC2 인스턴스 생성
+aws ec2 run-instances \
+    --image-id ami-0c55b159cbfafe1f0 \
+    --instance-type t3.micro \
+    --key-name my-key-pair \
+    --security-group-ids sg-0123456789abcdef0 \
+    --subnet-id subnet-0123456789abcdef0 \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=my-app-server}]' \
+    --user-data file://init-script.sh
+
+# init-script.sh — 서버 초기화 스크립트
+#!/bin/bash
+yum update -y
+yum install -y docker
+systemctl start docker
+systemctl enable docker
+docker pull ghcr.io/myuser/myapp:latest
+docker run -d -p 80:3000 --restart=always ghcr.io/myuser/myapp:latest</code></pre></div>
+
+<p>EC2 인스턴스 타입 선택 가이드:</p>
+<div class="table-responsive"><table>
+  <tr><th>타입</th><th>용도</th><th>vCPU</th><th>메모리</th><th>월 비용 (서울)</th></tr>
+  <tr><td>t3.micro</td><td>테스트/개발</td><td>2</td><td>1GB</td><td>~$11</td></tr>
+  <tr><td>t3.small</td><td>소규모 앱</td><td>2</td><td>2GB</td><td>~$22</td></tr>
+  <tr><td>t3.medium</td><td>중규모 앱</td><td>2</td><td>4GB</td><td>~$44</td></tr>
+  <tr><td>m6i.large</td><td>범용</td><td>2</td><td>8GB</td><td>~$100</td></tr>
+  <tr><td>c6i.large</td><td>CPU 집약</td><td>2</td><td>4GB</td><td>~$89</td></tr>
+  <tr><td>r6i.large</td><td>메모리 집약</td><td>2</td><td>16GB</td><td>~$132</td></tr>
+</table></div>
+
+<h4>S3 (Simple Storage Service) — 오브젝트 스토리지</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 버킷 생성
+aws s3 mb s3://my-app-assets-2026 --region ap-northeast-2
+
+# 정적 파일 업로드 (캐시 헤더 포함)
+aws s3 sync ./dist s3://my-app-assets-2026/static \
+    --cache-control "max-age=31536000,immutable" \
+    --exclude "*.html"
+
+# HTML 파일은 캐시 짧게
+aws s3 sync ./dist s3://my-app-assets-2026 \
+    --include "*.html" \
+    --cache-control "max-age=60,must-revalidate"
+
+# 정적 웹사이트 호스팅 설정
+aws s3 website s3://my-app-assets-2026 \
+    --index-document index.html \
+    --error-document error.html</code></pre></div>
+
+<h4>Lambda — 서버리스 함수</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>// lambda/handler.js — API 핸들러 예시
+export const handler = async (event) =&gt; {
+    const { httpMethod, path, body, queryStringParameters } = event;
+
+    try {
+        switch (`${httpMethod} ${path}`) {
+            case "GET /api/health":
+                return response(200, {
+                    status: "healthy",
+                    timestamp: new Date().toISOString()
+                });
+
+            case "GET /api/items":
+                const items = await getItemsFromDB(queryStringParameters);
+                return response(200, items);
+
+            case "POST /api/items":
+                const newItem = JSON.parse(body);
+                const created = await createItem(newItem);
+                return response(201, created);
+
+            default:
+                return response(404, { error: "Not Found" });
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        return response(500, { error: "Internal Server Error" });
+    }
+};
+
+function response(statusCode, body) {
+    return {
+        statusCode,
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify(body),
+    };
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># serverless.yml (Serverless Framework)
+service: my-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-northeast-2
+  memorySize: 256
+  timeout: 30
+  environment:
+    DB_HOST: ${env:DB_HOST}
+    DB_NAME: ${env:DB_NAME}
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi:
+          method: "*"
+          path: /api/{proxy+}
+    reservedConcurrency: 100</code></pre></div>
+
+<h4>ECS (Elastic Container Service) — 컨테이너 오케스트레이션</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>// ecs-task-definition.json
+{
+  "family": "my-app",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::123456789:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "app",
+      "image": "ghcr.io/myuser/myapp:latest",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:ssm:ap-northeast-2:123456789:parameter/myapp/db-password"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/my-app",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "app"
+        }
+      },
+      "healthCheck": {
+        "command": ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ]
+}</code></pre></div>
+
+<h3>3.3 GCP 핵심 서비스</h3>
+
+<h4>Cloud Run — 서버리스 컨테이너</h4>
+<p>Cloud Run은 Docker 이미지만 있으면 자동으로 스케일링되는 서버리스 컨테이너 플랫폼입니다. 트래픽이 없으면 0으로 스케일 다운됩니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Cloud Run 배포 (가장 간단한 방법)
+gcloud run deploy my-app \
+    --image ghcr.io/myuser/myapp:latest \
+    --region asia-northeast3 \
+    --platform managed \
+    --port 3000 \
+    --memory 512Mi \
+    --cpu 1 \
+    --min-instances 0 \
+    --max-instances 10 \
+    --concurrency 80 \
+    --timeout 300 \
+    --set-env-vars "NODE_ENV=production" \
+    --set-secrets "DB_PASSWORD=db-password:latest" \
+    --allow-unauthenticated</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># cloud-run-service.yaml (선언적 배포)
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: my-app
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "10"
+        run.googleapis.com/cpu-throttling: "false"
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+        - image: ghcr.io/myuser/myapp:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
+          env:
+            - name: NODE_ENV
+              value: production
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10</code></pre></div>
+
+<h3>3.4 프리 티어 비교</h3>
+<div class="table-responsive"><table>
+  <tr><th>서비스</th><th>AWS 프리 티어</th><th>GCP 프리 티어</th><th>Azure 프리 티어</th></tr>
+  <tr><td><strong>가상 서버</strong></td><td>t2.micro 750시간/월 (12개월)</td><td>e2-micro 1개 (상시)</td><td>B1s 750시간/월 (12개월)</td></tr>
+  <tr><td><strong>서버리스</strong></td><td>Lambda 100만 요청/월 (상시)</td><td>Cloud Functions 200만 요청/월</td><td>Functions 100만 요청/월</td></tr>
+  <tr><td><strong>오브젝트 스토리지</strong></td><td>S3 5GB (12개월)</td><td>Cloud Storage 5GB (상시)</td><td>Blob 5GB (12개월)</td></tr>
+  <tr><td><strong>관계형 DB</strong></td><td>RDS 750시간/월 (12개월)</td><td>Cloud SQL 없음</td><td>SQL DB 250GB (12개월)</td></tr>
+  <tr><td><strong>NoSQL</strong></td><td>DynamoDB 25GB (상시)</td><td>Firestore 1GB (상시)</td><td>Cosmos DB 1000 RU/s (상시)</td></tr>
+  <tr><td><strong>CDN</strong></td><td>CloudFront 1TB/월 (12개월)</td><td>없음</td><td>없음</td></tr>
+  <tr><td><strong>컨테이너</strong></td><td>없음</td><td>Cloud Run 200만 요청/월 (상시)</td><td>ACI 없음</td></tr>
+</table></div>
+
+<div class="tip-box"><strong>비용 절약 팁</strong>: 학습 목적이라면 GCP Cloud Run(상시 무료)과 AWS Lambda(상시 무료)를 적극 활용하세요.</div>
+
+<h3>3.5 월 비용 예측</h3>
+<p>소규모 웹 서비스(일 1,000명 방문) 기준 월 비용 예측:</p>
+<div class="table-responsive"><table>
+  <tr><th>구성</th><th>AWS</th><th>GCP</th><th>Azure</th></tr>
+  <tr><td>서버 (t3.small / e2-small)</td><td>~$22</td><td>~$18</td><td>~$20</td></tr>
+  <tr><td>DB (RDS / Cloud SQL)</td><td>~$30</td><td>~$25</td><td>~$28</td></tr>
+  <tr><td>스토리지 (20GB)</td><td>~$0.5</td><td>~$0.4</td><td>~$0.5</td></tr>
+  <tr><td>CDN (100GB 전송)</td><td>~$8.5</td><td>~$8</td><td>~$8</td></tr>
+  <tr><td><strong>합계</strong></td><td><strong>~$61</strong></td><td><strong>~$51</strong></td><td><strong>~$57</strong></td></tr>
+</table></div>
+
+<p>서버리스 구성 (같은 트래픽):</p>
+<div class="table-responsive"><table>
+  <tr><th>구성</th><th>AWS</th><th>GCP</th></tr>
+  <tr><td>함수 (Lambda / Cloud Run)</td><td>~$0 (프리 티어)</td><td>~$0 (프리 티어)</td></tr>
+  <tr><td>DB (DynamoDB / Firestore)</td><td>~$1</td><td>~$0 (프리 티어)</td></tr>
+  <tr><td>S3/Storage</td><td>~$0.5</td><td>~$0.2</td></tr>
+  <tr><td>CloudFront/CDN</td><td>~$8.5</td><td>$0</td></tr>
+  <tr><td><strong>합계</strong></td><td><strong>~$10</strong></td><td><strong>~$0.2</strong></td></tr>
+</table></div>
+
+<div class="tip-box"><strong>핵심</strong>: 소규모 프로젝트에서는 서버리스 구성이 압도적으로 저렴합니다.</div>
+
+<h3>실습: 클라우드 배포 체험</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 실습 A: GCP Cloud Run에 배포 (무료)
+
+# 1. gcloud CLI 설치 및 로그인
+gcloud auth login
+gcloud config set project my-project-id
+
+# 2. Dockerfile 빌드 &amp; 배포
+gcloud run deploy my-app \
+    --source . \
+    --region asia-northeast3 \
+    --allow-unauthenticated
+
+# 3. 배포 확인
+gcloud run services describe my-app --region asia-northeast3
+
+# 4. 로그 확인
+gcloud run logs read my-app --region asia-northeast3 --limit 50</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 실습 B: AWS Lambda + API Gateway (무료 티어)
+
+# 1. Serverless Framework 설치
+npm install -g serverless
+
+# 2. 프로젝트 생성
+serverless create --template aws-nodejs --path my-api
+cd my-api
+
+# 3. 배포
+serverless deploy --stage prod --region ap-northeast-2
+
+# 4. 테스트
+curl https://xxxxxxxxxx.execute-api.ap-northeast-2.amazonaws.com/prod/api/health</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>AWS, GCP, Azure의 핵심 서비스를 각각 3개 이상 말할 수 있다</li>
+  <li>EC2 vs Lambda vs ECS의 차이를 설명할 수 있다</li>
+  <li>Cloud Run에 Docker 이미지를 배포할 수 있다</li>
+  <li>프리 티어를 활용한 비용 절약 전략을 설명할 수 있다</li>
+  <li>프로젝트 규모에 따른 클라우드 비용을 대략 예측할 수 있다</li>
+</ul>
+</section>
+
+<!-- 4. IaC — Infrastructure as Code -->
+<section id="s4">
+<h2>4. IaC — Infrastructure as Code</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>IaC의 개념과 필요성을 이해한다</li>
+  <li>Terraform의 HCL 문법(provider, resource, variable, output)을 익힌다</li>
+  <li>Terraform으로 실제 인프라를 선언적으로 관리한다</li>
+  <li>Pulumi와 Terraform의 차이를 이해한다</li>
+  <li>인프라 변경 사항을 코드 리뷰하고 버전 관리한다</li>
+</ul>
+
+<h3>4.1 IaC란 무엇인가?</h3>
+<p>IaC는 인프라(서버, 네트워크, DB 등)를 코드로 정의하고 관리하는 방식입니다.</p>
+
+<h4>수동 관리 vs IaC 비교</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>수동 관리:
+  1. AWS 콘솔 로그인
+  2. EC2 → 인스턴스 시작 클릭
+  3. 설정값 수동 입력
+  4. 보안 그룹 설정
+  5. ... (반복)
+
+  문제점:
+  - 재현 불가 ("그때 어떻게 했더라?")
+  - 실수 가능 ("잘못된 포트를 열었다")
+  - 버전 관리 불가 ("누가 언제 바꿨지?")
+  - 환경 차이 ("스테이징과 프로덕션이 다르다")
+
+IaC (Terraform):
+  1. main.tf 파일 작성
+  2. terraform plan → 변경 사항 미리 확인
+  3. terraform apply → 자동 생성
+  4. git commit → 변경 이력 추적
+
+  장점:
+  - 재현 가능 (같은 코드 → 같은 인프라)
+  - 코드 리뷰 (PR로 인프라 변경 검토)
+  - 버전 관리 (git log로 변경 이력)
+  - 환경 일관성 (dev/staging/prod 동일 코드)</code></pre></div>
+
+<p>IaC 도구 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>도구</th><th>언어</th><th>방식</th><th>클라우드</th><th>특징</th></tr>
+  <tr><td><strong>Terraform</strong></td><td>HCL</td><td>선언적</td><td>멀티 클라우드</td><td>가장 많이 사용</td></tr>
+  <tr><td><strong>Pulumi</strong></td><td>TypeScript/Python/Go</td><td>명령적 + 선언적</td><td>멀티 클라우드</td><td>프로그래밍 언어 사용</td></tr>
+  <tr><td><strong>CloudFormation</strong></td><td>YAML/JSON</td><td>선언적</td><td>AWS 전용</td><td>AWS 네이티브</td></tr>
+  <tr><td><strong>CDK</strong></td><td>TypeScript/Python</td><td>명령적</td><td>AWS 전용</td><td>CloudFormation 생성</td></tr>
+  <tr><td><strong>Ansible</strong></td><td>YAML</td><td>명령적</td><td>멀티</td><td>서버 설정에 강점</td></tr>
+</table></div>
+
+<h3>4.2 Terraform 기초</h3>
+
+<h4>설치 및 초기화</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># macOS
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+
+# Linux
+wget https://releases.hashicorp.com/terraform/1.7.0/terraform_1.7.0_linux_amd64.zip
+unzip terraform_1.7.0_linux_amd64.zip
+sudo mv terraform /usr/local/bin/
+
+# Windows (Chocolatey)
+choco install terraform
+
+# 버전 확인
+terraform version</code></pre></div>
+
+<h4>HCL 기본 문법</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># main.tf — Terraform 구성 파일
+
+# ──────────────────────────────────────
+# Provider 설정 — 어떤 클라우드를 사용할지
+# ──────────────────────────────────────
+terraform {
+  required_version = "&gt;= 1.5.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~&gt; 5.0"
+    }
+  }
+
+  # 상태 파일을 S3에 저장 (팀 협업 시 필수)
+  backend "s3" {
+    bucket         = "my-terraform-state-bucket"
+    key            = "prod/terraform.tfstate"
+    region         = "ap-northeast-2"
+    dynamodb_table = "terraform-locks"
+    encrypt        = true
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+
+  default_tags {
+    tags = {
+      Environment = var.environment
+      ManagedBy   = "terraform"
+      Project     = var.project_name
+    }
+  }
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># variables.tf — 변수 정의
+
+variable "aws_region" {
+  description = "AWS 리전"
+  type        = string
+  default     = "ap-northeast-2"
+}
+
+variable "environment" {
+  description = "배포 환경 (dev, staging, prod)"
+  type        = string
+  validation {
+    condition     = contains(["dev", "staging", "prod"], var.environment)
+    error_message = "environment는 dev, staging, prod 중 하나여야 합니다."
+  }
+}
+
+variable "project_name" {
+  description = "프로젝트 이름"
+  type        = string
+  default     = "my-app"
+}
+
+variable "instance_type" {
+  description = "EC2 인스턴스 타입"
+  type        = string
+  default     = "t3.micro"
+}
+
+variable "min_capacity" {
+  description = "최소 인스턴스 수"
+  type        = number
+  default     = 2
+}
+
+variable "max_capacity" {
+  description = "최대 인스턴스 수"
+  type        = number
+  default     = 10
+}
+
+variable "db_password" {
+  description = "데이터베이스 비밀번호"
+  type        = string
+  sensitive   = true  # plan/apply 출력에서 마스킹
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># network.tf — VPC 및 네트워크 구성
+
+# VPC
+resource "aws_vpc" "main" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-vpc"
+  }
+}
+
+# 퍼블릭 서브넷 (2개 AZ)
+resource "aws_subnet" "public" {
+  count             = 2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.${count.index + 1}.0/24"
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "${var.project_name}-public-${count.index + 1}"
+    Type = "public"
+  }
+}
+
+# 프라이빗 서브넷 (2개 AZ)
+resource "aws_subnet" "private" {
+  count             = 2
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.${count.index + 10}.0/24"
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+
+  tags = {
+    Name = "${var.project_name}-private-${count.index + 1}"
+    Type = "private"
+  }
+}
+
+# 인터넷 게이트웨이
+resource "aws_internet_gateway" "main" {
+  vpc_id = aws_vpc.main.id
+}
+
+# NAT 게이트웨이
+resource "aws_eip" "nat" {
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "main" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public[0].id
+}
+
+# 라우팅 테이블
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.main.id
+  }
+}
+
+# 가용 영역 데이터
+data "aws_availability_zones" "available" {
+  state = "available"
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># compute.tf — EC2 및 보안 그룹
+
+# 보안 그룹
+resource "aws_security_group" "app" {
+  name_prefix = "${var.project_name}-app-"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description     = "HTTP from ALB"
+    from_port       = 3000
+    to_port         = 3000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_security_group" "alb" {
+  name_prefix = "${var.project_name}-alb-"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description = "HTTPS"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "HTTP (redirect)"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# ALB (Application Load Balancer)
+resource "aws_lb" "main" {
+  name               = "${var.project_name}-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.alb.id]
+  subnets            = aws_subnet.public[*].id
+
+  enable_deletion_protection = var.environment == "prod" ? true : false
+}
+
+resource "aws_lb_target_group" "app" {
+  name        = "${var.project_name}-tg"
+  port        = 3000
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.main.id
+  target_type = "ip"
+
+  health_check {
+    path                = "/health"
+    port                = "traffic-port"
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
+    timeout             = 5
+    interval            = 30
+    matcher             = "200"
+  }
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = var.certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
+  }
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># database.tf — RDS 구성
+
+resource "aws_db_subnet_group" "main" {
+  name       = "${var.project_name}-db-subnet"
+  subnet_ids = aws_subnet.private[*].id
+}
+
+resource "aws_security_group" "db" {
+  name_prefix = "${var.project_name}-db-"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description     = "PostgreSQL from app"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.app.id]
+  }
+}
+
+resource "aws_db_instance" "main" {
+  identifier     = "${var.project_name}-${var.environment}"
+  engine         = "postgres"
+  engine_version = "16.1"
+  instance_class = var.environment == "prod" ? "db.r6g.large" : "db.t3.micro"
+
+  allocated_storage     = 20
+  max_allocated_storage = 100
+  storage_encrypted     = true
+
+  db_name  = replace(var.project_name, "-", "_")
+  username = "admin"
+  password = var.db_password
+
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.db.id]
+
+  multi_az            = var.environment == "prod" ? true : false
+  skip_final_snapshot = var.environment != "prod"
+  backup_retention_period = var.environment == "prod" ? 7 : 1
+
+  performance_insights_enabled = var.environment == "prod"
+
+  tags = {
+    Name = "${var.project_name}-db"
+  }
+}</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># outputs.tf — 출력값 정의
+
+output "vpc_id" {
+  description = "VPC ID"
+  value       = aws_vpc.main.id
+}
+
+output "alb_dns_name" {
+  description = "ALB DNS 이름"
+  value       = aws_lb.main.dns_name
+}
+
+output "db_endpoint" {
+  description = "RDS 엔드포인트"
+  value       = aws_db_instance.main.endpoint
+  sensitive   = true
+}
+
+output "public_subnets" {
+  description = "퍼블릭 서브넷 ID 목록"
+  value       = aws_subnet.public[*].id
+}</code></pre></div>
+
+<h4>Terraform 워크플로우</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 1. 초기화 — 프로바이더 다운로드, 백엔드 설정
+terraform init
+
+# 2. 포맷팅 — 코드 스타일 통일
+terraform fmt -recursive
+
+# 3. 검증 — 문법 오류 확인
+terraform validate
+
+# 4. 계획 — 변경 사항 미리 확인 (실제 변경 없음)
+terraform plan -var-file="prod.tfvars" -out=tfplan
+
+# 출력 예시:
+# Plan: 15 to add, 0 to change, 0 to destroy.
+
+# 5. 적용 — 인프라 생성/변경
+terraform apply tfplan
+
+# 6. 상태 확인
+terraform state list
+terraform state show aws_db_instance.main
+
+# 7. 삭제 (주의!)
+terraform destroy -var-file="prod.tfvars"</code></pre></div>
+
+<p>환경별 변수 파일:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># dev.tfvars
+environment    = "dev"
+instance_type  = "t3.micro"
+min_capacity   = 1
+max_capacity   = 2
+
+# prod.tfvars
+environment    = "prod"
+instance_type  = "t3.medium"
+min_capacity   = 2
+max_capacity   = 10</code></pre></div>
+
+<h3>4.3 Pulumi — 프로그래밍 언어로 IaC</h3>
+<p>Terraform이 HCL이라는 전용 언어를 사용하는 반면, Pulumi는 TypeScript, Python, Go 등 익숙한 프로그래밍 언어를 사용합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>// index.ts — Pulumi로 AWS 인프라 정의 (TypeScript)
+import * as pulumi from "@pulumi/pulumi";
+import * as aws from "@pulumi/aws";
+
+const config = new pulumi.Config();
+const environment = config.require("environment");
+const projectName = config.get("projectName") || "my-app";
+
+// VPC
+const vpc = new aws.ec2.Vpc(`${projectName}-vpc`, {
+    cidrBlock: "10.0.0.0/16",
+    enableDnsHostnames: true,
+    tags: { Name: `${projectName}-${environment}-vpc` },
+});
+
+// 서브넷 (반복문 사용 가능!)
+const publicSubnets = [0, 1].map((i) =&gt;
+    new aws.ec2.Subnet(`${projectName}-public-${i}`, {
+        vpcId: vpc.id,
+        cidrBlock: `10.0.${i + 1}.0/24`,
+        availabilityZone: `ap-northeast-2${i === 0 ? "a" : "c"}`,
+        mapPublicIpOnLaunch: true,
+    })
+);
+
+// 조건부 로직
+const dbInstanceClass = environment === "prod"
+    ? "db.r6g.large"
+    : "db.t3.micro";
+
+// RDS
+const db = new aws.rds.Instance(`${projectName}-db`, {
+    engine: "postgres",
+    engineVersion: "16.1",
+    instanceClass: dbInstanceClass,
+    allocatedStorage: 20,
+    dbName: projectName.replace(/-/g, "_"),
+    username: "admin",
+    password: config.requireSecret("dbPassword"),
+    skipFinalSnapshot: environment !== "prod",
+    multiAz: environment === "prod",
+});
+
+// 출력
+export const vpcId = vpc.id;
+export const dbEndpoint = db.endpoint;</code></pre></div>
+
+<p>Terraform vs Pulumi 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>항목</th><th>Terraform</th><th>Pulumi</th></tr>
+  <tr><td>언어</td><td>HCL (전용 문법)</td><td>TypeScript, Python, Go, C#</td></tr>
+  <tr><td>학습 곡선</td><td>새 문법 학습 필요</td><td>기존 언어 지식 활용</td></tr>
+  <tr><td>상태 관리</td><td>S3/Consul/로컬</td><td>Pulumi Cloud/S3/로컬</td></tr>
+  <tr><td>반복/조건</td><td>count, for_each (제한적)</td><td>일반 프로그래밍 (자유로움)</td></tr>
+  <tr><td>테스트</td><td>외부 도구 필요</td><td>유닛 테스트 내장</td></tr>
+  <tr><td>생태계</td><td>매우 큼 (가장 많은 프로바이더)</td><td>성장 중</td></tr>
+  <tr><td>가격</td><td>오픈소스 (무료)</td><td>개인 무료, 팀 유료</td></tr>
+</table></div>
+
+<h3>4.4 인프라 버전 관리</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>프로젝트 구조:
+infrastructure/
+├── modules/                  # 재사용 가능한 모듈
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── ecs/
+│   └── rds/
+├── environments/
+│   ├── dev/
+│   │   ├── main.tf          # 모듈 호출
+│   │   ├── terraform.tfvars
+│   │   └── backend.tf
+│   ├── staging/
+│   └── prod/
+├── .github/
+│   └── workflows/
+│       └── terraform.yml     # PR 시 자동 plan
+└── .gitignore</code></pre></div>
+
+<p>GitHub Actions로 Terraform PR 자동 검증:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># .github/workflows/terraform.yml
+name: Terraform Plan
+
+on:
+  pull_request:
+    paths:
+      - "infrastructure/**"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.0"
+
+      - name: Terraform Init
+        working-directory: infrastructure/environments/prod
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive infrastructure/
+
+      - name: Terraform Validate
+        working-directory: infrastructure/environments/prod
+        run: terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: infrastructure/environments/prod
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const output = `#### Terraform Plan 결과
+            \`\`\`
+            ${{ steps.plan.outputs.stdout }}
+            \`\`\`
+            `;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            });</code></pre></div>
+
+<h3>실습: Terraform으로 인프라 구성</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 실습: 로컬에서 Terraform 체험
+
+# 1. 프로젝트 디렉토리 생성
+mkdir terraform-demo &amp;&amp; cd terraform-demo
+
+# 2. main.tf 작성 (위의 예제 파일 활용)
+# 처음에는 VPC + 서브넷만 간단히 시작
+
+# 3. 초기화
+terraform init
+
+# 4. 코드 검증
+terraform fmt
+terraform validate
+
+# 5. 실행 계획 확인
+terraform plan
+
+# 6. 적용 (AWS 계정 필요)
+terraform apply
+
+# 7. 상태 확인
+terraform state list
+terraform output
+
+# 8. 정리
+terraform destroy</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>IaC의 장점 3가지를 설명할 수 있다</li>
+  <li>Terraform의 핵심 개념(provider, resource, variable, output)을 이해한다</li>
+  <li>HCL 문법으로 기본적인 AWS 리소스를 정의할 수 있다</li>
+  <li>terraform init → plan → apply 워크플로우를 수행할 수 있다</li>
+  <li>Terraform과 Pulumi의 차이를 설명할 수 있다</li>
+  <li>인프라 변경을 PR로 관리하는 방법을 이해한다</li>
+</ul>
+</section>
+
+<!-- 5. 쿠버네티스 입문 -->
+<section id="s5">
+<h2>5. 쿠버네티스 입문</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>쿠버네티스의 핵심 개념(Pod, Service, Deployment, Ingress)을 이해한다</li>
+  <li>kubectl을 사용하여 클러스터를 관리한다</li>
+  <li>Helm Charts로 애플리케이션을 패키징하고 배포한다</li>
+  <li>minikube로 로컬 클러스터를 구성하여 실습한다</li>
+</ul>
+
+<h3>5.1 쿠버네티스란?</h3>
+<p>쿠버네티스(Kubernetes, K8s)는 컨테이너 오케스트레이션 플랫폼입니다. Docker가 컨테이너 1개를 관리한다면, 쿠버네티스는 수백~수천 개의 컨테이너를 자동으로 배포, 확장, 관리합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>Docker만 사용할 때:
+  "서버 3대에 컨테이너 10개를 수동 배포"
+  "서버 1대 장애 → 수동으로 다른 서버에 재배포"
+  "트래픽 증가 → 수동으로 컨테이너 추가"
+
+쿠버네티스 사용:
+  "컨테이너 10개가 필요하다고 선언"
+  "서버 1대 장애 → 자동으로 다른 노드에 재배포"
+  "CPU 70% 초과 → 자동으로 컨테이너 추가"</code></pre></div>
+
+<p>쿠버네티스 아키텍처:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>┌──────────────────────────────────────────────────────────────────┐
+│                     Kubernetes Cluster                           │
+│                                                                  │
+│  ┌────────────────────────────────────┐                         │
+│  │         Control Plane (Master)      │                         │
+│  │                                    │                         │
+│  │  ┌──────────┐  ┌───────────────┐  │                         │
+│  │  │ API      │  │ etcd          │  │                         │
+│  │  │ Server   │  │ (상태 저장)    │  │                         │
+│  │  └──────────┘  └───────────────┘  │                         │
+│  │  ┌──────────┐  ┌───────────────┐  │                         │
+│  │  │Scheduler │  │ Controller    │  │                         │
+│  │  │          │  │ Manager       │  │                         │
+│  │  └──────────┘  └───────────────┘  │                         │
+│  └────────────────────────────────────┘                         │
+│                      │                                           │
+│         ┌────────────┴────────────┐                             │
+│         ▼                         ▼                             │
+│  ┌──────────────────┐   ┌──────────────────┐                   │
+│  │   Worker Node 1   │   │   Worker Node 2   │                   │
+│  │                    │   │                    │                   │
+│  │  ┌──────┐┌──────┐│   │  ┌──────┐┌──────┐│                   │
+│  │  │Pod A ││Pod B ││   │  │Pod C ││Pod D ││                   │
+│  │  │┌────┐││┌────┐││   │  │┌────┐││┌────┐││                   │
+│  │  ││ C1 ││││ C2 │││   │  ││ C3 ││││ C4 │││                   │
+│  │  │└────┘││└────┘││   │  │└────┘││└────┘││                   │
+│  │  └──────┘└──────┘│   │  └──────┘└──────┘│                   │
+│  │                    │   │                    │                   │
+│  │  ┌──────────────┐ │   │  ┌──────────────┐ │                   │
+│  │  │   kubelet    │ │   │  │   kubelet    │ │                   │
+│  │  │   kube-proxy │ │   │  │   kube-proxy │ │                   │
+│  │  └──────────────┘ │   │  └──────────────┘ │                   │
+│  └──────────────────┘   └──────────────────┘                   │
+└──────────────────────────────────────────────────────────────────┘</code></pre></div>
+
+<p>핵심 용어:</p>
+<div class="table-responsive"><table>
+  <tr><th>용어</th><th>설명</th></tr>
+  <tr><td><strong>Cluster</strong></td><td>쿠버네티스가 관리하는 서버(노드)들의 집합</td></tr>
+  <tr><td><strong>Node</strong></td><td>컨테이너가 실행되는 물리/가상 서버</td></tr>
+  <tr><td><strong>Pod</strong></td><td>쿠버네티스의 최소 배포 단위 (1개 이상의 컨테이너)</td></tr>
+  <tr><td><strong>Service</strong></td><td>Pod에 대한 네트워크 접근점 (고정 IP/DNS)</td></tr>
+  <tr><td><strong>Deployment</strong></td><td>Pod의 배포와 스케일링을 관리</td></tr>
+  <tr><td><strong>Ingress</strong></td><td>외부 트래픽을 Service로 라우팅 (L7 로드 밸런서)</td></tr>
+  <tr><td><strong>ConfigMap</strong></td><td>설정 데이터 저장</td></tr>
+  <tr><td><strong>Secret</strong></td><td>민감한 데이터 저장 (Base64 인코딩)</td></tr>
+  <tr><td><strong>Namespace</strong></td><td>리소스 격리 단위 (가상 클러스터)</td></tr>
+</table></div>
+
+<h3>5.2 핵심 리소스 정의</h3>
+
+<h4>Pod</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># pod.yaml — 기본 Pod 정의 (실무에서는 직접 사용하지 않음)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+    version: v1
+spec:
+  containers:
+    - name: app
+      image: ghcr.io/myuser/myapp:1.2.3
+      ports:
+        - containerPort: 3000
+      resources:
+        requests:
+          cpu: "100m"      # 0.1 CPU
+          memory: "128Mi"
+        limits:
+          cpu: "500m"      # 0.5 CPU
+          memory: "256Mi"
+      livenessProbe:       # 컨테이너 생존 확인
+        httpGet:
+          path: /health
+          port: 3000
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      readinessProbe:      # 트래픽 수신 준비 확인
+        httpGet:
+          path: /ready
+          port: 3000
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: db-password</code></pre></div>
+
+<h4>Deployment — Pod의 배포와 관리</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 3                    # Pod 3개 유지
+  selector:
+    matchLabels:
+      app: my-app
+  strategy:
+    type: RollingUpdate          # 무중단 배포
+    rollingUpdate:
+      maxSurge: 1                # 최대 1개 추가 생성
+      maxUnavailable: 0          # 항상 모든 Pod 가동
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: v1.2.3
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: app
+          image: ghcr.io/myuser/myapp:1.2.3
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secrets</code></pre></div>
+
+<h4>Service — 네트워크 접근점</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  selector:
+    app: my-app                  # 이 라벨을 가진 Pod에 트래픽 분배
+  type: ClusterIP                # 클러스터 내부에서만 접근
+  ports:
+    - protocol: TCP
+      port: 80                   # Service 포트
+      targetPort: 3000           # Pod 포트</code></pre></div>
+
+<p>Service 타입 비교:</p>
+<div class="table-responsive"><table>
+  <tr><th>타입</th><th>접근 범위</th><th>용도</th></tr>
+  <tr><td>ClusterIP</td><td>클러스터 내부</td><td>내부 서비스 간 통신</td></tr>
+  <tr><td>NodePort</td><td>노드 IP:포트</td><td>개발/테스트</td></tr>
+  <tr><td>LoadBalancer</td><td>외부 LB</td><td>클라우드에서 외부 노출</td></tr>
+  <tr><td>ExternalName</td><td>DNS 별칭</td><td>외부 서비스 연결</td></tr>
+</table></div>
+
+<h4>Ingress — 외부 트래픽 라우팅</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - myapp.example.com
+        - api.example.com
+      secretName: myapp-tls
+  rules:
+    - host: myapp.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-app-service
+                port:
+                  number: 80
+    - host: api.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api-service
+                port:
+                  number: 80</code></pre></div>
+
+<p>트래픽 흐름:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>사용자 → DNS → Ingress Controller → Service → Pod
+                    │
+       myapp.example.com → my-app-service → Pod (app)
+       api.example.com   → api-service    → Pod (api)</code></pre></div>
+
+<h4>ConfigMap과 Secret</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_NAME: "my-app"
+  LOG_LEVEL: "info"
+  CACHE_TTL: "3600"
+  DB_HOST: "db-service.default.svc.cluster.local"
+  DB_PORT: "5432"
+
+---
+# secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+type: Opaque
+stringData:                    # stringData는 자동으로 Base64 인코딩
+  DB_PASSWORD: "super-secret-password"
+  JWT_SECRET: "my-jwt-secret-key"
+  API_KEY: "external-api-key-12345"</code></pre></div>
+
+<h4>HorizontalPodAutoscaler — 자동 스케일링</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: my-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Pods
+          value: 4
+          periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60</code></pre></div>
+
+<h3>5.3 kubectl 필수 명령어</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># ──────────────────────────────────────
+# 클러스터 정보
+# ──────────────────────────────────────
+kubectl cluster-info
+kubectl get nodes
+kubectl get nodes -o wide
+
+# ──────────────────────────────────────
+# 리소스 조회
+# ──────────────────────────────────────
+kubectl get pods
+kubectl get pods -o wide              # IP, 노드 정보 포함
+kubectl get pods -l app=my-app        # 라벨로 필터
+kubectl get pods --all-namespaces     # 모든 네임스페이스
+
+kubectl get deployments
+kubectl describe deployment my-app
+
+kubectl get services
+kubectl get svc
+
+kubectl get all
+
+# ──────────────────────────────────────
+# 리소스 생성/적용
+# ──────────────────────────────────────
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f .                     # 현재 디렉토리의 모든 YAML
+
+# ──────────────────────────────────────
+# 배포 관리
+# ──────────────────────────────────────
+kubectl set image deployment/my-app app=ghcr.io/myuser/myapp:1.3.0
+kubectl rollout status deployment/my-app
+kubectl rollout history deployment/my-app
+kubectl rollout undo deployment/my-app
+kubectl rollout undo deployment/my-app --to-revision=3
+kubectl scale deployment/my-app --replicas=5
+
+# ──────────────────────────────────────
+# 디버깅
+# ──────────────────────────────────────
+kubectl logs my-app-pod-abc123
+kubectl logs -f my-app-pod-abc123     # 실시간 로그
+kubectl logs --tail=100 my-app-pod    # 최근 100줄
+
+kubectl exec -it my-app-pod-abc123 -- /bin/sh
+kubectl describe pod my-app-pod-abc123
+
+kubectl top pods
+kubectl top nodes
+
+# ──────────────────────────────────────
+# 포트 포워딩 (로컬에서 접근)
+# ──────────────────────────────────────
+kubectl port-forward service/my-app-service 8080:80
+
+# ──────────────────────────────────────
+# 삭제
+# ──────────────────────────────────────
+kubectl delete -f deployment.yaml
+kubectl delete pod my-app-pod-abc123
+kubectl delete deployment my-app</code></pre></div>
+
+<h3>5.4 Helm Charts</h3>
+<p>Helm은 쿠버네티스의 패키지 매니저입니다. 여러 YAML 파일을 하나의 차트(Chart)로 묶어 관리합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Helm 설치
+# macOS
+brew install helm
+
+# Linux
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# 버전 확인
+helm version</code></pre></div>
+
+<h4>Helm Chart 구조</h4>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>my-app-chart/
+├── Chart.yaml              # 차트 메타데이터
+├── values.yaml             # 기본 설정값
+├── values-prod.yaml        # 프로덕션 오버라이드
+├── templates/
+│   ├── _helpers.tpl        # 템플릿 헬퍼 함수
+│   ├── deployment.yaml     # Deployment 템플릿
+│   ├── service.yaml        # Service 템플릿
+│   ├── ingress.yaml        # Ingress 템플릿
+│   ├── hpa.yaml            # HPA 템플릿
+│   ├── configmap.yaml      # ConfigMap 템플릿
+│   └── secret.yaml         # Secret 템플릿
+└── charts/                 # 의존성 차트</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Chart.yaml
+apiVersion: v2
+name: my-app
+description: My Application Helm Chart
+type: application
+version: 0.1.0          # 차트 버전
+appVersion: "1.2.3"     # 애플리케이션 버전</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># values.yaml — 기본 설정값
+replicaCount: 2
+
+image:
+  repository: ghcr.io/myuser/myapp
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: myapp.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: myapp-tls
+      hosts:
+        - myapp.example.com
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+env:
+  NODE_ENV: production
+  LOG_LEVEL: info</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># templates/deployment.yaml — Helm 템플릿
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-app.fullname" . }}
+  labels:
+    {{- include "my-app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "my-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "my-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 10</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># values-prod.yaml — 프로덕션 오버라이드
+replicaCount: 3
+
+image:
+  tag: "1.2.3"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20</code></pre></div>
+
+<p>Helm 명령어:</p>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 차트 설치
+helm install my-app ./my-app-chart
+
+# 프로덕션 값으로 설치
+helm install my-app ./my-app-chart -f values-prod.yaml
+
+# 업그레이드 (배포 업데이트)
+helm upgrade my-app ./my-app-chart -f values-prod.yaml
+
+# install + upgrade 통합
+helm upgrade --install my-app ./my-app-chart -f values-prod.yaml
+
+# 릴리스 목록
+helm list
+
+# 릴리스 상태 확인
+helm status my-app
+
+# 릴리스 이력
+helm history my-app
+
+# 롤백
+helm rollback my-app 1
+
+# 삭제
+helm uninstall my-app
+
+# 템플릿 렌더링 확인 (실제 적용 없이)
+helm template my-app ./my-app-chart -f values-prod.yaml
+
+# 공개 차트 저장소 추가
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+# 공개 차트 설치 (예: PostgreSQL)
+helm install my-db bitnami/postgresql \
+    --set auth.postgresPassword=mypassword \
+    --set primary.persistence.size=10Gi</code></pre></div>
+
+<h3>5.5 minikube로 로컬 실습</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># minikube 설치
+# macOS
+brew install minikube
+
+# Linux
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+# Windows (Chocolatey)
+choco install minikube
+
+# 클러스터 시작
+minikube start --driver=docker --cpus=2 --memory=4096
+
+# 상태 확인
+minikube status
+kubectl get nodes
+
+# 대시보드 (웹 UI)
+minikube dashboard
+
+# Ingress 애드온 활성화
+minikube addons enable ingress
+minikube addons enable metrics-server</code></pre></div>
+
+<h3>실습: minikube에서 앱 배포</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 1. minikube 클러스터 시작
+minikube start
+
+# 2. 네임스페이스 생성
+kubectl create namespace my-app
+
+# 3. ConfigMap 생성
+kubectl apply -f configmap.yaml -n my-app
+
+# 4. Secret 생성
+kubectl create secret generic app-secrets \
+    --from-literal=DB_PASSWORD=mypassword \
+    --from-literal=JWT_SECRET=myjwtsecret \
+    -n my-app
+
+# 5. Deployment 배포
+kubectl apply -f deployment.yaml -n my-app
+
+# 6. Service 생성
+kubectl apply -f service.yaml -n my-app
+
+# 7. 배포 확인
+kubectl get all -n my-app
+
+# 8. 포트 포워딩으로 접근
+kubectl port-forward service/my-app-service 8080:80 -n my-app
+
+# 9. 테스트
+curl http://localhost:8080/health
+
+# 10. 스케일링 테스트
+kubectl scale deployment/my-app --replicas=5 -n my-app
+kubectl get pods -n my-app -w  # 실시간 변화 관찰
+
+# 11. 롤링 업데이트 테스트
+kubectl set image deployment/my-app app=ghcr.io/myuser/myapp:v2 -n my-app
+kubectl rollout status deployment/my-app -n my-app
+
+# 12. 롤백 테스트
+kubectl rollout undo deployment/my-app -n my-app
+
+# 13. 정리
+kubectl delete namespace my-app
+minikube stop</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>Pod, Service, Deployment, Ingress의 역할을 각각 설명할 수 있다</li>
+  <li>kubectl로 리소스를 조회, 생성, 삭제할 수 있다</li>
+  <li>Deployment의 롤링 업데이트와 롤백을 수행할 수 있다</li>
+  <li>Helm Chart의 구조(Chart.yaml, values.yaml, templates/)를 이해한다</li>
+  <li>minikube로 로컬 클러스터를 구성하고 앱을 배포할 수 있다</li>
+  <li>HPA를 설정하여 자동 스케일링을 구성할 수 있다</li>
+</ul>
+</section>
+
+<!-- 6. CI/CD 파이프라인 고급 -->
+<section id="s6">
+<h2>6. CI/CD 파이프라인 고급</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>멀티스테이지 CI/CD 파이프라인(빌드 → 테스트 → 스테이징 → 프로덕션)을 설계한다</li>
+  <li>GitHub Actions의 고급 기능(매트릭스 빌드, 캐싱, 시크릿 관리)을 활용한다</li>
+  <li>GitOps 배포 방식(ArgoCD, Flux)의 개념을 이해한다</li>
+</ul>
+
+<h3>6.1 멀티스테이지 파이프라인</h3>
+<p>프로덕션 CI/CD 파이프라인은 단순한 빌드-배포를 넘어, 코드 품질 검증, 보안 스캔, 스테이징 테스트 등 다단계 검증을 거칩니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>CI/CD 파이프라인 흐름:
+
+코드 푸시 → 린트/포맷 → 유닛 테스트 → 빌드 → 보안 스캔
+    │                                              │
+    │         ┌────────────────────────────────────┘
+    │         ▼
+    │    스테이징 배포 → 통합 테스트 → 승인 → 프로덕션 배포
+    │                                          │
+    │                                    모니터링/롤백</code></pre></div>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># .github/workflows/production-pipeline.yml
+name: Production Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test -- --coverage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+
+  build:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: my-app:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-staging:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Deploy to Staging
+        run: echo "스테이징 배포 실행"
+
+  deploy-production:
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://myapp.example.com
+    steps:
+      - name: Deploy to Production
+        run: echo "프로덕션 배포 실행"</code></pre></div>
+
+<h3>6.2 GitOps 개념</h3>
+<p>GitOps는 Git 저장소를 단일 진실의 원천(Single Source of Truth)으로 사용하여 인프라와 애플리케이션을 선언적으로 관리하는 방식입니다. ArgoCD나 Flux 같은 도구가 Git 저장소의 변경을 감지하고 자동으로 클러스터에 적용합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>전통적 배포 (Push):
+  개발자 → CI/CD 서버 → kubectl apply → 클러스터
+
+GitOps 배포 (Pull):
+  개발자 → Git 커밋 → ArgoCD(감시) → 자동 동기화 → 클러스터</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>멀티스테이지 파이프라인의 각 단계를 설명할 수 있다</li>
+  <li>GitHub Actions 매트릭스 빌드와 캐싱을 설정할 수 있다</li>
+  <li>GitOps의 Push vs Pull 배포 차이를 이해한다</li>
+</ul>
+</section>
+
+<!-- 7. 무중단 배포 전략 -->
+<section id="s7">
+<h2>7. 무중단 배포 전략</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>Blue-Green, Canary, Rolling 배포 전략의 차이를 이해한다</li>
+  <li>각 전략의 장단점과 적합한 사용 상황을 파악한다</li>
+  <li>쿠버네티스에서 무중단 배포를 구현한다</li>
+</ul>
+
+<h3>7.1 배포 전략 비교</h3>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>Rolling Update (롤링 업데이트):
+  [v1] [v1] [v1] [v1]     ← 시작
+  [v2] [v1] [v1] [v1]     ← 1개씩 교체
+  [v2] [v2] [v1] [v1]
+  [v2] [v2] [v2] [v1]
+  [v2] [v2] [v2] [v2]     ← 완료
+
+Blue-Green (블루-그린):
+  Blue(v1): [v1] [v1] [v1] ← 현재 서비스 중
+  Green(v2): [v2] [v2] [v2] ← 새 버전 준비
+  → 로드밸런서 전환 (한 번에 교체)
+
+Canary (카나리):
+  [v1] [v1] [v1] [v1]     ← 시작 (100% v1)
+  [v2] [v1] [v1] [v1]     ← 10% 트래픽을 v2로
+  [v2] [v2] [v1] [v1]     ← 50% 트래픽을 v2로
+  [v2] [v2] [v2] [v2]     ← 100% v2 (확인 후)</code></pre></div>
+
+<div class="table-responsive"><table>
+  <tr><th>전략</th><th>다운타임</th><th>리소스</th><th>롤백 속도</th><th>적합한 경우</th></tr>
+  <tr><td><strong>Rolling</strong></td><td>없음</td><td>최소</td><td>느림</td><td>일반적인 배포</td></tr>
+  <tr><td><strong>Blue-Green</strong></td><td>없음</td><td>2배</td><td>즉시</td><td>빠른 롤백 필요</td></tr>
+  <tr><td><strong>Canary</strong></td><td>없음</td><td>약간 추가</td><td>빠름</td><td>위험도 높은 변경</td></tr>
+</table></div>
+
+<h3>7.2 쿠버네티스 롤링 업데이트 설정</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># 롤링 업데이트 전략 (Deployment)
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%          # 최대 25% 추가 Pod
+      maxUnavailable: 0      # 항상 모든 Pod 가용
+
+# Blue-Green은 2개의 Deployment + Service 전환으로 구현
+# Canary는 2개의 Deployment + 트래픽 비율 조정으로 구현
+# Istio, Flagger 같은 서비스 메시 도구로 자동화 가능</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>Rolling, Blue-Green, Canary 배포의 차이를 설명할 수 있다</li>
+  <li>각 전략의 장단점과 리소스 요구사항을 비교할 수 있다</li>
+  <li>쿠버네티스에서 롤링 업데이트를 설정할 수 있다</li>
+</ul>
+</section>
+
+<!-- 8. 모니터링과 로깅 -->
+<section id="s8">
+<h2>8. 모니터링과 로깅</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>Prometheus + Grafana로 메트릭 수집과 시각화 파이프라인을 구축한다</li>
+  <li>ELK(Elasticsearch, Logstash, Kibana) 스택으로 로그를 수집하고 분석한다</li>
+  <li>알림 규칙을 설정하여 장애를 조기에 감지한다</li>
+</ul>
+
+<h3>8.1 모니터링 개요</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>모니터링 3대 축:
+  1. 메트릭 (Metrics) — CPU, 메모리, 요청 수, 응답 시간
+     → Prometheus + Grafana
+
+  2. 로그 (Logs) — 애플리케이션 로그, 에러 로그
+     → ELK Stack (Elasticsearch + Logstash + Kibana)
+
+  3. 트레이싱 (Tracing) — 요청의 전체 경로 추적
+     → Jaeger, Zipkin, OpenTelemetry</code></pre></div>
+
+<h3>8.2 Prometheus + Grafana</h3>
+<p>Prometheus는 시계열 메트릭을 수집하고 저장합니다. Grafana는 수집된 메트릭을 대시보드로 시각화합니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># Helm으로 Prometheus + Grafana 설치 (쿠버네티스)
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+
+helm install monitoring prometheus-community/kube-prometheus-stack \
+    --namespace monitoring \
+    --create-namespace \
+    --set grafana.adminPassword=admin123</code></pre></div>
+
+<h3>8.3 ELK Stack</h3>
+<p>ELK Stack은 로그 수집(Logstash), 저장/검색(Elasticsearch), 시각화(Kibana)를 제공하는 로그 분석 플랫폼입니다.</p>
+
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># docker-compose로 ELK 스택 실행
+version: "3.9"
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.0
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch</code></pre></div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>메트릭, 로그, 트레이싱의 차이를 설명할 수 있다</li>
+  <li>Prometheus + Grafana로 기본 모니터링을 구축할 수 있다</li>
+  <li>ELK Stack의 각 컴포넌트 역할을 이해한다</li>
+</ul>
+</section>
+
+<!-- 9. 보안과 시크릿 관리 -->
+<section id="s9">
+<h2>9. 보안과 시크릿 관리</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>프로덕션 환경의 보안 체크리스트를 수립한다</li>
+  <li>시크릿 관리 도구(HashiCorp Vault, AWS Secrets Manager)를 이해한다</li>
+  <li>컨테이너와 쿠버네티스의 보안 모범 사례를 적용한다</li>
+</ul>
+
+<h3>9.1 보안 체크리스트</h3>
+<div class="table-responsive"><table>
+  <tr><th>영역</th><th>항목</th><th>설명</th></tr>
+  <tr><td><strong>네트워크</strong></td><td>TLS/HTTPS 적용</td><td>모든 통신에 암호화 적용</td></tr>
+  <tr><td><strong>네트워크</strong></td><td>방화벽/보안 그룹</td><td>필요한 포트만 개방</td></tr>
+  <tr><td><strong>인증</strong></td><td>강력한 비밀번호 정책</td><td>최소 12자, 복잡도 요구</td></tr>
+  <tr><td><strong>인증</strong></td><td>MFA 적용</td><td>관리자 계정 필수 적용</td></tr>
+  <tr><td><strong>시크릿</strong></td><td>환경변수 분리</td><td>코드에 시크릿 하드코딩 금지</td></tr>
+  <tr><td><strong>시크릿</strong></td><td>시크릿 매니저 사용</td><td>Vault, AWS SM 등 활용</td></tr>
+  <tr><td><strong>컨테이너</strong></td><td>non-root 실행</td><td>root 권한 사용 금지</td></tr>
+  <tr><td><strong>컨테이너</strong></td><td>이미지 스캔</td><td>취약점 스캔 자동화</td></tr>
+</table></div>
+
+<h3>9.2 시크릿 관리 도구</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code># AWS Secrets Manager 예시
+aws secretsmanager create-secret \
+    --name myapp/production/db-password \
+    --secret-string "super-secret-password"
+
+# 시크릿 조회
+aws secretsmanager get-secret-value \
+    --secret-id myapp/production/db-password \
+    --query SecretString --output text
+
+# GitHub Actions에서 시크릿 사용
+# Settings → Secrets and variables → Actions에서 등록
+# 워크플로우에서: ${{ secrets.DB_PASSWORD }}로 참조</code></pre></div>
+
+<div class="warning-box"><strong>주의</strong>: 절대로 시크릿을 Git에 커밋하지 마세요. <code>.env</code> 파일은 반드시 <code>.gitignore</code>에 포함하고, 시크릿은 시크릿 매니저를 통해 관리하세요.</div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>프로덕션 보안 체크리스트의 주요 항목을 나열할 수 있다</li>
+  <li>시크릿 관리 도구의 필요성과 사용법을 이해한다</li>
+  <li>컨테이너 보안 모범 사례를 적용할 수 있다</li>
+</ul>
+</section>
+
+<!-- 10. 종합 프로젝트 -->
+<section id="s10">
+<h2>10. 종합 프로젝트 — 프로덕션 배포 파이프라인 구축</h2>
+
+<h3>프로젝트 개요</h3>
+<p>이 프로젝트에서는 지금까지 학습한 내용을 종합하여 완전한 프로덕션 배포 파이프라인을 구축합니다.</p>
+
+<h3>구현 과제</h3>
+<ol>
+  <li><strong>Docker 이미지 최적화</strong>: 멀티스테이지 빌드로 프로덕션 이미지를 만든다</li>
+  <li><strong>CI/CD 파이프라인 구축</strong>: GitHub Actions로 빌드 → 테스트 → 배포 자동화</li>
+  <li><strong>IaC 구성</strong>: Terraform으로 클라우드 인프라를 코드로 관리한다</li>
+  <li><strong>쿠버네티스 배포</strong>: Helm Chart로 앱을 패키징하고 클러스터에 배포한다</li>
+  <li><strong>모니터링 설정</strong>: Prometheus + Grafana로 메트릭 대시보드를 구성한다</li>
+  <li><strong>보안 적용</strong>: 시크릿 관리, TLS, non-root 컨테이너 등 보안 모범 사례를 적용한다</li>
+</ol>
+
+<h3>프로젝트 체크리스트</h3>
+<div class="code-block"><button class="copy-btn">복사</button><pre><code>## 종합 프로젝트 체크리스트
+
+### Docker
+- [ ] 멀티스테이지 Dockerfile 작성
+- [ ] .dockerignore 설정
+- [ ] non-root 사용자 적용
+- [ ] 헬스체크 설정
+
+### CI/CD
+- [ ] GitHub Actions 워크플로우 작성
+- [ ] 자동 테스트 실행
+- [ ] Docker 이미지 빌드 &amp; 푸시
+- [ ] 스테이징/프로덕션 배포 자동화
+
+### 인프라 (IaC)
+- [ ] Terraform으로 VPC/서브넷 구성
+- [ ] 보안 그룹 설정
+- [ ] 로드 밸런서 구성
+- [ ] 데이터베이스 프로비저닝
+
+### 쿠버네티스
+- [ ] Deployment + Service 작성
+- [ ] Ingress 설정
+- [ ] HPA (오토 스케일링) 설정
+- [ ] Helm Chart 패키징
+
+### 모니터링
+- [ ] Prometheus 메트릭 수집
+- [ ] Grafana 대시보드 구성
+- [ ] 알림 규칙 설정
+
+### 보안
+- [ ] TLS/HTTPS 적용
+- [ ] 시크릿 매니저 연동
+- [ ] 이미지 취약점 스캔
+- [ ] 네트워크 정책 설정</code></pre></div>
+
+<div class="tip-box"><strong>학습 팁</strong>: 모든 것을 한 번에 구현하려 하지 마세요. Docker 이미지 최적화부터 시작하여 단계별로 확장해 나가세요. 각 단계를 완성한 후 다음 단계로 넘어가는 것이 효과적입니다.</div>
+
+<h3>체크포인트</h3>
+<ul>
+  <li>프로덕션 수준의 Docker 이미지를 빌드할 수 있다</li>
+  <li>CI/CD 파이프라인으로 자동 배포를 구현할 수 있다</li>
+  <li>Terraform으로 클라우드 인프라를 관리할 수 있다</li>
+  <li>쿠버네티스에 앱을 배포하고 모니터링할 수 있다</li>
+  <li>보안 모범 사례를 적용한 프로덕션 환경을 구성할 수 있다</li>
+</ul>
+</section>
+
+<!-- 출처 -->
+<section id="sources">
+<h2>출처</h2>
+<ul>
+  <li><a href="https://docs.docker.com/" target="_blank">Docker 공식 문서</a></li>
+  <li><a href="https://kubernetes.io/ko/docs/home/" target="_blank">Kubernetes 공식 문서</a></li>
+  <li><a href="https://developer.hashicorp.com/terraform/docs" target="_blank">Terraform 공식 문서</a></li>
+  <li><a href="https://aws.amazon.com/architecture/well-architected/" target="_blank">AWS Well-Architected Framework</a></li>
+  <li><a href="https://12factor.net/ko/" target="_blank">The Twelve-Factor App</a></li>
+  <li><a href="https://landscape.cncf.io/" target="_blank">CNCF Cloud Native Landscape</a></li>
+  <li><a href="https://docs.github.com/en/actions" target="_blank">GitHub Actions 공식 문서</a></li>
+  <li><a href="https://helm.sh/docs/" target="_blank">Helm 공식 문서</a></li>
+</ul>
+<p><em>이 교안은 러버블 바이브코딩 카톡방(2026.3.8) 논의와 공식 문서를 기반으로 작성되었습니다.</em></p>
+</section>
+
+</main>
+</div>
+
+<footer>
+  <p>김선생의 바이브코딩 가이드 — 배포 가이드 개발자편</p>
+  <p>© 2026. 교육 목적으로 제작되었습니다.</p>
+</footer>
+
+<script src="common.js"></script>
+</body>
+</html>

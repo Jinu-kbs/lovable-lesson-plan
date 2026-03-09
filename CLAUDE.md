@@ -63,6 +63,44 @@
 ├── 교안_claude-code_intermediate.md ← Claude Code 중급자편 MD 원본
 ├── 교안_claude-code_developer.md  ← Claude Code 개발자편 MD 원본
 │
+├── devinterface-beginner.html      ← 개발 인터페이스 초보자편 교안
+├── devinterface-intermediate.html  ← 개발 인터페이스 중급자편 교안
+├── devinterface-developer.html     ← 개발 인터페이스 개발자편 교안
+├── 교안_devinterface_beginner.md   ← 개발 인터페이스 초보자편 MD 원본
+├── 교안_devinterface_intermediate.md ← 개발 인터페이스 중급자편 MD 원본
+├── 교안_devinterface_developer.md  ← 개발 인터페이스 개발자편 MD 원본
+│
+├── chatgpt-beginner.html          ← ChatGPT 초보자편 교안
+├── chatgpt-intermediate.html      ← ChatGPT 중급자편 교안
+├── chatgpt-developer.html         ← ChatGPT 개발자편 교안
+├── 교안_chatgpt_beginner.md       ← ChatGPT 초보자편 MD 원본
+├── 교안_chatgpt_intermediate.md   ← ChatGPT 중급자편 MD 원본
+├── 교안_chatgpt_developer.md      ← ChatGPT 개발자편 MD 원본
+│
+├── prompt-beginner.html           ← 프롬프트 엔지니어링 초보자편 교안
+├── prompt-intermediate.html       ← 프롬프트 엔지니어링 중급자편 교안
+├── prompt-developer.html          ← 프롬프트 엔지니어링 개발자편 교안
+├── 교안_prompt_beginner.md        ← 프롬프트 엔지니어링 초보자편 MD 원본
+├── 교안_prompt_intermediate.md    ← 프롬프트 엔지니어링 중급자편 MD 원본
+├── 교안_prompt_developer.md       ← 프롬프트 엔지니어링 개발자편 MD 원본
+│
+├── github-beginner.html           ← Git/GitHub 초보자편 교안
+├── github-intermediate.html       ← Git/GitHub 중급자편 교안
+├── github-developer.html          ← Git/GitHub 개발자편 교안
+├── 교안_github_beginner.md        ← Git/GitHub 초보자편 MD 원본
+├── 교안_github_intermediate.md    ← Git/GitHub 중급자편 MD 원본
+├── 교안_github_developer.md       ← Git/GitHub 개발자편 MD 원본
+│
+├── deployment-beginner.html       ← 배포 초보자편 교안
+├── deployment-intermediate.html   ← 배포 중급자편 교안
+├── deployment-developer.html      ← 배포 개발자편 교안
+├── 교안_deployment_beginner.md    ← 배포 초보자편 MD 원본
+├── 교안_deployment_intermediate.md ← 배포 중급자편 MD 원본
+├── 교안_deployment_developer.md   ← 배포 개발자편 MD 원본
+│
+├── ai-compare.html                ← AI 도구 비교 페이지 (Claude vs ChatGPT)
+├── ai-compare.md                  ← AI 도구 비교 MD 원본
+│
 ├── compare.html                   ← 도구 비교 독립 페이지
 │
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
@@ -82,7 +120,7 @@
 - **HTML**: `{tool}-{level}.html` (예: `cursor-beginner.html`)
 - **MD**: `교안_{tool}_{level}.md` (예: `교안_cursor_beginner.md`)
 - **Level**: `beginner`, `intermediate`, `developer`
-- **Tool**: `lovable`, `antigravity`, `cursor`, `aistudio`, `claude-code`
+- **Tool**: `lovable`, `antigravity`, `cursor`, `aistudio`, `claude-code`, `devinterface`, `chatgpt`, `prompt`, `github`, `deployment`
 
 ## 공통 코드 구조
 
@@ -163,6 +201,11 @@
 | **Cursor** | `#2196F3` (파랑) | `#90CAF9` | 초보/중급/개발자 |
 | **AI Studio** | `#4CAF50` (초록) | `#A5D6A7` | 초보/중급/개발자 |
 | **Claude Code** | `#FF9800` (오렌지) | `#FFCC80` | 초보/중급/개발자 |
+| **개발 인터페이스** | `#607D8B` (블루그레이) | `#B0BEC5` | 초보/중급/개발자 |
+| **ChatGPT/Codex** | `#10A37F` (그린) | `#7DD3B7` | 초보/중급/개발자 |
+| **프롬프트 엔지니어링** | `#E91E63` (핑크) | `#F48FB1` | 초보/중급/개발자 |
+| **Git/GitHub** | `#F44336` (레드) | `#EF9A9A` | 초보/중급/개발자 |
+| **배포** | `#00BCD4` (시안) | `#80DEEA` | 초보/중급/개발자 |
 
 ### HTML 공통 구조
 
