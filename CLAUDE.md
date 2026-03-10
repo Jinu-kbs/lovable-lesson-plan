@@ -105,6 +105,12 @@
 ├── 교안_google_intermediate.md    ← 구글 생태계 중급자편 MD 원본
 ├── 교안_google_developer.md       ← 구글 생태계 개발자편 MD 원본
 │
+├── ai-intro.html                  ← AI 교육 철학 인트로 페이지
+├── 교안_ai-intro.md               ← AI 교육 철학 MD 원본
+│
+├── ai-science.html                ← AI 과학교육 탁월함 페이지
+├── 교안_ai-science.md             ← AI 과학교육 MD 원본
+│
 ├── ai-compare.html                ← AI 도구 5종 비교 페이지
 ├── ai-compare.md                  ← AI 도구 5종 비교 MD 원본
 │
@@ -214,6 +220,8 @@
 | **Git/GitHub** | `#F44336` (레드) | `#EF9A9A` | 초보/중급/개발자 |
 | **배포** | `#00BCD4` (시안) | `#80DEEA` | 초보/중급/개발자 |
 | **구글 생태계** | `#4285F4` (구글블루) | `#AECBFA` | 초보/중급/개발자 |
+| **AI 교육 철학** | `#1565C0` (딥블루) | `#90CAF9` | 단일 페이지 |
+| **AI 과학교육** | `#00695C` (다크틸) | `#80CBC4` | 단일 페이지 |
 
 ### HTML 공통 구조
 

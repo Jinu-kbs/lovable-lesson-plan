@@ -3887,6 +3887,67 @@ Vertex AI Pipelines (MLOps 파이프라인)
 
 ---
 
+## 실습 주제 50선
+
+구글 생태계 개발자 과정에서 직접 실습해볼 수 있는 50가지 주제입니다. 각 주제는 실제 프로덕션 환경을 고려한 실무 수준이며, 난이도는 3단계(기본/중급/심화)로 구분됩니다.
+
+| 번호 | 도구 | 실습 주제 | 실습 내용 | 난이도 |
+|------|------|----------|----------|--------|
+| 1 | GCP | GCP 프로젝트 생성 및 설정 | Google Cloud Console에서 프로젝트를 생성하고 결제 계정을 연결하며 기본 API를 활성화한다 | 기본 |
+| 2 | GCP | IAM 역할 및 서비스 계정 설정 | IAM에서 사용자 역할을 부여하고 서비스 계정을 생성하여 최소 권한 원칙을 적용한다 | 중급 |
+| 3 | GCP | Cloud Shell로 gcloud CLI 실습 | Cloud Shell에서 gcloud CLI를 사용하여 프로젝트 관리, 리소스 조회, 배포 명령을 실행한다 | 기본 |
+| 4 | GCP | 프로젝트 구조화 및 라벨 관리 | 여러 프로젝트를 폴더·조직으로 구조화하고 라벨을 활용한 리소스 분류 체계를 구축한다 | 중급 |
+| 5 | GCP | 예산 알림 및 비용 모니터링 | Cloud Billing에서 예산을 설정하고 임계값 도달 시 이메일·Pub/Sub 알림을 구성한다 | 기본 |
+| 6 | GCP | Cloud Storage 버킷 관리 | Cloud Storage 버킷을 생성하고 객체 업로드, 수명 주기 규칙, 접근 권한을 설정한다 | 중급 |
+| 7 | GCP | VPC 네트워크 기초 설정 | VPC 네트워크를 생성하고 서브넷, 방화벽 규칙을 설정하여 보안 네트워크를 구성한다 | 심화 |
+| 8 | GCP | Cloud Logging과 Monitoring 설정 | Cloud Logging으로 로그를 수집하고 Cloud Monitoring에서 대시보드와 알림 정책을 생성한다 | 중급 |
+| 9 | APIs | Sheets API로 데이터 읽기/쓰기 | Python/Node.js에서 Sheets API v4를 사용하여 스프레드시트 데이터를 프로그래밍 방식으로 읽고 쓴다 | 기본 |
+| 10 | APIs | Drive API로 파일 관리 자동화 | Drive API를 사용하여 파일 업로드, 다운로드, 검색, 권한 관리를 자동화하는 스크립트를 작성한다 | 중급 |
+| 11 | APIs | Gmail API로 이메일 자동화 | Gmail API를 사용하여 이메일을 검색, 읽기, 발송하고 라벨을 관리하는 자동화를 구현한다 | 중급 |
+| 12 | APIs | OAuth 2.0 인증 플로우 구현 | OAuth 2.0 동의 화면을 설정하고 Authorization Code 플로우로 사용자 인증을 구현한다 | 중급 |
+| 13 | APIs | 서비스 계정으로 서버 간 인증 | 서비스 계정 키를 생성하고 사용자 개입 없이 서버 간 API 호출을 자동화한다 | 중급 |
+| 14 | APIs | REST API 직접 호출 실습 | cURL 또는 Postman으로 Google API의 REST 엔드포인트를 직접 호출하여 요청/응답 구조를 이해한다 | 기본 |
+| 15 | APIs | 클라이언트 라이브러리 비교 | Python, Node.js, Java 클라이언트 라이브러리를 각각 사용하여 동일한 API 작업을 비교 실습한다 | 중급 |
+| 16 | APIs | Calendar API로 일정 관리 | Calendar API를 사용하여 일정 생성, 수정, 삭제, 참석자 관리를 프로그래밍 방식으로 구현한다 | 중급 |
+| 17 | Apps Script | Web App으로 폼 서비스 배포 | Apps Script Web App을 배포하여 외부에서 접근 가능한 데이터 입력 폼 서비스를 구축한다 | 중급 |
+| 18 | Apps Script | Workspace Add-on 개발 | Gmail 또는 Sheets에서 동작하는 사이드바형 Workspace Add-on을 개발하고 배포한다 | 심화 |
+| 19 | Apps Script | 라이브러리 생성 및 공유 | 재사용 가능한 Apps Script 라이브러리를 만들고 다른 프로젝트에서 임포트하여 활용한다 | 중급 |
+| 20 | Apps Script | 외부 REST API 연동 | UrlFetchApp으로 외부 REST API(날씨, 환율 등)를 호출하고 Sheets에 데이터를 기록한다 | 중급 |
+| 21 | Apps Script | Installable Trigger 고급 활용 | onEdit, onChange, 시간 기반 Installable Trigger를 설정하여 복잡한 자동화 워크플로를 구현한다 | 중급 |
+| 22 | Apps Script | PropertiesService로 설정 관리 | PropertiesService를 사용하여 API 키, 사용자 설정 등 스크립트 속성을 안전하게 관리한다 | 중급 |
+| 23 | Apps Script | CacheService 성능 최적화 | CacheService를 사용하여 반복 API 호출을 캐싱하고 스크립트 실행 시간을 최적화한다 | 심화 |
+| 24 | Apps Script | LockService 동시성 제어 | LockService를 사용하여 여러 사용자가 동시에 스크립트를 실행할 때 데이터 충돌을 방지한다 | 심화 |
+| 25 | Gemini API | 첫 번째 Gemini API 호출 | AI Studio에서 API 키를 발급하고 Python/Node.js에서 텍스트 생성 API를 호출한다 | 기본 |
+| 26 | Gemini API | Function Calling 구현 | Gemini API의 Function Calling으로 외부 도구(날씨 조회, DB 검색 등)와 연동한다 | 중급 |
+| 27 | Gemini API | 멀티모달 입력 처리 | 이미지+텍스트를 함께 전송하여 Gemini API의 멀티모달 분석 기능을 활용한다 | 중급 |
+| 28 | Gemini API | Structured Output 활용 | JSON Schema를 지정하여 Gemini API가 구조화된 JSON 응답을 반환하도록 구현한다 | 중급 |
+| 29 | Gemini API | Embeddings API로 유사도 검색 | 텍스트 임베딩을 생성하고 코사인 유사도로 문서 간 유사도 검색 시스템을 구축한다 | 심화 |
+| 30 | Gemini API | RAG 파이프라인 구축 | 문서를 청크 분할하고 임베딩을 저장한 후 질문에 관련 문서를 검색하여 답변을 생성한다 | 심화 |
+| 31 | Gemini API | 스트리밍 응답 구현 | Gemini API의 스트리밍 모드를 활용하여 실시간으로 응답을 받아 표시하는 UI를 구현한다 | 중급 |
+| 32 | Gemini API | System Instruction과 Safety Settings | 시스템 프롬프트로 AI 역할을 정의하고 Safety Settings로 콘텐츠 필터링을 조정한다 | 기본 |
+| 33 | Cloud Functions | HTTP 트리거 함수 배포 | Cloud Functions (2nd gen)에 HTTP 트리거 함수를 작성하고 배포하여 REST API를 구축한다 | 기본 |
+| 34 | Cloud Functions | Pub/Sub 이벤트 처리 함수 | Pub/Sub 토픽을 생성하고 메시지가 발행되면 자동 실행되는 Cloud Function을 배포한다 | 중급 |
+| 35 | Cloud Functions | Cloud Scheduler 정기 실행 | Cloud Scheduler로 Cloud Function을 매일 특정 시간에 자동 실행하는 크론 작업을 설정한다 | 중급 |
+| 36 | Cloud Functions | 환경 변수와 Secret Manager | Cloud Functions에서 환경 변수와 Secret Manager를 사용하여 API 키를 안전하게 관리한다 | 중급 |
+| 37 | Cloud Functions | Cloud Storage 이벤트 트리거 | Cloud Storage에 파일이 업로드되면 자동으로 처리(이미지 리사이즈, 메타데이터 추출)하는 함수를 구현한다 | 심화 |
+| 38 | Cloud Functions | Cloud Functions 로깅과 디버깅 | Cloud Logging으로 함수 로그를 확인하고 Error Reporting으로 오류를 추적·디버깅한다 | 중급 |
+| 39 | BigQuery | 공개 데이터셋 SQL 분석 | BigQuery 공개 데이터셋(GitHub, Stack Overflow 등)에 SQL 쿼리를 실행하여 데이터를 분석한다 | 기본 |
+| 40 | BigQuery | 외부 데이터 로드 및 테이블 관리 | CSV, JSON, Sheets 데이터를 BigQuery에 로드하고 테이블 스키마, 파티셔닝을 설정한다 | 중급 |
+| 41 | BigQuery | BigQuery ML 분류 모델 생성 | SQL만으로 BigQuery ML의 분류 모델(로지스틱 회귀)을 학습하고 예측 결과를 평가한다 | 심화 |
+| 42 | BigQuery | Looker Studio 대시보드 연결 | BigQuery 쿼리 결과를 Looker Studio에 연결하여 인터랙티브 데이터 대시보드를 만든다 | 중급 |
+| 43 | Firebase | Firestore 데이터베이스 CRUD | Firestore에 컬렉션/문서를 생성하고 CRUD 작업을 수행하며 보안 규칙을 설정한다 | 기본 |
+| 44 | Firebase | Firebase Authentication 구현 | 이메일/비밀번호, Google 로그인을 포함한 Firebase Auth를 프론트엔드에 통합한다 | 중급 |
+| 45 | Firebase | Firebase Hosting 배포 | 정적 웹 앱을 Firebase Hosting에 배포하고 커스텀 도메인, 리다이렉트 규칙을 설정한다 | 기본 |
+| 46 | Firebase | Cloud Messaging 푸시 알림 | Firebase Cloud Messaging(FCM)으로 웹/모바일 앱에 푸시 알림을 구현한다 | 심화 |
+| 47 | 자동화 | Cloud Build CI/CD 파이프라인 | Cloud Build로 GitHub 커밋 시 자동 테스트·빌드·배포되는 CI/CD 파이프라인을 구축한다 | 심화 |
+| 48 | 자동화 | Workflows 엔드투엔드 오케스트레이션 | Google Cloud Workflows로 여러 서비스(Functions, BigQuery, Sheets)를 연결하는 자동화 워크플로를 구축한다 | 심화 |
+| 49 | 보안 | IAM 보안 감사 및 모범 사례 | IAM Policy Analyzer로 과도한 권한을 감사하고 최소 권한 원칙에 맞게 역할을 조정한다 | 심화 |
+| 50 | 비용 | 비용 최적화 전략 실습 | Committed Use Discount, 리소스 자동 종료, 라벨 기반 비용 추적으로 클라우드 비용을 최적화한다 | 심화 |
+
+> **활용 팁**: GCP 무료 체험판($300 크레딧)을 활용하면 대부분의 실습을 비용 부담 없이 진행할 수 있습니다. 번호 순서대로 진행하되, Cloud 기초(1~8)를 먼저 완료한 후 API와 서비스별 실습으로 확장하세요.
+
+---
+
 ## 출처
 
 | 출처 | 설명 |

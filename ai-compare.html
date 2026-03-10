@@ -9,6 +9,8 @@
 :root{--primary:#5A4ED9;--primary-light:#C5BFFB;--blockquote-bg:#EDEAFF;--hover-bg:#F5F3FF}
 .table-wrapper{overflow-x:auto;margin:1.5rem 0}
 .table-wrapper table{min-width:700px}
+.table-wrapper table th:first-child, .table-wrapper table td:first-child{text-align:left}
+.timeline-table td:first-child{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -116,7 +118,7 @@
 
 <h3>발전 타임라인</h3>
 <div class="table-wrapper">
-<table>
+<table class="timeline-table">
   <tr><th>시기</th><th>Claude</th><th>ChatGPT</th><th>Gemini</th><th>Genspark</th><th>Perplexity</th></tr>
   <tr><td><strong>2022년</strong></td><td>Anthropic 연구 단계</td><td>ChatGPT 출시 (GPT-3.5)</td><td>Google Bard 준비</td><td>—</td><td>Perplexity 설립</td></tr>
   <tr><td><strong>2023년 초</strong></td><td>Claude 1.0 공개</td><td>GPT-4 출시</td><td>PaLM 2 기반 Bard 출시</td><td>Genspark 설립</td><td>Perplexity 정식 출시</td></tr>
