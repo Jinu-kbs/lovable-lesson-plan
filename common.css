@@ -80,3 +80,53 @@ pre:hover .copy-btn{opacity:1}
   .content h2{font-size:1.3rem}
   .content table{display:block;overflow-x:auto}
 }
+/* === 자기주도학습 네비게이션 (JS 자동 생성) === */
+/* 브레드크럼 */
+.breadcrumb{padding:8px 20px;background:#F8F9FA;font-size:.85rem;border-bottom:1px solid var(--border)}
+.breadcrumb a{color:var(--text-light);text-decoration:none}
+.breadcrumb a:hover{color:var(--primary);text-decoration:underline}
+.breadcrumb .current{color:var(--text);font-weight:600}
+.breadcrumb .sep{margin:0 6px;color:#CCC}
+/* 선수 학습 배너 */
+.prereq-banner{background:#FFF8E1;border-left:4px solid #FFC107;padding:14px 20px;margin:0 40px 24px;border-radius:0 8px 8px 0;font-size:.9rem}
+.prereq-banner strong{color:#F57F17}
+.prereq-banner a{color:var(--primary);font-weight:600;text-decoration:none}
+.prereq-banner a:hover{text-decoration:underline}
+/* 학습 경로 */
+.learning-path-wrap{padding:0 40px;margin:0 0 16px}
+.learning-path{display:flex;align-items:center;gap:4px;padding:14px 20px;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;overflow-x:auto;font-size:.85rem;flex-wrap:nowrap}
+.learning-path .path-label{font-weight:700;color:var(--text);margin-right:8px;white-space:nowrap}
+.learning-path .step{padding:5px 12px;border-radius:16px;white-space:nowrap;border:1px solid transparent}
+.learning-path .step a{text-decoration:none;color:var(--text-light)}
+.learning-path .step a:hover{color:var(--primary)}
+.learning-path .step.current{background:var(--primary);border-color:var(--primary)}
+.learning-path .step.current a,.learning-path .step.current span{color:#FFF;font-weight:700}
+.learning-path .arrow{color:var(--border);font-size:.8rem}
+/* 관련 교안 카드 */
+.related-section{margin:48px 0 32px}
+.related-section h2{font-size:1.3rem;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--primary)}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.related-card{display:block;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--text);transition:all .2s}
+.related-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.related-card .rc-icon{font-size:1.4rem;margin-bottom:6px}
+.related-card .rc-name{font-weight:700;font-size:.9rem}
+.related-card .rc-desc{font-size:.8rem;color:var(--text-light);margin-top:4px;line-height:1.4}
+/* Footer 네비게이션 */
+.lesson-nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;margin:40px 0 0;border-top:2px solid var(--border);gap:10px;flex-wrap:wrap}
+.lesson-nav a{text-decoration:none;font-weight:600;font-size:.9rem;padding:10px 18px;border-radius:8px;transition:all .2s;border:1px solid var(--primary);color:var(--primary)}
+.lesson-nav a:hover{background:var(--primary);color:#FFF}
+.lesson-nav .nav-home{border-color:var(--border);color:var(--text-light)}
+.lesson-nav .nav-home:hover{background:var(--border);color:var(--text)}
+.lesson-nav .nav-placeholder{visibility:hidden;padding:10px 18px}
+@media(max-width:768px){
+  .prereq-banner{margin:0 16px 16px}
+  .learning-path-wrap{padding:0 16px}
+  .learning-path{font-size:.8rem;padding:10px 14px}
+  .lesson-nav{flex-direction:column}
+  .lesson-nav a{width:100%;text-align:center}
+  .lesson-nav .nav-placeholder{display:none}
+  .related-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .related-grid{grid-template-columns:1fr}
+}

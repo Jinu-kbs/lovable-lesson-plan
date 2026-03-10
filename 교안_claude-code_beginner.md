@@ -10,10 +10,10 @@
 
 | 나의 상황 | 추천 교안 |
 |-----------|----------|
-| AI 챗봇도 처음이에요 | → **AI Studio 초보자편** 또는 **Lovable 초보자편** |
+| AI 챗봇도 처음이에요 | → **[AI Studio 초보자편](aistudio-beginner.html)** 또는 **[Lovable 초보자편](lovable-beginner.html)** |
 | 챗봇은 써봤지만 터미널/CLI는 처음이에요 | → **이 교안 (Claude Code 초보자편)** ✅ |
 | 터미널/CLI 사용 경험이 있어요 | → **Claude Code 중급자편** (준비 중) |
-| 코딩 경험이 풍부하고 자동화가 목표예요 | → **Claude Code 개발자편** |
+| 코딩 경험이 풍부하고 자동화가 목표예요 | → **[Claude Code 개발자편](claude-code-developer.html)** |
 
 ### 📌 추천 리소스
 
@@ -615,18 +615,18 @@ Claude Code 초보자편을 마치셨습니다! 다음 단계를 선택하세요
 
 | 방향 | 설명 | 추천 |
 |------|------|------|
-| **Claude Code 개발자편** | MCP, 서브에이전트, CI/CD 등 고급 활용 | ★★★ |
-| **Cursor 초보자편** | GUI에서 AI와 코딩 (터미널이 불편하다면) | ★★☆ |
-| **Lovable 초보자편** | 설치 없이 웹에서 바로 앱 만들기 (노코드) | ★★☆ |
+| **[Claude Code 개발자편](claude-code-developer.html)** | MCP, 서브에이전트, CI/CD 등 고급 활용 | ★★★ |
+| **[Cursor 초보자편](cursor-beginner.html)** | GUI에서 AI와 코딩 (터미널이 불편하다면) | ★★☆ |
+| **[Lovable 초보자편](lovable-beginner.html)** | 설치 없이 웹에서 바로 앱 만들기 (노코드) | ★★☆ |
 | **다양한 프로젝트 시도** | 이 교안의 프로젝트를 3개 이상 만들어보기 | ★★★ |
 
 ### 어떤 도구가 나에게 맞을까?
 
 | 이런 분이라면 | 추천 도구 |
 |-------------|----------|
-| 터미널 대화가 재미있었다! | **Claude Code 개발자편**으로 심화 학습 |
-| 터미널이 좀 불편했다... | **Cursor** (마우스로 클릭하며 개발) |
-| 코드 없이 앱을 만들고 싶다 | **Lovable** (웹에서 대화만으로 완성) |
+| 터미널 대화가 재미있었다! | **[Claude Code 개발자편](claude-code-developer.html)**으로 심화 학습 |
+| 터미널이 좀 불편했다... | **[Cursor 초보자편](cursor-beginner.html)** (마우스로 클릭하며 개발) |
+| 코드 없이 앱을 만들고 싶다 | **[Lovable 초보자편](lovable-beginner.html)** (웹에서 대화만으로 완성) |
 
 ---
 

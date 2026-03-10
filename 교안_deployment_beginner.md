@@ -1635,6 +1635,10 @@ GitHub Pages:
 풀스택 프로젝트 (프론트엔드 + 백엔드 + DB + 배포)
 ```
 
+- [배포 중급자편](deployment-intermediate.html) — CI/CD 파이프라인, 모니터링, 성능 최적화
+- [배포 개발자편](deployment-developer.html) — Docker, 클라우드 플랫폼, IaC, 쿠버네티스
+- [도구 비교](compare.html) — 바이브코딩 도구별 심화 비교
+
 ### 배포 관련 추가 학습 리소스
 
 | 리소스 | 설명 | 링크 |

@@ -18,7 +18,7 @@
 | 학습 목표 | 바이브코딩 체험 | **Gemini API 연동·프로덕션 확장** |
 | 소요 시간 | 2~3시간 | **4~5시간** |
 
-> API 호출, 터미널, 패키지 매니저 경험이 없다면 **초보자편**을 먼저 보세요.
+> API 호출, 터미널, 패키지 매니저 경험이 없다면 **[초보자편](aistudio-beginner.html)**을 먼저 보세요.
 
 ### 추천 리소스
 
@@ -577,9 +577,9 @@ AI Studio 개발자편을 마치셨습니다. 다음 단계를 선택하세요:
 |------|------|------|
 | **Gemini API 프로덕션** | Rate limit 관리, 비용 최적화 | 고급 |
 | **Firebase 풀스택** | Auth + Firestore + Hosting 통합 | 실무 |
-| **Lovable 개발자편** | SaaS 빌더, Supabase 연동 | 추천 |
-| **Cursor 개발자편** | .cursor/rules, Agent 활용 | 추천 |
-| **Claude Code 개발자편** | CLI 자동화, CLAUDE.md 활용 | 고급 |
+| **[Lovable 개발자편](lovable-developer.html)** | SaaS 빌더, Supabase 연동 | 추천 |
+| **[Cursor 개발자편](cursor-developer.html)** | .cursor/rules, Agent 활용 | 추천 |
+| **[Claude Code 개발자편](claude-code-developer.html)** | CLI 자동화, CLAUDE.md 활용 | 고급 |
 
 ### 학습 방향 매트릭스
 

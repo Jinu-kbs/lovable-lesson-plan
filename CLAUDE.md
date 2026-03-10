@@ -25,8 +25,10 @@
 ├── ia.md                  ← 정보 구조(IA) 문서
 ├── erd.md                 ← 데이터 구조(ERD) 문서
 ├── common.css             ← 교안 공통 스타일 (CSS 변수 기반)
-├── common.js              ← 교안 공통 스크립트 (TOC, 스크롤스파이 등)
+├── common.js              ← 교안 공통 스크립트 (TOC, 스크롤스파이, 자기주도학습 네비게이션)
+├── lessons-data.js        ← 교안 메타데이터 (JS, 자동 네비게이션용)
 ├── index.html             ← 메인 랜딩 페이지 (도구별 교안 허브 + 게시판)
+├── 검토_지침.md            ← 교안 검토 체크리스트 (24항목)
 │
 ├── lovable-beginner.html          ← 러버블 초보자편 교안
 ├── lovable-intermediate.html      ← 러버블 중급자편 교안
@@ -141,8 +143,20 @@
 - 모든 교안 HTML이 공유하는 스타일 (topnav, hero, sidebar, content, footer, 모바일 TOC 등)
 - 페이지별로 4개 CSS 변수만 오버라이드: `--primary`, `--primary-light`, `--blockquote-bg`, `--hover-bg`
 
+### lessons-data.js
+- 11개 도구 × 3레벨 교안 메타데이터 (URL, 제목, 설명, 관련교안, 선수학습)
+- 4개 특별 페이지 정보
+- 3개 추천 학습 경로 (입문/중급/개발자)
+- common.js가 이 데이터로 브레드크럼, 관련교안 카드, 학습경로, footer nav를 자동 생성
+
 ### common.js
 - 모바일 TOC 바텀시트, 백투탑 버튼, 스크롤 스파이, 코드 복사 버튼
+- **자기주도학습 네비게이션 자동 생성** (lessons-data.js 기반):
+  - 브레드크럼 (홈 > 도구 > 레벨)
+  - 선수 학습 배너
+  - 학습 경로 시각화
+  - 관련 교안 카드 그리드
+  - 이전/다음 교안 footer 네비게이션
 
 ## 개발 워크플로우 (6단계 필수 준수)
 
@@ -238,6 +252,7 @@
 - Co-Authored-By 태그 포함
 - 커밋 후 즉시 push (GitHub Pages 자동 반영)
 - `.claude/`, `KakaoTalk_*.txt`, `og-image.html`은 커밋하지 않음
+- `검토_지침.md`는 커밋 대상 (프로젝트 품질관리 문서)
 
 ## 콘텐츠 보관 원칙
 

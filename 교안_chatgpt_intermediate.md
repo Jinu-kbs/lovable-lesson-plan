@@ -2109,6 +2109,15 @@ print(response.content[0].text)
          → ChatGPT + Cursor로 풀스택 개발
 ```
 
+### 추천 다음 교안
+
+| 방향 | 교안 | 설명 |
+|------|------|------|
+| **ChatGPT 심화** | ChatGPT 개발자편 | Assistants API, Function Calling, Fine-tuning |
+| **다른 도구** | [커서 초보자편](cursor-beginner.html) | AI IDE 기반 코딩 |
+| **다른 도구** | [Claude Code 초보자편](claude-code-beginner.html) | CLI 기반 AI 코딩 |
+| **노코드** | [러버블 초보자편](lovable-beginner.html) | 웹앱 빌더 |
+
 ### 추천 학습 자료
 
 | 자료 | 설명 | 링크 |

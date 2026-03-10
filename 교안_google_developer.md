@@ -3862,8 +3862,8 @@ Vertex AI Pipelines (MLOps 파이프라인)
 - Agent Builder로 AI 에이전트 구축
 
 **바이브코딩 연계:**
-- Lovable/Cursor로 프론트엔드 → Firebase Hosting 배포
-- Claude Code로 Cloud Functions 코드 생성
+- [러버블 초보자편](lovable-beginner.html) / [커서 초보자편](cursor-beginner.html)로 프론트엔드 → Firebase Hosting 배포
+- [Claude Code 초보자편](claude-code-beginner.html)로 Cloud Functions 코드 생성
 - Apps Script + Gemini API 자동화 워크플로
 
 ### 마무리

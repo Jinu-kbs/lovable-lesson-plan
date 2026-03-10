@@ -631,8 +631,8 @@ GitHub에 올려두면 팀원들과 함께 수정할 수 있습니다. Vercel에
 
 | 방향 | 추천 학습 | 도구 |
 |------|-----------|------|
-| **코드 이해** | 개발자편 교안으로 코드 구조 학습 | 교안 참고 |
-| **다른 빌더** | 안티그래비티, 커서로 확장 | antigravity.dev, cursor.com |
+| **코드 이해** | [개발자편](lovable-developer.html) 교안으로 코드 구조 학습 | 교안 참고 |
+| **다른 빌더** | [안티그래비티 초보자편](antigravity-beginner.html), [커서 초보자편](cursor-beginner.html)으로 확장 | antigravity.dev, cursor.com |
 | **백엔드** | Supabase로 사용자 인증, DB 구축 | supabase.com |
 | **디자인** | Figma로 디자인 시안 제작 후 러버블 투입 | figma.com |
 | **협업** | GitHub으로 팀 프로젝트 진행 | github.com |

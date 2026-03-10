@@ -491,10 +491,10 @@ AI Studio 빌드로 바이브코딩의 기본 개념을 익혔다면, 이제 다
 
 | 목표 | 추천 도구 | 교안 |
 |------|-----------|------|
-| 완성도 높은 웹사이트 만들기 | **러버블 (Lovable)** | 러버블 초보자편 → 중급자편 |
-| 에이전트에게 개발을 맡기기 | **안티그래비티 (AntiGravity)** | 안티그래비티 초보자편 |
-| 코드를 직접 다루며 배우기 | **커서 (Cursor)** | 커서 초보자편 |
-| CLI 기반 자동화 | **Claude Code** | Claude Code 개발자편 |
+| 완성도 높은 웹사이트 만들기 | **러버블 (Lovable)** | [러버블 초보자편](lovable-beginner.html) → [중급자편](lovable-intermediate.html) |
+| 에이전트에게 개발을 맡기기 | **안티그래비티 (AntiGravity)** | [안티그래비티 초보자편](antigravity-beginner.html) |
+| 코드를 직접 다루며 배우기 | **커서 (Cursor)** | [커서 초보자편](cursor-beginner.html) |
+| CLI 기반 자동화 | **Claude Code** | [Claude Code 개발자편](claude-code-developer.html) |
 
 ### 도구별 추천 경로
 

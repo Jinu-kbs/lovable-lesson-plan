@@ -660,7 +660,7 @@ echo $VITE_SUPABASE_ANON_KEY
 |------|------|--------|
 | **풀스택 확장** | Next.js + Supabase로 SSR/API Routes 추가 | [Next.js 문서](https://nextjs.org/docs) |
 | **모바일 앱** | React Native 또는 Capacitor로 모바일 래핑 | [Capacitor 문서](https://capacitorjs.com/docs) |
-| **에이전트 IDE** | 안티그래비티에서 에이전트 기반 코드 수정·테스트 | [antigravity.dev](https://www.antigravity.dev) |
+| **에이전트 IDE** | [안티그래비티 개발자편](antigravity-developer.html)으로 에이전트 기반 코드 수정·테스트 | [antigravity.dev](https://www.antigravity.dev) |
 | **CI/CD** | GitHub Actions로 테스트 자동화 | [GitHub Actions 문서](https://docs.github.com/actions) |
 | **AI 기능** | Claude API / OpenAI API로 AI 기능 내장 | [Anthropic Docs](https://docs.anthropic.com) |
 | **모노레포** | Turborepo로 프론트/백엔드 통합 관리 | [Turborepo 문서](https://turbo.build/repo/docs) |

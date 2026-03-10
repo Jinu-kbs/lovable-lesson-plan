@@ -3547,11 +3547,11 @@ print(f"선택된 모델: {provider}/{model}")
 
 | 도구 | 교안 | 특징 |
 |------|------|------|
-| **Lovable** | 초보자/중급자/개발자 | 웹 빌더, 프롬프트로 앱 생성 |
-| **AntiGravity** | 초보자/중급자/개발자 | Gemini 기반 에이전트 IDE |
-| **Cursor** | 초보자/중급자/개발자 | VS Code 포크 AI IDE |
-| **AI Studio** | 초보자/중급자/개발자 | Google 웹 IDE |
-| **Claude Code** | 초보자/중급자/개발자 | Anthropic CLI 에이전트 |
+| **Lovable** | [초보자편](lovable-beginner.html) / [개발자편](lovable-developer.html) | 웹 빌더, 프롬프트로 앱 생성 |
+| **AntiGravity** | [초보자편](antigravity-beginner.html) | Gemini 기반 에이전트 IDE |
+| **Cursor** | [초보자편](cursor-beginner.html) / [개발자편](cursor-developer.html) | VS Code 포크 AI IDE |
+| **AI Studio** | [초보자편](aistudio-beginner.html) | Google 웹 IDE |
+| **Claude Code** | [초보자편](claude-code-beginner.html) / [개발자편](claude-code-developer.html) | Anthropic CLI 에이전트 |
 
 ### 최종 체크포인트
 

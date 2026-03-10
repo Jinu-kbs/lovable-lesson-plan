@@ -2031,6 +2031,8 @@ XLOOKUP이 추천됩니다. Google Sheets에서도 XLOOKUP을 지원합니다.
         └── 팀 워크플로 최적화
 ```
 
+- [구글 생태계 개발자편](google-developer.html) — Apps Script 고급, GCP, BigQuery, Gemini API
+
 ### 추천 학습 자료
 
 | 자료 | 설명 | 링크 |

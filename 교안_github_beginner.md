@@ -2571,6 +2571,10 @@ Git/GitHub 기초 (지금 여기!)
 Claude Code → CLI에서 Git 직접 사용
 ```
 
+- [러버블 초보자편](lovable-beginner.html) — GitHub 연동으로 코드 확인
+- [커서 초보자편](cursor-beginner.html) — Git 패널로 버전 관리하며 개발
+- [Claude Code 초보자편](claude-code-beginner.html) — CLI에서 Git 직접 사용
+
 ### Git 심화 학습 경로
 
 ```
@@ -2586,6 +2590,9 @@ Claude Code → CLI에서 Git 직접 사용
 4단계: 고급
   Git Flow, Cherry-pick, Submodule, GitHub Actions
 ```
+
+- [Git/GitHub 중급자편](github-intermediate.html) — 브랜치 전략, 병합, Pull Request
+- [Git/GitHub 개발자편](github-developer.html) — Git Flow, GitHub Actions, 고급 워크플로
 
 ### 실전 프로젝트 아이디어
 

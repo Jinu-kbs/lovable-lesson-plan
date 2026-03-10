@@ -500,9 +500,9 @@ alwaysApply: false
 
 | 방향 | 설명 | 추천 |
 |------|------|------|
-| **커서 개발자편** | Background Agent, 병렬 에이전트, 고급 MCP | ★★★ |
-| **안티그래비티 중급자편** | 에이전트 위임 방식의 개발 경험 | ★★☆ |
-| **Claude Code 개발자편** | 터미널 기반 AI 코딩 (상급자용) | ★★☆ |
+| **[커서 개발자편](cursor-developer.html)** | Background Agent, 병렬 에이전트, 고급 MCP | ★★★ |
+| **[안티그래비티 중급자편](antigravity-intermediate.html)** | 에이전트 위임 방식의 개발 경험 | ★★☆ |
+| **[Claude Code 개발자편](claude-code-developer.html)** | 터미널 기반 AI 코딩 (상급자용) | ★★☆ |
 | **실전 프로젝트** | 포트폴리오를 넘어 SaaS 프로젝트 도전 | ★★★ |
 
 ### 학습 방향 로드맵

@@ -2604,6 +2604,13 @@ Oh My Zsh는 Zsh 셸의 플러그인/테마 관리 프레임워크입니다. 필
         └── 개인 프로젝트를 GitHub Pages/Vercel에 배포
 ```
 
+### 바이브코딩 도구 심화 교안
+
+| 도구 | 교안 | 내용 |
+|------|------|------|
+| **Cursor** | [Cursor 개발자편](cursor-developer.html) | Agent Mode, MCP |
+| **Claude Code** | [Claude Code 개발자편](claude-code-developer.html) | CLI 에이전트 워크플로우 |
+
 ### 추천 학습 자료
 
 | 자료 | 설명 | 링크 |

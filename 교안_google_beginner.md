@@ -1987,7 +1987,7 @@ NotebookLM 활용:
 
 ### 중급자편 안내
 
-초보자편을 마치셨다면, 다음 단계인 **중급자편**에서 더 깊은 활용법을 배울 수 있습니다.
+초보자편을 마치셨다면, 다음 단계인 **[중급자편](google-intermediate.html)**에서 더 깊은 활용법을 배울 수 있습니다.
 
 | 주제 | 초보자편 (이번 과정) | 중급자편 (다음 과정) |
 |------|-------------------|-------------------|
@@ -2021,6 +2021,11 @@ NotebookLM 활용:
 경로 D: 프롬프트 역량 강화
   → 프롬프트 엔지니어링 초보자편 (AI와 효과적으로 대화하기)
 ```
+
+**경로 A:** [구글 생태계 중급자편](google-intermediate.html) | [구글 생태계 개발자편](google-developer.html)
+**경로 B:** [AI Studio 초보자편](aistudio-beginner.html) | [ChatGPT 초보자편](chatgpt-beginner.html)
+**경로 C:** [러버블 초보자편](lovable-beginner.html) | [커서 초보자편](cursor-beginner.html)
+**경로 D:** [프롬프트 엔지니어링 초보자편](prompt-beginner.html)
 
 ### 유용한 리소스 링크
 
