@@ -151,13 +151,6 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .compare-table tr:hover td{background:#F9F9FF}
 .compare-table .highlight{background:#FFF9C4;font-weight:600}
 
-/* === Event Banner === */
-.event-banner{background:linear-gradient(135deg,#FFEAA7,#FDCB6E);border-radius:16px;padding:32px;text-align:center;margin-bottom:60px}
-.event-banner h2{font-size:1.3rem;margin-bottom:12px;color:#2D3436}
-.event-banner p{color:#636E72;font-size:.95rem;margin-bottom:8px}
-.event-banner .benefits{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:16px}
-.event-banner .benefit{background:rgba(255,255,255,.7);padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600}
-
 /* === Bulletin Board === */
 .bulletin-board{margin:40px auto;max-width:800px;padding:20px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px}
 .bulletin-board .bb-form{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
@@ -195,6 +188,7 @@ footer a{color:var(--text-light);text-decoration:underline}
   <div class="nav-links">
     <a href="ai-intro.html">AI 교육 철학</a>
     <a href="ai-science.html">AI 과학교육</a>
+    <a href="google-beginner.html">구글생태계</a>
     <div class="nav-dropdown">
       <span class="nav-dropdown-btn">도구별 교안 ▼</span>
       <div class="dropdown-content">
@@ -279,14 +273,6 @@ footer a{color:var(--text-light);text-decoration:underline}
             <a href="deployment-developer.html">개발자</a>
           </div>
         </div>
-        <div class="dropdown-tool">
-          <div class="dropdown-tool-name"><span>🔍</span> 구글 생태계</div>
-          <div class="dropdown-tool-levels">
-            <a href="google-beginner.html">초보자</a>
-            <a href="google-intermediate.html">중급자</a>
-            <a href="google-developer.html">개발자</a>
-          </div>
-        </div>
       </div>
     </div>
     <a href="compare.html">도구 비교</a>
@@ -300,6 +286,7 @@ footer a{color:var(--text-light);text-decoration:underline}
   <div class="mobile-menu-bottom" style="border-bottom:1px solid #EEE;padding-bottom:10px;margin-bottom:4px">
     <a href="ai-intro.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">📘 AI 교육 철학</a>
     <a href="ai-science.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">🔬 AI 과학교육</a>
+    <a href="google-beginner.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">🔍 구글생태계</a>
   </div>
   <div class="mobile-menu-tool">
     <div class="mobile-menu-tool-name">💗 러버블</div>
@@ -381,14 +368,6 @@ footer a{color:var(--text-light);text-decoration:underline}
       <a href="deployment-developer.html">개발자</a>
     </div>
   </div>
-  <div class="mobile-menu-tool">
-    <div class="mobile-menu-tool-name">🔍 구글 생태계</div>
-    <div class="mobile-menu-tool-links">
-      <a href="google-beginner.html">초보자</a>
-      <a href="google-intermediate.html">중급자</a>
-      <a href="google-developer.html">개발자</a>
-    </div>
-  </div>
   <div class="mobile-menu-bottom">
     <a href="compare.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">도구 비교</a>
     <a href="ai-compare.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">AI 비교</a>
@@ -410,7 +389,6 @@ footer a{color:var(--text-light);text-decoration:underline}
   현실을 제대로 반영하지 못했을 수도 있습니다.<br>
   또한 인공지능은 시간의 개념이 부족합니다.<br>
   이해 바랍니다.</p>
-  <div class="badge">2026년 3월 She Builds on Lovable 이벤트</div>
 </div>
 
 <div class="container">
@@ -834,17 +812,6 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
   </div>
 
-  <!-- === Event Banner === -->
-  <div class="event-banner">
-    <h2>She Builds on Lovable 이벤트 혜택</h2>
-    <p>참가 자격 제한 없이 누구나 참여 가능합니다</p>
-    <div class="benefits">
-      <div class="benefit">🔨 25시간 무료 빌드</div>
-      <div class="benefit">💰 $100 API 크레딧</div>
-      <div class="benefit">💳 $250 Stripe 크레딧</div>
-    </div>
-  </div>
-
 </div>
 
 <!-- === Bulletin Board === -->
@@ -859,7 +826,6 @@ footer a{color:var(--text-light);text-decoration:underline}
 </section>
 
 <footer>
-  <div style="margin-bottom:10px">본 교안은 2026년 3월 She Builds on Lovable 이벤트를 계기로 작성되었습니다.</div>
   <div style="margin-bottom:10px">
     제공: 김선생 |
     <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">쓰레드(Threads)</a> |
