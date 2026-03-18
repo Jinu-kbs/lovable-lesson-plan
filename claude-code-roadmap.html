@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code 마스터 로드맵 — 김선생의 바이브코딩 가이드</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#D97706;--primary-light:#FDE68A;--primary-dark:#92400E;
+  --accent:#7C3AED;--accent-light:#DDD6FE;
+  --bg:#FAFAF9;--card:#FFF;--text:#1C1917;--text-light:#78716C;--border:#E7E5E4;
+  --green:#059669;--green-bg:#D1FAE5;
+  --blue:#2563EB;--blue-bg:#DBEAFE;
+  --red:#DC2626;--red-bg:#FEE2E2;
+  --purple:#7C3AED;--purple-bg:#EDE9FE;
+  --orange:#EA580C;--orange-bg:#FED7AA;
+  --teal:#0D9488;--teal-bg:#CCFBF1;
+  --radius:12px;--shadow:0 2px 12px rgba(0,0,0,.06);
+}
+body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+a{color:var(--primary);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:'Fira Code',Consolas,monospace;font-size:.82rem;background:#292524;color:#FDE68A;padding:2px 7px;border-radius:4px}
+
+/* ===== STICKY HEADER ===== */
+.site-header{background:#FFF;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200}
+.header-top{display:flex;align-items:center;height:52px;padding:0 24px;max-width:1200px;margin:0 auto}
+.brand{font-weight:800;font-size:1rem;color:var(--text);margin-right:auto}
+.brand span{color:var(--primary)}
+.header-meta{display:flex;gap:12px;font-size:.78rem;color:var(--text-light)}
+.header-meta a{color:var(--text-light);font-weight:500}
+
+/* ===== MAIN TABS (Level 1) ===== */
+.main-tabs{display:flex;gap:2px;padding:0 24px;max-width:1200px;margin:0 auto;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.main-tabs::-webkit-scrollbar{display:none}
+.main-tab{padding:10px 18px;font-size:.85rem;font-weight:600;color:var(--text-light);cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;font-family:inherit}
+.main-tab:hover{color:var(--text);background:#FAFAF9}
+.main-tab.active{color:var(--primary-dark);border-bottom-color:var(--primary)}
+.main-tab .tab-icon{margin-right:4px}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#1C1917 0%,#292524 40%,#44403C 100%);color:#FFF;padding:56px 24px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'>';position:absolute;font-size:16rem;font-weight:900;opacity:.03;right:5%;top:-15%;font-family:monospace}
+.hero-badge{display:inline-block;background:var(--primary);padding:3px 14px;border-radius:14px;font-size:.75rem;font-weight:700;margin-bottom:12px}
+.hero h1{font-size:2rem;font-weight:900;margin-bottom:8px}
+.hero h1 span{color:var(--primary)}
+.hero p{font-size:.95rem;opacity:.75;max-width:580px;margin:0 auto}
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:20px}
+.hero-stat .num{font-size:1.4rem;font-weight:800;color:var(--primary)}
+.hero-stat .label{font-size:.72rem;opacity:.55}
+
+/* ===== TAB PANELS ===== */
+.tab-panel{display:none;max-width:1200px;margin:0 auto;padding:32px 24px 60px}
+.tab-panel.active{display:block}
+
+/* ===== SECTION HEADING HIERARCHY ===== */
+.h1-section{margin-bottom:40px}
+.h1-title{font-size:1.5rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.h1-title .icon{width:36px;height:36px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.h1-desc{color:var(--text-light);font-size:.9rem;margin-bottom:24px}
+
+.h2-section{margin-bottom:28px}
+.h2-title{font-size:1.15rem;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--border);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.h2-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.h3-title{font-size:.95rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+
+/* ===== SUB-TABS (Level 2) ===== */
+.sub-tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.sub-tab{padding:6px 16px;font-size:.82rem;font-weight:600;border:1px solid var(--border);border-radius:20px;cursor:pointer;background:var(--card);color:var(--text-light);transition:all .15s;font-family:inherit}
+.sub-tab:hover{border-color:var(--primary);color:var(--primary)}
+.sub-tab.active{background:var(--primary);color:#FFF;border-color:var(--primary)}
+.sub-panel{display:none}
+.sub-panel.active{display:block}
+
+/* ===== PILL TABS (Level 3 — inline) ===== */
+.pill-tabs{display:flex;gap:2px;background:var(--border);border-radius:8px;padding:2px;margin-bottom:16px;width:fit-content}
+.pill-tab{padding:5px 14px;font-size:.78rem;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:transparent;color:var(--text-light);transition:all .15s;font-family:inherit}
+.pill-tab.active{background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+.pill-panel{display:none}
+.pill-panel.active{display:block}
+
+/* ===== CARDS ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shadow)}
+.card-accent{border-top:4px solid var(--primary)}
+.card h4{font-size:.95rem;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.card .desc{font-size:.83rem;color:var(--text-light);margin-bottom:10px}
+.card ul{list-style:none;margin-bottom:10px}
+.card li{font-size:.83rem;padding:4px 0;padding-left:16px;position:relative;border-bottom:1px solid #F5F5F4}
+.card li:last-child{border-bottom:none}
+.card li::before{content:'';width:5px;height:5px;border-radius:50%;position:absolute;left:2px;top:11px}
+.card .link{font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+
+/* COLOR ACCENT HELPERS */
+.ac-orange{border-top-color:var(--orange)} .ac-orange li::before{background:var(--orange)}
+.ac-blue{border-top-color:var(--blue)} .ac-blue li::before{background:var(--blue)}
+.ac-green{border-top-color:var(--green)} .ac-green li::before{background:var(--green)}
+.ac-purple{border-top-color:var(--purple)} .ac-purple li::before{background:var(--purple)}
+.ac-red{border-top-color:var(--red)} .ac-red li::before{background:var(--red)}
+.ac-teal{border-top-color:var(--teal)} .ac-teal li::before{background:var(--teal)}
+
+/* ===== TIMELINE ===== */
+.timeline{position:relative;padding-left:36px}
+.timeline::before{content:'';position:absolute;left:13px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--primary),var(--accent),var(--green));border-radius:2px}
+.tl-step{position:relative;margin-bottom:28px}
+.tl-step .num{position:absolute;left:-30px;top:2px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#FFF;z-index:1}
+.tl-step .tl-body{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.tl-step h4{font-size:1rem;font-weight:700;margin-bottom:2px}
+.tl-step .meta{font-size:.78rem;color:var(--text-light);margin-bottom:6px}
+.tl-step p{font-size:.88rem;margin-bottom:10px}
+.tl-step .tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{display:inline-block;font-size:.72rem;padding:2px 9px;border-radius:10px;font-weight:600}
+.tag-orange{background:var(--orange-bg);color:var(--orange)}
+.tag-blue{background:var(--blue-bg);color:var(--blue)}
+.tag-green{background:var(--green-bg);color:var(--green)}
+.tag-purple{background:var(--purple-bg);color:var(--purple)}
+.tag-red{background:var(--red-bg);color:var(--red)}
+.tag-teal{background:var(--teal-bg);color:var(--teal)}
+
+/* ===== ACCORDION ===== */
+.accordion{margin-bottom:12px}
+.accordion summary{padding:14px 18px;cursor:pointer;font-weight:600;font-size:.9rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);list-style:none;display:flex;align-items:center;gap:8px;user-select:none;transition:background .15s}
+.accordion summary:hover{background:#F5F5F4}
+.accordion summary::before{content:'+';font-size:1.1rem;font-weight:700;color:var(--primary);width:20px;text-align:center;flex-shrink:0;transition:transform .2s}
+.accordion[open] summary::before{content:'\2212'}
+.accordion[open] summary{border-radius:var(--radius) var(--radius) 0 0;border-bottom-color:transparent}
+.accordion .acc-body{border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);padding:18px;background:var(--card)}
+
+/* ===== CHEATSHEET ===== */
+.cheat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cheat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.cheat-card h4{font-size:.88rem;font-weight:700;margin-bottom:8px}
+.cheat-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #F5F5F4;font-size:.82rem}
+.cheat-row:last-child{border-bottom:none}
+
+/* ===== DOC GRID ===== */
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.doc-link{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:.82rem;font-weight:500;transition:all .15s;color:var(--text)}
+.doc-link:hover{border-color:var(--primary);box-shadow:0 2px 8px rgba(217,119,6,.08);text-decoration:none;transform:translateY(-1px)}
+.doc-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+
+/* ===== RESOURCE TABLE ===== */
+.res-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.res-table th{background:#292524;color:#FFF;padding:10px 14px;font-size:.78rem;font-weight:600;text-align:left}
+.res-table td{padding:10px 14px;font-size:.83rem;border-top:1px solid var(--border)}
+.res-table tr:hover td{background:#FAFAF9}
+.badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:.7rem;font-weight:700}
+.b-free{background:var(--green-bg);color:var(--green)}
+.b-paid{background:var(--red-bg);color:var(--red)}
+.b-official{background:var(--blue-bg);color:var(--blue)}
+.b-kr{background:var(--purple-bg);color:var(--purple)}
+
+/* ===== WEEK CARDS ===== */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.week{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;border-top:4px solid var(--border)}
+.week h4{font-size:.92rem;font-weight:700;margin-bottom:2px}
+.week .wsub{font-size:.78rem;color:var(--text-light);margin-bottom:8px}
+.week ul{list-style:none;font-size:.85rem}
+.week li{padding:3px 0;padding-left:16px;position:relative}
+.week li::before{content:'>';position:absolute;left:0;color:var(--primary);font-weight:700;font-family:monospace}
+.w1{border-top-color:var(--orange)} .w2{border-top-color:var(--blue)}
+.w3{border-top-color:var(--green)} .w4{border-top-color:var(--purple)}
+.w5{border-top-color:var(--red)} .w6{border-top-color:var(--teal)}
+
+/* ===== PROGRESS ===== */
+.progress-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.progress-top h3{font-size:1rem;font-weight:700}
+.pbar-bg{height:10px;background:var(--border);border-radius:5px;margin-bottom:16px;overflow:hidden}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:5px;transition:width .4s}
+.checklist{list-style:none;columns:2;column-gap:24px}
+.checklist li{padding:5px 0;font-size:.85rem;display:flex;align-items:center;gap:8px;break-inside:avoid}
+.checklist input[type=checkbox]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+
+/* ===== FOOTER ===== */
+footer{text-align:center;padding:32px 24px;color:var(--text-light);font-size:.78rem;border-top:1px solid var(--border)}
+footer a{color:var(--text-light)}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .header-meta{display:none}
+  .main-tabs{padding:0 12px}
+  .main-tab{padding:8px 12px;font-size:.8rem}
+  .hero h1{font-size:1.4rem}
+  .hero{padding:40px 16px 28px}
+  .hero-stats{gap:14px}
+  .tab-panel{padding:20px 14px 40px}
+  .card-grid{grid-template-columns:1fr}
+  .cheat-grid{grid-template-columns:1fr}
+  .doc-grid{grid-template-columns:1fr}
+  .week-grid{grid-template-columns:1fr}
+  .checklist{columns:1}
+  .sub-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+  .res-table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+  <div class="header-top">
+    <a href="index.html" class="brand" style="text-decoration:none"><span>$</span> 바이브코딩 가이드</a>
+    <div class="header-meta">
+      <a href="index.html">홈</a>
+      <a href="claude-code-beginner.html">CC 초보자편</a>
+      <a href="https://code.claude.com/docs/ko/overview" target="_blank">공식 문서</a>
+      <a href="https://roadmap.sh/claude-code" target="_blank">roadmap.sh</a>
+    </div>
+  </div>
+  <!-- LEVEL-1 TABS -->
+  <nav class="main-tabs" role="tablist" aria-label="메인 메뉴">
+    <button class="main-tab active" role="tab" aria-selected="true" aria-controls="panel-overview" data-tab="overview"><span class="tab-icon">🏠</span>Overview</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-roadmap" data-tab="roadmap"><span class="tab-icon">🗺️</span>Roadmap</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-curriculum" data-tab="curriculum"><span class="tab-icon">📅</span>6주 커리큘럼</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-cheatsheet" data-tab="cheatsheet"><span class="tab-icon">⌨️</span>Cheatsheet</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-docs" data-tab="docs"><span class="tab-icon">📚</span>공식 문서</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-resources" data-tab="resources"><span class="tab-icon">🔗</span>학습 자료</button>
+    <button class="main-tab" role="tab" aria-selected="false" aria-controls="panel-progress" data-tab="progress"><span class="tab-icon">✅</span>진도 체크</button>
+  </nav>
+</header>
+
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="hero-badge">VIBE CODER ESSENTIAL GUIDE</div>
+  <h1><span>Claude Code</span> 마스터 로드맵</h1>
+  <p>roadmap.sh 기반 체계적 학습 · 공식 문서 65개 + 커뮤니티 17개 전수조사<br>바이브코더라면 반드시 마스터해야 할 6주 커리큘럼</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">65</div><div class="label">공식 문서</div></div>
+    <div class="hero-stat"><div class="num">12</div><div class="label">카테고리</div></div>
+    <div class="hero-stat"><div class="num">6주</div><div class="label">커리큘럼</div></div>
+    <div class="hero-stat"><div class="num">50+</div><div class="label">명령어</div></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  PANEL 1: OVERVIEW                                           -->
+<!-- ============================================================ -->
+<section class="tab-panel active" id="panel-overview" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--orange-bg)">📖</span> 시작하기 전에</h1>
+    <p class="h1-desc">Claude Code가 무엇이고, 어떻게 설치하며, 어떤 구독이 필요한지 한눈에 파악합니다.</p>
+  </div>
+
+  <!-- Sub-tabs: 개념 / 설치 / 요금 -->
+  <div class="sub-tabs" role="tablist" aria-label="개요 하위 메뉴" data-group="ov">
+    <button class="sub-tab active" role="tab" data-sub="ov-what">개념 이해</button>
+    <button class="sub-tab" role="tab" data-sub="ov-install">설치 방법</button>
+    <button class="sub-tab" role="tab" data-sub="ov-pricing">요금제</button>
+    <button class="sub-tab" role="tab" data-sub="ov-env">사용 환경</button>
+  </div>
+
+  <!-- 개념 이해 -->
+  <div class="sub-panel active" id="ov-what" role="tabpanel">
+    <div class="h2-section">
+      <h2 class="h2-title"><span class="dot" style="background:var(--orange)"></span> 바이브코딩 & 코딩 에이전트</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card card-accent ac-orange">
+        <h4>🎵 바이브코딩 (Vibe Coding)</h4>
+        <p class="desc">자연어로 원하는 것을 설명하면 AI가 코드를 작성하는 새로운 개발 패러다임. 비개발자도 소프트웨어를 만들 수 있는 시대.</p>
+        <ul>
+          <li>"이런 기능을 만들어줘"라고 말하면 AI가 구현</li>
+          <li>프로그래밍 언어를 몰라도 앱 제작 가능</li>
+          <li>코드의 품질과 방향은 인간이 결정</li>
+        </ul>
+      </div>
+      <div class="card card-accent ac-orange">
+        <h4>🤖 코딩 에이전트 (Coding Agent)</h4>
+        <p class="desc">코드베이스를 읽고, 파일을 편집하고, 명령을 실행하며 개발 도구와 통합하는 자율적 AI 시스템.</p>
+        <ul>
+          <li>전체 프로젝트 구조를 이해</li>
+          <li>여러 파일에 걸쳐 작업 수행</li>
+          <li>터미널 명령, Git 등 직접 실행</li>
+        </ul>
+      </div>
+      <div class="card card-accent ac-orange">
+        <h4>⚡ Claude Code란?</h4>
+        <p class="desc">Anthropic이 만든 터미널 네이티브 AI 코딩 어시스턴트. 에이전틱 시스템으로 계획, 구현, 검증을 자율적으로 수행합니다.</p>
+        <ul>
+          <li>터미널, IDE, 데스크톱, 웹, 모바일 지원</li>
+          <li>200K 토큰 컨텍스트 윈도우</li>
+          <li>MCP로 외부 도구 무한 확장</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 설치 방법 -->
+  <div class="sub-panel" id="ov-install" role="tabpanel">
+    <div class="h2-section">
+      <h2 class="h2-title"><span class="dot" style="background:var(--blue)"></span> 설치 방법 (2026)</h2>
+    </div>
+
+    <div class="pill-tabs" data-group="install">
+      <button class="pill-tab active" data-pill="ins-win">Windows</button>
+      <button class="pill-tab" data-pill="ins-mac">macOS / Linux</button>
+      <button class="pill-tab" data-pill="ins-other">기타</button>
+    </div>
+
+    <div class="pill-panel active" id="ins-win">
+      <div class="card card-accent ac-blue">
+        <h4>Windows 설치 (권장: Native Install)</h4>
+        <p class="desc">자동 업데이트를 지원하는 공식 설치 방법.</p>
+        <h3 class="h3-title">PowerShell</h3>
+        <p><code>irm https://claude.ai/install.ps1 | iex</code></p>
+        <h3 class="h3-title" style="margin-top:12px">CMD</h3>
+        <p><code>curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd</code></p>
+        <p class="desc" style="margin-top:12px">* <a href="https://git-scm.com/downloads/win" target="_blank">Git for Windows</a> 사전 설치 필요</p>
+      </div>
+    </div>
+    <div class="pill-panel" id="ins-mac">
+      <div class="card card-accent ac-blue">
+        <h4>macOS / Linux 설치</h4>
+        <h3 class="h3-title">Native Install (권장)</h3>
+        <p><code>curl -fsSL https://claude.ai/install.sh | bash</code></p>
+        <h3 class="h3-title" style="margin-top:12px">Homebrew</h3>
+        <p><code>brew install --cask claude-code</code></p>
+        <p class="desc" style="margin-top:8px">* Homebrew는 자동 업데이트 미지원. <code>brew upgrade claude-code</code>로 수동 업데이트.</p>
+      </div>
+    </div>
+    <div class="pill-panel" id="ins-other">
+      <div class="card card-accent ac-blue">
+        <h4>기타 설치 방법</h4>
+        <ul>
+          <li><strong>WinGet</strong>: <code>winget install Anthropic.ClaudeCode</code></li>
+          <li><strong>VS Code</strong>: 확장 마켓에서 "Claude Code" 검색</li>
+          <li><strong>JetBrains</strong>: Marketplace에서 Claude Code 플러그인 설치</li>
+          <li><strong>Desktop App</strong>: <a href="https://code.claude.com/docs/en/desktop-quickstart" target="_blank">다운로드 페이지</a></li>
+          <li><strong>Web</strong>: <a href="https://claude.ai/code" target="_blank">claude.ai/code</a> (설치 불필요)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 요금제 -->
+  <div class="sub-panel" id="ov-pricing" role="tabpanel">
+    <div class="h2-section">
+      <h2 class="h2-title"><span class="dot" style="background:var(--green)"></span> 요금제 (2026)</h2>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="res-table">
+      <thead><tr><th>플랜</th><th>월 비용</th><th>Claude Code</th><th>메시지 제한 (5시간 기준)</th><th>추천 대상</th></tr></thead>
+      <tbody>
+        <tr><td>Free</td><td>$0</td><td>사용 불가</td><td>—</td><td>—</td></tr>
+        <tr><td><strong>Pro</strong></td><td>$20</td><td>사용 가능</td><td>~45회</td><td>개인 학습 / 입문</td></tr>
+        <tr><td><strong>Max 5x</strong></td><td>$100</td><td>사용 가능</td><td>~225회</td><td>일반 개발자</td></tr>
+        <tr><td><strong>Max 20x</strong></td><td>$200</td><td>사용 가능</td><td>~900회</td><td>헤비 유저 / 팀</td></tr>
+        <tr><td>API (종량제)</td><td>사용량 기반</td><td>사용 가능</td><td>무제한</td><td>자동화 / CI/CD</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:.82rem;color:var(--text-light);margin-top:8px">* 5시간 윈도우 리셋. 초과 요금 없음 (구독제). API는 토큰 당 과금.</p>
+  </div>
+
+  <!-- 사용 환경 -->
+  <div class="sub-panel" id="ov-env" role="tabpanel">
+    <div class="h2-section">
+      <h2 class="h2-title"><span class="dot" style="background:var(--purple)"></span> 사용 환경 비교</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card card-accent ac-purple"><h4>💻 Terminal CLI</h4><p class="desc">가장 강력한 환경. 파일 편집, 명령 실행, Git 연동, 파이프라인 자동화까지 모든 기능 지원.</p></div>
+      <div class="card card-accent ac-purple"><h4>🖥️ VS Code / Cursor</h4><p class="desc">에디터 내 인라인 diff, @-mentions, 계획 검토. 익숙한 IDE에서 바로 사용.</p></div>
+      <div class="card card-accent ac-purple"><h4>🔷 JetBrains</h4><p class="desc">IntelliJ, PyCharm, WebStorm 등. 대화형 diff 보기와 선택 컨텍스트 공유.</p></div>
+      <div class="card card-accent ac-purple"><h4>🖥️ Desktop App</h4><p class="desc">독립 앱. 시각적 diff 검토, 여러 세션 병렬, 반복 작업 예약, 클라우드 세션.</p></div>
+      <div class="card card-accent ac-purple"><h4>🌐 Web (claude.ai/code)</h4><p class="desc">설치 없이 브라우저에서. 오래 걸리는 작업 실행 후 나중에 확인 가능.</p></div>
+      <div class="card card-accent ac-purple"><h4>📱 Mobile (iOS)</h4><p class="desc">Claude iOS 앱에서 웹 세션 시작 → /teleport로 터미널 전환 가능.</p></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 2: ROADMAP                                            -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-roadmap" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--orange-bg)">🗺️</span> 6단계 학습 로드맵</h1>
+    <p class="h1-desc">roadmap.sh 기반. 위에서 아래로 순서대로 진행하세요. 각 단계를 펼쳐 상세 항목을 확인합니다.</p>
+  </div>
+
+  <!-- TIMELINE + ACCORDION -->
+  <div class="timeline">
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--orange)">1</div>
+      <details class="accordion" open>
+        <summary>Step 1 — Introduction: 개념 이해 <span class="tag tag-orange" style="margin-left:auto">1~2일</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">바이브코딩과 코딩 에이전트의 개념, Claude CLI 소개, 구독/API 플랜을 파악합니다.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-orange">
+              <h4>📖 Introduction</h4>
+              <ul><li>바이브코딩(Vibe Coding)이란?</li><li>코딩 에이전트(Coding Agent)란?</li><li>Claude CLI 소개</li><li>구독 플랜 (Pro/Max)</li><li>API 사용량 관리</li></ul>
+              <a href="https://code.claude.com/docs/ko/overview" target="_blank" class="link">공식 개요 →</a>
+            </div>
+            <div class="card card-accent ac-orange">
+              <h4>🚀 Ways to Use</h4>
+              <ul><li>Terminal CLI (핵심)</li><li>VS Code / Cursor 확장</li><li>JetBrains 플러그인</li><li>Desktop App</li><li>Web (claude.ai/code)</li><li>Headless 모드</li><li>Git Worktrees</li></ul>
+              <a href="https://code.claude.com/docs/ko/quickstart" target="_blank" class="link">빠른 시작 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--blue)">2</div>
+      <details class="accordion">
+        <summary>Step 2 — Basics: 핵심 개념 마스터 <span class="tag tag-blue" style="margin-left:auto">2~3일</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">CLAUDE.md, Skills, Tools, Context, Modes, Models — 6대 핵심 구성 요소를 학습합니다.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-blue">
+              <h4>🧱 Core Concepts</h4>
+              <ul><li>CLAUDE.md — 프로젝트 지침서</li><li>Skills — 재사용 워크플로우</li><li>Tools — 내장 도구 (Read/Edit/Bash...)</li><li>Context — 4계층 컨텍스트 모델</li><li>Modes — Plan Mode / Act Mode</li><li>Models — Opus / Sonnet / Haiku</li></ul>
+              <a href="https://code.claude.com/docs/ko/memory" target="_blank" class="link">CLAUDE.md 문서 →</a>
+            </div>
+            <div class="card card-accent ac-blue">
+              <h4>🎛️ Context Management</h4>
+              <ul><li>Prompt Caching 이해</li><li>확장 프로그램 영향 관리</li><li>Thinking Modes & Effort</li><li>가격 모델 이해</li><li>/compact로 세션 압축</li><li>/clear로 컨텍스트 리셋</li></ul>
+              <a href="https://code.claude.com/docs/en/costs" target="_blank" class="link">비용 관리 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--green)">3</div>
+      <details class="accordion">
+        <summary>Step 3 — Commands: 명령어 마스터 <span class="tag tag-green" style="margin-left:auto">2~3일</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">내장 명령어, 슬래시 커맨드, 단축키를 완벽하게 익힙니다.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-green">
+              <h4>⌨️ Commands & Shortcuts</h4>
+              <ul><li>/help, /clear, /exit, /status</li><li>/usage, /cost, /export, /rewind</li><li>/context, /compact, /memory</li><li>/init, /config, /permissions</li><li>/model, /doctor, --add-dir</li></ul>
+              <a href="https://code.claude.com/docs/en/commands" target="_blank" class="link">명령어 레퍼런스 →</a>
+            </div>
+            <div class="card card-accent ac-green">
+              <h4>🔗 Session & Events</h4>
+              <ul><li>Shift+Tab (Plan Mode 전환)</li><li>@ 멘션 (파일 참조)</li><li>! (실행 중단)</li><li>SessionStart / SessionEnd</li><li>PreToolUse / PostToolUse</li><li>Checkpointing</li></ul>
+              <a href="https://code.claude.com/docs/en/hooks" target="_blank" class="link">Hooks 레퍼런스 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--purple)">4</div>
+      <details class="accordion">
+        <summary>Step 4 — Configuration: 고급 설정 <span class="tag tag-purple" style="margin-left:auto">3~4일</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">Hooks, MCP, Plugins, Skills 생성, 권한 설정 등 커스터마이징 심화.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-purple">
+              <h4>🔧 Configuration</h4>
+              <ul><li>설정 계층 (Global/Project/Local)</li><li>Hooks 가이드 (자동화)</li><li>MCP 서버 연결</li><li>Plugins 생성 & 마켓</li><li>환경 변수 설정</li><li>LLM Gateway 구성</li></ul>
+              <a href="https://code.claude.com/docs/en/settings" target="_blank" class="link">설정 문서 →</a>
+            </div>
+            <div class="card card-accent ac-purple">
+              <h4>🤖 Agents & Skills</h4>
+              <ul><li>에이전트 구조 설계</li><li>.claude/agents/ 관리</li><li>Skills 생성 (.claude/skills/)</li><li>Skill 베스트 프랙티스</li><li>서브에이전트 생성</li><li>에이전트 팀 오케스트레이션</li></ul>
+              <a href="https://code.claude.com/docs/en/sub-agents" target="_blank" class="link">서브에이전트 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--red)">5</div>
+      <details class="accordion">
+        <summary>Step 5 — Advanced: 에이전트 & 자동화 <span class="tag tag-red" style="margin-left:auto">1주</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">CI/CD 통합, 멀티에이전트, Code Review 자동화 등 프로 레벨.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-red">
+              <h4>🔌 MCP & Integrations</h4>
+              <ul><li>MCP(Model Context Protocol)</li><li>GitHub Actions 통합</li><li>GitLab CI/CD 통합</li><li>Slack 연동</li><li>Chrome DevTools</li></ul>
+              <a href="https://code.claude.com/docs/en/mcp" target="_blank" class="link">MCP 문서 →</a>
+            </div>
+            <div class="card card-accent ac-red">
+              <h4>⚙️ Advanced Workflows</h4>
+              <ul><li>멀티에이전트 협업 패턴</li><li>Trinity Pattern</li><li>TDD/BDD/SDD 워크플로우</li><li>Code Review 자동화</li><li>Scheduled Tasks</li><li>Voice Dictation</li></ul>
+              <a href="https://code.claude.com/docs/en/common-workflows" target="_blank" class="link">워크플로우 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="tl-step">
+      <div class="num" style="background:var(--teal)">6</div>
+      <details class="accordion">
+        <summary>Step 6 — Production: 실전 & 팀 운영 <span class="tag tag-teal" style="margin-left:auto">1주+</span></summary>
+        <div class="acc-body">
+          <p style="font-size:.88rem;margin-bottom:12px">보안, 비용, 모니터링, 엔터프라이즈 배포까지 프로덕션 레벨 달성.</p>
+          <div class="card-grid">
+            <div class="card card-accent ac-teal">
+              <h4>🔒 Security & Cost</h4>
+              <ul><li>샌드박싱(Sandboxing)</li><li>권한(Permissions) 관리</li><li>보안 베스트 프랙티스</li><li>비용 모니터링 & 최적화</li><li>Zero Data Retention</li><li>Legal & Compliance</li></ul>
+              <a href="https://code.claude.com/docs/en/security" target="_blank" class="link">보안 문서 →</a>
+            </div>
+            <div class="card card-accent ac-teal">
+              <h4>🏢 Enterprise & Team</h4>
+              <ul><li>서버 관리 설정</li><li>팀 사용량 분석</li><li>네트워크 구성</li><li>Amazon Bedrock</li><li>Google Vertex AI</li><li>Microsoft Foundry</li></ul>
+              <a href="https://code.claude.com/docs/en/third-party-integrations" target="_blank" class="link">엔터프라이즈 →</a>
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+  </div><!-- /timeline -->
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 3: CURRICULUM                                         -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-curriculum" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--blue-bg)">📅</span> 6주 마스터 커리큘럼</h1>
+    <p class="h1-desc">바이브코더가 매주 따라갈 수 있는 실전 학습 계획. 각 주차를 클릭하면 상세 내용이 펼쳐집니다.</p>
+  </div>
+
+  <details class="accordion" open>
+    <summary>📅 Week 1 — 설치와 첫 경험 <span class="tag tag-orange" style="margin-left:auto">난이도: 입문</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> Claude Code 설치하고 첫 프로젝트에서 대화하기</p>
+      <div class="card card-accent ac-orange">
+        <ul>
+          <li>Claude Code 설치 (Native Install 권장)</li>
+          <li>Pro 구독 또는 API 키 설정</li>
+          <li>첫 프로젝트 폴더에서 <code>claude</code> 실행</li>
+          <li>간단한 요청: "이 코드를 설명해줘"</li>
+          <li>CLAUDE.md 파일 직접 작성해보기</li>
+          <li><a href="https://code.claude.com/docs/ko/quickstart" target="_blank">공식 Quickstart</a> 가이드 완주</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> 내 프로젝트 폴더에서 CLAUDE.md 작성 후 캡처 공유</p>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>📅 Week 2 — 핵심 명령어 & Plan Mode <span class="tag tag-blue" style="margin-left:auto">난이도: 기초</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> 명령어 체계 마스터 + Plan Mode 활용법 습득</p>
+      <div class="card card-accent ac-blue">
+        <ul>
+          <li>/help, /clear, /compact, /context 실습</li>
+          <li>Shift+Tab으로 Plan Mode 전환 연습</li>
+          <li>Plan Mode에서 기능 설계 → Act Mode로 구현</li>
+          <li>@ 멘션으로 파일/폴더 참조</li>
+          <li>Git 연동: 커밋, PR 생성 자동화</li>
+          <li>Context 윈도우 관리 전략 학습</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> Plan Mode로 기능 설계서 작성 → 구현 → Git 커밋까지 전 과정 수행</p>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>📅 Week 3 — Skills & 커스텀 명령어 <span class="tag tag-green" style="margin-left:auto">난이도: 중급</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> 반복 작업을 자동화하는 커스텀 Skills 만들기</p>
+      <div class="card card-accent ac-green">
+        <ul>
+          <li>.claude/skills/ 디렉토리 구성</li>
+          <li>커스텀 슬래시 명령어 만들기 (/review, /test 등)</li>
+          <li>CLAUDE.md 고급 설정 (3000토큰 이내)</li>
+          <li>프레임워크별 최적 설정 탐구</li>
+          <li>팀 공통 Skills 세트 정의</li>
+          <li><a href="https://code.claude.com/docs/en/skills" target="_blank">Skills 공식 문서</a> 정독</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> 나만의 Skill 2개 이상 만들어서 공유</p>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>📅 Week 4 — Hooks & MCP 연동 <span class="tag tag-purple" style="margin-left:auto">난이도: 중급</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> 이벤트 자동화 + 외부 도구 연결</p>
+      <div class="card card-accent ac-purple">
+        <ul>
+          <li>Hooks 개념과 이벤트 유형 학습</li>
+          <li>PreToolUse/PostToolUse 훅 작성</li>
+          <li>파일 저장 시 자동 포맷팅/린팅 훅</li>
+          <li>MCP 서버 개념 이해</li>
+          <li>Figma, Notion, DB 등 MCP 연동 실습</li>
+          <li>커뮤니티 플러그인 탐색 & 설치</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> MCP 서버 1개 연동 + 자동화 Hook 1개 작성</p>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>📅 Week 5 — 에이전트 & CI/CD <span class="tag tag-red" style="margin-left:auto">난이도: 고급</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> 서브에이전트 구축 + GitHub Actions 연동</p>
+      <div class="card card-accent ac-red">
+        <ul>
+          <li>서브에이전트 생성 (.claude/agents/)</li>
+          <li>에이전트 팀 오케스트레이션</li>
+          <li>Headless 모드로 자동화 파이프라인</li>
+          <li>GitHub Actions와 Claude Code 통합</li>
+          <li>Code Review 자동화 설정</li>
+          <li>비용 모니터링 & 최적화 전략</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> GitHub Actions + Claude Code로 PR 자동 리뷰 파이프라인 구축</p>
+    </div>
+  </details>
+
+  <details class="accordion">
+    <summary>📅 Week 6 — 실전 프로젝트 & 정리 <span class="tag tag-teal" style="margin-left:auto">난이도: 종합</span></summary>
+    <div class="acc-body">
+      <p style="font-size:.88rem;margin-bottom:12px"><strong>목표:</strong> 실전 프로젝트 완수 + 팀 워크플로우 확립</p>
+      <div class="card card-accent ac-teal">
+        <ul>
+          <li>실전 프로젝트 1: 웹 앱 / API 서버 구축</li>
+          <li>실전 프로젝트 2: 데이터 파이프라인 / 분석 도구</li>
+          <li>팀 CLAUDE.md 표준 템플릿 작성</li>
+          <li>팀 공통 Skills/Hooks 라이브러리 완성</li>
+          <li>보안 & 비용 관리 가이드라인 수립</li>
+          <li>학습 내용 발표 & 회고 세미나</li>
+        </ul>
+      </div>
+      <p style="font-size:.82rem;color:var(--text-light);margin-top:8px"><strong>과제:</strong> 전 과정 회고록 작성 + 세미나 발표</p>
+    </div>
+  </details>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 4: CHEATSHEET                                         -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-cheatsheet" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--green-bg)">⌨️</span> 명령어 치트시트</h1>
+    <p class="h1-desc">카테고리별로 정리된 핵심 명령어. 탭으로 분류를 전환하세요.</p>
+  </div>
+
+  <div class="sub-tabs" role="tablist" data-group="cheat">
+    <button class="sub-tab active" data-sub="ch-basic">기본 실행</button>
+    <button class="sub-tab" data-sub="ch-session">세션 관리</button>
+    <button class="sub-tab" data-sub="ch-config">설정 & 상태</button>
+    <button class="sub-tab" data-sub="ch-shortcut">단축키</button>
+    <button class="sub-tab" data-sub="ch-advanced">고급 기능</button>
+    <button class="sub-tab" data-sub="ch-pipe">파이프 & CLI</button>
+  </div>
+
+  <div class="sub-panel active" id="ch-basic">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>🚀 대화형 실행</h4>
+        <div class="cheat-row"><code>claude</code><span>대화형 세션 시작</span></div>
+        <div class="cheat-row"><code>claude "메시지"</code><span>원라이너 실행</span></div>
+        <div class="cheat-row"><code>claude --resume</code><span>마지막 세션 이어서</span></div>
+        <div class="cheat-row"><code>claude --add-dir 경로</code><span>추가 디렉토리 참조</span></div>
+        <div class="cheat-row"><code>claude --model opus</code><span>모델 지정 시작</span></div>
+      </div>
+      <div class="cheat-card">
+        <h4>🤖 Headless 모드</h4>
+        <div class="cheat-row"><code>claude -p "프롬프트"</code><span>비대화형 실행 (자동화용)</span></div>
+        <div class="cheat-row"><code>claude -p "..." --output-format json</code><span>JSON 출력</span></div>
+        <div class="cheat-row"><code>cat file | claude -p "분석해줘"</code><span>파이프 입력</span></div>
+        <div class="cheat-row"><code>claude -p "..." > result.txt</code><span>결과를 파일로 저장</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="ch-session">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>📋 세션 제어</h4>
+        <div class="cheat-row"><code>/clear</code><span>컨텍스트 리셋 (CLAUDE.md 유지)</span></div>
+        <div class="cheat-row"><code>/compact</code><span>세션 내용 압축</span></div>
+        <div class="cheat-row"><code>/context</code><span>컨텍스트 사용량 시각화</span></div>
+        <div class="cheat-row"><code>/memory</code><span>자동 메모리 관리</span></div>
+        <div class="cheat-row"><code>/rewind</code><span>마지막 변경 되돌리기</span></div>
+        <div class="cheat-row"><code>/export</code><span>대화 내보내기</span></div>
+        <div class="cheat-row"><code>/exit</code><span>세션 종료</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="ch-config">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>⚙️ 설정 & 진단</h4>
+        <div class="cheat-row"><code>/init</code><span>CLAUDE.md 자동 생성</span></div>
+        <div class="cheat-row"><code>/config</code><span>설정 파일 열기</span></div>
+        <div class="cheat-row"><code>/model</code><span>모델 변경 (opus/sonnet/haiku)</span></div>
+        <div class="cheat-row"><code>/permissions</code><span>권한 관리</span></div>
+        <div class="cheat-row"><code>/doctor</code><span>설치 상태 진단</span></div>
+        <div class="cheat-row"><code>/status</code><span>현재 상태 확인</span></div>
+        <div class="cheat-row"><code>/usage</code><span>사용량 확인</span></div>
+        <div class="cheat-row"><code>/cost</code><span>비용 확인</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="ch-shortcut">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>⌨️ 키보드 단축키</h4>
+        <div class="cheat-row"><code>Shift+Tab</code><span>Plan Mode ↔ Act Mode 전환</span></div>
+        <div class="cheat-row"><code>@파일명</code><span>파일 컨텍스트 추가</span></div>
+        <div class="cheat-row"><code>!</code><span>현재 실행 중단 (Stop)</span></div>
+        <div class="cheat-row"><code>\</code><span>줄바꿈 (여러 줄 입력)</span></div>
+        <div class="cheat-row"><code>Esc</code><span>현재 작업 취소</span></div>
+        <div class="cheat-row"><code>Esc Esc</code><span>에이전트 동작 중단</span></div>
+        <div class="cheat-row"><code>Ctrl+R</code><span>세션 히스토리 검색</span></div>
+        <div class="cheat-row"><code>Ctrl+C</code><span>입력 취소</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="ch-advanced">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>🔧 고급 명령</h4>
+        <div class="cheat-row"><code>/hooks</code><span>Hooks 설정 관리</span></div>
+        <div class="cheat-row"><code>/mcp</code><span>MCP 서버 관리</span></div>
+        <div class="cheat-row"><code>/agents</code><span>에이전트 관리</span></div>
+        <div class="cheat-row"><code>/plan</code><span>Plan Mode 진입</span></div>
+        <div class="cheat-row"><code>/teleport</code><span>웹 세션 → 터미널 전환</span></div>
+        <div class="cheat-row"><code>/desktop</code><span>터미널 → 데스크톱 앱 전환</span></div>
+        <div class="cheat-row"><code>/help</code><span>전체 도움말</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="ch-pipe">
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <h4>🔗 파이프라인 & 자동화</h4>
+        <div class="cheat-row"><code>tail -f app.log | claude -p "이상 감지"</code><span>로그 모니터링</span></div>
+        <div class="cheat-row"><code>git diff | claude -p "리뷰해줘"</code><span>코드 리뷰</span></div>
+        <div class="cheat-row"><code>git diff main --name-only | claude -p "보안 점검"</code><span>보안 검토</span></div>
+        <div class="cheat-row"><code>claude -p "번역해줘" < input.md > output.md</code><span>파일 변환</span></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 5: OFFICIAL DOCS                                      -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-docs" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--purple-bg)">📚</span> 공식 문서 전체 (65개)</h1>
+    <p class="h1-desc">Anthropic 공식 Claude Code 문서를 카테고리별로 분류했습니다.</p>
+  </div>
+
+  <div class="sub-tabs" role="tablist" data-group="docs">
+    <button class="sub-tab active" data-sub="d-start">시작하기</button>
+    <button class="sub-tab" data-sub="d-core">Core</button>
+    <button class="sub-tab" data-sub="d-ref">레퍼런스</button>
+    <button class="sub-tab" data-sub="d-custom">커스터마이징</button>
+    <button class="sub-tab" data-sub="d-mcp">MCP & 플러그인</button>
+    <button class="sub-tab" data-sub="d-agent">에이전트</button>
+    <button class="sub-tab" data-sub="d-ide">IDE & 앱</button>
+    <button class="sub-tab" data-sub="d-cicd">CI/CD & 연동</button>
+    <button class="sub-tab" data-sub="d-sec">보안 & 비용</button>
+    <button class="sub-tab" data-sub="d-ent">엔터프라이즈</button>
+  </div>
+
+  <div class="sub-panel active" id="d-start">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/overview" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">📖</div>Overview (개요)</a>
+      <a href="https://code.claude.com/docs/en/quickstart" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">🚀</div>Quickstart (빠른 시작)</a>
+      <a href="https://code.claude.com/docs/en/setup" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">⚙️</div>Advanced Setup</a>
+      <a href="https://code.claude.com/docs/en/authentication" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">🔑</div>Authentication</a>
+      <a href="https://code.claude.com/docs/en/troubleshooting" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">🔧</div>Troubleshooting</a>
+      <a href="https://code.claude.com/docs/en/changelog" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">📝</div>Changelog</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-core">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/memory" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🧠</div>Memory (CLAUDE.md)</a>
+      <a href="https://code.claude.com/docs/en/how-claude-code-works" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">💡</div>How It Works</a>
+      <a href="https://code.claude.com/docs/en/interactive-mode" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">💬</div>Interactive Mode</a>
+      <a href="https://code.claude.com/docs/en/best-practices" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">⭐</div>Best Practices</a>
+      <a href="https://code.claude.com/docs/en/common-workflows" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🔄</div>Common Workflows</a>
+      <a href="https://code.claude.com/docs/en/model-config" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🧩</div>Model Configuration</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-ref">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/cli-reference" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">📋</div>CLI Reference</a>
+      <a href="https://code.claude.com/docs/en/commands" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">⌨️</div>Built-in Commands</a>
+      <a href="https://code.claude.com/docs/en/tools-reference" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🔧</div>Tools Reference</a>
+      <a href="https://code.claude.com/docs/en/keybindings" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">⌨️</div>Keyboard Shortcuts</a>
+      <a href="https://code.claude.com/docs/en/env-vars" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">📦</div>Environment Variables</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-custom">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/settings" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">🎛️</div>Settings</a>
+      <a href="https://code.claude.com/docs/en/skills" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">🎯</div>Skills</a>
+      <a href="https://code.claude.com/docs/en/hooks" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">🪝</div>Hooks Reference</a>
+      <a href="https://code.claude.com/docs/en/hooks-guide" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">📘</div>Hooks Guide</a>
+      <a href="https://code.claude.com/docs/en/permissions" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">🔐</div>Permissions</a>
+      <a href="https://code.claude.com/docs/en/output-styles" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">🎨</div>Output Styles</a>
+      <a href="https://code.claude.com/docs/en/statusline" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">📊</div>Status Line</a>
+      <a href="https://code.claude.com/docs/en/fast-mode" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">⚡</div>Fast Mode</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-mcp">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/mcp" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🔌</div>MCP</a>
+      <a href="https://code.claude.com/docs/en/plugins" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🧩</div>Create Plugins</a>
+      <a href="https://code.claude.com/docs/en/plugins-reference" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">📋</div>Plugins Reference</a>
+      <a href="https://code.claude.com/docs/en/discover-plugins" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🔍</div>Discover Plugins</a>
+      <a href="https://code.claude.com/docs/en/plugin-marketplaces" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🏪</div>Plugin Marketplace</a>
+      <a href="https://code.claude.com/docs/en/features-overview" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🧩</div>Extend Claude Code</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-agent">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/sub-agents" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🤖</div>Sub-agents</a>
+      <a href="https://code.claude.com/docs/en/agent-teams" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">👥</div>Agent Teams</a>
+      <a href="https://code.claude.com/docs/en/headless" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🖥️</div>Headless Mode</a>
+      <a href="https://code.claude.com/docs/en/scheduled-tasks" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">⏰</div>Scheduled Tasks</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-ide">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/vs-code" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">💻</div>VS Code</a>
+      <a href="https://code.claude.com/docs/en/jetbrains" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🔷</div>JetBrains</a>
+      <a href="https://code.claude.com/docs/en/desktop" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🖥️</div>Desktop App</a>
+      <a href="https://code.claude.com/docs/en/desktop-quickstart" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🚀</div>Desktop Quickstart</a>
+      <a href="https://code.claude.com/docs/en/claude-code-on-the-web" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🌐</div>Web</a>
+      <a href="https://code.claude.com/docs/en/terminal-config" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">📟</div>Terminal Config</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-cicd">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/github-actions" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🐙</div>GitHub Actions</a>
+      <a href="https://code.claude.com/docs/en/gitlab-ci-cd" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🦊</div>GitLab CI/CD</a>
+      <a href="https://code.claude.com/docs/en/code-review" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">👀</div>Code Review</a>
+      <a href="https://code.claude.com/docs/en/slack" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">💬</div>Slack</a>
+      <a href="https://code.claude.com/docs/en/chrome" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🌍</div>Chrome</a>
+      <a href="https://code.claude.com/docs/en/remote-control" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">📱</div>Remote Control</a>
+      <a href="https://code.claude.com/docs/en/voice-dictation" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🎤</div>Voice Dictation</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-sec">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/security" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🔒</div>Security</a>
+      <a href="https://code.claude.com/docs/en/sandboxing" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🏖️</div>Sandboxing</a>
+      <a href="https://code.claude.com/docs/en/data-usage" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">📊</div>Data Usage</a>
+      <a href="https://code.claude.com/docs/en/zero-data-retention" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🗑️</div>Zero Data Retention</a>
+      <a href="https://code.claude.com/docs/en/legal-and-compliance" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">⚖️</div>Legal & Compliance</a>
+      <a href="https://code.claude.com/docs/en/costs" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">💰</div>Costs</a>
+      <a href="https://code.claude.com/docs/en/monitoring-usage" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">📈</div>Monitoring</a>
+      <a href="https://code.claude.com/docs/en/analytics" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">📊</div>Analytics</a>
+      <a href="https://code.claude.com/docs/en/checkpointing" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">💾</div>Checkpointing</a>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="d-ent">
+    <div class="doc-grid">
+      <a href="https://code.claude.com/docs/en/third-party-integrations" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🏢</div>Enterprise Deploy</a>
+      <a href="https://code.claude.com/docs/en/server-managed-settings" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🖧</div>Server Settings</a>
+      <a href="https://code.claude.com/docs/en/network-config" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🌐</div>Network Config</a>
+      <a href="https://code.claude.com/docs/en/llm-gateway" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🔗</div>LLM Gateway</a>
+      <a href="https://code.claude.com/docs/en/amazon-bedrock" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">☁️</div>Amazon Bedrock</a>
+      <a href="https://code.claude.com/docs/en/google-vertex-ai" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">☁️</div>Google Vertex AI</a>
+      <a href="https://code.claude.com/docs/en/microsoft-foundry" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">☁️</div>Microsoft Foundry</a>
+      <a href="https://code.claude.com/docs/en/devcontainer" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🐳</div>Dev Containers</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 6: RESOURCES                                          -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-resources" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--red-bg)">🔗</span> 학습 자료 전수조사</h1>
+    <p class="h1-desc">공식/비공식 학습 자료 17개를 유형별로 정리했습니다.</p>
+  </div>
+
+  <div class="sub-tabs" role="tablist" data-group="res">
+    <button class="sub-tab active" data-sub="r-all">전체</button>
+    <button class="sub-tab" data-sub="r-kr">한국어</button>
+    <button class="sub-tab" data-sub="r-free">무료</button>
+    <button class="sub-tab" data-sub="r-roadmap">관련 로드맵</button>
+  </div>
+
+  <div class="sub-panel active" id="r-all">
+    <div style="overflow-x:auto">
+    <table class="res-table">
+      <thead><tr><th>자료명</th><th>유형</th><th>대상</th><th>언어</th><th>비용</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://roadmap.sh/claude-code" target="_blank">roadmap.sh Claude Code</a></td><td>인터랙티브 로드맵</td><td>전체</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://code.claude.com/docs/ko/overview" target="_blank">Anthropic 공식 문서 (한국어)</a></td><td>공식 문서</td><td>전체</td><td><span class="badge b-kr">KR</span></td><td><span class="badge b-official">공식</span></td></tr>
+        <tr><td><a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank">Claude Code in Action (공식)</a></td><td>공식 교육 코스</td><td>전체</td><td>EN</td><td><span class="badge b-official">공식</span></td></tr>
+        <tr><td><a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide" target="_blank">Ultimate Guide (GitHub)</a></td><td>종합 가이드 23K+ lines</td><td>초급→고급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://github.com/revfactory/claude-code-mastering" target="_blank">Claude Code 마스터하기</a></td><td>한국어 가이드 13장</td><td>초급→고급</td><td><span class="badge b-kr">KR</span></td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://blog.highoutputclub.com/2026-claude-code-for-non-developers/" target="_blank">클로드코드 사용법 (비개발자)</a></td><td>블로그 가이드</td><td>비개발자</td><td><span class="badge b-kr">KR</span></td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://codewithmukesh.com/blog/claude-code-for-beginners/" target="_blank">Claude Code for Beginners</a></td><td>튜토리얼</td><td>초급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://dev.to/ayyazzafar/claude-code-tutorial-for-beginners-2026-from-installation-to-building-your-first-project-1lma" target="_blank">DEV.to 초보자 튜토리얼</a></td><td>블로그</td><td>초급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://ccforeveryone.com/" target="_blank">CC for Everyone</a></td><td>온라인 코스</td><td>비개발자</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://ccforpms.com/" target="_blank">CC for Product Managers</a></td><td>온라인 코스</td><td>PM</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://medium.com/@dan.avila7/claude-code-learning-path-a-practical-guide-to-getting-started-fcc601550476" target="_blank">CC Learning Path (Medium)</a></td><td>학습 경로</td><td>초→중급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://blakecrosley.com/guides/claude-code" target="_blank">CC CLI Complete Guide</a></td><td>CLI 레퍼런스</td><td>중→고급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://www.geeky-gadgets.com/claude-code-tips-2/" target="_blank">50 Tips & Tricks</a></td><td>팁 모음</td><td>중급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://www.builder.io/blog/claude-code" target="_blank">How I Use CC + Best Tips</a></td><td>실전 사례</td><td>중급</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://github.com/shanraisshan/claude-code-best-practice" target="_blank">Best Practice (GitHub)</a></td><td>베스트 프랙티스</td><td>전체</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://institute.sfeir.com/en/claude-code/claude-code-resources/best-practices/" target="_blank">SFEIR Institute</a></td><td>교육 기관</td><td>전체</td><td>EN</td><td><span class="badge b-free">무료</span></td></tr>
+        <tr><td><a href="https://www.aihero.dev/cohorts/claude-code-for-real-engineers-2026-04" target="_blank">CC for Real Engineers</a></td><td>2주 코호트</td><td>시니어</td><td>EN</td><td><span class="badge b-paid">유료</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="r-kr">
+    <div class="card-grid">
+      <div class="card card-accent ac-purple">
+        <h4><span class="badge b-official" style="margin-right:4px">공식</span> Anthropic 공식 문서 (한국어)</h4>
+        <p class="desc">Claude Code 공식 문서의 한국어 번역. 65개 전체 페이지 한국어 지원.</p>
+        <a href="https://code.claude.com/docs/ko/overview" target="_blank" class="link">바로가기 →</a>
+      </div>
+      <div class="card card-accent ac-purple">
+        <h4>Claude Code 마스터하기 (황민호)</h4>
+        <p class="desc">13장 구성 한국어 종합 가이드. 기초→설정→고급→실전→팀 협업 전 과정.</p>
+        <a href="https://github.com/revfactory/claude-code-mastering" target="_blank" class="link">GitHub →</a>
+      </div>
+      <div class="card card-accent ac-purple">
+        <h4>클로드코드 사용법 (비개발자용)</h4>
+        <p class="desc">개발 경험 없는 사용자를 위한 설치부터 실전까지 한국어 가이드.</p>
+        <a href="https://blog.highoutputclub.com/2026-claude-code-for-non-developers/" target="_blank" class="link">바로가기 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="r-free">
+    <p style="font-size:.88rem;color:var(--text-light);margin-bottom:16px">무료 학습 자료만 필터링했습니다. 총 15개.</p>
+    <div class="card-grid">
+      <div class="card card-accent ac-green"><h4>roadmap.sh Claude Code</h4><p class="desc">인터랙티브 로드맵. 진도 추적 가능.</p><a href="https://roadmap.sh/claude-code" target="_blank" class="link">→</a></div>
+      <div class="card card-accent ac-green"><h4>Ultimate Guide (23K+ lines)</h4><p class="desc">퀴즈 271문항, 에이전트 9개, 훅 31개 템플릿 포함.</p><a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide" target="_blank" class="link">→</a></div>
+      <div class="card card-accent ac-green"><h4>CC for Everyone</h4><p class="desc">비개발자 포함 무료 코스. 영상/문서 없이 직접 실습.</p><a href="https://ccforeveryone.com/" target="_blank" class="link">→</a></div>
+      <div class="card card-accent ac-green"><h4>50 Tips & Tricks</h4><p class="desc">일상 코딩에서 바로 쓸 수 있는 팁 50선.</p><a href="https://www.geeky-gadgets.com/claude-code-tips-2/" target="_blank" class="link">→</a></div>
+    </div>
+  </div>
+
+  <div class="sub-panel" id="r-roadmap">
+    <div class="h2-section">
+      <h2 class="h2-title"><span class="dot" style="background:var(--blue)"></span> roadmap.sh 관련 로드맵</h2>
+    </div>
+    <div class="doc-grid">
+      <a href="https://roadmap.sh/claude-code" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--orange-bg)">🤖</div>Claude Code Roadmap</a>
+      <a href="https://roadmap.sh/prompt-engineering" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--purple-bg)">✍️</div>Prompt Engineering</a>
+      <a href="https://roadmap.sh/ai-engineer" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--blue-bg)">🧠</div>AI Engineer</a>
+      <a href="https://roadmap.sh/git-github" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--red-bg)">🐙</div>Git & GitHub</a>
+      <a href="https://roadmap.sh/ai-agents" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--teal-bg)">🤖</div>AI Agents</a>
+      <a href="https://roadmap.sh/linux" target="_blank" class="doc-link"><div class="doc-icon" style="background:var(--green-bg)">🐧</div>Shell / Bash</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================ -->
+<!--  PANEL 7: PROGRESS                                           -->
+<!-- ============================================================ -->
+<section class="tab-panel" id="panel-progress" role="tabpanel">
+
+  <div class="h1-section">
+    <h1 class="h1-title"><span class="icon" style="background:var(--green-bg)">✅</span> 학습 진도 체크리스트</h1>
+    <p class="h1-desc">체크박스를 클릭하면 진도가 자동 저장됩니다 (브라우저 localStorage).</p>
+  </div>
+
+  <div class="progress-box">
+    <div class="progress-top">
+      <h3>나의 Claude Code 마스터 진도</h3>
+      <span id="progressCount" style="font-size:.88rem;color:var(--text-light);font-weight:600">0 / 30</span>
+    </div>
+    <div class="pbar-bg"><div class="pbar-fill" id="progressBar" style="width:0%"></div></div>
+
+    <div class="sub-tabs" role="tablist" data-group="prog">
+      <button class="sub-tab active" data-sub="p-all">전체 (30)</button>
+      <button class="sub-tab" data-sub="p-w12">Week 1-2</button>
+      <button class="sub-tab" data-sub="p-w34">Week 3-4</button>
+      <button class="sub-tab" data-sub="p-w56">Week 5-6</button>
+    </div>
+
+    <div class="sub-panel active" id="p-all">
+      <ul class="checklist" id="checklist">
+        <li><input type="checkbox" data-id="c1"><span>Claude Code 설치 완료</span></li>
+        <li><input type="checkbox" data-id="c2"><span>Pro 구독 또는 API 키 설정</span></li>
+        <li><input type="checkbox" data-id="c3"><span>첫 대화형 세션 실행</span></li>
+        <li><input type="checkbox" data-id="c4"><span>공식 Quickstart 가이드 완료</span></li>
+        <li><input type="checkbox" data-id="c5"><span>CLAUDE.md 파일 직접 작성</span></li>
+        <li><input type="checkbox" data-id="c6"><span>/help, /clear, /compact 사용</span></li>
+        <li><input type="checkbox" data-id="c7"><span>Plan Mode (Shift+Tab) 활용</span></li>
+        <li><input type="checkbox" data-id="c8"><span>@ 멘션으로 파일 참조</span></li>
+        <li><input type="checkbox" data-id="c9"><span>Git 커밋 & PR 자동 생성</span></li>
+        <li><input type="checkbox" data-id="c10"><span>/context로 컨텍스트 시각화</span></li>
+        <li><input type="checkbox" data-id="c11"><span>/model로 모델 전환 실습</span></li>
+        <li><input type="checkbox" data-id="c12"><span>커스텀 Skill 1개 생성</span></li>
+        <li><input type="checkbox" data-id="c13"><span>.claude/skills/ 디렉토리 구성</span></li>
+        <li><input type="checkbox" data-id="c14"><span>슬래시 명령어 직접 만들기</span></li>
+        <li><input type="checkbox" data-id="c15"><span>Hooks 개념 학습 완료</span></li>
+        <li><input type="checkbox" data-id="c16"><span>PreToolUse Hook 작성</span></li>
+        <li><input type="checkbox" data-id="c17"><span>MCP 서버 개념 이해</span></li>
+        <li><input type="checkbox" data-id="c18"><span>MCP 서버 1개 연동 실습</span></li>
+        <li><input type="checkbox" data-id="c19"><span>Plugin 설치 & 사용</span></li>
+        <li><input type="checkbox" data-id="c20"><span>서브에이전트 생성 실습</span></li>
+        <li><input type="checkbox" data-id="c21"><span>에이전트 팀 구성 실습</span></li>
+        <li><input type="checkbox" data-id="c22"><span>Headless 모드 스크립트 실행</span></li>
+        <li><input type="checkbox" data-id="c23"><span>GitHub Actions 연동</span></li>
+        <li><input type="checkbox" data-id="c24"><span>Code Review 자동화 설정</span></li>
+        <li><input type="checkbox" data-id="c25"><span>/cost, /usage 비용 모니터링</span></li>
+        <li><input type="checkbox" data-id="c26"><span>보안 & 권한 설정 학습</span></li>
+        <li><input type="checkbox" data-id="c27"><span>실전 프로젝트 1개 완성</span></li>
+        <li><input type="checkbox" data-id="c28"><span>팀용 CLAUDE.md 템플릿 작성</span></li>
+        <li><input type="checkbox" data-id="c29"><span>팀 공통 Skills 세트 정의</span></li>
+        <li><input type="checkbox" data-id="c30"><span>학습 내용 발표 & 공유 완료</span></li>
+      </ul>
+    </div>
+
+    <div class="sub-panel" id="p-w12">
+      <ul class="checklist" id="checklist-w12">
+        <li><input type="checkbox" data-id="c1"><span>Claude Code 설치 완료</span></li>
+        <li><input type="checkbox" data-id="c2"><span>Pro 구독 또는 API 키 설정</span></li>
+        <li><input type="checkbox" data-id="c3"><span>첫 대화형 세션 실행</span></li>
+        <li><input type="checkbox" data-id="c4"><span>공식 Quickstart 가이드 완료</span></li>
+        <li><input type="checkbox" data-id="c5"><span>CLAUDE.md 파일 직접 작성</span></li>
+        <li><input type="checkbox" data-id="c6"><span>/help, /clear, /compact 사용</span></li>
+        <li><input type="checkbox" data-id="c7"><span>Plan Mode (Shift+Tab) 활용</span></li>
+        <li><input type="checkbox" data-id="c8"><span>@ 멘션으로 파일 참조</span></li>
+        <li><input type="checkbox" data-id="c9"><span>Git 커밋 & PR 자동 생성</span></li>
+        <li><input type="checkbox" data-id="c10"><span>/context로 컨텍스트 시각화</span></li>
+      </ul>
+    </div>
+
+    <div class="sub-panel" id="p-w34">
+      <ul class="checklist" id="checklist-w34">
+        <li><input type="checkbox" data-id="c11"><span>/model로 모델 전환 실습</span></li>
+        <li><input type="checkbox" data-id="c12"><span>커스텀 Skill 1개 생성</span></li>
+        <li><input type="checkbox" data-id="c13"><span>.claude/skills/ 디렉토리 구성</span></li>
+        <li><input type="checkbox" data-id="c14"><span>슬래시 명령어 직접 만들기</span></li>
+        <li><input type="checkbox" data-id="c15"><span>Hooks 개념 학습 완료</span></li>
+        <li><input type="checkbox" data-id="c16"><span>PreToolUse Hook 작성</span></li>
+        <li><input type="checkbox" data-id="c17"><span>MCP 서버 개념 이해</span></li>
+        <li><input type="checkbox" data-id="c18"><span>MCP 서버 1개 연동 실습</span></li>
+        <li><input type="checkbox" data-id="c19"><span>Plugin 설치 & 사용</span></li>
+      </ul>
+    </div>
+
+    <div class="sub-panel" id="p-w56">
+      <ul class="checklist" id="checklist-w56">
+        <li><input type="checkbox" data-id="c20"><span>서브에이전트 생성 실습</span></li>
+        <li><input type="checkbox" data-id="c21"><span>에이전트 팀 구성 실습</span></li>
+        <li><input type="checkbox" data-id="c22"><span>Headless 모드 스크립트 실행</span></li>
+        <li><input type="checkbox" data-id="c23"><span>GitHub Actions 연동</span></li>
+        <li><input type="checkbox" data-id="c24"><span>Code Review 자동화 설정</span></li>
+        <li><input type="checkbox" data-id="c25"><span>/cost, /usage 비용 모니터링</span></li>
+        <li><input type="checkbox" data-id="c26"><span>보안 & 권한 설정 학습</span></li>
+        <li><input type="checkbox" data-id="c27"><span>실전 프로젝트 1개 완성</span></li>
+        <li><input type="checkbox" data-id="c28"><span>팀용 CLAUDE.md 템플릿 작성</span></li>
+        <li><input type="checkbox" data-id="c29"><span>팀 공통 Skills 세트 정의</span></li>
+        <li><input type="checkbox" data-id="c30"><span>학습 내용 발표 & 공유 완료</span></li>
+      </ul>
+    </div>
+
+    <button id="resetBtn" style="margin-top:16px;padding:6px 16px;border:1px solid var(--border);border-radius:8px;background:none;cursor:pointer;font-size:.82rem;color:var(--text-light);font-family:inherit">초기화</button>
+  </div>
+
+</section>
+
+<footer>
+  <p>김선생의 바이브코딩 가이드 · Claude Code 마스터 로드맵</p>
+  <p style="margin-top:4px">
+    Based on <a href="https://roadmap.sh/claude-code" target="_blank">roadmap.sh</a> ·
+    <a href="https://code.claude.com/docs/ko/overview" target="_blank">공식 문서</a> ·
+    <a href="index.html">메인으로 돌아가기</a>
+  </p>
+</footer>
+
+<script>
+// ===== TAB SYSTEM (Level 1 — Main Tabs) =====
+document.querySelectorAll('.main-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    // deactivate all
+    document.querySelectorAll('.main-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    // activate clicked
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected','true');
+    document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// ===== SUB-TAB SYSTEM (Level 2 — Sub Tabs) =====
+document.querySelectorAll('.sub-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const group=tab.closest('[data-group]')||tab.parentElement;
+    group.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    // find the panel container (next sibling panels at same level)
+    const panelId=tab.dataset.sub;
+    const container=group.parentElement;
+    container.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
+    const target=container.querySelector('#'+panelId);
+    if(target) target.classList.add('active');
+  });
+});
+
+// ===== PILL-TAB SYSTEM (Level 3) =====
+document.querySelectorAll('.pill-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const group=tab.parentElement;
+    group.querySelectorAll('.pill-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const container=group.parentElement;
+    container.querySelectorAll('.pill-panel').forEach(p=>p.classList.remove('active'));
+    const target=container.querySelector('#'+tab.dataset.pill);
+    if(target) target.classList.add('active');
+  });
+});
+
+// ===== PROGRESS TRACKER =====
+(function(){
+  const KEY='cc-master-progress';
+  const allChecks=document.querySelectorAll('input[type=checkbox][data-id]');
+  const bar=document.getElementById('progressBar');
+  const count=document.getElementById('progressCount');
+  const total=30; // fixed count
+
+  function load(){
+    const saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+    allChecks.forEach(cb=>{if(saved[cb.dataset.id]) cb.checked=true});
+    update();
+  }
+
+  function save(id,val){
+    const data=JSON.parse(localStorage.getItem(KEY)||'{}');
+    data[id]=val;
+    localStorage.setItem(KEY,JSON.stringify(data));
+  }
+
+  function update(){
+    const saved=JSON.parse(localStorage.getItem(KEY)||'{}');
+    const done=Object.values(saved).filter(Boolean).length;
+    const pct=Math.round(done/total*100);
+    bar.style.width=pct+'%';
+    count.textContent=done+' / '+total+' ('+pct+'%)';
+    // sync all checkboxes with same data-id
+    allChecks.forEach(cb=>{cb.checked=!!saved[cb.dataset.id]});
+  }
+
+  allChecks.forEach(cb=>{
+    cb.addEventListener('change',()=>{save(cb.dataset.id,cb.checked);update()});
+  });
+
+  document.getElementById('resetBtn').addEventListener('click',()=>{
+    if(confirm('진도를 초기화하시겠습니까?')){
+      localStorage.removeItem(KEY);
+      allChecks.forEach(cb=>{cb.checked=false});
+      update();
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

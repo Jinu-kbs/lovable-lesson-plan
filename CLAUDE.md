@@ -118,6 +118,7 @@
 │
 ├── compare.html                   ← 도구 비교 독립 페이지
 │
+├── claude-code-roadmap.html        ← Claude Code 마스터 로드맵 (탭 기반 학습 가이드)
 ├── nvidia-gtc-2025.html           ← NVIDIA GTC 2025 완전 리포트 (인포그래픽 페이지)
 ├── NVIDIA_GTC_2025_완전_리포트.md ← NVIDIA GTC 2025 리포트 MD 원본
 │
