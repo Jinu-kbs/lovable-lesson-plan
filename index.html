@@ -165,18 +165,65 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border)}
 footer a{color:var(--text-light);text-decoration:underline}
 
+/* === Hero Tracks (액션 버튼) === */
+.hero-tracks{display:flex;gap:12px;justify-content:center;margin:24px 0 16px;flex-wrap:wrap}
+.hero-track-btn{display:flex;flex-direction:column;align-items:center;padding:14px 22px;border-radius:14px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.35);color:#FFF;cursor:pointer;transition:all .2s;text-align:center;min-width:130px;font-family:inherit;backdrop-filter:blur(4px)}
+.hero-track-btn:hover{background:rgba(255,255,255,.32);transform:translateY(-2px)}
+.hero-track-btn .track-icon{font-size:1.6rem;margin-bottom:6px}
+.hero-track-btn .track-label{font-weight:700;font-size:.95rem}
+.hero-track-btn .track-sub{font-size:.78rem;opacity:.8;margin-top:2px}
+.hero-stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:8px;font-size:.88rem;opacity:.85}
+.hero-stats span::before{content:'·';margin-right:6px;opacity:.5}
+.hero-stats span:first-child::before{content:''}
+
+/* === Mega Menu === */
+.mega-menu-wrap{display:flex;gap:0}
+.mega-col{min-width:180px;padding:4px 0}
+.mega-col+.mega-col{border-left:1px solid #F0F0F0;margin-left:4px;padding-left:8px}
+.mega-col-title{font-size:.72rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.8px;padding:4px 12px 8px;margin-bottom:2px}
+
+/* === Card Filter Tabs === */
+.filter-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;justify-content:center}
+.filter-tab{padding:8px 18px;border-radius:20px;border:2px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:.85rem;font-weight:600;color:var(--text-light);transition:all .2s;font-family:inherit}
+.filter-tab:hover{border-color:var(--primary);color:var(--primary)}
+.filter-tab.active{background:var(--primary);border-color:var(--primary);color:#FFF}
+.tool-card{transition:transform .2s,box-shadow .2s,opacity .25s}
+.tool-card.hidden{display:none}
+
+/* === Compare Filter === */
+.compare-filter{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px}
+.compare-filter-label{font-weight:700;font-size:.85rem;color:var(--text-light);margin-right:4px;flex-shrink:0}
+.compare-filter label{display:flex;align-items:center;gap:5px;font-size:.85rem;cursor:pointer;padding:4px 10px;border-radius:8px;border:1px solid var(--border);transition:all .15s;user-select:none}
+.compare-filter label:hover{border-color:var(--primary);color:var(--primary)}
+.compare-filter input[type=checkbox]{accent-color:var(--primary);width:14px;height:14px;cursor:pointer}
+.compare-table th.col-hidden,.compare-table td.col-hidden{display:none}
+
 /* === Responsive === */
 @media(max-width:768px){
   .nav-links{display:none}
   .hamburger{display:block}
   .hero h1{font-size:1.7rem}
   .hero p{font-size:1rem}
+  .hero-tracks{gap:8px}
+  .hero-track-btn{min-width:100px;padding:12px 14px}
   .tool-cards{grid-template-columns:1fr}
   .quiz-options{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
 }
 @media(max-width:480px){
   .quiz-options{grid-template-columns:1fr 1fr}
   .quiz-option{padding:14px 8px}
+  .hero-tracks{flex-direction:column;align-items:center}
+}
+/* 다크모드 (index 전용) */
+@media(prefers-color-scheme:dark){
+  body{background:#18181B;color:#F4F4F5}
+  :root{--bg:#18181B;--card-bg:#27272A;--text:#F4F4F5;--text-light:#A1A1AA;--border:#3F3F46}
+  .topnav,.mobile-menu{background:#1E1E27;border-color:#3F3F46}
+  .hero-track-btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+  .quiz-section,.tool-card,.compare-wrapper,.bulletin-board{background:#27272A;border-color:#3F3F46}
+  .compare-table tr:hover td{background:#2D2D3A}
+  .compare-filter{background:#27272A;border-color:#3F3F46}
+  .filter-tab{background:#27272A;border-color:#3F3F46;color:#A1A1AA}
 }
 </style>
 </head>
@@ -186,12 +233,11 @@ footer a{color:var(--text-light);text-decoration:underline}
 <nav class="topnav">
   <a href="index.html" class="brand">바이브코딩 가이드</a>
   <div class="nav-links">
-    <a href="ai-intro.html">AI 교육 철학</a>
-    <a href="ai-science.html">AI 과학교육</a>
-    <a href="google-beginner.html">구글생태계</a>
+    <!-- 메가 메뉴: AI 빌더 -->
     <div class="nav-dropdown">
-      <span class="nav-dropdown-btn">도구별 교안 ▼</span>
-      <div class="dropdown-content">
+      <span class="nav-dropdown-btn">AI 빌더 ▼</span>
+      <div class="dropdown-content" style="min-width:220px">
+        <div class="mega-col-title">코딩 없이 앱 만들기</div>
         <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>💗</span> 러버블</div>
           <div class="dropdown-tool-levels">
@@ -209,19 +255,19 @@ footer a{color:var(--text-light);text-decoration:underline}
           </div>
         </div>
         <div class="dropdown-tool">
-          <div class="dropdown-tool-name"><span>💻</span> 커서</div>
-          <div class="dropdown-tool-levels">
-            <a href="cursor-beginner.html">초보자</a>
-            <a href="cursor-intermediate.html">중급자</a>
-            <a href="cursor-developer.html">개발자</a>
-          </div>
-        </div>
-        <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>🧪</span> AI Studio</div>
           <div class="dropdown-tool-levels">
             <a href="aistudio-beginner.html">초보자</a>
             <a href="aistudio-intermediate.html">중급자</a>
             <a href="aistudio-developer.html">개발자</a>
+          </div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>💻</span> 커서</div>
+          <div class="dropdown-tool-levels">
+            <a href="cursor-beginner.html">초보자</a>
+            <a href="cursor-intermediate.html">중급자</a>
+            <a href="cursor-developer.html">개발자</a>
           </div>
         </div>
         <div class="dropdown-tool">
@@ -232,15 +278,13 @@ footer a{color:var(--text-light);text-decoration:underline}
             <a href="claude-code-developer.html">개발자</a>
           </div>
         </div>
-        <hr style="border:none;border-top:1px solid #EEE;margin:6px 0">
-        <div class="dropdown-tool">
-          <div class="dropdown-tool-name"><span>🖥️</span> 개발 인터페이스</div>
-          <div class="dropdown-tool-levels">
-            <a href="devinterface-beginner.html">초보자</a>
-            <a href="devinterface-intermediate.html">중급자</a>
-            <a href="devinterface-developer.html">개발자</a>
-          </div>
-        </div>
+      </div>
+    </div>
+    <!-- 메가 메뉴: 기초·인프라 -->
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-btn">기초·인프라 ▼</span>
+      <div class="dropdown-content" style="min-width:220px">
+        <div class="mega-col-title">개발 기초 스킬</div>
         <div class="dropdown-tool">
           <div class="dropdown-tool-name"><span>🎓</span> ChatGPT/Codex</div>
           <div class="dropdown-tool-levels">
@@ -255,6 +299,14 @@ footer a{color:var(--text-light);text-decoration:underline}
             <a href="prompt-beginner.html">초보자</a>
             <a href="prompt-intermediate.html">중급자</a>
             <a href="prompt-developer.html">개발자</a>
+          </div>
+        </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>🔍</span> 구글 생태계</div>
+          <div class="dropdown-tool-levels">
+            <a href="google-beginner.html">초보자</a>
+            <a href="google-intermediate.html">중급자</a>
+            <a href="google-developer.html">개발자</a>
           </div>
         </div>
         <div class="dropdown-tool">
@@ -273,13 +325,30 @@ footer a{color:var(--text-light);text-decoration:underline}
             <a href="deployment-developer.html">개발자</a>
           </div>
         </div>
+        <div class="dropdown-tool">
+          <div class="dropdown-tool-name"><span>🖥️</span> 개발 인터페이스</div>
+          <div class="dropdown-tool-levels">
+            <a href="devinterface-beginner.html">초보자</a>
+            <a href="devinterface-intermediate.html">중급자</a>
+            <a href="devinterface-developer.html">개발자</a>
+          </div>
+        </div>
       </div>
     </div>
-    <a href="compare.html">도구 비교</a>
-    <a href="ai-compare.html">AI 비교</a>
-    <a href="claude-code-roadmap.html">CC 로드맵</a>
-    <a href="nvidia-gtc-2025.html">GTC 2025</a>
-    <a href="harness-engineering.html">하네스 엔지니어링</a>
+    <!-- 메가 메뉴: 심화 -->
+    <div class="nav-dropdown">
+      <span class="nav-dropdown-btn">심화·리포트 ▼</span>
+      <div class="dropdown-content" style="min-width:200px">
+        <div class="mega-col-title">심화 학습 & 리포트</div>
+        <div class="dropdown-tool" style="flex-direction:column;align-items:flex-start;gap:2px">
+          <a href="claude-code-roadmap.html" style="text-decoration:none;color:var(--text);font-size:.9rem;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;width:100%;transition:background .15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''"><span>⚡</span> CC 마스터 로드맵</a>
+          <a href="nvidia-gtc-2025.html" style="text-decoration:none;color:var(--text);font-size:.9rem;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;width:100%;transition:background .15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''"><span>🎯</span> NVIDIA GTC 2025</a>
+          <a href="harness-engineering.html" style="text-decoration:none;color:var(--text);font-size:.9rem;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;width:100%;transition:background .15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''"><span>⚙️</span> 하네스 엔지니어링</a>
+          <a href="ai-intro.html" style="text-decoration:none;color:var(--text);font-size:.9rem;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;width:100%;transition:background .15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''"><span>📘</span> AI 교육 철학</a>
+          <a href="ai-compare.html" style="text-decoration:none;color:var(--text);font-size:.9rem;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;width:100%;transition:background .15s" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''"><span>🤖</span> AI 도구 5종 비교</a>
+        </div>
+      </div>
+    </div>
     <a href="https://lab.jinuchem.com" target="_blank" rel="noopener noreferrer">🔬 온라인 랩</a>
   </div>
   <button class="hamburger" id="hamburgerBtn" aria-label="메뉴">&#9776;</button>
@@ -386,17 +455,35 @@ footer a{color:var(--text-light);text-decoration:underline}
 <div class="hero">
   <img src="teacher_kim.png" alt="친근한 김선생">
   <h1>김선생의 바이브코딩 가이드</h1>
-  <p>안녕하세요, 김선생입니다!<br>
-    러버블, 커서, 안티그래비티 등 바이브코딩 도구별 맞춤 가이드를 제공합니다.</p>
-  <p>아래에서 본인에게 맞는 도구와 수준의 교안을 선택하여 시작해 보세요.</p>
-  <div class="social-links">
-    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">쓰레드(Threads)</a>
-    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">인스타그램(Instagram)</a>
+  <p>AI 도구로 앱 만들기 — 초보자부터 개발자까지<br>
+    러버블, 커서, 안티그래비티, Claude Code 등 11종 도구 맞춤 교안</p>
+  <div class="hero-tracks">
+    <button class="hero-track-btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">
+      <span class="track-icon">🌱</span>
+      <span class="track-label">처음 시작하기</span>
+      <span class="track-sub">어떤 도구부터?</span>
+    </button>
+    <button class="hero-track-btn" onclick="document.getElementById('all-cards').scrollIntoView({behavior:'smooth'})">
+      <span class="track-icon">📚</span>
+      <span class="track-label">전체 교안 보기</span>
+      <span class="track-sub">33개 교안 모두</span>
+    </button>
+    <button class="hero-track-btn" onclick="setFilter('deep-dive');document.getElementById('all-cards').scrollIntoView({behavior:'smooth'})">
+      <span class="track-icon">⚡</span>
+      <span class="track-label">심화 학습</span>
+      <span class="track-sub">리포트 · 포스팅</span>
+    </button>
   </div>
-  <p>본 자료는 생성형인공지능을 사용한 자료입니다.<br>
-  현실을 제대로 반영하지 못했을 수도 있습니다.<br>
-  또한 인공지능은 시간의 개념이 부족합니다.<br>
-  이해 바랍니다.</p>
+  <div class="hero-stats">
+    <span>교안 33개</span>
+    <span>도구 11종</span>
+    <span>수준 3단계</span>
+    <span>무료 제공</span>
+  </div>
+  <div class="social-links" style="margin-top:12px">
+    <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">Threads</a>
+    <a href="https://www.instagram.com/byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">Instagram</a>
+  </div>
 </div>
 
 <div class="container">
@@ -470,12 +557,19 @@ footer a{color:var(--text-light);text-decoration:underline}
   </div>
 
   <!-- === Tool Cards === -->
-  <h2 class="section-title">도구별 교안</h2>
+  <h2 class="section-title" id="all-cards">도구별 교안</h2>
   <p class="section-desc">나에게 맞는 바이브코딩 도구를 선택하세요</p>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter('all')">전체</button>
+    <button class="filter-tab" onclick="setFilter('ai-builder')">🌐 AI 빌더</button>
+    <button class="filter-tab" onclick="setFilter('foundation')">📚 기초·인프라</button>
+    <button class="filter-tab" onclick="setFilter('deep-dive')">⚡ 심화·리포트</button>
+  </div>
 
   <div class="tool-cards">
     <!-- Lovable -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="ai-builder">
       <div class="tool-card-accent" style="background:var(--lovable)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -496,7 +590,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- AntiGravity -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="ai-builder">
       <div class="tool-card-accent" style="background:var(--antigravity)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -517,7 +611,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- Cursor -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="ai-builder">
       <div class="tool-card-accent" style="background:var(--cursor-c)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -538,7 +632,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- AI Studio Builder -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="ai-builder">
       <div class="tool-card-accent" style="background:var(--aistudio)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -559,7 +653,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- Claude Code -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="ai-builder">
       <div class="tool-card-accent" style="background:var(--claude-code)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -580,13 +674,11 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
   </div>
 
-  <!-- === Skill & Foundation Guides === -->
-  <h2 class="section-title" style="margin-top:60px">스킬 & 기초 교안</h2>
-  <p class="section-desc">바이브코딩을 더 잘 활용하기 위한 기초 지식과 스킬 가이드</p>
-
-  <div class="tool-cards">
+  <!-- 기초·인프라 카드 (같은 tool-cards 그리드에 포함) -->
+  </div>
+  <div class="tool-cards" id="cards-grid-2">
     <!-- 개발 인터페이스 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--devinterface)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -607,7 +699,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- ChatGPT/Codex -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--chatgpt)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -628,7 +720,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- 프롬프트 엔지니어링 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--prompt-e)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -649,7 +741,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- Git/GitHub -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--github-c)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -670,7 +762,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- 배포 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--deployment)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -691,7 +783,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- 구글 생태계 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="foundation">
       <div class="tool-card-accent" style="background:var(--google)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -712,7 +804,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- AI 비교 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="deep-dive">
       <div class="tool-card-accent" style="background:var(--primary)"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -731,7 +823,7 @@ footer a{color:var(--text-light);text-decoration:underline}
     </div>
 
     <!-- 하네스 엔지니어링 -->
-    <div class="tool-card">
+    <div class="tool-card" data-category="deep-dive">
       <div class="tool-card-accent" style="background:#6366F1"></div>
       <div class="tool-card-body">
         <div class="tool-card-header">
@@ -753,7 +845,15 @@ footer a{color:var(--text-light);text-decoration:underline}
   <!-- === Comparison Table === -->
   <div class="compare-section" id="compare">
     <h2 class="section-title">도구 비교</h2>
-    <p class="section-desc">바이브코딩 도구들의 특징을 한눈에 비교해 보세요</p>
+    <p class="section-desc">비교할 도구를 선택하세요 (최대 5개)</p>
+    <div class="compare-filter">
+      <span class="compare-filter-label">도구 선택:</span>
+      <label><input type="checkbox" data-col="1" checked onchange="updateCompareTable()"> 💗 러버블</label>
+      <label><input type="checkbox" data-col="2" checked onchange="updateCompareTable()"> 🚀 안티그래비티</label>
+      <label><input type="checkbox" data-col="3" checked onchange="updateCompareTable()"> 💻 커서</label>
+      <label><input type="checkbox" data-col="4" checked onchange="updateCompareTable()"> 🧪 AI Studio</label>
+      <label><input type="checkbox" data-col="5" checked onchange="updateCompareTable()"> ⚡ Claude Code</label>
+    </div>
     <div class="compare-wrapper">
       <table class="compare-table">
         <thead>
@@ -921,6 +1021,38 @@ function showResult(toolKey, level) {
 function resetQuiz() {
   quizTool = null;
   showStep('quiz-step-1');
+}
+
+// === Card Filter ===
+function setFilter(cat) {
+  document.querySelectorAll('.filter-tab').forEach(function(btn) {
+    btn.classList.remove('active');
+    if ((cat === 'all' && btn.textContent.trim() === '전체') ||
+        (cat === 'ai-builder' && btn.textContent.includes('AI 빌더')) ||
+        (cat === 'foundation' && btn.textContent.includes('기초')) ||
+        (cat === 'deep-dive' && btn.textContent.includes('심화'))) {
+      btn.classList.add('active');
+    }
+  });
+  document.querySelectorAll('.tool-card').forEach(function(card) {
+    if (cat === 'all' || card.getAttribute('data-category') === cat) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// === Comparison Table Column Filter ===
+function updateCompareTable() {
+  var checkboxes = document.querySelectorAll('.compare-filter input[type=checkbox]');
+  checkboxes.forEach(function(cb) {
+    var col = parseInt(cb.getAttribute('data-col'));
+    var cells = document.querySelectorAll('.compare-table th:nth-child('+(col+1)+'),.compare-table td:nth-child('+(col+1)+')');
+    cells.forEach(function(cell) {
+      cell.classList.toggle('col-hidden', !cb.checked);
+    });
+  });
 }
 
 // === Mobile Navigation ===

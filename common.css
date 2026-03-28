@@ -1,6 +1,18 @@
 /* common.css - 바이브코딩 가이드 교안 공통 스타일 */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#5A4ED9;--primary-light:#C5BFFB;--bg:#FAFAFA;--card-bg:#FFF;--text:#2D3436;--text-light:#636E72;--border:#E0E0E0;--code-bg:#F8F9FA;--code-border:#E9ECEF;--blockquote-bg:#F0F0FF;--hover-bg:#FAFAFF}
+/* 다크모드 */
+@media(prefers-color-scheme:dark){
+  :root{--bg:#18181B;--card-bg:#27272A;--text:#F4F4F5;--text-light:#A1A1AA;--border:#3F3F46;--code-bg:#1E1E2E;--code-border:#3F3F46;--blockquote-bg:#1E1B4B;--hover-bg:#2D2D3A}
+  .topnav{background:#18181B;border-bottom-color:#3F3F46}
+  .topnav .brand{color:var(--text)}
+  .sidebar{background:#1E1E27;border-right-color:#3F3F46}
+  .breadcrumb{background:#1E1E27;border-bottom-color:#3F3F46}
+  .lesson-topnav-bar{background:#1A1A27 !important;border-bottom-color:#3F3F46 !important}
+  footer{background:transparent}
+  pre{background:#1E1E2E !important;border-color:#3F3F46 !important}
+  details{background:#27272A;border-color:#3F3F46}
+}
 body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
 /* NAV */
 .topnav{background:#FFF;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100}
@@ -61,6 +73,17 @@ footer{text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85
 .mobile-toc-panel h3{font-size:.9rem;color:var(--text-light);margin-bottom:12px}
 .mobile-toc-panel a{display:block;padding:8px 12px;text-decoration:none;color:var(--text);font-size:.9rem;border-radius:6px}
 .mobile-toc-panel a:hover,.mobile-toc-panel a:active{background:var(--bg)}
+/* READ PROGRESS BAR */
+.read-progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--primary);z-index:9999;transition:width .1s linear;border-radius:0 2px 2px 0}
+/* LESSON TOPNAV 2단 */
+.lesson-topnav-bar{background:#FFF;border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:12px;height:44px;position:sticky;top:56px;z-index:99;font-size:.85rem;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.lesson-topnav-bar .ltnav-tool{font-weight:700;color:var(--text);margin-right:4px;flex-shrink:0}
+.lesson-topnav-bar .ltnav-sep{color:var(--border);flex-shrink:0}
+.lesson-topnav-bar a{text-decoration:none;color:var(--text-light);padding:4px 10px;border-radius:6px;transition:all .15s;flex-shrink:0}
+.lesson-topnav-bar a:hover{background:var(--bg);color:var(--text)}
+.lesson-topnav-bar a.active{background:var(--primary);color:#FFF;font-weight:600}
+/* 2단 topnav 있을 때 sidebar top 조정 */
+body.has-lesson-topnav .sidebar{top:100px;height:calc(100vh - 100px)}
 /* BACK TO TOP */
 .back-to-top{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--primary);color:#FFF;border:none;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:99;opacity:0;transition:opacity .3s;pointer-events:none}
 .back-to-top.visible{opacity:1;pointer-events:auto}

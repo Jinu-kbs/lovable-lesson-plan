@@ -1,5 +1,33 @@
 // common.js - 바이브코딩 가이드 교안 공통 스크립트
 
+// Read Progress Bar
+(function(){
+  var bar = document.createElement('div');
+  bar.className = 'read-progress-bar';
+  document.body.prepend(bar);
+  window.addEventListener('scroll', function(){
+    var scrolled = window.scrollY;
+    var total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (total > 0 ? Math.round(scrolled / total * 100) : 0) + '%';
+  }, {passive: true});
+})();
+
+// Prism.js Syntax Highlighting (동적 로드)
+(function(){
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
+  document.head.appendChild(link);
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js';
+  script.onload = function(){
+    var autoload = document.createElement('script');
+    autoload.src = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js';
+    document.head.appendChild(autoload);
+  };
+  document.head.appendChild(script);
+})();
+
 // Mobile TOC
 (function(){
   var btn=document.getElementById('mobileTocBtn'),overlay=document.getElementById('mobileTocOverlay'),panel=document.getElementById('mobileTocPanel');
@@ -71,6 +99,27 @@
 
   const tool = currentTool ? LESSONS.tools[currentTool] : null;
   const levelNames = LESSONS.levelNames;
+
+  // 0. 교안 2단 Topnav 생성 (도구명 + 레벨 탭)
+  function createLessonTopnavBar(){
+    if(!tool) return;
+    const nav = document.querySelector('.topnav');
+    if(!nav) return;
+    const bar = document.createElement('div');
+    bar.className = 'lesson-topnav-bar';
+    const levels = ['beginner','intermediate','developer'];
+    const levelKo = {'beginner':'초보자','intermediate':'중급자','developer':'개발자'};
+    let html = '<span class="ltnav-tool">'+tool.icon+' '+tool.name+'</span>';
+    html += '<span class="ltnav-sep">|</span>';
+    levels.forEach(function(lv){
+      if(!tool[lv]) return;
+      const isActive = lv === currentLevel;
+      html += '<a href="'+tool[lv].url+'"'+(isActive?' class="active"':'')+'>'+levelKo[lv]+'</a>';
+    });
+    bar.innerHTML = html;
+    nav.insertAdjacentElement('afterend', bar);
+    document.body.classList.add('has-lesson-topnav');
+  }
 
   // 1. 브레드크럼 생성 (topnav 바로 아래)
   function createBreadcrumb(){
@@ -225,6 +274,7 @@
   }
 
   // 실행
+  createLessonTopnavBar();
   createBreadcrumb();
   createPrereqBanner();
   createLearningPath();
