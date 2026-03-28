@@ -94,10 +94,11 @@ const LESSONS = {
   },
 
   special: [
-    { id: 'ai-intro',   url: 'ai-intro.html',   title: 'AI 교육 철학', icon: '🎓', color: '#1565C0' },
-    { id: 'ai-science', url: 'ai-science.html', title: 'AI 과학교육',  icon: '🔬', color: '#00695C' },
-    { id: 'compare',    url: 'compare.html',    title: '도구 비교',    icon: '⚖️', color: '#5A4ED9' },
-    { id: 'ai-compare', url: 'ai-compare.html', title: 'AI 비교',     icon: '🤖', color: '#5A4ED9' }
+    { id: 'ai-intro',            url: 'ai-intro.html',            title: 'AI 교육 철학',     icon: '🎓', color: '#1565C0' },
+    { id: 'ai-science',          url: 'ai-science.html',          title: 'AI 과학교육',      icon: '🔬', color: '#00695C' },
+    { id: 'compare',             url: 'compare.html',             title: '도구 비교',        icon: '⚖️', color: '#5A4ED9' },
+    { id: 'ai-compare',          url: 'ai-compare.html',          title: 'AI 비교',         icon: '🤖', color: '#5A4ED9' },
+    { id: 'harness-engineering', url: 'harness-engineering.html', title: '하네스 엔지니어링', icon: '⚙️', color: '#6366F1' }
   ],
 
   paths: {

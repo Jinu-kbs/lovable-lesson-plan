@@ -122,6 +122,9 @@
 ├── nvidia-gtc-2025.html           ← NVIDIA GTC 2025 완전 리포트 (인포그래픽 페이지)
 ├── NVIDIA_GTC_2025_완전_리포트.md ← NVIDIA GTC 2025 리포트 MD 원본
 │
+├── harness-engineering.html        ← 하네스 엔지니어링 포스팅 (테스트 하네스·에이전트 하네스·Hooks 심화)
+├── 교안_harness_engineering.md     ← 하네스 엔지니어링 MD 원본
+│
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
 ├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
 ├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html
@@ -241,6 +244,7 @@
 | **AI 교육 철학** | `#1565C0` (딥블루) | `#90CAF9` | 단일 페이지 |
 | **AI 과학교육** | `#00695C` (다크틸) | `#80CBC4` | 단일 페이지 |
 | **NVIDIA GTC 2025** | `#76B900` (NVIDIA 그린) | `#A8D84E` | 단일 페이지 (필독 리포트) |
+| **하네스 엔지니어링** | `#6366F1` (인디고) | `#A5B4FC` | 단일 페이지 (심화 포스팅) |
 
 ### HTML 공통 구조
 
