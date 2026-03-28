@@ -125,6 +125,9 @@
 ├── harness-engineering.html        ← 하네스 엔지니어링 포스팅 (테스트 하네스·에이전트 하네스·Hooks 심화)
 ├── 교안_harness_engineering.md     ← 하네스 엔지니어링 MD 원본
 │
+├── claude-skills.html              ← 클로드 스킬 완전 가이드 (Skills 시스템·커스텀 스킬·실전 예시)
+├── software-engineering.html       ← 소프트웨어 엔지니어링 가이드 (SOLID·Clean Code·TDD·CI/CD)
+│
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
 ├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
 ├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html
@@ -245,6 +248,8 @@
 | **AI 과학교육** | `#00695C` (다크틸) | `#80CBC4` | 단일 페이지 |
 | **NVIDIA GTC 2025** | `#76B900` (NVIDIA 그린) | `#A8D84E` | 단일 페이지 (필독 리포트) |
 | **하네스 엔지니어링** | `#6366F1` (인디고) | `#A5B4FC` | 단일 페이지 (심화 포스팅) |
+| **클로드 스킬 가이드** | `#D97706` (앰버) | `#FDE68A` | 단일 페이지 (심화 가이드) |
+| **소프트웨어 엔지니어링** | `#0891B2` (사이안-틸) | `#A5F3FC` | 단일 페이지 (심화 가이드) |
 
 ### HTML 공통 구조
 

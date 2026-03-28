@@ -98,7 +98,9 @@ const LESSONS = {
     { id: 'ai-science',          url: 'ai-science.html',          title: 'AI 과학교육',      icon: '🔬', color: '#00695C' },
     { id: 'compare',             url: 'compare.html',             title: '도구 비교',        icon: '⚖️', color: '#5A4ED9' },
     { id: 'ai-compare',          url: 'ai-compare.html',          title: 'AI 비교',         icon: '🤖', color: '#5A4ED9' },
-    { id: 'harness-engineering', url: 'harness-engineering.html', title: '하네스 엔지니어링', icon: '⚙️', color: '#6366F1' }
+    { id: 'harness-engineering',  url: 'harness-engineering.html',  title: '하네스 엔지니어링',      icon: '⚙️', color: '#6366F1' },
+    { id: 'claude-skills',        url: 'claude-skills.html',        title: '클로드 스킬 가이드',     icon: '🛠️', color: '#D97706' },
+    { id: 'software-engineering', url: 'software-engineering.html', title: '소프트웨어 엔지니어링',  icon: '📐', color: '#0891B2' }
   ],
 
   paths: {
