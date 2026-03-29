@@ -314,6 +314,27 @@
     </div>
     <div class="c-desc">코드 관리 → 문서화 → 팀 소통 → 시장 조사. 혼자서 많은 것을 해야 하는 창업자가 Claude를 팀원처럼 활용하는 조합입니다.</div>
   </div>
+
+  <div class="combo-card">
+    <div class="c-title">🏢 기업 개발팀 올인원</div>
+    <div class="c-servers">
+      <span class="c-server">slack</span>
+      <span class="c-server">jira (atlassian)</span>
+      <span class="c-server">confluence</span>
+      <span class="c-server">github</span>
+    </div>
+    <div class="c-desc">Jira 이슈 조회 → GitHub PR 연결 → Confluence 문서 업데이트 → Slack 보고. 기업 환경의 전형적인 개발 사이클을 Claude 한 명이 처리합니다.</div>
+  </div>
+
+  <div class="combo-card">
+    <div class="c-title">📣 스프린트 자동화</div>
+    <div class="c-servers">
+      <span class="c-server">jira (atlassian)</span>
+      <span class="c-server">slack</span>
+      <span class="c-server">memory</span>
+    </div>
+    <div class="c-desc">스프린트 시작 시 Jira 백로그 정리 → 담당자별 할당 → Slack에 데일리 스탠드업 요약 전송 → Memory로 진행 상황 기억. 스크럼 마스터 업무를 자동화합니다.</div>
+  </div>
 </div>
 
 <h2 id="advanced-config">고급 설정 옵션</h2>
@@ -432,6 +453,26 @@
   <div class="p-result">→ 세션이 끊겨도 맥락이 유지됩니다. 장기 프로젝트에서 진행 상황을 기억시키는 데 매우 유용합니다.</div>
 </div>
 
+<h3>6. Slack + Jira 연계 자동화</h3>
+<div class="prompt-box">
+  <div class="p-label">// 프롬프트 — 스탠드업 자동화</div>
+  <div class="p-text">"Jira에서 오늘 완료된 이슈와 진행 중인 이슈 조회하고,
+#데일리-스탠드업 슬랙 채널에 아래 형식으로 보내줘:
+✅ Done: [이슈 목록]
+🔄 In Progress: [이슈 목록]
+🚧 Blocker: [있으면 명시]"</div>
+  <div class="p-result">→ Jira 조회 후 포맷에 맞춰 슬랙 채널에 자동 전송. 매일 아침 반복 실행하면 스탠드업 준비 시간이 0이 됩니다.</div>
+</div>
+
+<h3>7. Confluence 문서 자동 업데이트</h3>
+<div class="prompt-box">
+  <div class="p-label">// 프롬프트 — 스프린트 회고 문서화</div>
+  <div class="p-text">"이번 스프린트(Sprint 24) Jira 완료 이슈 목록을 가져와서
+Confluence '스프린트 회고' 페이지에 자동으로 정리해줘.
+잘된 점 / 개선점 / 다음 스프린트 목표 형식으로"</div>
+  <div class="p-result">→ Jira 이슈 데이터 → Confluence 페이지 자동 업데이트. 스프린트 회고 문서 작성 시간 90% 단축.</div>
+</div>
+
 <h2 id="security">보안 & 권한 관리</h2>
 <p>MCP 서버는 강력한 만큼 보안 관리가 중요합니다. 아래 체크리스트를 반드시 확인하세요.</p>
 
@@ -540,6 +581,53 @@
     <div class="chat-line chat-ai">- #101: API 호출 레이어 중복 제거 (중요)</div>
     <div class="chat-line chat-ai">- #102: 유틸 함수 모듈화 (중간)</div>
     <div class="chat-line chat-ai">- #103: 타입 정의 파일 통합 (낮음) 외 2건</div>
+  </div>
+</div>
+
+<div class="workflow-box">
+  <div class="w-title">📣 워크플로우 4 — Slack 일간 보고 자동화</div>
+  <div class="workflow-step">
+    <div class="step-num">1</div>
+    <div class="step-content">Jira MCP로 오늘 완료·진행 중·블로커 이슈 조회</div>
+  </div>
+  <div class="workflow-step">
+    <div class="step-num">2</div>
+    <div class="step-content">담당자별로 그룹화 후 스탠드업 형식으로 요약</div>
+  </div>
+  <div class="workflow-step">
+    <div class="step-num">3</div>
+    <div class="step-content">Slack MCP로 #데일리-스탠드업 채널에 자동 전송</div>
+  </div>
+  <div class="workflow-chat">
+    <div class="chat-line chat-user">나: "오늘 스탠드업 내용 정리해서 슬랙에 보내줘"</div>
+    <div class="chat-line chat-ai">Claude: [Jira Sprint 24 이슈 조회 중...]</div>
+    <div class="chat-line chat-ai">#데일리-스탠드업 채널에 전송 완료:</div>
+    <div class="chat-line chat-ai">📅 2026-03-29 스탠드업<br>
+    ✅ Done: PROJ-142 로그인 버그 수정, PROJ-139 캐싱 구현<br>
+    🔄 In Progress: PROJ-151 결제 모듈, PROJ-148 테스트 작성<br>
+    🚧 Blocker: PROJ-151 외부 API 응답 지연 (담당: 이수진)</div>
+  </div>
+</div>
+
+<div class="workflow-box">
+  <div class="w-title">📄 워크플로우 5 — Jira + Confluence + Slack 스프린트 마감</div>
+  <div class="workflow-step">
+    <div class="step-num">1</div>
+    <div class="step-content">Jira에서 스프린트 완료 이슈 목록 전체 조회</div>
+  </div>
+  <div class="workflow-step">
+    <div class="step-num">2</div>
+    <div class="step-content">Confluence '스프린트 회고' 페이지에 결과 자동 작성</div>
+  </div>
+  <div class="workflow-step">
+    <div class="step-num">3</div>
+    <div class="step-content">Slack #공지 채널에 스프린트 완료 요약 전송</div>
+  </div>
+  <div class="workflow-chat">
+    <div class="chat-line chat-user">나: "Sprint 24 마감 처리해줘. 완료 이슈 Confluence에 정리하고 슬랙 공지까지"</div>
+    <div class="chat-line chat-ai">Claude: [Jira Sprint 24 완료 이슈 23개 조회 → Confluence 업데이트 중...]</div>
+    <div class="chat-line chat-ai">✅ Confluence '2026 Q1 Sprint 24 회고' 페이지 작성 완료</div>
+    <div class="chat-line chat-ai">✅ #공지 채널 전송: "Sprint 24 완료! 총 23개 이슈 처리, 완료율 92%. 회고 문서: [링크]"</div>
   </div>
 </div>
 

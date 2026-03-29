@@ -486,15 +486,59 @@
   type:document / type:spreadsheet / type:pdf
   owner:me / before:2026-01-01 / after:2025-12-01
   is:starred</code></pre>
-<h3>실습 과제: 프로젝트 폴더 구성</h3>
-<pre><code>[실습] 프로젝트 폴더 체계 만들기
+<h3>7-7. 팀 공유 드라이브 실전 활용 (Google Workspace)</h3>
+<div class="table-wrapper"><table>
+  <tr><th>시나리오</th><th>방법</th><th>주의사항</th></tr>
+  <tr><td>수업 자료 배포</td><td>공유 드라이브 폴더 → 학생에게 뷰어 권한 링크 공유</td><td>편집 권한 부여 금지</td></tr>
+  <tr><td>팀 과제 협업</td><td>편집자 권한으로 공유 → 버전 이력으로 누가 수정했는지 확인</td><td>실수 시 이전 버전 복원 가능</td></tr>
+  <tr><td>외부인과 협업</td><td>"링크가 있는 사용자" → 댓글 권한</td><td>민감 자료는 개인 공유</td></tr>
+</table></div>
 
+<h3>7-8. 드라이브 고급 팁 5가지</h3>
+<pre><code>① 색깔 코딩: 폴더 우클릭 → "색상 변경" → 중요도별 색으로 구분
+   (예: 빨강=긴급, 노랑=진행중, 초록=완료)
+
+② 버전 이력: 파일 우클릭 → "버전 관리" → 최대 30일치 자동 저장
+   → 실수로 삭제해도 복구 가능!
+
+③ 단축키:
+   Shift+Z → 파일을 여러 폴더에 동시 추가 (바로가기)
+   . (마침표)  → 드라이브 검색창 포커스
+   N          → 새 폴더 만들기
+
+④ Drive 앱 (데스크톱):
+   drive.google.com/drive/apps → Drive 앱 설치
+   → 탐색기처럼 드래그 앤 드롭으로 파일 관리
+
+⑤ 중요 파일 빠른 접근:
+   별표(★) 표시 → drive.google.com/drive/starred 에서 모아보기</code></pre>
+
+<h3>7-9. Google Drive + AI 활용 (NotebookLM·Gemini 연동)</h3>
+<pre><code>Drive 파일 → NotebookLM 소스로 활용:
+  1. notebooklm.google.com → "소스 추가" → "Google Drive"
+  2. Drive에서 PDF, Docs, Slides 선택
+  3. AI가 내 자료를 기반으로 요약·Q&A 제공
+
+Drive 파일 → Gemini에서 분석:
+  1. gemini.google.com → 첨부 아이콘 → "Drive에서 파일 추가"
+  2. "이 보고서 핵심 3가지 요약해줘" 등 자연어로 질문
+  3. Sheets 데이터를 Drive에서 불러와 차트 생성도 가능</code></pre>
+
+<blockquote><p><strong>실전 팁</strong>: 수업 PPT를 Drive에 올려두고 NotebookLM에 소스로 연결하면, 학생들이 "3단원 핵심 개념이 뭐야?"처럼 자연어로 질문할 수 있는 AI 학습 보조 도구가 됩니다.</p></blockquote>
+
+<h3>실습 과제: 프로젝트 폴더 구성 + AI 연동</h3>
+<pre><code>[실습 A] 프로젝트 폴더 체계 만들기
 1. "구글 도구 실습" 폴더 생성
 2. 하위 폴더: 01_문서, 02_스프레드시트, 03_프레젠테이션, 04_설문조사, 05_참고자료
 3. 이전 실습 파일을 해당 폴더로 이동
-4. 별표 표시 → 검색 기능으로 파일 찾기
+4. 폴더별 색깔 코딩 적용 → 별표 표시 → 검색으로 파일 찾기
 
-⏱️ 예상 소요: 10~15분</code></pre>
+[실습 B] Drive + NotebookLM 연동
+1. PDF 파일 1개를 Drive에 업로드
+2. NotebookLM에서 해당 파일을 소스로 추가
+3. AI에게 "핵심 내용 3가지 알려줘" 질문해보기
+
+⏱️ 예상 소요: 20~25분</code></pre>
 
 <!-- SECTION 8 -->
 <h2 id="s8">8. NotebookLM 입문</h2>

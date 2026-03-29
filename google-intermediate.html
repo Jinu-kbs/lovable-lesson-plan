@@ -1173,6 +1173,131 @@ function logCalendarEvents() {
                     → Gmail(관리자에게 자동 발송)
                     → Drive(보고서 PDF 아카이빙)</code></pre>
 
+<h3>7-7. 공유 드라이브(Shared Drive) 팀 관리</h3>
+<p>공유 드라이브는 개인 드라이브와 달리 <strong>조직 소유</strong>입니다. 구성원이 떠나도 파일이 유지되며, 세밀한 권한 관리가 가능합니다.</p>
+
+<table>
+  <tr><th>구분</th><th>내 드라이브</th><th>공유 드라이브</th></tr>
+  <tr><td><strong>소유권</strong></td><td>개인</td><td>조직(팀)</td></tr>
+  <tr><td><strong>구성원 퇴사 시</strong></td><td>파일 이전 필요</td><td>자동 유지</td></tr>
+  <tr><td><strong>권한 수준</strong></td><td>뷰어/편집자/소유자</td><td>뷰어/댓글/편집/관리자/콘텐츠 관리자</td></tr>
+  <tr><td><strong>최대 파일 수</strong></td><td>무제한</td><td>40만 개/드라이브</td></tr>
+</table>
+
+<pre><code>// 공유 드라이브 파일 접근 (Apps Script)
+function listSharedDriveFiles() {
+  // 공유 드라이브 ID 확인: Drive → 공유 드라이브 → URL의 마지막 부분
+  let driveId = "SHARED_DRIVE_ID";
+
+  // 공유 드라이브 내 파일 목록 조회
+  let params = {
+    corpora: "drive",
+    driveId: driveId,
+    includeItemsFromAllDrives: true,
+    supportsAllDrives: true
+  };
+
+  let files = Drive.Files.list(params);
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.appendRow(["파일명", "수정일", "최종 수정자", "크기(MB)"]);
+
+  files.items.forEach(function(file) {
+    sheet.appendRow([
+      file.title,
+      file.modifiedDate,
+      file.lastModifyingUserName,
+      Math.round(file.fileSize / 1024 / 1024 * 100) / 100 || "N/A"
+    ]);
+  });
+  Logger.log("파일 목록 기록 완료: " + files.items.length + "건");
+}</code></pre>
+
+<div class="callout callout-tip">
+  <strong>공유 드라이브 활용 시나리오</strong><br>
+  학교·교육기관에서는 "학년별 공유 드라이브"를 만들어 담임교사가 자료를 올리면 학년 전체가 접근하는 구조가 효율적입니다. 학생 계정(edu 도메인)에는 뷰어 권한만 부여하면 안전하게 배포됩니다.
+</div>
+
+<h3>7-8. Drive 파일 일괄 처리 자동화</h3>
+
+<pre><code>// ① 특정 폴더 내 모든 Sheets → PDF 일괄 변환 후 별도 폴더에 저장
+function batchSheetsToPDF() {
+  let sourceFolderId = "SOURCE_FOLDER_ID";
+  let targetFolderId = "PDF_FOLDER_ID";
+
+  let sourceFolder = DriveApp.getFolderById(sourceFolderId);
+  let targetFolder = DriveApp.getFolderById(targetFolderId);
+  let files = sourceFolder.getFilesByMimeType(MimeType.GOOGLE_SHEETS);
+
+  let count = 0;
+  while (files.hasNext()) {
+    let file = files.next();
+    let ssId = file.getId();
+    let url = "https://docs.google.com/spreadsheets/d/" + ssId + "/export?format=pdf&portrait=true";
+    let response = UrlFetchApp.fetch(url, {
+      headers: { Authorization: "Bearer " + ScriptApp.getOAuthToken() }
+    });
+    let pdfBlob = response.getBlob().setName(file.getName() + ".pdf");
+    targetFolder.createFile(pdfBlob);
+    count++;
+  }
+  Logger.log("PDF 변환 완료: " + count + "개");
+}</code></pre>
+
+<pre><code>// ② Drive 파일 공유 권한 일괄 관리 (Apps Script)
+function shareFilesWithTeam() {
+  let folderId = "TEAM_FOLDER_ID";
+  let folder = DriveApp.getFolderById(folderId);
+  let files = folder.getFiles();
+
+  let teamEmails = ["a@school.edu", "b@school.edu", "c@school.edu"];
+
+  while (files.hasNext()) {
+    let file = files.next();
+    teamEmails.forEach(function(email) {
+      try {
+        file.addViewer(email);  // 뷰어 권한 부여
+        // file.addEditor(email);  // 편집 권한 부여 시
+      } catch(e) {
+        Logger.log("권한 부여 실패: " + email + " - " + e.message);
+      }
+    });
+  }
+  Logger.log("권한 설정 완료: " + teamEmails.length + "명");
+}</code></pre>
+
+<pre><code>// ③ Drive 용량 분석: 대용량 파일 찾기
+function findLargeFiles() {
+  let threshold = 50 * 1024 * 1024; // 50MB 이상
+  let files = DriveApp.searchFiles("modifiedDate > '2025-01-01'");
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.appendRow(["파일명", "크기(MB)", "수정일", "URL"]);
+
+  while (files.hasNext()) {
+    let file = files.next();
+    let size = file.getSize();
+    if (size >= threshold) {
+      sheet.appendRow([
+        file.getName(),
+        Math.round(size / 1024 / 1024 * 10) / 10,
+        file.getLastUpdated(),
+        file.getUrl()
+      ]);
+    }
+  }
+}
+// → Sheets에서 결과 확인 후 불필요한 대용량 파일 정리</code></pre>
+
+<table>
+  <tr><th>DriveApp 주요 메서드</th><th>기능</th><th>반환값</th></tr>
+  <tr><td><code>DriveApp.searchFiles(query)</code></td><td>쿼리로 파일 검색</td><td>FileIterator</td></tr>
+  <tr><td><code>folder.getFilesByMimeType(type)</code></td><td>MIME 타입별 파일 목록</td><td>FileIterator</td></tr>
+  <tr><td><code>file.moveTo(folder)</code></td><td>파일 이동</td><td>File</td></tr>
+  <tr><td><code>file.makeCopy(name, folder)</code></td><td>파일 복사</td><td>File</td></tr>
+  <tr><td><code>file.addViewer(email)</code></td><td>뷰어 권한 추가</td><td>File</td></tr>
+  <tr><td><code>file.addEditor(email)</code></td><td>편집 권한 추가</td><td>File</td></tr>
+  <tr><td><code>folder.createShortcut(id)</code></td><td>바로가기 생성</td><td>File</td></tr>
+</table>
+
 <h3>실습 과제 7: 설문→분석→자동 이메일 파이프라인</h3>
 
 <pre><code>// [실습] 전체 파이프라인 구현
