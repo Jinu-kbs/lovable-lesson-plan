@@ -61,7 +61,7 @@
 <ul>
   <li>공식 사이트: <a href="https://claude.ai" target="_blank">claude.ai</a></li>
   <li>개발사: Anthropic (2021년 설립, 전 OpenAI 연구원들이 창업)</li>
-  <li>핵심 모델: Claude Opus 4, Sonnet 4, Haiku 3.5</li>
+  <li>핵심 모델: Claude Opus 4.6, Sonnet 4.6, Haiku 4.5</li>
   <li>핵심 철학: "유용하고, 무해하며, 정직한(Helpful, Harmless, Honest)" AI</li>
 </ul>
 
@@ -174,8 +174,8 @@
   <tr><th>항목</th><th>Claude</th><th>ChatGPT</th><th>Gemini</th><th>Genspark</th><th>Perplexity</th></tr>
   <tr><td><strong>제작사</strong></td><td>Anthropic (미국)</td><td>OpenAI (미국)</td><td>Google DeepMind (미국)</td><td>Genspark AI (미국)</td><td>Perplexity AI (미국)</td></tr>
   <tr><td><strong>출시일</strong></td><td>2023년 3월</td><td>2022년 11월</td><td>2023년 12월</td><td>2024년 6월</td><td>2023년 1월</td></tr>
-  <tr><td><strong>최신 모델</strong></td><td>Opus 4, Sonnet 4, Haiku 3.5</td><td>GPT-4o, GPT-4.5, o1, o3</td><td>2.0 Ultra, Pro, Flash</td><td>자체 + 멀티 모델</td><td>멀티 모델 (GPT-4o, Claude 등)</td></tr>
-  <tr><td><strong>컨텍스트 윈도우</strong></td><td>최대 200K 토큰</td><td>최대 128K 토큰</td><td>최대 2M 토큰</td><td>검색 기반</td><td>검색 기반</td></tr>
+  <tr><td><strong>최신 모델</strong></td><td>Opus 4.6, Sonnet 4.6, Haiku 4.5</td><td>GPT-4o, GPT-4.5, o1, o3</td><td>2.0 Ultra, Pro, Flash</td><td>자체 + 멀티 모델</td><td>멀티 모델 (GPT-4o, Claude 등)</td></tr>
+  <tr><td><strong>컨텍스트 윈도우</strong></td><td>최대 1M 토큰</td><td>최대 128K 토큰</td><td>최대 2M 토큰</td><td>검색 기반</td><td>검색 기반</td></tr>
   <tr><td><strong>멀티모달 입력</strong></td><td>텍스트 + 이미지</td><td>텍스트 + 이미지 + 음성 + 영상</td><td>텍스트 + 이미지 + 음성 + 영상</td><td>텍스트 + 이미지</td><td>텍스트 + 이미지</td></tr>
   <tr><td><strong>웹 검색</strong></td><td>지원 (2025년~)</td><td>기본 내장 (Bing 기반)</td><td>기본 내장 (Google 검색)</td><td>핵심 기능</td><td>핵심 기능</td></tr>
   <tr><td><strong>코드 실행</strong></td><td>Artifacts (프리뷰)</td><td>Canvas + Code Interpreter</td><td>Google Colab 연동</td><td>미지원</td><td>미지원</td></tr>
@@ -195,9 +195,9 @@
 <div class="table-wrapper">
 <table>
   <tr><th>등급</th><th>Claude</th><th>ChatGPT</th><th>Gemini</th><th>Genspark</th><th>Perplexity</th></tr>
-  <tr><td><strong>최고 성능</strong></td><td>Opus 4</td><td>GPT-4.5 / o3</td><td>2.0 Ultra</td><td>—</td><td>멀티 모델 (최상위 선택)</td></tr>
-  <tr><td><strong>균형 모델</strong></td><td>Sonnet 4</td><td>GPT-4o</td><td>2.0 Pro</td><td>자체 모델</td><td>GPT-4o / Claude 선택</td></tr>
-  <tr><td><strong>경량 모델</strong></td><td>Haiku 3.5</td><td>GPT-4o mini</td><td>2.0 Flash</td><td>—</td><td>기본 모델</td></tr>
+  <tr><td><strong>최고 성능</strong></td><td>Opus 4.6</td><td>GPT-4.5 / o3</td><td>2.0 Ultra</td><td>—</td><td>멀티 모델 (최상위 선택)</td></tr>
+  <tr><td><strong>균형 모델</strong></td><td>Sonnet 4.6</td><td>GPT-4o</td><td>2.0 Pro</td><td>자체 모델</td><td>GPT-4o / Claude 선택</td></tr>
+  <tr><td><strong>경량 모델</strong></td><td>Haiku 4.5</td><td>GPT-4o mini</td><td>2.0 Flash</td><td>—</td><td>기본 모델</td></tr>
   <tr><td><strong>추론 특화</strong></td><td>—</td><td>o1, o3</td><td>—</td><td>—</td><td>—</td></tr>
   <tr><td><strong>검색 특화</strong></td><td>—</td><td>—</td><td>—</td><td>에이전트 검색</td><td>실시간 검색 + Scholar</td></tr>
   <tr><td><strong>코드 특화</strong></td><td>Claude Code</td><td>Codex</td><td>—</td><td>—</td><td>—</td></tr>
@@ -363,7 +363,7 @@ export default TodoApp;</code></pre>
 <table>
   <tr><th>항목</th><th>Claude</th><th>ChatGPT</th><th>Gemini</th><th>Genspark</th><th>Perplexity</th></tr>
   <tr><td><strong>최대 출력 길이</strong></td><td>매우 김 (수천 줄)</td><td>상대적으로 짧음</td><td>김 (대량 생성)</td><td>—</td><td>짧음 (요약 중심)</td></tr>
-  <tr><td><strong>컨텍스트 유지</strong></td><td>200K 토큰</td><td>128K 토큰</td><td>최대 2M 토큰</td><td>검색 기반</td><td>검색 기반</td></tr>
+  <tr><td><strong>컨텍스트 유지</strong></td><td>1M 토큰</td><td>128K 토큰</td><td>최대 2M 토큰</td><td>검색 기반</td><td>검색 기반</td></tr>
   <tr><td><strong>리팩토링</strong></td><td>전체 파일 재구성</td><td>부분 수정 위주</td><td>전체 구조 분석 가능</td><td>—</td><td>—</td></tr>
   <tr><td><strong>대규모 프로젝트</strong></td><td>여러 파일 관계 파악</td><td>단일 파일 단위 적합</td><td>대규모 분석 가능</td><td>—</td><td>—</td></tr>
 </table>
@@ -582,7 +582,7 @@ export default TodoApp;</code></pre>
 <table>
   <tr><th>항목</th><th>Claude Pro</th><th>ChatGPT Plus</th><th>Gemini Advanced</th><th>Genspark Pro</th><th>Perplexity Pro</th></tr>
   <tr><td><strong>월 요금</strong></td><td>$20</td><td>$20</td><td>$20 (Google One)</td><td>미공개 / 무료</td><td>$20</td></tr>
-  <tr><td><strong>최상위 모델</strong></td><td>Opus 4, Sonnet 4</td><td>GPT-4o, o1</td><td>2.0 Ultra, Pro</td><td>향상된 에이전트</td><td>GPT-4o, Claude 선택</td></tr>
+  <tr><td><strong>최상위 모델</strong></td><td>Opus 4.6, Sonnet 4.6</td><td>GPT-4o, o1</td><td>2.0 Ultra, Pro</td><td>향상된 에이전트</td><td>GPT-4o, Claude 선택</td></tr>
   <tr><td><strong>에이전트 코딩</strong></td><td>Claude Code 포함</td><td>Codex 제한 사용</td><td>—</td><td>—</td><td>—</td></tr>
   <tr><td><strong>이미지 생성</strong></td><td>미지원</td><td>DALL-E 포함</td><td>Imagen 포함</td><td>미지원</td><td>미지원</td></tr>
   <tr><td><strong>구글 연동</strong></td><td>—</td><td>—</td><td>Gmail, Docs, Drive 통합</td><td>—</td><td>—</td></tr>
@@ -594,9 +594,9 @@ export default TodoApp;</code></pre>
 <div class="table-wrapper">
 <table>
   <tr><th>모델</th><th>입력 (1M 토큰)</th><th>출력 (1M 토큰)</th><th>비고</th></tr>
-  <tr><td><strong>Claude Haiku 3.5</strong></td><td>$0.80</td><td>$4.00</td><td>가장 저렴한 Claude</td></tr>
-  <tr><td><strong>Claude Sonnet 4</strong></td><td>$3.00</td><td>$15.00</td><td>범용, 가성비</td></tr>
-  <tr><td><strong>Claude Opus 4</strong></td><td>$15.00</td><td>$75.00</td><td>최고 성능</td></tr>
+  <tr><td><strong>Claude Haiku 4.5</strong></td><td>$1.00</td><td>$5.00</td><td>가장 저렴한 Claude</td></tr>
+  <tr><td><strong>Claude Sonnet 4.6</strong></td><td>$3.00</td><td>$15.00</td><td>범용, 가성비</td></tr>
+  <tr><td><strong>Claude Opus 4.6</strong></td><td>$5.00</td><td>$25.00</td><td>최고 성능</td></tr>
   <tr><td><strong>GPT-4o mini</strong></td><td>$0.15</td><td>$0.60</td><td>전체 최저가</td></tr>
   <tr><td><strong>GPT-4o</strong></td><td>$2.50</td><td>$10.00</td><td>범용 모델</td></tr>
   <tr><td><strong>o3</strong></td><td>$10.00</td><td>$40.00</td><td>추론 특화</td></tr>
