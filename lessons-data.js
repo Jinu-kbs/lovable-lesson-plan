@@ -90,6 +90,14 @@ const LESSONS = {
       developer:    { url: 'google-developer.html',     title: '구글 생태계 개발자편',   desc: 'Cloud Functions, API 개발' },
       related: ['aistudio', 'chatgpt', 'prompt', 'deployment'],
       prereqs: { beginner: [], intermediate: [], developer: ['github-beginner'] }
+    },
+    mcp: {
+      name: 'MCP', icon: '🔌', color: '#0F766E',
+      beginner:     { url: 'mcp-beginner.html',     title: 'MCP 초급',     desc: '기존 MCP 서버 설치·사용' },
+      intermediate: { url: 'mcp-intermediate.html',  title: 'MCP 중급',     desc: '다중 서버 운영 & 실전 활용' },
+      developer:    { url: 'mcp-developer.html',     title: 'MCP 개발자',   desc: '커스텀 MCP 서버 직접 제작' },
+      related: ['claude-code', 'harness-engineering', 'software-engineering'],
+      prereqs: { beginner: ['claude-code-beginner'], intermediate: ['mcp-beginner'], developer: ['mcp-intermediate'] }
     }
   },
 

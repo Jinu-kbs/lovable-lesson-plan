@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP 개발자 — 바이브코딩 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#0F766E;--primary-light:#99F6E4;--blockquote-bg:#F0FDFA;--hover-bg:#ECFDF5}
+
+/* 언어 탭 */
+.lang-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:0}
+.lang-tab{padding:8px 20px;font-size:.88rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;color:#666;transition:all .2s;display:flex;align-items:center;gap:6px}
+.lang-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.lang-panel{display:none}
+.lang-panel.active{display:block}
+
+/* 파일 탭 코드 블록 */
+.file-tabs{background:#1E293B;border-radius:10px 10px 0 0;display:flex;gap:0;overflow-x:auto}
+.file-tab{padding:8px 16px;font-family:'Fira Code',monospace;font-size:.8rem;color:#94A3B8;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.file-tab.active{color:#A5F3FC;border-bottom-color:#A5F3FC;background:#263545}
+.file-content{background:#1E293B;border-radius:0 0 10px 10px;padding:20px;margin-bottom:24px;overflow-x:auto}
+.file-content code{font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.8;color:#E2E8F0;white-space:pre;display:block}
+.file-panel{display:none}.file-panel.active{display:block}
+
+/* 기능 카드 */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:16px 0 24px}
+.feature-card{background:#FFF;border:1px solid var(--border);border-radius:12px;padding:18px;border-top:3px solid var(--primary)}
+.feature-card .f-icon{font-size:1.5rem;margin-bottom:8px}
+.feature-card .f-name{font-weight:700;font-size:.92rem;margin-bottom:6px}
+.feature-card .f-desc{font-size:.82rem;color:#555;line-height:1.5}
+
+/* 프로토콜 구조 박스 */
+.protocol-box{background:#F8FAFC;border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0 24px;font-family:'Fira Code',monospace;font-size:.82rem;line-height:2;overflow-x:auto}
+.protocol-box .p-root{color:#0F766E;font-weight:700}
+.protocol-box .p-child{color:#374151;padding-left:20px}
+.protocol-box .p-leaf{color:#6B7280;padding-left:40px}
+.protocol-box .p-comment{color:#9CA3AF;font-style:italic}
+
+/* 쇼케이스 카드 */
+.showcase-card{background:#FFF;border:2px solid var(--primary);border-radius:14px;padding:22px;margin:16px 0 24px}
+.showcase-card .sc-title{font-size:1.05rem;font-weight:700;color:var(--primary);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.showcase-card .sc-meta{font-size:.82rem;color:#777;margin-bottom:14px}
+.showcase-card .sc-desc{font-size:.88rem;color:#555;margin-bottom:14px;line-height:1.6}
+
+/* 코드 다크 박스 */
+.code-dark{background:#1E293B;border-radius:10px;padding:20px;margin:12px 0 20px;overflow-x:auto}
+.code-dark code{font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.8;color:#E2E8F0;white-space:pre;display:block}
+.code-dark .c-comment{color:#64748B}
+.code-dark .c-string{color:#A5F3FC}
+.code-dark .c-keyword{color:#7DD3FC}
+.code-dark .c-fn{color:#A3E635}
+
+/* stat row */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:16px 0 32px}
+.stat-card{background:#FFF;border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.stat-card .s-num{font-size:1.8rem;font-weight:900;color:var(--primary);line-height:1}
+.stat-card .s-label{font-size:.78rem;color:#666;margin-top:4px}
+
+/* callout */
+.callout{border-left:4px solid var(--primary);background:var(--blockquote-bg);padding:14px 18px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:.9rem;line-height:1.6}
+.callout strong{color:var(--primary)}
+.callout.warn{border-color:#D97706;background:#FFFBEB}
+.callout.warn strong{color:#D97706}
+
+/* 체크리스트 */
+.checklist{list-style:none;margin:0 0 24px}
+.checklist li{padding:7px 0;font-size:.9rem;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border)}
+.checklist li:last-child{border:none}
+.checklist li::before{content:"☐";color:var(--primary);font-size:1rem;flex-shrink:0;margin-top:1px}
+
+/* 비교 테이블 */
+.compare-table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.88rem}
+.compare-table th{background:var(--primary);color:#FFF;padding:10px 14px;text-align:left;font-weight:600}
+.compare-table td{padding:10px 14px;border-bottom:1px solid var(--border)}
+.compare-table tr:nth-child(even) td{background:#F8FAFC}
+
+/* 읽기 진행 바 */
+.read-progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--primary);z-index:9999;transition:width .1s}
+
+/* 모바일 TOC */
+.mobile-toc-btn{display:none;position:fixed;bottom:80px;right:20px;z-index:900;background:var(--primary);color:#FFF;border:none;border-radius:50%;width:44px;height:44px;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.mobile-toc-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:950}
+.mobile-toc-sheet{position:fixed;bottom:0;left:0;right:0;background:#FFF;border-radius:16px 16px 0 0;padding:24px;z-index:960;max-height:70vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s}
+.mobile-toc-sheet.open{transform:translateY(0)}
+.mobile-toc-sheet h3{font-size:1rem;font-weight:700;margin-bottom:14px}
+.mobile-toc-sheet a{display:block;padding:8px 0;font-size:.9rem;color:var(--text);border-bottom:1px solid var(--border);text-decoration:none}
+.backtotop{display:none;position:fixed;bottom:24px;right:20px;z-index:900;background:var(--primary);color:#FFF;border:none;border-radius:50%;width:44px;height:44px;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18)}
+
+@media(max-width:768px){.mobile-toc-btn{display:flex;align-items:center;justify-content:center}.compare-table{font-size:.78rem}.lang-tabs{overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<div class="read-progress-bar" id="readBar"></div>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="index.html" class="topnav-logo">바이브코딩 가이드</a>
+    <div class="topnav-links">
+      <a href="mcp-beginner.html">MCP 초급</a>
+      <a href="mcp-intermediate.html">MCP 중급</a>
+      <a href="mcp-developer.html" class="active">MCP 개발자</a>
+      <a href="claude-code-beginner.html">Claude Code</a>
+      <a href="harness-engineering.html">하네스 엔지니어링</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero" style="background:linear-gradient(135deg,#0F766E 0%,#134E4A 50%,#064E3B 100%)">
+  <div class="hero-inner">
+    <div class="hero-badge-row">
+      <span class="hero-badge">🐍 Python FastMCP</span>
+      <span class="hero-badge">🟨 Node.js SDK</span>
+      <span class="hero-badge">🔧 커스텀 도구</span>
+      <span class="hero-badge">🚀 배포·공유</span>
+    </div>
+    <h1 class="hero-title">MCP 개발자</h1>
+    <p class="hero-subtitle">나만의 MCP 서버를 만들어라</p>
+    <p class="hero-desc">Python 또는 Node.js로 커스텀 MCP 서버를 직접 제작하고 Claude Code에 연결하는 완전 가이드</p>
+    <div class="hero-meta">
+      <span>⏱️ 약 2시간</span>
+      <span>📚 선수학습: MCP 초급·중급</span>
+      <span>👨‍💻 대상: Python 또는 JS 기초 보유자</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>목차</h3>
+    <nav>
+      <a href="#why-build">왜 직접 만드는가?</a>
+      <a href="#protocol">MCP 프로토콜 구조</a>
+      <a href="#python-start">Python으로 시작하기</a>
+      <a href="#python-tools">Tool 정의하기</a>
+      <a href="#python-resources">Resource &amp; Prompt</a>
+      <a href="#nodejs-start">Node.js로 시작하기</a>
+      <a href="#connect">Claude Code에 연결하기</a>
+      <a href="#real-example">실전: 학교 성적 MCP</a>
+      <a href="#deploy">배포 &amp; 공유</a>
+      <a href="#publish">생태계에 기여하기</a>
+    </nav>
+
+    <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border)">
+      <div style="font-size:.8rem;color:#888;margin-bottom:10px;font-weight:600">MCP 시리즈</div>
+      <a href="mcp-beginner.html" class="sidebar-series-link">1. 초급 — 설치·사용</a>
+      <a href="mcp-intermediate.html" class="sidebar-series-link">2. 중급 — 다중 서버</a>
+      <a href="mcp-developer.html" class="sidebar-series-link active">3. 개발자 — 직접 제작</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ====== #why-build ====== -->
+    <section id="why-build">
+      <h2><span class="section-num">01</span> 왜 직접 만드는가?</h2>
+
+      <p>공식·커뮤니티 MCP 서버만으로는 해결되지 않는 상황이 반드시 옵니다. 바로 그때 커스텀 MCP 서버가 필요합니다.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="f-icon">🏫</div>
+          <div class="f-name">내부 시스템 연동</div>
+          <div class="f-desc">학교 성적 DB, 회사 ERP, 병원 EMR처럼 공개 API가 없는 내부 시스템</div>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon">🧬</div>
+          <div class="f-name">도메인 특화 로직</div>
+          <div class="f-desc">과학 데이터 파싱, 교육 평가 계산, 금융 분석 등 특수 도메인 처리</div>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon">🔧</div>
+          <div class="f-name">기존 서버 커스터마이즈</div>
+          <div class="f-desc">공식 서버의 기능을 변형하거나 추가 로직을 붙이고 싶을 때</div>
+        </div>
+        <div class="feature-card">
+          <div class="f-icon">🌐</div>
+          <div class="f-name">오픈소스 기여</div>
+          <div class="f-desc">만든 서버를 공개해 전 세계 Claude 사용자에게 배포</div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card"><div class="s-num">200+</div><div class="s-label">커뮤니티 MCP 서버</div></div>
+        <div class="stat-card"><div class="s-num">3</div><div class="s-label">공식 SDK (Python·Node·Java)</div></div>
+        <div class="stat-card"><div class="s-num">5분</div><div class="s-label">Hello World 서버 완성 시간</div></div>
+        <div class="stat-card"><div class="s-num">∞</div><div class="s-label">가능한 도구 수</div></div>
+      </div>
+    </section>
+
+    <!-- ====== #protocol ====== -->
+    <section id="protocol">
+      <h2><span class="section-num">02</span> MCP 프로토콜 구조</h2>
+
+      <p>MCP 서버를 만들기 전에 서버가 Claude에게 무엇을 제공할 수 있는지 이해해야 합니다. MCP 서버는 3가지를 제공합니다.</p>
+
+      <div class="protocol-box">
+<span class="p-root">MCP 서버가 제공하는 3가지 능력</span>
+<span class="p-child">├── <strong>Tools</strong>      → Claude가 직접 실행하는 함수</span>
+<span class="p-leaf">│   ├── 파일 읽기, API 호출, DB 쿼리...</span>
+<span class="p-leaf">│   └── Claude가 "이 함수 실행해줘"라고 요청 → 결과 반환</span>
+<span class="p-child">│</span>
+<span class="p-child">├── <strong>Resources</strong>  → Claude가 읽을 수 있는 데이터 소스</span>
+<span class="p-leaf">│   ├── file://, db://, api:// 형태 URI</span>
+<span class="p-leaf">│   └── 파일, DB 레코드, API 응답 등</span>
+<span class="p-child">│</span>
+<span class="p-child">└── <strong>Prompts</strong>    → 재사용 가능한 프롬프트 템플릿</span>
+<span class="p-leaf">    ├── 매개변수를 받아 동적으로 프롬프트 생성</span>
+<span class="p-leaf">    └── 예: "이 코드를 리뷰해줘" 템플릿</span>
+      </div>
+
+      <h3>통신 방식 (Transport)</h3>
+      <table class="compare-table">
+        <thead>
+          <tr><th>방식</th><th>사용 상황</th><th>특징</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>stdio</code></td><td>로컬 실행 (가장 일반적)</td><td>빠름, 설정 간단, 로컬 전용</td></tr>
+          <tr><td><code>SSE</code></td><td>원격 HTTP 서버</td><td>팀 공유 가능, 인터넷 연결 필요</td></tr>
+          <tr><td><code>WebSocket</code></td><td>실시간 양방향</td><td>빠른 실시간 통신, 복잡도 높음</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>대부분의 경우 stdio면 충분합니다.</strong> 혼자 또는 소규모 팀이 로컬에서 쓴다면 stdio로 시작하세요. SSE는 서버를 배포해 여러 사람이 공유할 때 사용합니다.
+      </div>
+    </section>
+
+    <!-- ====== #python-start ====== -->
+    <section id="python-start">
+      <h2><span class="section-num">03</span> Python으로 시작하기</h2>
+
+      <div class="lang-tabs" id="langTabs">
+        <div class="lang-tab active" onclick="switchLang('python')">🐍 Python (권장)</div>
+        <div class="lang-tab" onclick="switchLang('node')">🟨 Node.js / TypeScript</div>
+      </div>
+
+      <div id="panel-python" class="lang-panel active">
+
+        <h3>설치</h3>
+        <div class="code-dark"><code><span class="c-comment"># FastMCP — 가장 간단한 Python MCP 라이브러리 (공식 SDK 래퍼)</span>
+pip install fastmcp
+
+<span class="c-comment"># 또는 공식 MCP SDK 직접 사용</span>
+pip install mcp</code></div>
+
+        <h3>Hello World MCP 서버</h3>
+        <div class="code-dark"><code><span class="c-comment"># hello_server.py</span>
+<span class="c-keyword">from</span> mcp.server.fastmcp <span class="c-keyword">import</span> FastMCP
+
+<span class="c-comment"># 1. 서버 생성</span>
+mcp = FastMCP(<span class="c-string">"내 첫 번째 MCP 서버"</span>)
+
+<span class="c-comment"># 2. 도구(Tool) 정의 — 데코레이터 하나면 끝</span>
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">안녕하세요</span>(이름: str) -&gt; str:
+    <span class="c-string">"""사용자에게 한국어로 인사합니다"""</span>
+    <span class="c-keyword">return</span> <span class="c-string">f"안녕하세요, {이름}님! MCP 서버에서 인사드립니다."</span>
+
+<span class="c-comment"># 3. 서버 실행</span>
+<span class="c-keyword">if</span> __name__ == <span class="c-string">"__main__"</span>:
+    mcp.run()</code></div>
+
+        <h3>실행 및 테스트</h3>
+        <div class="code-dark"><code><span class="c-comment"># 직접 실행 (stdio 모드)</span>
+python hello_server.py
+
+<span class="c-comment"># MCP Inspector로 인터랙티브 테스트 (설치 필요)</span>
+pip install mcp-inspector
+mcp dev hello_server.py</code></div>
+
+      </div>
+
+      <div id="panel-node" class="lang-panel">
+
+        <h3>설치</h3>
+        <div class="code-dark"><code><span class="c-comment"># 프로젝트 초기화</span>
+npm init -y
+
+<span class="c-comment"># MCP SDK 설치</span>
+npm install @modelcontextprotocol/sdk zod
+
+<span class="c-comment"># TypeScript 사용 시</span>
+npm install -D typescript @types/node tsx</code></div>
+
+        <h3>Hello World MCP 서버</h3>
+        <div class="code-dark"><code><span class="c-comment">// src/server.ts</span>
+<span class="c-keyword">import</span> { McpServer } <span class="c-keyword">from</span> <span class="c-string">"@modelcontextprotocol/sdk/server/mcp.js"</span>;
+<span class="c-keyword">import</span> { StdioServerTransport } <span class="c-keyword">from</span> <span class="c-string">"@modelcontextprotocol/sdk/server/stdio.js"</span>;
+<span class="c-keyword">import</span> { z } <span class="c-keyword">from</span> <span class="c-string">"zod"</span>;
+
+<span class="c-comment">// 1. 서버 생성</span>
+<span class="c-keyword">const</span> server = <span class="c-keyword">new</span> McpServer({
+  name: <span class="c-string">"내 첫 번째 MCP 서버"</span>,
+  version: <span class="c-string">"1.0.0"</span>
+});
+
+<span class="c-comment">// 2. 도구 등록</span>
+server.tool(
+  <span class="c-string">"안녕하세요"</span>,
+  { 이름: z.string().describe(<span class="c-string">"인사할 이름"</span>) },
+  <span class="c-keyword">async</span> ({ 이름 }) =&gt; ({
+    content: [{ type: <span class="c-string">"text"</span>, text: <span class="c-string">`안녕하세요, ${이름}님!`</span> }]
+  })
+);
+
+<span class="c-comment">// 3. 서버 시작</span>
+<span class="c-keyword">const</span> transport = <span class="c-keyword">new</span> StdioServerTransport();
+<span class="c-keyword">await</span> server.connect(transport);</code></div>
+
+        <div class="code-dark"><code><span class="c-comment"># package.json에 실행 스크립트 추가</span>
+{
+  <span class="c-string">"scripts"</span>: {
+    <span class="c-string">"start"</span>: <span class="c-string">"tsx src/server.ts"</span>
+  }
+}</code></div>
+
+      </div>
+    </section>
+
+    <!-- ====== #python-tools ====== -->
+    <section id="python-tools">
+      <h2><span class="section-num">04</span> Tool 정의하기 (Python)</h2>
+
+      <p>Tool은 MCP 서버의 핵심입니다. Claude가 직접 호출할 수 있는 함수를 정의합니다. <code>@mcp.tool()</code> 데코레이터 하나로 모든 것이 해결됩니다.</p>
+
+      <div class="file-tabs" id="toolTabs">
+        <div class="file-tab active" onclick="switchFile('tool', 'basic')">기본 도구</div>
+        <div class="file-tab" onclick="switchFile('tool', 'typed')">타입 모델</div>
+        <div class="file-tab" onclick="switchFile('tool', 'async')">비동기 도구</div>
+        <div class="file-tab" onclick="switchFile('tool', 'error')">에러 처리</div>
+      </div>
+      <div class="file-content">
+        <div id="tool-panel-basic" class="file-panel active"><code><span class="c-comment"># 기본 도구 — 타입 힌트가 곧 매개변수 스키마</span>
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">파일_읽기</span>(경로: str) -&gt; str:
+    <span class="c-string">"""지정한 경로의 파일 내용을 읽어 반환합니다"""</span>
+    <span class="c-keyword">with</span> open(경로, <span class="c-string">'r'</span>, encoding=<span class="c-string">'utf-8'</span>) <span class="c-keyword">as</span> f:
+        <span class="c-keyword">return</span> f.read()
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">디렉토리_목록</span>(경로: str = <span class="c-string">"."</span>) -&gt; list[str]:
+    <span class="c-string">"""디렉토리 안의 파일·폴더 목록을 반환합니다"""</span>
+    <span class="c-keyword">import</span> os
+    <span class="c-keyword">return</span> sorted(os.listdir(경로))
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">텍스트_파일_쓰기</span>(경로: str, 내용: str) -&gt; str:
+    <span class="c-string">"""지정한 경로에 텍스트 파일을 생성합니다"""</span>
+    <span class="c-keyword">with</span> open(경로, <span class="c-string">'w'</span>, encoding=<span class="c-string">'utf-8'</span>) <span class="c-keyword">as</span> f:
+        f.write(내용)
+    <span class="c-keyword">return</span> <span class="c-string">f"{경로} 에 저장 완료 ({len(내용)}자)"</span></code></div>
+
+        <div id="tool-panel-typed" class="file-panel"><code><span class="c-keyword">from</span> pydantic <span class="c-keyword">import</span> BaseModel
+
+<span class="c-comment"># Pydantic 모델로 복잡한 반환값 정의</span>
+<span class="c-keyword">class</span> <span class="c-fn">학생_정보</span>(BaseModel):
+    이름: str
+    학번: str
+    학년: int
+    반: int
+    평균_성적: float
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">학생_조회</span>(학번: str) -&gt; 학생_정보:
+    <span class="c-string">"""학번으로 학생 상세 정보를 조회합니다"""</span>
+    <span class="c-comment"># 실제로는 DB 조회</span>
+    <span class="c-keyword">return</span> 학생_정보(
+        이름=<span class="c-string">"김철수"</span>,
+        학번=학번,
+        학년=2,
+        반=3,
+        평균_성적=87.5
+    )
+
+<span class="c-keyword">class</span> <span class="c-fn">검색_결과</span>(BaseModel):
+    총_개수: int
+    결과: list[dict]
+    다음_페이지: bool
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">학생_검색</span>(키워드: str, 페이지: int = 1) -&gt; 검색_결과:
+    <span class="c-string">"""이름 또는 학번으로 학생을 검색합니다"""</span>
+    <span class="c-comment"># DB 검색 로직</span>
+    results = search_students(키워드, 페이지)
+    <span class="c-keyword">return</span> 검색_결과(총_개수=len(results), 결과=results, 다음_페이지=False)</code></div>
+
+        <div id="tool-panel-async" class="file-panel"><code><span class="c-keyword">import</span> httpx
+<span class="c-keyword">import</span> asyncio
+
+<span class="c-comment"># 외부 API 호출 — 비동기로 처리</span>
+@mcp.tool()
+<span class="c-keyword">async def</span> <span class="c-fn">날씨_조회</span>(도시: str) -&gt; dict:
+    <span class="c-string">"""지정한 도시의 현재 날씨 정보를 가져옵니다"""</span>
+    <span class="c-keyword">async with</span> httpx.AsyncClient() <span class="c-keyword">as</span> client:
+        response = <span class="c-keyword">await</span> client.get(
+            <span class="c-string">f"https://wttr.in/{도시}?format=j1"</span>,
+            timeout=10.0
+        )
+        data = response.json()
+        <span class="c-keyword">return</span> {
+            <span class="c-string">"도시"</span>: 도시,
+            <span class="c-string">"온도"</span>: data[<span class="c-string">"current_condition"</span>][0][<span class="c-string">"temp_C"</span>],
+            <span class="c-string">"날씨"</span>: data[<span class="c-string">"current_condition"</span>][0][<span class="c-string">"weatherDesc"</span>][0][<span class="c-string">"value"</span>]
+        }
+
+@mcp.tool()
+<span class="c-keyword">async def</span> <span class="c-fn">여러_URL_확인</span>(urls: list[str]) -&gt; list[dict]:
+    <span class="c-string">"""여러 URL의 응답 상태를 동시에 확인합니다"""</span>
+    <span class="c-keyword">async with</span> httpx.AsyncClient() <span class="c-keyword">as</span> client:
+        tasks = [client.head(url, timeout=5.0) <span class="c-keyword">for</span> url <span class="c-keyword">in</span> urls]
+        responses = <span class="c-keyword">await</span> asyncio.gather(*tasks, return_exceptions=True)
+        <span class="c-keyword">return</span> [
+            {<span class="c-string">"url"</span>: url, <span class="c-string">"status"</span>: r.status_code <span class="c-keyword">if</span> <span class="c-keyword">not</span> isinstance(r, Exception) <span class="c-keyword">else</span> <span class="c-string">"error"</span>}
+            <span class="c-keyword">for</span> url, r <span class="c-keyword">in</span> zip(urls, responses)
+        ]</code></div>
+
+        <div id="tool-panel-error" class="file-panel"><code><span class="c-keyword">from</span> mcp.server.fastmcp <span class="c-keyword">import</span> FastMCP
+<span class="c-keyword">from</span> mcp.types <span class="c-keyword">import</span> McpError
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">안전한_파일_읽기</span>(경로: str) -&gt; str:
+    <span class="c-string">"""파일을 안전하게 읽습니다. 에러 시 설명 메시지 반환"""</span>
+    <span class="c-keyword">import</span> os
+
+    <span class="c-comment"># 경로 유효성 검사</span>
+    <span class="c-keyword">if not</span> os.path.exists(경로):
+        <span class="c-keyword">raise</span> ValueError(<span class="c-string">f"파일을 찾을 수 없습니다: {경로}"</span>)
+
+    <span class="c-keyword">if not</span> os.path.isfile(경로):
+        <span class="c-keyword">raise</span> ValueError(<span class="c-string">f"디렉토리입니다. 파일 경로를 입력해주세요: {경로}"</span>)
+
+    <span class="c-comment"># 크기 제한 (1MB)</span>
+    <span class="c-keyword">if</span> os.path.getsize(경로) &gt; 1_000_000:
+        <span class="c-keyword">raise</span> ValueError(<span class="c-string">"파일이 너무 큽니다 (최대 1MB)"</span>)
+
+    <span class="c-keyword">try</span>:
+        <span class="c-keyword">with</span> open(경로, <span class="c-string">'r'</span>, encoding=<span class="c-string">'utf-8'</span>) <span class="c-keyword">as</span> f:
+            <span class="c-keyword">return</span> f.read()
+    <span class="c-keyword">except</span> UnicodeDecodeError:
+        <span class="c-keyword">return</span> <span class="c-string">"[바이너리 파일 — 텍스트로 읽을 수 없습니다]"</span></code></div>
+      </div>
+    </section>
+
+    <!-- ====== #python-resources ====== -->
+    <section id="python-resources">
+      <h2><span class="section-num">05</span> Resource &amp; Prompt</h2>
+
+      <h3>Resource — 데이터 소스 제공</h3>
+      <p>Tool은 Claude가 "실행"하는 함수라면, Resource는 Claude가 "읽을 수 있는 데이터"를 제공합니다.</p>
+
+      <div class="code-dark"><code><span class="c-comment"># 정적 리소스 — 항상 같은 내용</span>
+@mcp.resource(<span class="c-string">"school://학생목록"</span>)
+<span class="c-keyword">def</span> <span class="c-fn">전체_학생_목록</span>() -&gt; str:
+    <span class="c-string">"""전체 학생 명단을 제공합니다"""</span>
+    students = db.query(<span class="c-string">"SELECT 학번, 이름, 학년, 반 FROM 학생"</span>)
+    <span class="c-keyword">return</span> <span class="c-string">"\n"</span>.join([<span class="c-string">f"{s.학번}: {s.이름} ({s.학년}학년 {s.반}반)"</span> <span class="c-keyword">for</span> s <span class="c-keyword">in</span> students])
+
+<span class="c-comment"># 동적 리소스 — URI 매개변수로 변화</span>
+@mcp.resource(<span class="c-string">"school://학생/{학번}/성적"</span>)
+<span class="c-keyword">def</span> <span class="c-fn">학생_성적_리소스</span>(학번: str) -&gt; str:
+    <span class="c-string">"""특정 학생의 전체 성적 이력을 제공합니다"""</span>
+    records = db.query(
+        <span class="c-string">"SELECT * FROM 성적이력 WHERE 학번=? ORDER BY 날짜"</span>, 학번
+    )
+    <span class="c-keyword">return</span> format_records(records)</code></div>
+
+      <h3>Prompt — 재사용 프롬프트 템플릿</h3>
+      <div class="code-dark"><code>@mcp.prompt()
+<span class="c-keyword">def</span> <span class="c-fn">성적_분석_리포트</span>(학번: str, 기간: str = <span class="c-string">"이번 학기"</span>) -&gt; str:
+    <span class="c-string">"""학생 성적 분석 리포트 생성 프롬프트"""</span>
+    <span class="c-keyword">return</span> <span class="c-string">f"""
+학번 {학번} 학생의 {기간} 성적 데이터를 분석해주세요.
+
+다음 항목을 포함해 리포트를 작성하세요:
+1. 과목별 성적 현황 및 전체 평균
+2. 지난 기간 대비 변화 추이
+3. 강점 과목과 개선이 필요한 과목
+4. 학습 패턴 분석 및 추천 학습법
+5. 교사에게 전달할 면담 가이드라인
+
+친절하고 긍정적인 톤으로 작성하고,
+구체적인 수치를 포함해주세요.
+    """</span>
+
+@mcp.prompt()
+<span class="c-keyword">def</span> <span class="c-fn">코드_리뷰</span>(언어: str = <span class="c-string">"Python"</span>) -&gt; str:
+    <span class="c-string">"""코드 리뷰 프롬프트 템플릿"""</span>
+    <span class="c-keyword">return</span> <span class="c-string">f"""
+다음 {언어} 코드를 전문가 관점에서 리뷰해주세요:
+
+검토 항목:
+- 코드 가독성 및 네이밍 컨벤션
+- 잠재적 버그 및 엣지 케이스
+- 성능 최적화 가능 부분
+- 보안 취약점
+- 테스트 가능성
+
+수정이 필요한 부분은 구체적인 수정 코드와 함께 제안해주세요.
+    """</span></code></div>
+    </section>
+
+    <!-- ====== #nodejs-start ====== -->
+    <section id="nodejs-start">
+      <h2><span class="section-num">06</span> Node.js로 시작하기</h2>
+
+      <p>TypeScript와 Node.js 환경에서 MCP 서버를 만드는 방법입니다. 특히 기존 JavaScript 프로젝트에 연동할 때 유용합니다.</p>
+
+      <div class="file-tabs" id="nodeTabs">
+        <div class="file-tab active" onclick="switchFile('node', 'setup')">프로젝트 설정</div>
+        <div class="file-tab" onclick="switchFile('node', 'tools')">도구 등록</div>
+        <div class="file-tab" onclick="switchFile('node', 'resources')">리소스·프롬프트</div>
+      </div>
+      <div class="file-content">
+        <div id="node-panel-setup" class="file-panel active"><code><span class="c-comment">// package.json</span>
+{
+  <span class="c-string">"name"</span>: <span class="c-string">"my-mcp-server"</span>,
+  <span class="c-string">"version"</span>: <span class="c-string">"1.0.0"</span>,
+  <span class="c-string">"type"</span>: <span class="c-string">"module"</span>,
+  <span class="c-string">"scripts"</span>: {
+    <span class="c-string">"start"</span>: <span class="c-string">"tsx src/server.ts"</span>,
+    <span class="c-string">"build"</span>: <span class="c-string">"tsc"</span>
+  },
+  <span class="c-string">"dependencies"</span>: {
+    <span class="c-string">"@modelcontextprotocol/sdk"</span>: <span class="c-string">"^1.0.0"</span>,
+    <span class="c-string">"zod"</span>: <span class="c-string">"^3.22.0"</span>
+  },
+  <span class="c-string">"devDependencies"</span>: {
+    <span class="c-string">"typescript"</span>: <span class="c-string">"^5.0.0"</span>,
+    <span class="c-string">"tsx"</span>: <span class="c-string">"^4.0.0"</span>,
+    <span class="c-string">"@types/node"</span>: <span class="c-string">"^20.0.0"</span>
+  }
+}
+
+<span class="c-comment">// tsconfig.json</span>
+{
+  <span class="c-string">"compilerOptions"</span>: {
+    <span class="c-string">"target"</span>: <span class="c-string">"ES2022"</span>,
+    <span class="c-string">"module"</span>: <span class="c-string">"Node16"</span>,
+    <span class="c-string">"moduleResolution"</span>: <span class="c-string">"Node16"</span>,
+    <span class="c-string">"outDir"</span>: <span class="c-string">"./dist"</span>,
+    <span class="c-string">"strict"</span>: <span class="c-keyword">true</span>
+  }
+}</code></div>
+
+        <div id="node-panel-tools" class="file-panel"><code><span class="c-comment">// src/server.ts</span>
+<span class="c-keyword">import</span> { McpServer } <span class="c-keyword">from</span> <span class="c-string">"@modelcontextprotocol/sdk/server/mcp.js"</span>;
+<span class="c-keyword">import</span> { StdioServerTransport } <span class="c-keyword">from</span> <span class="c-string">"@modelcontextprotocol/sdk/server/stdio.js"</span>;
+<span class="c-keyword">import</span> { z } <span class="c-keyword">from</span> <span class="c-string">"zod"</span>;
+<span class="c-keyword">import</span> fs <span class="c-keyword">from</span> <span class="c-string">"fs/promises"</span>;
+
+<span class="c-keyword">const</span> server = <span class="c-keyword">new</span> McpServer({ name: <span class="c-string">"파일 도우미"</span>, version: <span class="c-string">"1.0.0"</span> });
+
+<span class="c-comment">// 파일 읽기 도구</span>
+server.tool(
+  <span class="c-string">"파일_읽기"</span>,
+  {
+    경로: z.string().describe(<span class="c-string">"읽을 파일의 절대 경로"</span>)
+  },
+  <span class="c-keyword">async</span> ({ 경로 }) =&gt; {
+    <span class="c-keyword">const</span> 내용 = <span class="c-keyword">await</span> fs.readFile(경로, <span class="c-string">"utf-8"</span>);
+    <span class="c-keyword">return</span> {
+      content: [{ type: <span class="c-string">"text"</span>, text: 내용 }]
+    };
+  }
+);
+
+<span class="c-comment">// 디렉토리 목록 도구</span>
+server.tool(
+  <span class="c-string">"디렉토리_목록"</span>,
+  {
+    경로: z.string().default(<span class="c-string">"."</span>).describe(<span class="c-string">"디렉토리 경로"</span>)
+  },
+  <span class="c-keyword">async</span> ({ 경로 }) =&gt; {
+    <span class="c-keyword">const</span> 목록 = <span class="c-keyword">await</span> fs.readdir(경로);
+    <span class="c-keyword">return</span> {
+      content: [{ type: <span class="c-string">"text"</span>, text: 목록.join(<span class="c-string">"\n"</span>) }]
+    };
+  }
+);
+
+<span class="c-keyword">const</span> transport = <span class="c-keyword">new</span> StdioServerTransport();
+<span class="c-keyword">await</span> server.connect(transport);</code></div>
+
+        <div id="node-panel-resources" class="file-panel"><code><span class="c-keyword">import</span> { ResourceTemplate } <span class="c-keyword">from</span> <span class="c-string">"@modelcontextprotocol/sdk/server/mcp.js"</span>;
+
+<span class="c-comment">// 리소스 등록</span>
+server.resource(
+  <span class="c-string">"설정파일"</span>,
+  <span class="c-keyword">new</span> ResourceTemplate(<span class="c-string">"config://{이름}"</span>, { list: undefined }),
+  <span class="c-keyword">async</span> (uri, { 이름 }) =&gt; {
+    <span class="c-keyword">const</span> 내용 = <span class="c-keyword">await</span> fs.readFile(<span class="c-string">`./config/${이름}.json`</span>, <span class="c-string">"utf-8"</span>);
+    <span class="c-keyword">return</span> {
+      contents: [{
+        uri: uri.toString(),
+        mimeType: <span class="c-string">"application/json"</span>,
+        text: 내용
+      }]
+    };
+  }
+);
+
+<span class="c-comment">// 프롬프트 등록</span>
+server.prompt(
+  <span class="c-string">"코드리뷰"</span>,
+  { 언어: z.string().optional().describe(<span class="c-string">"프로그래밍 언어"</span>) },
+  ({ 언어 = <span class="c-string">"TypeScript"</span> }) =&gt; ({
+    messages: [{
+      role: <span class="c-string">"user"</span>,
+      content: {
+        type: <span class="c-string">"text"</span>,
+        text: <span class="c-string">`${언어} 코드를 전문가 수준으로 리뷰해주세요. 보안, 성능, 가독성을 중점적으로 확인해주세요.`</span>
+      }
+    }]
+  })
+);</code></div>
+      </div>
+    </section>
+
+    <!-- ====== #connect ====== -->
+    <section id="connect">
+      <h2><span class="section-num">07</span> Claude Code에 연결하기</h2>
+
+      <p>서버 코드를 완성했으면 settings.json에 등록해 Claude Code와 연결합니다.</p>
+
+      <div class="code-dark"><code><span class="c-comment">// ~/.claude/settings.json</span>
+{
+  <span class="c-string">"mcpServers"</span>: {
+    <span class="c-comment">// Python 서버</span>
+    <span class="c-string">"school-server"</span>: {
+      <span class="c-string">"command"</span>: <span class="c-string">"python"</span>,
+      <span class="c-string">"args"</span>: [<span class="c-string">"/Users/teacher/mcp/school_server.py"</span>],
+      <span class="c-string">"env"</span>: {
+        <span class="c-string">"DB_PATH"</span>: <span class="c-string">"/Users/teacher/data/school.db"</span>
+      }
+    },
+    <span class="c-comment">// Node.js 서버</span>
+    <span class="c-string">"file-helper"</span>: {
+      <span class="c-string">"command"</span>: <span class="c-string">"node"</span>,
+      <span class="c-string">"args"</span>: [<span class="c-string">"/Users/dev/my-mcp/dist/server.js"</span>]
+    },
+    <span class="c-comment">// tsx로 직접 실행 (개발 중)</span>
+    <span class="c-string">"file-helper-dev"</span>: {
+      <span class="c-string">"command"</span>: <span class="c-string">"npx"</span>,
+      <span class="c-string">"args"</span>: [<span class="c-string">"tsx"</span>, <span class="c-string">"/Users/dev/my-mcp/src/server.ts"</span>]
+    }
+  }
+}</code></div>
+
+      <h3>연결 확인 및 디버깅</h3>
+      <div class="code-dark"><code><span class="c-comment"># Claude Code에서 MCP 서버 상태 확인</span>
+/mcp
+
+<span class="c-comment"># Python — MCP Inspector로 서버 테스트</span>
+pip install mcp-inspector
+mcp dev school_server.py
+
+<span class="c-comment"># Node.js — Inspector로 테스트</span>
+npx @modelcontextprotocol/inspector tsx src/server.ts</code></div>
+
+      <div class="callout warn">
+        <strong>개발 팁:</strong> 서버 코드를 수정했을 때 Claude Code를 재시작해야 변경사항이 반영됩니다. <code>/mcp</code>로 서버 상태를 먼저 확인하세요.
+      </div>
+    </section>
+
+    <!-- ====== #real-example ====== -->
+    <section id="real-example">
+      <h2><span class="section-num">08</span> 실전 프로젝트: 학교 성적 MCP 서버</h2>
+
+      <div class="showcase-card">
+        <div class="sc-title">🏫 학교 성적 관리 MCP 서버</div>
+        <div class="sc-meta">Python + SQLite + FastMCP | 교사 업무 자동화 예시</div>
+        <div class="sc-desc">
+          교사가 Claude에게 자연어로 학생 성적을 조회하고 분석할 수 있도록 합니다.
+          "3학년 2반 이번 달 평균 성적 알려줘"처럼 말하면 DB에서 직접 데이터를 가져옵니다.
+        </div>
+      </div>
+
+      <div class="file-tabs" id="schoolTabs">
+        <div class="file-tab active" onclick="switchFile('school', 'server')">school_server.py</div>
+        <div class="file-tab" onclick="switchFile('school', 'db')">init_db.py</div>
+        <div class="file-tab" onclick="switchFile('school', 'demo')">사용 예시</div>
+      </div>
+      <div class="file-content">
+        <div id="school-panel-server" class="file-panel active"><code><span class="c-comment"># school_server.py</span>
+<span class="c-keyword">import</span> sqlite3
+<span class="c-keyword">import</span> os
+<span class="c-keyword">from</span> mcp.server.fastmcp <span class="c-keyword">import</span> FastMCP
+
+mcp = FastMCP(<span class="c-string">"학교 성적 관리 서버"</span>)
+DB_PATH = os.getenv(<span class="c-string">"DB_PATH"</span>, <span class="c-string">"school.db"</span>)
+
+<span class="c-keyword">def</span> <span class="c-fn">get_db</span>():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    <span class="c-keyword">return</span> conn
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">반별_성적_조회</span>(학년: int, 반: int) -&gt; str:
+    <span class="c-string">"""특정 학년·반의 전체 학생 성적을 조회합니다"""</span>
+    conn = get_db()
+    rows = conn.execute(
+        <span class="c-string">"SELECT 이름, 국어, 수학, 영어, 과학, (국어+수학+영어+과학)/4.0 AS 평균 "</span>
+        <span class="c-string">"FROM 성적 WHERE 학년=? AND 반=? ORDER BY 평균 DESC"</span>,
+        (학년, 반)
+    ).fetchall()
+    conn.close()
+
+    <span class="c-keyword">if not</span> rows:
+        <span class="c-keyword">return</span> <span class="c-string">f"{학년}학년 {반}반 데이터가 없습니다."</span>
+
+    result = <span class="c-string">f"📊 {학년}학년 {반}반 성적표\n"</span> + <span class="c-string">"="</span>*45 + <span class="c-string">"\n"</span>
+    <span class="c-keyword">for</span> r <span class="c-keyword">in</span> rows:
+        result += (
+            <span class="c-string">f"{r['이름']:6} | 국어{r['국어']:3} 수학{r['수학']:3} "</span>
+            <span class="c-string">f"영어{r['영어']:3} 과학{r['과학']:3} | 평균{r['평균']:.1f}\n"</span>
+        )
+    반_평균 = sum(r[<span class="c-string">'평균'</span>] <span class="c-keyword">for</span> r <span class="c-keyword">in</span> rows) / len(rows)
+    result += <span class="c-string">f"\n반 전체 평균: {반_평균:.1f}점"</span>
+    <span class="c-keyword">return</span> result
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">학생_성적_이력</span>(이름: str) -&gt; str:
+    <span class="c-string">"""학생 이름으로 전체 성적 이력을 조회합니다"""</span>
+    conn = get_db()
+    rows = conn.execute(
+        <span class="c-string">"SELECT 학기, 국어, 수학, 영어, 과학 FROM 성적이력 "</span>
+        <span class="c-string">"WHERE 이름=? ORDER BY 학기"</span>, (이름,)
+    ).fetchall()
+    conn.close()
+
+    <span class="c-keyword">if not</span> rows:
+        <span class="c-keyword">return</span> <span class="c-string">f"{이름} 학생의 이력을 찾을 수 없습니다."</span>
+
+    result = <span class="c-string">f"📈 {이름} 학생 성적 이력\n"</span>
+    <span class="c-keyword">for</span> r <span class="c-keyword">in</span> rows:
+        avg = (r[<span class="c-string">'국어'</span>]+r[<span class="c-string">'수학'</span>]+r[<span class="c-string">'영어'</span>]+r[<span class="c-string">'과학'</span>])/4
+        result += <span class="c-string">f"{r['학기']}: 국어{r['국어']} 수학{r['수학']} 영어{r['영어']} 과학{r['과학']} → {avg:.1f}\n"</span>
+    <span class="c-keyword">return</span> result
+
+@mcp.tool()
+<span class="c-keyword">def</span> <span class="c-fn">성적_통계</span>(학년: int) -&gt; str:
+    <span class="c-string">"""학년 전체 성적 통계를 계산합니다"""</span>
+    conn = get_db()
+    r = conn.execute(
+        <span class="c-string">"SELECT COUNT(*) AS 인원, "</span>
+        <span class="c-string">"AVG((국어+수학+영어+과학)/4.0) AS 평균, "</span>
+        <span class="c-string">"MAX((국어+수학+영어+과학)/4.0) AS 최고, "</span>
+        <span class="c-string">"MIN((국어+수학+영어+과학)/4.0) AS 최저 "</span>
+        <span class="c-string">"FROM 성적 WHERE 학년=?"</span>, (학년,)
+    ).fetchone()
+    conn.close()
+    <span class="c-keyword">return</span> (
+        <span class="c-string">f"{학년}학년 통계\n"</span>
+        <span class="c-string">f"총 인원: {r['인원']}명\n"</span>
+        <span class="c-string">f"전체 평균: {r['평균']:.1f}점\n"</span>
+        <span class="c-string">f"최고 평균: {r['최고']:.1f}점\n"</span>
+        <span class="c-string">f"최저 평균: {r['최저']:.1f}점"</span>
+    )
+
+<span class="c-keyword">if</span> __name__ == <span class="c-string">"__main__"</span>:
+    mcp.run()</code></div>
+
+        <div id="school-panel-db" class="file-panel"><code><span class="c-comment"># init_db.py — 테스트용 DB 생성</span>
+<span class="c-keyword">import</span> sqlite3, random
+
+conn = sqlite3.connect(<span class="c-string">"school.db"</span>)
+
+conn.execute(<span class="c-string">"""
+CREATE TABLE IF NOT EXISTS 성적 (
+    id INTEGER PRIMARY KEY,
+    학년 INTEGER, 반 INTEGER,
+    이름 TEXT, 학번 TEXT,
+    국어 INTEGER, 수학 INTEGER,
+    영어 INTEGER, 과학 INTEGER
+)"""</span>)
+
+이름_목록 = [<span class="c-string">"김철수"</span>, <span class="c-string">"이영희"</span>, <span class="c-string">"박민준"</span>, <span class="c-string">"최수연"</span>, <span class="c-string">"정우진"</span>]
+<span class="c-keyword">for</span> i, 이름 <span class="c-keyword">in</span> enumerate(이름_목록):
+    conn.execute(
+        <span class="c-string">"INSERT INTO 성적 VALUES (?,?,?,?,?,?,?,?,?)"</span>,
+        (i+1, 3, 2, 이름, <span class="c-string">f"2024{i+1:03}"</span>,
+         random.randint(70, 99), random.randint(70, 99),
+         random.randint(70, 99), random.randint(70, 99))
+    )
+
+conn.commit()
+conn.close()
+print(<span class="c-string">"✅ 테스트 DB 생성 완료"</span>)</code></div>
+
+        <div id="school-panel-demo" class="file-panel"><code><span class="c-comment">──── 실제 Claude 대화 예시 ────────────────────</span>
+
+교사: "3학년 2반 성적 전체 보여줘"
+
+Claude: [school-server → 반별_성적_조회(3, 2) 실행]
+
+📊 3학년 2반 성적표
+=============================================
+이영희  | 국어 92 수학 88 영어 94 과학 91 | 평균 91.3
+김철수  | 국어 89 수학 95 영어 78 과학 85 | 평균 86.8
+최수연  | 국어 85 수학 79 영어 88 과학 82 | 평균 83.5
+...
+
+반 전체 평균: 86.2점
+
+──────────────────────────────────────────────
+
+교사: "김철수 학생 성적 추이 분석해줘"
+
+Claude: [학생_성적_이력("김철수") 실행 후 분석]
+
+📈 김철수 학생 성적 이력 분석
+
+1학기: 국어85 수학88 영어72 과학80 → 81.3
+2학기: 국어87 수학91 영어75 과학83 → 84.0
+3학기: 국어89 수학95 영어78 과학85 → 86.8
+
+✅ 꾸준한 성적 향상 추세 (+5.5점)
+📌 수학이 가장 강점 (95점)
+📌 영어가 상대적으로 취약 — 추가 지원 권장
+
+──────────────────────────────────────────────</code></div>
+      </div>
+    </section>
+
+    <!-- ====== #deploy ====== -->
+    <section id="deploy">
+      <h2><span class="section-num">09</span> 배포 &amp; 공유</h2>
+
+      <h3>방법 1 — 팀 내 공유 (간단)</h3>
+      <div class="code-dark"><code><span class="c-comment"># 서버 코드를 팀 공유 폴더에 저장</span>
+/shared/mcp-servers/
+├── school_server.py
+├── requirements.txt     <span class="c-comment"># pip install -r requirements.txt</span>
+└── README.md           <span class="c-comment"># 설치 방법 안내</span>
+
+<span class="c-comment"># 각 팀원이 자신의 settings.json에 추가</span>
+{
+  <span class="c-string">"mcpServers"</span>: {
+    <span class="c-string">"school"</span>: {
+      <span class="c-string">"command"</span>: <span class="c-string">"python"</span>,
+      <span class="c-string">"args"</span>: [<span class="c-string">"/shared/mcp-servers/school_server.py"</span>]
+    }
+  }
+}</code></div>
+
+      <h3>방법 2 — PyPI/npm 패키지로 배포</h3>
+      <div class="code-dark"><code><span class="c-comment"># Python — PyPI 배포</span>
+<span class="c-comment"># setup.py 또는 pyproject.toml 작성 후:</span>
+python -m build
+pip install twine
+twine upload dist/*
+
+<span class="c-comment"># 설치 후 사용</span>
+pip install mcp-school-server
+<span class="c-comment"># settings.json에서:</span>
+<span class="c-string">"command"</span>: <span class="c-string">"mcp-school-server"</span>
+
+<span class="c-comment">──────────────────────────────</span>
+
+<span class="c-comment"># Node.js — npm 배포</span>
+npm publish
+
+<span class="c-comment"># 설치 후 settings.json에서:</span>
+<span class="c-string">"command"</span>: <span class="c-string">"npx"</span>,
+<span class="c-string">"args"</span>: [<span class="c-string">"-y"</span>, <span class="c-string">"my-mcp-server"</span>]</code></div>
+
+      <h3>방법 3 — Docker로 원격 배포 (SSE)</h3>
+      <div class="code-dark"><code><span class="c-comment"># Dockerfile</span>
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+EXPOSE 8080
+CMD [<span class="c-string">"python"</span>, <span class="c-string">"server.py"</span>, <span class="c-string">"--transport"</span>, <span class="c-string">"sse"</span>, <span class="c-string">"--port"</span>, <span class="c-string">"8080"</span>]
+
+<span class="c-comment"># SSE 서버를 settings.json에서 연결</span>
+{
+  <span class="c-string">"mcpServers"</span>: {
+    <span class="c-string">"remote-school"</span>: {
+      <span class="c-string">"type"</span>: <span class="c-string">"sse"</span>,
+      <span class="c-string">"url"</span>: <span class="c-string">"https://my-school-server.example.com/sse"</span>
+    }
+  }
+}</code></div>
+    </section>
+
+    <!-- ====== #publish ====== -->
+    <section id="publish">
+      <h2><span class="section-num">10</span> MCP 생태계에 기여하기</h2>
+
+      <p>직접 만든 MCP 서버를 오픈소스로 공개하면 전 세계 Claude 사용자들이 혜택을 받습니다.</p>
+
+      <div class="callout">
+        <strong>기여 방법:</strong> Anthropic의 공식 서버 목록 레포지토리에 PR을 제출하거나, 독립 패키지로 배포해 awesome-mcp-servers 목록에 등록하세요.
+      </div>
+
+      <h3>오픈소스 MCP 서버 제작 체크리스트</h3>
+      <ul class="checklist">
+        <li>README.md: 설치 방법, 필요 환경변수, 제공 도구 목록 포함</li>
+        <li>환경변수로 민감한 정보 관리 (토큰, DB URL 등)</li>
+        <li>에러 처리: 명확한 에러 메시지 반환</li>
+        <li>타입 힌트 또는 Zod 스키마로 모든 매개변수 정의</li>
+        <li>기본 테스트 코드 포함 (pytest 또는 jest)</li>
+        <li>LICENSE 파일 포함 (MIT 권장)</li>
+        <li>PyPI/npm에 배포해 npx로 바로 설치 가능하게</li>
+        <li>Claude Code settings.json 예시 포함</li>
+      </ul>
+
+      <h3>유용한 링크</h3>
+      <table class="compare-table">
+        <thead><tr><th>리소스</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td>modelcontextprotocol/servers (GitHub)</td><td>Anthropic 공식 MCP 서버 모음</td></tr>
+          <tr><td>FastMCP 문서</td><td>Python MCP 개발 공식 가이드</td></tr>
+          <tr><td>MCP Inspector</td><td>서버 인터랙티브 테스트 도구</td></tr>
+          <tr><td>awesome-mcp-servers</td><td>커뮤니티 MCP 서버 목록</td></tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        MCP 생태계는 지금 막 성장하고 있습니다. 지금 만든 서버가 표준이 될 수 있습니다.
+        <footer>— Anthropic MCP 팀</footer>
+      </blockquote>
+
+      <h3>MCP 시리즈 완료</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px">
+        <a href="mcp-beginner.html" style="display:block;background:#F0FDFA;border:2px solid #99F6E4;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+          <div style="font-size:1.4rem;margin-bottom:6px">🔌</div>
+          <div style="font-weight:700;font-size:.9rem;color:#0F766E">MCP 초급</div>
+          <div style="font-size:.78rem;color:#777;margin-top:4px">설치 · 기본 사용</div>
+        </a>
+        <a href="mcp-intermediate.html" style="display:block;background:#F0FDFA;border:2px solid #99F6E4;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+          <div style="font-size:1.4rem;margin-bottom:6px">⚡</div>
+          <div style="font-weight:700;font-size:.9rem;color:#0F766E">MCP 중급</div>
+          <div style="font-size:.78rem;color:#777;margin-top:4px">다중 서버 · 실전</div>
+        </a>
+        <a href="mcp-developer.html" style="display:block;background:#0F766E;border:2px solid #0F766E;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+          <div style="font-size:1.4rem;margin-bottom:6px">🔧</div>
+          <div style="font-weight:700;font-size:.9rem;color:#FFF">MCP 개발자</div>
+          <div style="font-size:.78rem;color:#A7F3D0;margin-top:4px">직접 제작 · 배포</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p>바이브코딩 가이드 | MCP 교안 시리즈 3/3</p>
+    <p>© 2026 김선생의 바이브코딩 가이드</p>
+  </div>
+</footer>
+
+<button class="mobile-toc-btn" id="mobileTocBtn">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-sheet" id="mobileTocSheet">
+  <h3>목차</h3>
+  <a href="#why-build" onclick="closeMobileToc()">왜 직접 만드는가?</a>
+  <a href="#protocol" onclick="closeMobileToc()">MCP 프로토콜 구조</a>
+  <a href="#python-start" onclick="closeMobileToc()">Python으로 시작하기</a>
+  <a href="#python-tools" onclick="closeMobileToc()">Tool 정의하기</a>
+  <a href="#python-resources" onclick="closeMobileToc()">Resource & Prompt</a>
+  <a href="#nodejs-start" onclick="closeMobileToc()">Node.js로 시작하기</a>
+  <a href="#connect" onclick="closeMobileToc()">Claude Code에 연결하기</a>
+  <a href="#real-example" onclick="closeMobileToc()">실전: 학교 성적 MCP</a>
+  <a href="#deploy" onclick="closeMobileToc()">배포 & 공유</a>
+  <a href="#publish" onclick="closeMobileToc()">생태계에 기여하기</a>
+</div>
+<button class="backtotop" id="backToTop">↑</button>
+
+<script src="lessons-data.js"></script>
+<script src="common.js"></script>
+<script>
+// 읽기 진행 바
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const prog = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('readBar').style.width = prog + '%';
+  document.getElementById('backToTop').style.display = d.scrollTop > 300 ? 'flex' : 'none';
+});
+document.getElementById('backToTop').onclick = () => window.scrollTo({top:0,behavior:'smooth'});
+
+// 모바일 TOC
+document.getElementById('mobileTocBtn').onclick = () => {
+  document.getElementById('mobileTocSheet').classList.add('open');
+  document.getElementById('mobileTocOverlay').style.display = 'block';
+};
+document.getElementById('mobileTocOverlay').onclick = closeMobileToc;
+function closeMobileToc() {
+  document.getElementById('mobileTocSheet').classList.remove('open');
+  document.getElementById('mobileTocOverlay').style.display = 'none';
+}
+
+// 언어 탭 전환
+function switchLang(lang) {
+  document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-' + lang).classList.add('active');
+}
+
+// 파일 탭 전환
+function switchFile(group, name) {
+  const tabs = document.querySelectorAll(`#${group}Tabs .file-tab`);
+  tabs.forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll(`[id^="${group}-panel-"]`).forEach(p => p.classList.remove('active'));
+  document.getElementById(`${group}-panel-${name}`).classList.add('active');
+}
+
+// 사이드바 스크롤 스파이
+const sections = document.querySelectorAll('section[id]');
+const sidebarLinks = document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+  sidebarLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

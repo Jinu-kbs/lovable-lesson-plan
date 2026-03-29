@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP 초급 — 바이브코딩 가이드</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#0F766E;--primary-light:#99F6E4;--blockquote-bg:#F0FDFA;--hover-bg:#ECFDF5}
+
+/* MCP 서버 카드 */
+.mcp-server-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:16px 0 24px}
+.mcp-server-card{background:#FFF;border:1px solid var(--border);border-radius:12px;padding:18px;border-left:4px solid var(--primary);transition:box-shadow .2s}
+.mcp-server-card:hover{box-shadow:0 4px 16px rgba(15,118,110,.12)}
+.mcp-server-card .s-icon{font-size:1.6rem;margin-bottom:8px}
+.mcp-server-card .s-name{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:4px}
+.mcp-server-card .s-desc{font-size:.82rem;color:#555;line-height:1.5}
+.mcp-server-card .s-pkg{font-family:'Fira Code',monospace;font-size:.78rem;background:#F0FDFA;color:#0F766E;padding:2px 8px;border-radius:4px;margin-top:8px;display:inline-block}
+
+/* 설치 단계 */
+.install-steps{margin:16px 0 24px}
+.install-step{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
+.install-step-num{min-width:28px;height:28px;border-radius:50%;background:var(--primary);color:#FFF;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px}
+.install-step-body h4{font-weight:700;font-size:.9rem;margin-bottom:4px}
+.install-step-body p{font-size:.85rem;color:#555}
+
+/* JSON 설정 박스 */
+.json-box{background:#1E293B;border-radius:10px;padding:20px;margin:12px 0 20px;overflow-x:auto}
+.json-box code{font-family:'Fira Code',monospace;font-size:.83rem;line-height:1.7;color:#E2E8F0;white-space:pre}
+.json-box .j-key{color:#7DD3FC}
+.json-box .j-str{color:#A5F3FC}
+.json-box .j-comment{color:#64748B}
+
+/* 카테고리 배지 */
+.cat-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-right:4px;background:#F0FDFA;color:#0F766E;border:1px solid #99F6E4}
+.cat-badge.community{background:#FFF7ED;color:#C2410C;border-color:#FED7AA}
+
+/* stat-row */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:16px 0 32px}
+.stat-card{background:#FFF;border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.stat-card .s-num{font-size:1.8rem;font-weight:900;color:var(--primary);line-height:1}
+.stat-card .s-label{font-size:.78rem;color:#666;margin-top:4px}
+
+/* Before/After 비교 박스 */
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 24px}
+.compare-before,.compare-after{border-radius:12px;padding:18px}
+.compare-before{background:#FEF2F2;border:1px solid #FECACA}
+.compare-after{background:#F0FDFA;border:1px solid #99F6E4}
+.compare-before h4{color:#DC2626;font-size:.9rem;margin-bottom:10px}
+.compare-after h4{color:#0F766E;font-size:.9rem;margin-bottom:10px}
+.compare-before ul,.compare-after ul{list-style:none;margin:0;padding:0;font-size:.85rem}
+.compare-before li::before{content:'✗ ';color:#DC2626}
+.compare-after li::before{content:'✓ ';color:#0F766E}
+.compare-before li,.compare-after li{margin-bottom:6px;line-height:1.5}
+
+/* 다이어그램 */
+.diagram{display:flex;align-items:center;justify-content:center;gap:8px;margin:20px 0 28px;flex-wrap:wrap}
+.diag-box{background:#FFF;border:2px solid var(--primary);border-radius:10px;padding:12px 18px;text-align:center;font-size:.85rem;font-weight:600;color:var(--primary)}
+.diag-box .diag-sub{font-size:.72rem;font-weight:400;color:#555;display:block;margin-top:3px}
+.diag-arrow{font-size:1.4rem;color:var(--primary);font-weight:700}
+
+/* 대화 예시 박스 */
+.chat-example{background:var(--code-bg);border:1px solid var(--code-border);border-radius:10px;padding:18px;margin:12px 0 20px}
+.chat-example .chat-line{font-size:.88rem;margin-bottom:8px;line-height:1.6}
+.chat-example .chat-line.user{color:#0F766E;font-weight:600}
+.chat-example .chat-line.ai{color:var(--text)}
+.chat-example .chat-line.ai::before{content:'Claude: ';font-weight:600;color:#64748B}
+.chat-example .chat-line.user::before{content:'나: ';font-weight:700}
+
+/* callout 박스 */
+.callout{border-radius:10px;padding:14px 18px;margin:16px 0 20px;font-size:.88rem;line-height:1.6}
+.callout.warn{background:#FFFBEB;border:1px solid #FDE68A;border-left:4px solid #F59E0B}
+.callout.warn::before{content:'⚠️ 주의: ';font-weight:700;color:#B45309}
+.callout.tip{background:#F0FDFA;border:1px solid #99F6E4;border-left:4px solid var(--primary)}
+.callout.tip::before{content:'💡 팁: ';font-weight:700;color:#0F766E}
+
+/* 다크모드 대응 */
+@media(prefers-color-scheme:dark){
+  .mcp-server-card{background:var(--card-bg)}
+  .stat-card{background:var(--card-bg)}
+  .mcp-server-card .s-pkg{background:#134E4A;color:#5EEAD4}
+  .compare-before{background:#2D1B1B;border-color:#7F1D1D}
+  .compare-after{background:#134E4A;border-color:#115E59}
+  .compare-before h4{color:#F87171}
+  .compare-after h4{color:#2DD4BF}
+  .compare-before li::before{color:#F87171}
+  .compare-after li::before{color:#2DD4BF}
+  .diag-box{background:var(--card-bg)}
+  .chat-example{background:var(--code-bg)}
+}
+
+@media(max-width:600px){
+  .compare-box{grid-template-columns:1fr}
+  .diagram{gap:4px}
+  .diag-arrow{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="read-progress-bar" id="readProgressBar"></div>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="mcp-beginner.html" class="active">MCP 초급</a>
+  <a href="mcp-intermediate.html">MCP 중급</a>
+  <a href="mcp-developer.html">MCP 개발자</a>
+</nav>
+
+<div class="hero">
+  <h1>MCP 초급 — AI에 날개 달기</h1>
+  <div class="meta">Claude Code에 외부 도구를 연결하는 마법 같은 방법</div>
+  <div class="meta" style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:.85rem">🔌 기존 서버 설치</span>
+    <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:.85rem">📁 파일시스템</span>
+    <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:.85rem">🐙 GitHub</span>
+    <span style="background:rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:.85rem">📋 Notion</span>
+  </div>
+  <div class="meta" style="margin-top:12px;font-size:.85rem;opacity:.85">약 60분 | 대상: Claude Code 입문자</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#intro">MCP가 뭔가요?</a>
+  <a href="#why">왜 MCP가 필요한가?</a>
+  <a href="#popular-servers">인기 MCP 서버 한눈에</a>
+  <a href="#install-claude">Claude Code에서 설정하기</a>
+  <a href="#filesystem">실습 1: 파일시스템 MCP</a>
+  <a href="#github">실습 2: GitHub MCP</a>
+  <a href="#notion">실습 3: Notion MCP</a>
+  <a href="#troubleshoot">자주 겪는 문제</a>
+  <a href="#next">다음 단계</a>
+</aside>
+
+<main class="content">
+
+<!-- ===== 섹션 1: 인트로 ===== -->
+<h2 id="intro">MCP가 뭔가요?</h2>
+<p><strong>MCP</strong>는 <strong>Model Context Protocol(모델 컨텍스트 프로토콜)</strong>의 줄임말입니다. Anthropic이 2024년 11월에 발표한 오픈 표준으로, AI 모델이 외부 도구와 서비스에 연결될 수 있게 해주는 규격입니다.</p>
+
+<h3>쉬운 비유로 이해하기</h3>
+<p>MCP는 <strong>"Claude에게 새로운 손을 붙여주는 표준 규격"</strong>이라고 생각하면 됩니다.</p>
+<div class="compare-box">
+  <div class="compare-before">
+    <h4>기본 Claude</h4>
+    <ul>
+      <li>텍스트만 읽고 쓰기 가능</li>
+      <li>현재 프로젝트 파일만 접근</li>
+      <li>인터넷 검색 불가</li>
+      <li>외부 서비스 연동 불가</li>
+    </ul>
+  </div>
+  <div class="compare-after">
+    <h4>MCP 연결 후</h4>
+    <ul>
+      <li>로컬 파일 자유롭게 읽기/쓰기</li>
+      <li>GitHub PR·이슈 직접 조회</li>
+      <li>실시간 웹 검색 가능</li>
+      <li>Notion·Slack 등 연동</li>
+    </ul>
+  </div>
+</div>
+
+<h3>MCP 동작 원리</h3>
+<p>Claude Code가 MCP 클라이언트 역할을 하며, 설정된 MCP 서버를 통해 외부 도구를 사용합니다.</p>
+<div class="diagram">
+  <div class="diag-box">Claude Code<span class="diag-sub">MCP 클라이언트</span></div>
+  <div class="diag-arrow">⇄</div>
+  <div class="diag-box">MCP 서버<span class="diag-sub">번역·연결 레이어</span></div>
+  <div class="diag-arrow">⇄</div>
+  <div class="diag-box">외부 도구/서비스<span class="diag-sub">GitHub·Notion·파일 등</span></div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="s-num">200+</div>
+    <div class="s-label">공식·커뮤니티 MCP 서버 수</div>
+  </div>
+  <div class="stat-card">
+    <div class="s-num">10+</div>
+    <div class="s-label">지원 클라이언트<br>(Claude·Cursor·Windsurf 등)</div>
+  </div>
+  <div class="stat-card">
+    <div class="s-num">3+</div>
+    <div class="s-label">주요 언어 지원<br>(Python·Node·Java)</div>
+  </div>
+</div>
+
+<!-- ===== 섹션 2: 왜 필요한가 ===== -->
+<h2 id="why">왜 MCP가 필요한가?</h2>
+<p>Claude Code는 기본적으로 현재 열린 프로젝트 파일만 볼 수 있습니다. 하지만 실제 개발 작업에서는 훨씬 다양한 도구가 필요합니다.</p>
+
+<h3>MCP가 없을 때 vs. 있을 때</h3>
+<div class="compare-box">
+  <div class="compare-before">
+    <h4>MCP 없이</h4>
+    <ul>
+      <li>GitHub 이슈 보려면 직접 브라우저 열기</li>
+      <li>파일 내용 복사해서 붙여넣기</li>
+      <li>Slack 메시지 직접 작성 후 전송</li>
+      <li>DB 쿼리 결과 수동으로 붙여넣기</li>
+    </ul>
+  </div>
+  <div class="compare-after">
+    <h4>MCP 연결 후</h4>
+    <ul>
+      <li>"우리 레포 오픈 이슈 보여줘" 한 마디</li>
+      <li>Claude가 직접 파일 시스템 탐색</li>
+      <li>Claude가 Slack 채널에 메시지 전송</li>
+      <li>Claude가 직접 DB 쿼리 실행·분석</li>
+    </ul>
+  </div>
+</div>
+
+<blockquote>
+  "이제 Claude에게 <strong>'우리 GitHub 레포의 오픈 이슈 목록 보여줘'</strong>라고 말할 수 있습니다. 불필요한 복사-붙여넣기 없이 Claude가 직접 연결해서 가져옵니다."
+</blockquote>
+
+<p>MCP는 단순한 편의 기능이 아닙니다. AI가 실제 작업 흐름에 깊숙이 통합되어 <strong>진짜 에이전트</strong>처럼 동작할 수 있게 해주는 핵심 기술입니다.</p>
+
+<!-- ===== 섹션 3: 인기 서버 ===== -->
+<h2 id="popular-servers">인기 MCP 서버 한눈에</h2>
+<p>Anthropic이 공식으로 관리하는 서버와 커뮤니티가 만든 서버가 있습니다. 초급 단계에서는 공식 서버부터 시작하는 것을 권장합니다.</p>
+
+<div class="mcp-server-grid">
+  <div class="mcp-server-card">
+    <div class="s-icon">📁</div>
+    <div class="s-name">파일시스템</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">로컬 파일 읽기·쓰기·검색. 허용된 디렉토리에 한해 완전한 파일 접근 제공</div>
+    <div class="s-pkg">@modelcontextprotocol/server-filesystem</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">🐙</div>
+    <div class="s-name">GitHub</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">레포지토리·PR·이슈·코드 검색. 개인 액세스 토큰으로 인증</div>
+    <div class="s-pkg">@modelcontextprotocol/server-github</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">🌐</div>
+    <div class="s-name">Brave Search</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">실시간 웹 검색. 최신 정보가 필요한 작업에 활용 (API 키 필요)</div>
+    <div class="s-pkg">@modelcontextprotocol/server-brave-search</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">📋</div>
+    <div class="s-name">Notion</div>
+    <span class="cat-badge community">커뮤니티</span>
+    <div class="s-desc">Notion 페이지·데이터베이스 읽기·쓰기. Integration 토큰으로 인증</div>
+    <div class="s-pkg">mcp-notion-server</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">💬</div>
+    <div class="s-name">Slack</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">메시지 전송·채널 읽기. 워크스페이스 Bot 토큰으로 인증</div>
+    <div class="s-pkg">@modelcontextprotocol/server-slack</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">🗄️</div>
+    <div class="s-name">SQLite</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">로컬 SQLite 데이터베이스 쿼리·조작. 별도 인증 없이 사용 가능</div>
+    <div class="s-pkg">@modelcontextprotocol/server-sqlite</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">🧠</div>
+    <div class="s-name">Memory</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">지식 그래프 기반 영구 기억. 대화 간 컨텍스트 유지에 활용</div>
+    <div class="s-pkg">@modelcontextprotocol/server-memory</div>
+  </div>
+
+  <div class="mcp-server-card">
+    <div class="s-icon">🎭</div>
+    <div class="s-name">Puppeteer</div>
+    <span class="cat-badge">공식</span>
+    <div class="s-desc">브라우저 자동화. 스크린샷 캡처, 웹 스크래핑, UI 테스트 등</div>
+    <div class="s-pkg">@modelcontextprotocol/server-puppeteer</div>
+  </div>
+</div>
+
+<div class="callout tip">공식 MCP 서버 전체 목록은 <a href="https://github.com/modelcontextprotocol/servers" target="_blank">github.com/modelcontextprotocol/servers</a>에서 확인할 수 있습니다.</div>
+
+<!-- ===== 섹션 4: 설정 방법 ===== -->
+<h2 id="install-claude">Claude Code에서 설정하기</h2>
+<p>MCP 서버는 JSON 설정 파일에 등록합니다. 설정 파일 위치는 두 가지입니다:</p>
+<table>
+  <tr><th>설정 범위</th><th>파일 위치</th><th>용도</th></tr>
+  <tr><td><strong>전역 설정</strong></td><td><code>~/.claude/settings.json</code></td><td>모든 프로젝트에서 사용</td></tr>
+  <tr><td><strong>프로젝트 설정</strong></td><td><code>.claude/settings.json</code></td><td>특정 프로젝트에서만 사용</td></tr>
+</table>
+<p>처음에는 전역 설정에 추가하는 것이 편리합니다. 이후 프로젝트별로 다른 설정이 필요할 때 프로젝트 설정을 활용하세요.</p>
+
+<h3>기본 설정 구조</h3>
+<div class="json-box"><code><span class="j-comment">// ~/.claude/settings.json</span>
+{
+  <span class="j-key">"mcpServers"</span>: {
+    <span class="j-key">"filesystem"</span>: {
+      <span class="j-key">"command"</span>: <span class="j-str">"npx"</span>,
+      <span class="j-key">"args"</span>: [<span class="j-str">"-y"</span>, <span class="j-str">"@modelcontextprotocol/server-filesystem"</span>, <span class="j-str">"/Users/사용자/Desktop"</span>]
+    },
+    <span class="j-key">"github"</span>: {
+      <span class="j-key">"command"</span>: <span class="j-str">"npx"</span>,
+      <span class="j-key">"args"</span>: [<span class="j-str">"-y"</span>, <span class="j-str">"@modelcontextprotocol/server-github"</span>],
+      <span class="j-key">"env"</span>: {
+        <span class="j-key">"GITHUB_PERSONAL_ACCESS_TOKEN"</span>: <span class="j-str">"ghp_여기에토큰입력"</span>
+      }
+    }
+  }
+}</code></div>
+
+<h3>설정 후 연결 확인</h3>
+<p>Claude Code를 재시작한 뒤 채팅창에 아래 명령어를 입력하면 연결된 MCP 서버 목록과 상태를 확인할 수 있습니다:</p>
+<pre><code>/mcp</code></pre>
+<p>연결이 성공하면 각 서버 옆에 <strong>✓ connected</strong> 표시가 나타납니다.</p>
+
+<!-- ===== 섹션 5: 실습 1 파일시스템 ===== -->
+<h2 id="filesystem">실습 1: 파일시스템 MCP</h2>
+<p>가장 간단하게 시작할 수 있는 MCP입니다. 별도 API 키 없이 로컬 파일 시스템에 접근할 수 있게 해줍니다.</p>
+
+<div class="install-steps">
+  <div class="install-step">
+    <div class="install-step-num">1</div>
+    <div class="install-step-body">
+      <h4>Node.js 버전 확인</h4>
+      <p>MCP 서버를 실행하려면 Node.js v18 이상이 필요합니다. 터미널에서 확인하세요.</p>
+      <pre><code>node -v
+# v18.0.0 이상이면 OK</code></pre>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">2</div>
+    <div class="install-step-body">
+      <h4>settings.json에 파일시스템 서버 추가</h4>
+      <p><code>~/.claude/settings.json</code> 파일을 열고 아래 내용을 추가합니다. <code>/Users/사용자이름/Desktop</code> 부분은 실제 경로로 바꿔주세요.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">3</div>
+    <div class="install-step-body">
+      <h4>Claude Code 재시작</h4>
+      <p>설정 파일 변경 후에는 Claude Code를 완전히 종료하고 다시 실행해야 설정이 반영됩니다.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">4</div>
+    <div class="install-step-body">
+      <h4>/mcp 명령어로 연결 확인</h4>
+      <p>채팅창에 <code>/mcp</code>를 입력하면 filesystem 서버가 목록에 표시되어야 합니다.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">5</div>
+    <div class="install-step-body">
+      <h4>동작 테스트</h4>
+      <p>Claude에게 "바탕화면의 파일 목록을 보여줘"라고 요청해 보세요.</p>
+    </div>
+  </div>
+</div>
+
+<h3>파일시스템 설정 예시 (전체 JSON)</h3>
+<div class="json-box"><code>{
+  <span class="j-key">"mcpServers"</span>: {
+    <span class="j-key">"filesystem"</span>: {
+      <span class="j-key">"command"</span>: <span class="j-str">"npx"</span>,
+      <span class="j-key">"args"</span>: [
+        <span class="j-str">"-y"</span>,
+        <span class="j-str">"@modelcontextprotocol/server-filesystem"</span>,
+        <span class="j-str">"/Users/사용자이름/Desktop"</span>,  <span class="j-comment">// 허용할 디렉토리</span>
+        <span class="j-str">"/Users/사용자이름/Documents"</span>  <span class="j-comment">// 여러 경로 추가 가능</span>
+      ]
+    }
+  }
+}</code></div>
+
+<h3>실제 대화 예시</h3>
+<div class="chat-example">
+  <div class="chat-line user">바탕화면에 있는 파일들 보여줘</div>
+  <div class="chat-line ai">바탕화면에서 다음 파일들을 찾았습니다:<br>
+  📄 프로젝트계획서.docx<br>
+  📁 사진들/<br>
+  📄 TODO.txt<br>
+  📄 회의록_2026.pdf<br>
+  ... 총 12개 파일/폴더</div>
+  <div class="chat-line user">TODO.txt 내용 읽어줘</div>
+  <div class="chat-line ai">TODO.txt 내용입니다:<br>
+  - [ ] 프로젝트 기획서 완성<br>
+  - [x] 팀 미팅 준비<br>
+  - [ ] 데모 영상 촬영</div>
+</div>
+
+<!-- ===== 섹션 6: 실습 2 GitHub ===== -->
+<h2 id="github">실습 2: GitHub MCP</h2>
+<p>개발자라면 가장 자주 쓰게 될 MCP입니다. GitHub 레포지토리의 이슈·PR·코드를 Claude가 직접 조회·수정할 수 있게 됩니다.</p>
+
+<div class="install-steps">
+  <div class="install-step">
+    <div class="install-step-num">1</div>
+    <div class="install-step-body">
+      <h4>GitHub Personal Access Token 발급</h4>
+      <p>GitHub 웹사이트에서 토큰을 발급합니다:<br>
+      <strong>github.com → 프로필 → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token</strong></p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">2</div>
+    <div class="install-step-body">
+      <h4>토큰 권한(Scope) 설정</h4>
+      <p>아래 권한을 체크합니다:</p>
+      <ul>
+        <li><code>repo</code> — 레포지토리 읽기·쓰기</li>
+        <li><code>read:org</code> — 조직 정보 읽기</li>
+        <li><code>read:user</code> — 사용자 정보 읽기</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">3</div>
+    <div class="install-step-body">
+      <h4>settings.json에 GitHub 서버 추가</h4>
+      <p>발급받은 토큰을 <code>env</code> 항목에 입력합니다. 토큰 값은 절대 코드에 직접 넣지 마세요.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">4</div>
+    <div class="install-step-body">
+      <h4>연결 테스트</h4>
+      <p>Claude Code를 재시작하고 "내 GitHub 레포 목록 보여줘"라고 요청해 보세요.</p>
+    </div>
+  </div>
+</div>
+
+<h3>GitHub 설정 예시</h3>
+<div class="json-box"><code>{
+  <span class="j-key">"mcpServers"</span>: {
+    <span class="j-key">"github"</span>: {
+      <span class="j-key">"command"</span>: <span class="j-str">"npx"</span>,
+      <span class="j-key">"args"</span>: [<span class="j-str">"-y"</span>, <span class="j-str">"@modelcontextprotocol/server-github"</span>],
+      <span class="j-key">"env"</span>: {
+        <span class="j-key">"GITHUB_PERSONAL_ACCESS_TOKEN"</span>: <span class="j-str">"ghp_여기에토큰입력"</span>
+      }
+    }
+  }
+}</code></div>
+
+<h3>실제 대화 예시</h3>
+<div class="chat-example">
+  <div class="chat-line user">우리 레포에서 오픈된 이슈 5개 보여줘</div>
+  <div class="chat-line ai">'my-project' 레포의 오픈 이슈입니다:<br>
+  #42 로그인 버튼이 모바일에서 안 눌림 (2일 전) — bug<br>
+  #38 다크모드 색상 깨짐 (5일 전) — ui<br>
+  #35 검색 결과 로딩 속도 개선 필요 (1주 전) — enhancement<br>
+  #31 이미지 업로드 실패 오류 (2주 전) — bug<br>
+  #28 알림 설정 페이지 미완성 (3주 전) — feature</div>
+  <div class="chat-line user">#42 이슈를 분석해서 수정 방법을 제안해줘</div>
+  <div class="chat-line ai">#42 이슈를 확인했습니다. 모바일 터치 이벤트 처리 문제로 보입니다. 관련 코드를 분석하겠습니다...</div>
+</div>
+
+<div class="callout warn">
+토큰은 <code>.env</code> 파일이나 환경변수로 관리하세요. <code>settings.json</code>을 Git 레포에 올릴 경우 반드시 <code>.gitignore</code>에 추가해 토큰이 외부에 노출되지 않도록 주의하세요.
+</div>
+
+<!-- ===== 섹션 7: 실습 3 Notion ===== -->
+<h2 id="notion">실습 3: Notion MCP</h2>
+<p>기획 문서나 회의록이 Notion에 있다면, Claude가 직접 내용을 읽고 정리하거나 새로운 페이지를 작성할 수 있습니다.</p>
+
+<div class="install-steps">
+  <div class="install-step">
+    <div class="install-step-num">1</div>
+    <div class="install-step-body">
+      <h4>Notion Integration 생성</h4>
+      <p><strong>notion.so/my-integrations</strong>에 접속 → <strong>New integration</strong> 클릭 → 이름 입력(예: "Claude MCP") → <strong>Submit</strong><br>
+      생성 후 <strong>Internal Integration Secret</strong> 키를 복사해 둡니다.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">2</div>
+    <div class="install-step-body">
+      <h4>연결할 페이지에 Integration 초대</h4>
+      <p>Notion에서 연결할 페이지를 열고, 우측 상단 <strong>···</strong> → <strong>Connections</strong> → 방금 만든 Integration 추가<br>
+      이 단계를 거친 페이지와 하위 페이지만 Claude가 접근할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">3</div>
+    <div class="install-step-body">
+      <h4>settings.json에 Notion 서버 추가</h4>
+      <p>복사한 Integration Secret을 환경변수로 입력합니다.</p>
+      <div class="json-box"><code>{
+  <span class="j-key">"mcpServers"</span>: {
+    <span class="j-key">"notion"</span>: {
+      <span class="j-key">"command"</span>: <span class="j-str">"npx"</span>,
+      <span class="j-key">"args"</span>: [<span class="j-str">"-y"</span>, <span class="j-str">"mcp-notion-server"</span>],
+      <span class="j-key">"env"</span>: {
+        <span class="j-key">"NOTION_API_KEY"</span>: <span class="j-str">"secret_여기에키입력"</span>
+      }
+    }
+  }
+}</code></div>
+    </div>
+  </div>
+
+  <div class="install-step">
+    <div class="install-step-num">4</div>
+    <div class="install-step-body">
+      <h4>연결 테스트</h4>
+      <p>Claude Code를 재시작한 뒤 "내 노션 페이지 목록 보여줘"라고 요청해 보세요.</p>
+    </div>
+  </div>
+</div>
+
+<h3>활용 예시</h3>
+<div class="chat-example">
+  <div class="chat-line user">노션에서 '프로젝트 회의록' 페이지 찾아서 지난 주 결정 사항 요약해줘</div>
+  <div class="chat-line ai">프로젝트 회의록 페이지를 찾았습니다. 지난 주 주요 결정 사항을 요약합니다:<br>
+  1. 출시일을 4월 15일로 확정<br>
+  2. 모바일 앱 개발은 2차 계획으로 이동<br>
+  3. 베타 테스터 20명 모집 시작</div>
+</div>
+
+<!-- ===== 섹션 8: 트러블슈팅 ===== -->
+<h2 id="troubleshoot">자주 겪는 문제</h2>
+<p>MCP 설정 과정에서 자주 발생하는 문제와 해결 방법입니다.</p>
+
+<details>
+  <summary>MCP 서버가 연결되지 않아요 (not connected)</summary>
+  <div class="inner">
+    <p><strong>원인:</strong> Node.js 버전 문제 또는 npx 캐시 문제가 가장 흔합니다.</p>
+    <p><strong>해결 방법:</strong></p>
+    <ol>
+      <li>터미널에서 <code>node -v</code>로 버전 확인 → v18 미만이면 업그레이드</li>
+      <li>npx 캐시 클리어: <code>npx clear-npx-cache</code></li>
+      <li>수동으로 패키지 설치 테스트: <code>npx -y @modelcontextprotocol/server-filesystem --help</code></li>
+      <li>Claude Code 완전 종료 후 재시작</li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary>permission denied 에러가 발생해요</summary>
+  <div class="inner">
+    <p><strong>원인:</strong> settings.json에 상대 경로나 잘못된 경로를 입력했을 때 발생합니다.</p>
+    <p><strong>해결 방법:</strong></p>
+    <ol>
+      <li>경로를 반드시 절대 경로로 지정합니다 (예: <code>/Users/사용자이름/Desktop</code>)</li>
+      <li>macOS/Linux: <code>~/Desktop</code> 대신 <code>/Users/사용자이름/Desktop</code> 사용</li>
+      <li>Windows: <code>C:\\Users\\사용자이름\\Desktop</code> (역슬래시 두 개)</li>
+      <li>해당 디렉토리가 실제로 존재하는지 확인</li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary>GitHub 토큰 인증 실패 에러</summary>
+  <div class="inner">
+    <p><strong>원인:</strong> 토큰 권한이 부족하거나 만료된 경우입니다.</p>
+    <p><strong>해결 방법:</strong></p>
+    <ol>
+      <li>GitHub → Settings → Developer settings → Personal access tokens에서 토큰 재확인</li>
+      <li><code>repo</code>, <code>read:org</code>, <code>read:user</code> 권한이 모두 체크되어 있는지 확인</li>
+      <li>토큰 만료 여부 확인 (만료됐으면 새 토큰 발급)</li>
+      <li>settings.json에 토큰 값이 올바르게 복사됐는지 공백·줄바꿈 없이 확인</li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary>Claude가 MCP 도구를 사용하지 않아요</summary>
+  <div class="inner">
+    <p><strong>원인:</strong> MCP 서버가 실제로 연결되지 않은 상태일 수 있습니다.</p>
+    <p><strong>해결 방법:</strong></p>
+    <ol>
+      <li><code>/mcp</code> 명령어로 서버 연결 상태를 먼저 확인합니다</li>
+      <li>서버 상태가 <strong>connected</strong>인지 확인 (not connected면 위의 해결방법 참고)</li>
+      <li>Claude Code를 완전 종료 후 재시작</li>
+      <li>요청을 더 명확하게 표현: "파일시스템 MCP를 사용해서 바탕화면 파일 목록 보여줘"</li>
+    </ol>
+  </div>
+</details>
+
+<details>
+  <summary>Windows에서 npx 명령어를 못 찾아요</summary>
+  <div class="inner">
+    <p><strong>원인:</strong> Node.js가 PATH에 등록되지 않았거나, <code>command</code>를 <code>"npx"</code>가 아닌 다른 방식으로 지정해야 할 수 있습니다.</p>
+    <p><strong>해결 방법:</strong></p>
+    <ol>
+      <li>Node.js를 공식 사이트에서 재설치 (PATH 자동 등록 선택)</li>
+      <li>PowerShell에서 <code>npx --version</code>으로 인식 여부 확인</li>
+      <li>필요 시 절대 경로로 지정: <code>"command": "C:\\Program Files\\nodejs\\npx.cmd"</code></li>
+    </ol>
+  </div>
+</details>
+
+<!-- ===== 섹션 9: 다음 단계 ===== -->
+<h2 id="next">다음 단계</h2>
+<h3>학습 완료 체크리스트</h3>
+<ul class="checklist">
+  <li>MCP가 무엇인지 설명할 수 있다</li>
+  <li>Node.js v18 이상 설치 완료</li>
+  <li><code>~/.claude/settings.json</code>에 MCP 서버 설정 추가 완료</li>
+  <li>파일시스템 MCP 연결 성공 (<code>/mcp</code>로 확인)</li>
+  <li>GitHub MCP 연결 성공 (토큰 발급 및 설정)</li>
+  <li>Notion MCP 연결 성공 (Integration 생성 및 초대)</li>
+  <li>각 MCP를 활용한 실제 대화 테스트 완료</li>
+</ul>
+
+<h3>다음 단계: 여러 MCP 서버를 동시에 쓰려면?</h3>
+<p>이 교안에서는 서버를 하나씩 설정하고 테스트했습니다. 실무에서는 여러 MCP 서버를 동시에 연결하고, 서버들이 협력해 더 복잡한 작업을 처리하게 됩니다.</p>
+<blockquote>
+  "GitHub에서 이슈를 가져오고, 해당 코드를 파일시스템에서 찾고, 수정 후 Slack으로 팀에 알린다" — 이 모든 과정을 Claude에게 한 문장으로 요청할 수 있습니다.
+</blockquote>
+<p>중급 교안에서는 여러 MCP 서버 조합, 커스텀 설정, 보안 관리 방법을 다룹니다.</p>
+
+<h3>관련 교안</h3>
+<table>
+  <tr><th>교안</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>MCP 중급</strong></td><td>여러 서버 조합·커스텀 설정·보안 관리</td><td><a href="mcp-intermediate.html">바로가기</a></td></tr>
+  <tr><td><strong>MCP 개발자</strong></td><td>나만의 MCP 서버 직접 만들기</td><td><a href="mcp-developer.html">바로가기</a></td></tr>
+  <tr><td><strong>Claude Code 초급</strong></td><td>Claude Code 기본 사용법</td><td><a href="claude-code-beginner.html">바로가기</a></td></tr>
+  <tr><td><strong>하네스 엔지니어링</strong></td><td>Claude Code Hooks 심화 활용</td><td><a href="harness-engineering.html">바로가기</a></td></tr>
+</table>
+
+</main>
+</div>
+
+<footer>
+  바이브코딩 가이드 | MCP 교안 시리즈 1/3 &nbsp;·&nbsp; <a href="index.html">홈으로</a>
+</footer>
+
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+  <a href="#intro">MCP가 뭔가요?</a>
+  <a href="#why">왜 MCP가 필요한가?</a>
+  <a href="#popular-servers">인기 MCP 서버 한눈에</a>
+  <a href="#install-claude">Claude Code에서 설정하기</a>
+  <a href="#filesystem">실습 1: 파일시스템 MCP</a>
+  <a href="#github">실습 2: GitHub MCP</a>
+  <a href="#notion">실습 3: Notion MCP</a>
+  <a href="#troubleshoot">자주 겪는 문제</a>
+  <a href="#next">다음 단계</a>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="lessons-data.js"></script>
+<script src="common.js"></script>
+</body>
+</html>

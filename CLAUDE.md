@@ -128,6 +128,10 @@
 ├── claude-skills.html              ← 클로드 스킬 완전 가이드 (Skills 시스템·커스텀 스킬·실전 예시)
 ├── software-engineering.html       ← 소프트웨어 엔지니어링 가이드 (SOLID·Clean Code·TDD·CI/CD)
 │
+├── mcp-beginner.html               ← MCP 초급 (기존 서버 설치·사용 — filesystem·GitHub·Notion)
+├── mcp-intermediate.html           ← MCP 중급 (다중 서버 운영·보안·실전 워크플로우)
+├── mcp-developer.html              ← MCP 개발자 (Python FastMCP·Node.js SDK·커스텀 서버 제작·배포)
+│
 ├── beginner.html          ← 리다이렉트 스텁 → lovable-beginner.html
 ├── intermediate.html      ← 리다이렉트 스텁 → lovable-intermediate.html
 ├── developer.html         ← 리다이렉트 스텁 → lovable-developer.html
@@ -250,6 +254,7 @@
 | **하네스 엔지니어링** | `#6366F1` (인디고) | `#A5B4FC` | 단일 페이지 (심화 포스팅) |
 | **클로드 스킬 가이드** | `#D97706` (앰버) | `#FDE68A` | 단일 페이지 (심화 가이드) |
 | **소프트웨어 엔지니어링** | `#0891B2` (사이안-틸) | `#A5F3FC` | 단일 페이지 (심화 가이드) |
+| **MCP** | `#0F766E` (딥 틸) | `#99F6E4` | 초급·중급·개발자 3단계 |
 
 ### HTML 공통 구조
 
