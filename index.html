@@ -30,7 +30,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --primary:#5A4ED9;--primary-light:#7C6FE0;--primary-dark:#3D35A8;
-  --bg:#F5F5FA;--card-bg:#FFFFFF;
+  --bg:#F2F0F8;--card-bg:#FFFFFF;
   --text:#12102B;--text-light:#64748B;--border:#E4E4F0;
   --shadow-sm:0 1px 4px rgba(0,0,0,.06);
   --shadow-md:0 4px 20px rgba(0,0,0,.08);
@@ -578,6 +578,9 @@ footer a:hover{color:var(--primary)}
   </a>
   <div class="nav-links">
 
+    <a href="ai-intro.html" style="font-weight:600">📘 AI 교육철학</a>
+    <a href="ai-science.html" style="font-weight:600">🔬 AI 과학교육</a>
+
     <!-- AI 빌더 -->
     <div class="nav-dropdown">
       <span class="nav-dropdown-btn">AI 빌더 ▾</span>
@@ -702,7 +705,6 @@ footer a:hover{color:var(--primary)}
         <a href="software-engineering.html" class="dropdown-link">📐 소프트웨어 엔지니어링</a>
         <a href="mcp-beginner.html" class="dropdown-link">🔌 MCP 완전 가이드</a>
         <div class="dropdown-divider"></div>
-        <a href="ai-intro.html" class="dropdown-link">📘 AI 교육 철학</a>
         <a href="ai-compare.html" class="dropdown-link">🤖 AI 도구 5종 비교</a>
       </div>
     </div>
@@ -715,13 +717,14 @@ footer a:hover{color:var(--primary)}
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-bottom" style="border-bottom:1px solid #EEF;padding-bottom:10px;margin-bottom:8px">
+    <a href="ai-intro.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="font-weight:700">📘 AI 교육철학</a>
+    <a href="ai-science.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="font-weight:700">🔬 AI 과학교육</a>
     <a href="claude-code-roadmap.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">⚡ CC 마스터 로드맵</a>
     <a href="nvidia-gtc-2025.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">🎯 NVIDIA GTC 2025</a>
     <a href="harness-engineering.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">⚙️ 하네스 엔지니어링</a>
     <a href="claude-skills.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">🛠️ 클로드 스킬 가이드</a>
     <a href="software-engineering.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">📐 소프트웨어 엔지니어링</a>
     <a href="mcp-beginner.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">🔌 MCP 완전 가이드</a>
-    <a href="ai-intro.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">📘 AI 교육 철학</a>
     <a href="https://lab.jinuchem.com" target="_blank" rel="noopener noreferrer">🔬 온라인 랩</a>
   </div>
   <div class="mobile-menu-tool">
