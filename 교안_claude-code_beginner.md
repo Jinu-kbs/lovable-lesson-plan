@@ -4,6 +4,8 @@
 > **목표**: Claude Code를 설치하고, 터미널에서 AI와 대화하며 첫 프로젝트를 만들기
 > **소요 시간**: 약 3~4시간 (설치 포함)
 
+> **최종 검증일: 2026-06-26** · 설치 명령·기본 모델·가격은 빠르게 바뀝니다. 따라 하기 전에 공식 문서([code.claude.com/docs](https://code.claude.com/docs))에서 한 번 더 확인하세요.
+
 ---
 
 ## 어떤 교안을 봐야 할까요?
@@ -19,9 +21,9 @@
 
 | 리소스 | 설명 | 링크 |
 |--------|------|------|
-| Claude Code 공식 문서 | Anthropic 공식 사용법 가이드 | [docs.anthropic.com](https://docs.anthropic.com/en/docs/claude-code) |
+| Claude Code 공식 문서 | Anthropic 공식 사용법 가이드 (설치·모델·가격) | [code.claude.com/docs](https://code.claude.com/docs) |
+| 빠른 시작(Quickstart) | 첫 세션까지 5분 가이드 | [code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart) |
 | Claude Code GitHub | 오픈소스 저장소 및 이슈 트래커 | [GitHub](https://github.com/anthropics/claude-code) |
-| MCP 프로토콜 문서 | Model Context Protocol 공식 스펙 | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
 | Anthropic 블로그 | Claude Code 업데이트 및 활용 사례 | [anthropic.com/blog](https://www.anthropic.com/blog) |
 
 ---
@@ -63,7 +65,7 @@
 |------|---------|-------------|--------|-----------|----------------|
 | **유형** | 웹 빌더 (노코드) | 에이전트 IDE | AI IDE | 웹 IDE | **에이전트 CLI** |
 | **인터페이스** | 웹 브라우저 | 데스크톱 앱 | 데스크톱 앱 | 웹 브라우저 | **터미널** |
-| **설치** | 불필요 | 데스크톱 설치 | 데스크톱 설치 | 불필요 | **npm 설치** |
+| **설치** | 불필요 | 데스크톱 설치 | 데스크톱 설치 | 불필요 | **인스톨러 한 줄 (또는 데스크톱 앱)** |
 | **코딩 필요** | 불필요 | 선택적 | 선택적 | 불필요 | **이해하면 유리** |
 | **비용** | 무료~$20/월 | 무료 (프리뷰) | $20/월~ | 무료~ | **$20~$200/월** |
 
@@ -84,7 +86,7 @@ AI Studio (입문) → Lovable (웹앱) → AntiGravity (에이전트) → Curso
 
 **Claude Code**는 Anthropic이 만든 **터미널 기반 AI 코딩 도구**입니다. 마치 AI 프로그래머와 터미널에서 채팅하듯이 프로젝트를 만들 수 있어요.
 
-"터미널"이 낯설다고요? 걱정 마세요! 터미널은 컴퓨터에게 글자로 명령을 내리는 창입니다. 마우스로 클릭하는 대신, 글을 써서 컴퓨터와 대화하는 것이라 생각하면 됩니다.
+"터미널"이 낯설다고요? 걱정 마세요! 터미널은 컴퓨터에게 글자로 명령을 내리는 창입니다. 마우스로 클릭하는 대신, 글을 써서 컴퓨터와 대화하는 것이라 생각하면 됩니다. (2026년부터는 터미널이 무서운 분을 위한 **데스크톱 앱**도 나왔어요. 4장에서 안내합니다.)
 
 ```
 나: "포모도로 타이머 웹앱을 만들어줘"
@@ -132,8 +134,9 @@ Claude Code를 사용하면서 만나는 용어들입니다. 어렵게 느껴지
 |------|-----|-----------|
 | **CLI** | Command Line Interface. 글자로 명령하는 화면 | 문자 메시지로 컴퓨터에게 일 시키기 |
 | **터미널** | CLI를 사용하는 프로그램 (PowerShell, Terminal) | 컴퓨터와 문자하는 앱 |
-| **npm** | Node.js의 패키지 관리자 | 앱 스토어 (프로그램 설치용) |
-| **Node.js** | JavaScript 실행 환경 | Claude Code가 돌아가는 엔진 |
+| **인스톨러(installer)** | 명령어 한 줄로 프로그램을 설치하는 공식 설치 도구 | 자동 설치 마법사 |
+| **npm / Node.js** | 자바스크립트 프로그램 설치 도구·실행 환경 (npm 설치 방식을 쓸 때만 필요) | 보조 설치 경로 |
+| **서브에이전트** | 본 AI가 일을 나눠 맡기는 보조 AI들 | 팀에 일을 분배하는 팀장 |
 | **Git** | 코드 변경 이력을 관리하는 도구 | 문서의 "변경 이력 추적" 기능 |
 | **커밋(Commit)** | 변경 사항을 저장하는 행위 | 게임의 세이브 |
 | **MCP** | AI에 외부 서비스를 연결하는 규격 | USB 포트 같은 연결 규격 |
@@ -145,85 +148,181 @@ Claude Code를 사용하면서 만나는 용어들입니다. 어렵게 느껴지
 
 ---
 
-## 4. 사전 준비
+## 4. 사전 준비 — 터미널을 처음 여는 분을 위한 핸즈온
+
+이 장은 **터미널을 난생처음 여는 사람** 기준으로 한 단계씩 따라 할 수 있게 썼습니다. 검은 화면이 무섭다면, 한 가지만 기억하세요: **읽기만 하는 명령(`pwd`·`ls`·`cd`)은 절대 컴퓨터를 망가뜨리지 않습니다.** 막히면 창을 닫고 새로 열면 됩니다. 진행 중인 명령이 멈추면 `Ctrl + C`가 탈출 버튼입니다.
 
 ### 필요한 것
 
 | 항목 | 설명 | 필수 여부 |
 |------|------|----------|
-| **Node.js** | Claude Code가 실행되는 엔진 | 필수 |
-| **Anthropic 계정 또는 API 키** | AI 서비스 인증 | 필수 |
+| **Claude 계정 (Pro 이상)** | Claude Code는 **무료 플랜으로는 쓸 수 없습니다.** 최소 Pro($20/월) 필요 | 필수 |
+| **Node.js** | npm 방식으로 설치할 때만 필요 (네이티브 인스톨러는 불필요) | 선택 |
 | **Git** | 코드 저장 및 공유용 | 권장 |
 | **텍스트 에디터** | 결과 확인용 (메모장도 OK) | 선택 |
 
-### Step 1: Node.js 설치하기
+> **중요(2026년 변경)**: 예전에는 npm으로 설치하는 것이 기본이었지만, 지금 Anthropic이 권장하는 1순위는 **네이티브 인스톨러**(명령어 한 줄)입니다. 네이티브 설치는 Node.js가 필요 없고, 백그라운드에서 자동 업데이트됩니다. npm은 "이미 Node.js를 쓰는 분용 보조 방식"으로 바뀌었습니다.
 
-Node.js는 Claude Code가 돌아가는 엔진입니다. npm(앱 스토어 같은 것)도 함께 설치됩니다.
+---
 
-1. [nodejs.org](https://nodejs.org) 접속
-2. **LTS** 버전의 "Download" 버튼 클릭 (짝수 버전, 예: 20.x)
-3. 다운로드된 설치 파일 실행 (Windows: `.msi`, Mac: `.pkg`)
-4. 설치 마법사를 따라 완료
-5. 터미널을 열고 확인:
+### Step 1: 터미널 여는 법
+
+#### 🍎 Mac (맥)
+
+- **가장 빠른 길 — Spotlight**: `Command(⌘) + Space` → "터미널" 또는 "terminal" 입력 → `Return`
+- 또는: Finder → 응용 프로그램(Applications) → 유틸리티(Utilities) → **터미널(Terminal)** 더블클릭
+- 맥의 기본 셸은 **zsh**입니다. 별다른 설정 없이 그대로 쓰면 됩니다.
+
+> **🖼️ 스크린샷:** Spotlight 검색창에 "terminal"을 입력해 터미널 앱이 뜬 화면
+
+#### 🪟 Windows (윈도우)
+
+윈도우는 검은 창 종류가 여러 개라 헷갈립니다. 입문자는 **PowerShell** 하나만 알면 충분합니다.
+
+- **PowerShell 빠르게 열기**: 시작 버튼 **우클릭** → "터미널(Terminal)" 또는 "Windows PowerShell" 클릭. 또는 시작 메뉴에서 "PowerShell" 검색 → 실행.
+- **Windows Terminal**: Windows 11에는 기본으로 들어 있는 "창(컨테이너)"으로, PowerShell·CMD·WSL을 탭으로 한 창에서 띄울 수 있습니다. 시작 메뉴에서 "Terminal" 검색.
+- **WSL(선택)**: 리눅스 도구를 본격적으로 쓸 거라면 PowerShell을 **관리자 권한**으로 열고 `wsl --install` → 재부팅 → "Ubuntu" 실행. 맥/리눅스 자료를 그대로 따라 할 수 있어 장기적으로 유리하지만, "오늘 한 줄 쳐보고 싶다"면 PowerShell로 시작해도 충분합니다.
+
+> **PowerShell인지 CMD인지 구분하기**: 프롬프트가 `PS C:\...`로 시작하면 PowerShell, `PS` 없이 `C:\...`면 CMD입니다. 설치 명령이 서로 다르니 이 구분이 중요합니다.
+
+> **🖼️ 스크린샷:** 시작 버튼 우클릭 메뉴에서 "터미널"을 선택해 PowerShell(`PS C:\>` 프롬프트)이 열린 화면
+
+> **✓ 체크포인트:** 글자를 입력할 수 있는 검은(또는 짙은) 창이 떴고, 깜빡이는 커서가 보이면 성공입니다.
+
+---
+
+### Step 2: 기본 명령 3개만 — 길 찾기
+
+설치 전에 "내가 지금 어디 있는지" 확인하는 안전한 명령 3개만 연습해 봅시다. 모두 읽기 전용이라 마음껏 쳐도 됩니다.
 
 ```bash
-node -v    # 예: v20.11.0 — 버전 번호가 나오면 성공!
-npm -v     # 예: 10.2.4
+pwd      # 지금 내가 있는 폴더 경로 보기 (Print Working Directory)
+ls       # 현재 폴더 안에 무엇이 있는지 목록 보기  (Windows PowerShell도 ls 동작)
+cd ~     # 홈(내 개인 폴더)으로 이동  (Change Directory)
 ```
 
-> **터미널 여는 법**: Windows는 시작 메뉴에서 "PowerShell" 검색, Mac은 Spotlight(Cmd+Space)에서 "Terminal" 검색
+> **꿀팁 — Tab 자동완성**: 폴더 이름을 다 칠 필요 없습니다. `cd Des`까지 치고 `Tab`을 누르면 `cd Desktop/`으로 자동 완성됩니다.
 
-### Step 2: Claude Code 설치하기
+> **✓ 체크포인트:** `pwd`를 쳤을 때 `/Users/내이름`(맥) 또는 `C:\Users\내이름`(윈도우) 같은 경로가 나오면, 터미널과 정상적으로 대화하고 있는 것입니다.
 
-터미널에 아래 명령어를 입력하세요:
+---
 
+### Step 3: (선택) Node.js 설치 — npm 방식을 쓸 때만
+
+**네이티브 인스톨러(Step 4 권장 방식)를 쓰면 이 단계는 건너뛰어도 됩니다.** npm 방식으로 설치하려는 분만 진행하세요.
+
+먼저 이미 깔려 있는지 확인:
+
+```bash
+node -v    # v22.x.x 처럼 나오면 이미 설치됨 → Step 4로
+```
+
+`command not found`(맥) 또는 `'node'은(는) 인식되지 않습니다`(윈도우)가 나오면 미설치 상태입니다:
+
+1. [nodejs.org](https://nodejs.org) 접속
+2. **LTS** 버전의 "Download" 버튼 클릭
+3. 다운로드한 설치 파일 실행 (Windows: `.msi`, Mac: `.pkg`) → 마법사대로 완료
+4. **터미널을 껐다 새로 연 뒤** 다시 `node -v`로 확인 (PATH는 터미널을 새로 열 때 반영됩니다)
+
+> **🖼️ 스크린샷:** `node -v` 입력 후 `v22.x.x` 버전 번호가 출력된 터미널 화면
+
+---
+
+### Step 4: Claude Code 설치 — 인스톨러 한 줄
+
+아래에서 **내 OS에 맞는 한 줄**만 터미널에 붙여넣고 Enter를 누르세요.
+
+**🍎 Mac / Linux (권장 — 네이티브 인스톨러):**
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**🪟 Windows PowerShell (권장 — 네이티브 인스톨러):**
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+- `'irm' is not recognized...` 오류가 나면 지금 PowerShell이 아니라 CMD에 있는 것입니다. PowerShell을 다시 여세요.
+
+**보조 방식 — npm (이미 Node.js를 쓰는 분):**
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
+- 정확한 패키지명은 `@anthropic-ai/claude-code`입니다.
+- **주의**: `sudo npm install -g ...`는 권한·보안 문제를 일으키니 쓰지 마세요.
 
-> **"npm"이 뭔가요?** Node.js와 함께 설치되는 프로그램 설치 도구입니다. "앱 스토어에서 Claude Code를 설치해줘"라고 이해하면 됩니다.
+> **🖼️ 스크린샷:** 인스톨러 한 줄을 붙여넣고 실행해 설치 진행 로그가 흐르는 터미널 화면
 
-설치 확인:
-
+설치가 끝나면 확인:
 ```bash
 claude --version    # 버전 번호가 나오면 설치 성공!
 ```
 
-### Step 3: 인증 설정하기
+> **✓ 체크포인트:** `claude --version`에서 `2.x.x` 같은 버전 번호가 나오면 설치 완료입니다. 만약 "명령을 찾을 수 없다"가 나오면 **터미널을 껐다 새로 열고** 다시 시도하세요(10장 트러블슈팅 참고).
 
-Claude Code를 처음 실행하면 인증이 필요합니다:
+---
+
+### Step 5: 인증(로그인) — `claude` 실행
+
+작업할 폴더로 이동한 뒤 `claude`를 실행하면, 처음에는 자동으로 로그인 화면이 뜹니다.
 
 ```bash
-claude
+cd ~          # 홈으로 이동 (어디서 시작해도 OK)
+claude        # Claude Code 실행
 ```
 
 | 인증 방법 | 설명 | 추천 대상 |
 |----------|------|----------|
-| **Claude.ai 로그인** | 브라우저에서 Anthropic 계정으로 로그인 | Max 구독자 |
-| **API 키 입력** | API 키를 직접 입력 | 종량제 사용자 |
+| **Claude 계정 로그인 (권장)** | 브라우저가 열리고 claude.ai에서 쓰던 계정으로 로그인. **API 키 불필요** | Pro/Max 구독자 (대부분) |
+| **API 키 입력** | Anthropic Console에서 발급한 키로 종량제 사용 | 개발자·종량제 사용자 |
 
-**방법 A — Claude.ai 로그인 (구독자용):**
-1. "Login with Claude.ai" 선택 → 브라우저 자동 열림
-2. Anthropic 계정으로 로그인 → 터미널로 돌아오면 인증 완료!
+**방법 A — Claude 계정 로그인 (대부분 이 방법):**
+1. `claude` 실행 → "Login with Claude" 선택 → 브라우저 자동 열림
+2. **claude.ai에서 평소 쓰던 계정**으로 로그인 → 터미널로 돌아오면 인증 완료!
+3. 별도의 API 키가 필요 없습니다. (초보자가 가장 헷갈려 하는 부분 — 구독만 있으면 됩니다.)
 
-**방법 B — API 키 입력:**
+**방법 B — API 키 입력 (종량제):**
 1. [console.anthropic.com](https://console.anthropic.com)에서 API 키 발급
 2. 터미널에서 환경변수 설정:
-
 ```bash
 # Windows (PowerShell)
 $env:ANTHROPIC_API_KEY="sk-ant-여기에-키를-붙여넣기"
-
 # Mac/Linux
 export ANTHROPIC_API_KEY="sk-ant-여기에-키를-붙여넣기"
 ```
 
+> **🖼️ 스크린샷:** 브라우저에 뜬 Claude 로그인(OAuth) 승인 화면
+
+> **✓ 체크포인트:** 로그인 후 터미널에 `✻ Welcome to Claude Code!` 환영 박스와 입력 커서(`>`)가 나타나면, 이제 AI와 대화할 준비가 끝났습니다.
+
+---
+
+### Step 6: 첫 대화 — 따라 하기
+
+환영 박스 아래 `>` 커서에 한국어로 한 줄 쳐 보세요. (코딩이 아니라 그냥 말입니다!)
+
+```text
+> 이 폴더에 뭐가 있는지 한국어로 설명해줘.
+```
+
+Claude가 폴더를 살펴보고 한국어로 답하면, 첫 대화 성공입니다. 종료는 `/exit` 또는 `Ctrl + C`를 두 번 누르면 됩니다.
+
+> **🖼️ 스크린샷:** `>` 커서에 한국어 질문을 입력하고 Claude가 한국어로 답한 첫 대화 화면
+
+> **✓ 체크포인트:** Claude가 내 질문에 한국어로 답했다면, 설치·로그인·실행이 모두 정상입니다. (구체적인 첫 프로젝트 만들기는 7장에서 이어집니다.)
+
+---
+
+### 💻 터미널이 부담스럽다면 — 데스크톱 앱
+
+2026년부터 Claude Code는 **데스크톱 앱(macOS·Windows GUI)** 으로도 쓸 수 있습니다. 터미널 한 줄 치는 것조차 부담스럽다면, 공식 문서([code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart))에서 데스크톱 앱을 내려받아 클릭만으로 시작할 수 있습니다. 이 교안은 "터미널 기본기"를 함께 익히는 것을 목표로 터미널 방식을 기준으로 설명합니다.
+
 ### ✅ 사전 준비 체크리스트
 
-- [ ] Node.js 설치 완료 (`node -v`로 확인)
+- [ ] 내 OS에서 터미널을 열고 `pwd`로 현재 위치 확인
+- [ ] (npm 방식만) Node.js 설치 완료 (`node -v`로 확인)
 - [ ] Claude Code 설치 완료 (`claude --version`으로 확인)
-- [ ] 인증 설정 완료 (Claude.ai 로그인 또는 API 키)
-- [ ] 터미널에서 `claude` 입력 시 환영 메시지 확인
+- [ ] `claude` 실행 후 Claude 계정 로그인(또는 API 키) 완료
+- [ ] 첫 대화에서 Claude가 한국어로 답하는 것 확인
 
 ---
 
@@ -299,8 +398,12 @@ $ claude
 | `/clear` | 대화 내용 초기화 | 새로운 주제로 대화하고 싶을 때 |
 | `/compact` | 대화 내용 요약 | 대화가 너무 길어졌을 때 |
 | `/cost` | 현재까지 사용한 비용 확인 | 비용이 궁금할 때 |
+| `/rewind` | `/clear` 이전 대화로 되돌아가 재개 | 실수로 지웠을 때 (2026 신기능) |
+| `/effort` | AI가 "얼마나 깊이 생각할지" 조절 | 더 신중하게 / 더 빠르게 (2026 신기능) |
 
-> **팁**: `/help`만 기억하세요! 나머지는 `/help`를 입력하면 전부 나옵니다.
+> **팁**: `/help`만 기억하세요! 나머지는 `/help`를 입력하면 전부 나옵니다. 슬래시 명령은 버전마다 늘어나니, 정확한 목록은 항상 `/help`로 확인하세요.
+
+> **참고(2026년 신기능)**: 위 표 외에도 `/code-review`(코드 정확성 점검·자동 수정), 이름 붙인 **서브에이전트**(여러 AI에게 일을 나눠 맡기기), **MCP**(외부 서비스 연결)처럼 강력한 기능이 추가됐습니다. 자세한 활용은 **중급자편·개발자편**에서 다룹니다.
 
 ### 한 문단으로 프로젝트 설명하기 (간단 PRD)
 
@@ -461,13 +564,18 @@ Claude가 Git 초기화, 파일 추가, GitHub 저장소 생성, Pages 설정까
 
 ## 9. 요금제 안내
 
-### Claude Max 구독 (추천)
+### Claude 구독 (추천)
 
 | 플랜 | 가격 | 포함 내용 | 추천 대상 |
 |------|------|----------|----------|
+| **무료(Free)** | 무료 | **Claude Code 사용 불가** | — |
 | **Claude Pro** | $20/월 | Claude Code 기본 사용 | 가볍게 시작하기 |
-| **Max 5x** | $100/월 | 일반 사용량의 5배 | 본격 활용 |
-| **Max 20x** | $200/월 | 일반 사용량의 20배 | 헤비 유저 |
+| **Max 5x** | $100/월 | Pro 대비 약 5배 사용량 | 본격 활용 |
+| **Max 20x** | $200/월 | Pro 대비 약 20배 사용량 | 헤비 유저 |
+
+> **꼭 기억하세요**: Claude Code는 **무료 플랜으로는 쓸 수 없습니다.** 최소 Pro($20/월)부터 사용 가능합니다. 사용량은 Claude 채팅과 **공유**되어, 채팅을 많이 쓰면 Claude Code 가용량이 줄어듭니다.
+
+> **기본 모델**: 2026년 6월 현재 Claude Code의 기본 모델은 **Claude Opus 4.8**(가장 똑똑한 코딩 모델)입니다. 5월 6일자로 Pro·Max의 5시간 사용 한도가 **2배**로 늘었고, 바쁜 시간대 제한도 없어졌습니다. (정확한 가격·한도는 공식 [요금 페이지](https://www.anthropic.com/pricing)에서 확인하세요. Anthropic은 정확한 토큰 할당량은 공개하지 않습니다.)
 
 ### API 키 (종량제)
 
@@ -492,13 +600,14 @@ Claude가 Git 초기화, 파일 추가, GitHub 저장소 생성, Pages 설정까
 
 ## 10. 문제가 생겼을 때 (트러블슈팅)
 
-### 상황 1: 설치가 안 될 때 (Node.js 버전, 권한)
+### 상황 1: 설치가 안 될 때
 
 | 문제 | 해결 방법 |
 |------|----------|
-| `node`를 찾을 수 없다고 나옴 | Node.js 미설치 → [nodejs.org](https://nodejs.org)에서 LTS 설치 |
-| Node.js 버전이 낮다고 나옴 | 18 이상 필요 → 최신 LTS 버전으로 재설치 |
-| 권한 오류 (Permission denied) | Windows: 관리자 권한으로 PowerShell 실행 / Mac: `sudo npm install -g @anthropic-ai/claude-code` |
+| 인스톨러 한 줄이 안 먹힘 (`irm` 인식 안 됨) | 지금 CMD에 있는 것 → PowerShell을 다시 열고 `irm https://claude.ai/install.ps1 \| iex` |
+| (npm 방식) `node`를 찾을 수 없다고 나옴 | Node.js 미설치 → [nodejs.org](https://nodejs.org)에서 LTS 설치, 또는 그냥 네이티브 인스톨러 사용 |
+| 권한 오류 (Permission denied) | 네이티브 인스톨러는 관리자 권한이 필요 없습니다. npm에서 권한 오류가 나면 `sudo`를 쓰지 말고 네이티브 인스톨러로 재설치 |
+| `claude doctor` | 설치·설정 문제를 자동 진단해 주는 명령. 막히면 먼저 실행해 보세요 |
 
 ### 상황 2: 인증 에러 (API 키, 구독 확인)
 
@@ -510,18 +619,22 @@ Claude가 Git 초기화, 파일 추가, GitHub 저장소 생성, Pages 설정까
 
 ### 상황 3: 'claude' 명령을 찾을 수 없다고 할 때
 
+대부분 **터미널을 껐다 새로 열면** 해결됩니다(설치 직후 PATH가 아직 반영되지 않은 경우). 그래도 안 되면:
+
 ```bash
-# 방법 1: npx로 직접 실행 (설치 없이)
-npx @anthropic-ai/claude-code
+# 방법 1: 진단 명령 실행
+claude doctor
 
-# 방법 2: 전역 설치 재시도
-npm install -g @anthropic-ai/claude-code
+# 방법 2: 네이티브 인스톨러로 재설치 (Mac/Linux)
+curl -fsSL https://claude.ai/install.sh | bash
+#         (Windows PowerShell)
+#         irm https://claude.ai/install.ps1 | iex
 
-# 방법 3: PATH 확인
+# 방법 3: (npm 방식) PATH 확인
 npm config get prefix    # 이 경로가 시스템 PATH에 포함되어야 함
 ```
 
-> **마지막 수단**: `npx @anthropic-ai/claude-code`로 실행한 뒤 "claude 명령어가 PATH에 등록이 안 돼. 도와줘"라고 하면 Claude가 해결 방법을 안내해줍니다.
+> **꿀팁**: 1순위 처방은 항상 **"터미널을 껐다 새로 열기"** 입니다. PATH는 터미널이 시작할 때 읽기 때문입니다.
 
 ---
 
@@ -529,7 +642,7 @@ npm config get prefix    # 이 경로가 시스템 PATH에 포함되어야 함
 
 ### Q1. Claude Code는 무료인가요?
 
-Claude Code 자체는 무료로 설치할 수 있지만, **사용하려면 Claude 구독 또는 API 키가 필요**합니다. Claude Pro($20/월)부터 사용 가능하며, API 키는 사용한 만큼만 지불합니다.
+설치 프로그램 자체는 무료지만, **사용하려면 Claude 구독(최소 Pro $20/월) 또는 API 키가 필요**합니다. **무료 플랜으로는 Claude Code를 쓸 수 없습니다.** API 키는 사용한 만큼만 지불합니다.
 
 ### Q2. 프로그래밍을 몰라도 쓸 수 있나요?
 
@@ -634,7 +747,7 @@ Claude Code 초보자편을 마치셨습니다! 다음 단계를 선택하세요
 
 ```
 1단계: 설치
-  ↓ Node.js 설치 → npm으로 Claude Code 설치 → 인증 설정
+  ↓ 터미널 열기 → 인스톨러 한 줄로 Claude Code 설치 → claude 로그인
 2단계: 프로젝트 생성
   ↓ 새 폴더 만들기 → 해당 폴더로 이동
 3단계: AI와 대화
@@ -647,11 +760,35 @@ Claude Code 초보자편을 마치셨습니다! 다음 단계를 선택하세요
 
 ---
 
+## 더 배우려면
+
+설치·모델·가격처럼 자주 바뀌는 정보는 **공식 문서**를, 터미널 기본기는 **검증된 무료 강의**를 추천합니다. (게시 전 링크 접속·최신성 확인 권장)
+
+### Claude Code 공식 (1순위)
+
+| 자료 | 설명 | 링크 |
+|------|------|------|
+| Claude Code 공식 문서 허브 | 모든 공식 문서의 시작점 | [code.claude.com/docs](https://code.claude.com/docs) |
+| 빠른 시작(Quickstart) | 첫 세션·데스크톱 앱 안내 | [code.claude.com/docs/en/quickstart](https://code.claude.com/docs/en/quickstart) |
+| 설치·업데이트(Advanced setup) | OS별 설치·인증 상세 | [code.claude.com/docs/en/setup](https://code.claude.com/docs/en/setup) |
+| 모델·가격(Models Overview) | 모델 ID·가격·기본 모델 | [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview) |
+
+### 터미널 기본기 (외부 무료 자료)
+
+| 자료 | 설명 | 링크 |
+|------|------|------|
+| The Odin Project — Command Line Basics | 터미널 열기부터 파일 조작까지 실습 중심 (입문 1순위) | [theodinproject.com](https://www.theodinproject.com/lessons/foundations-command-line-basics) |
+| MDN — Command line crash course | Mozilla 공식 터미널/셸 입문 | [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Environment_setup/Command_line) |
+| freeCodeCamp — Command Line for Beginners | 콘솔·터미널·셸·CLI 용어 정리 핸드북 | [freecodecamp.org](https://www.freecodecamp.org/news/command-line-for-beginners/) |
+| Microsoft Learn — Basic commands for WSL | 윈도우 WSL 설치·기본 명령 (윈도우 사용자) | [learn.microsoft.com](https://learn.microsoft.com/en-us/windows/wsl/basic-commands) |
+
+---
+
 ## 출처
 
 | 출처 | 설명 |
 |------|------|
-| [Claude Code 공식 문서](https://docs.anthropic.com/en/docs/claude-code) | Anthropic 공식 사용법 가이드 |
+| [Claude Code 공식 문서](https://code.claude.com/docs) | Anthropic 공식 사용법 가이드 (설치·모델·가격) |
 | [Claude Code GitHub](https://github.com/anthropics/claude-code) | 오픈소스 저장소 |
 | [MCP 프로토콜](https://modelcontextprotocol.io) | Model Context Protocol 공식 사이트 |
 | [Anthropic 블로그](https://www.anthropic.com/blog) | Claude Code 업데이트 소식 |

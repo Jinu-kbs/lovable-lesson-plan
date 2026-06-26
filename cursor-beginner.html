@@ -41,6 +41,7 @@
   <a href="#s10">10. 트러블슈팅</a>
   <a href="#s11">11. FAQ</a>
   <a href="#s12">12. 주의사항 및 팁</a>
+  <a href="#learn-more">더 배우려면</a>
   <a href="#s13">13. 다음 단계</a>
   <a href="#sources">출처</a>
 </aside>
@@ -65,6 +66,8 @@
   <tr><td><strong>기획 도우미 Gem</strong></td><td>PRD/IA/ERD 작성을 도와주는 AI</td><td><a href="https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh" target="_blank">Gemini Gem</a></td></tr>
 </table>
 
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-06-26 · 버전·가격은 <a href="https://cursor.com/pricing" target="_blank">공식 페이지</a>에서 확인하세요.</div>
+
 <h2 id="s1">1. 바이브코딩이란?</h2>
 <p><strong>바이브코딩(Vibe Coding)</strong>은 AI에게 자연어로 지시하여 소프트웨어를 만드는 새로운 개발 방식입니다. 코드를 직접 작성하지 않고, "이런 것을 만들어 줘"라고 말하면 AI가 코드를 생성합니다.</p>
 
@@ -83,7 +86,7 @@
 <blockquote><strong>활용 가이드</strong>: "바이브코딩은 코딩 실력이 없어도 아이디어만 있으면 시작할 수 있습니다. 커서는 그중에서도 AI와 함께 코드를 직접 다루며 배울 수 있는 도구입니다." — 활용 가이드</blockquote>
 
 <h2 id="s2">2. 커서(Cursor)란?</h2>
-<p><strong>커서(Cursor)</strong>는 Anysphere가 개발한 <strong>AI 네이티브 코드 에디터(IDE)</strong>입니다. VS Code를 기반(포크)으로 만들어져 친숙한 인터페이스를 제공하면서도, AI가 코드 작성 전 과정을 보조합니다. 2026년 3월 기준 최신 버전은 <strong>v2.6</strong>입니다.</p>
+<p><strong>커서(Cursor)</strong>는 Anysphere가 개발한 <strong>AI 네이티브 코드 에디터(IDE)</strong>입니다. VS Code를 기반(포크)으로 만들어져 친숙한 인터페이스를 제공하면서도, AI가 코드 작성 전 과정을 보조합니다. 2026년 상반기 기준 <strong>Cursor 3.x 세대</strong>(2026년 4월 메이저 개편)이며, 자체 코딩 모델은 <strong>Composer 2.5</strong>(2026년 5월)로 진화했습니다. 정확한 소수점 버전은 거의 매주 갱신되므로 <a href="https://cursor.com/changelog" target="_blank">공식 changelog</a>에서 확인하세요.</p>
 
 <h3>러버블·안티그래비티와 뭐가 다른가요?</h3>
 <table>
@@ -93,16 +96,17 @@
   <tr><td><strong>작동 방식</strong></td><td>채팅 → 완성 결과</td><td>에이전트 위임 → 자율 실행</td><td>AI 보조 → 개발자가 코드 제어</td></tr>
   <tr><td><strong>코딩 필요</strong></td><td>불필요</td><td>선택적</td><td>선택적 (이해하면 유리)</td></tr>
   <tr><td><strong>핵심 강점</strong></td><td>빠른 프로토타입</td><td>복잡한 프로젝트, 병렬 에이전트</td><td>정밀한 코드 제어, 자유로운 스택</td></tr>
-  <tr><td><strong>비용</strong></td><td>유료 (이벤트 시 무료)</td><td>퍼블릭 프리뷰 무료</td><td>Hobby 무료 / Pro $20/월</td></tr>
+  <tr><td><strong>비용</strong></td><td>유료 (이벤트 시 무료)</td><td>퍼블릭 프리뷰 무료</td><td>Hobby 무료 / Pro $20/월(공식 확인)</td></tr>
 </table>
 
 <h3>커서의 3가지 핵심 AI 기능</h3>
 <table>
   <tr><th>기능</th><th>설명</th></tr>
-  <tr><td><strong>Tab (자동완성)</strong></td><td>코드를 타이핑할 때 AI가 다음에 올 코드를 자동으로 제안하고, Tab 키로 수락</td></tr>
-  <tr><td><strong>Composer (다중 파일 편집)</strong></td><td>여러 파일에 걸친 변경 사항을 한 번의 지시로 일괄 생성·수정</td></tr>
+  <tr><td><strong>Tab (자동완성)</strong></td><td>코드를 타이핑할 때 AI가 다음에 올 코드를 자동으로 제안하고, Tab 키로 수락 (커서 자체 모델 <strong>Fusion</strong>이 구동)</td></tr>
+  <tr><td><strong>Composer (다중 파일 편집)</strong></td><td>여러 파일에 걸친 변경 사항을 한 번의 지시로 일괄 생성·수정. 현재 자체 모델 <strong>Composer 2.5</strong>가 빠르고 저렴하게 처리</td></tr>
   <tr><td><strong>Agent (자율 실행)</strong></td><td>프로젝트 전체 맥락을 이해하고, 터미널 명령어 실행까지 자율적으로 수행</td></tr>
 </table>
+<blockquote><strong>참고</strong>: 2026년 상반기 커서는 <strong>Auto 모드</strong>를 기본으로 권장합니다. Auto 모드는 작업에 맞는 모델(주로 자체 모델 Composer 계열)을 자동으로 골라주며, 유료 플랜에서는 사용량 크레딧을 따로 소모하지 않습니다. Claude·GPT·Gemini 같은 외부 프론티어 모델을 직접 고르면 월 크레딧에서 차감됩니다. 초보자는 Auto만 써도 충분합니다.</blockquote>
 <blockquote><strong>활용 가이드</strong>: "커서는 '내가 직접 코드를 작성하되, AI가 옆에서 도와주는 것'입니다. 러버블이 완전 자동이라면, 커서는 반자동 — 내가 운전하고 AI가 네비게이션을 해주는 느낌입니다." — 활용 가이드</blockquote>
 
 <h3>참고: VS Code와의 호환성</h3>
@@ -137,41 +141,64 @@
   <tr><td><strong>Git</strong></td><td>버전 관리 및 배포에 필요</td><td>권장</td></tr>
 </table>
 
-<h3>설치 가이드</h3>
+<h3>설치 가이드 (따라 하기)</h3>
+<p>아래 단계를 순서대로 따라 하면 됩니다. 시스템 요구사항은 가볍습니다 — RAM 4GB·디스크 여유 2GB 이상이면 충분하며, Windows / macOS / Linux를 모두 지원합니다.</p>
 
-<h3>Step 1: 커서 다운로드 및 설치</h3>
+<h3>Step 1: 다운로드 페이지 접속</h3>
 <ol>
-  <li><a href="https://www.cursor.com" target="_blank">cursor.com</a> 접속</li>
-  <li>"Download" 버튼 클릭</li>
-  <li>운영체제에 맞는 설치 파일 다운로드:
-    <ul>
-      <li><strong>Windows</strong>: <code>.exe</code> 설치 파일 실행</li>
-      <li><strong>Mac</strong>: <code>.dmg</code> 파일 열기 → Applications로 드래그</li>
-      <li><strong>Linux</strong>: <code>.AppImage</code> 또는 <code>.deb</code> 패키지 설치</li>
-    </ul>
-  </li>
-  <li>설치 완료 후 앱 실행</li>
+  <li>웹 브라우저에서 <a href="https://cursor.com/download" target="_blank">cursor.com/download</a> 접속 (또는 <a href="https://cursor.com" target="_blank">cursor.com</a> 우상단 <strong>Download</strong> 버튼)</li>
+  <li>접속하면 내 운영체제(Windows / Mac)가 자동으로 감지되어 알맞은 설치 파일이 제시됩니다</li>
 </ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">cursor.com/download 페이지. 가운데 다운로드 버튼에 내 OS(예: "Download for Mac")가 자동 표시된 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 다운로드 버튼에 내 OS 이름이 보이고, 클릭하면 설치 파일이 내려받아진다</div>
 
-<h3>Step 2: 계정 생성 및 로그인</h3>
+<h3>Step 2: 설치하기 (OS별 분기)</h3>
+<p><strong>🪟 Windows의 경우</strong></p>
 <ol>
-  <li>커서 앱 실행 시 로그인 화면 표시</li>
-  <li>Google, GitHub, 또는 이메일로 가입</li>
-  <li>무료 Hobby 플랜 자동 적용</li>
+  <li>받은 <strong><code>.exe</code> 설치 파일</strong>을 더블클릭해서 실행</li>
+  <li>설치 마법사(wizard)가 뜨면 안내에 따라 <strong>Next</strong>를 눌러 진행</li>
+  <li>도중에 <strong>"Add to PATH"</strong>(PATH에 Cursor 추가) 항목이 보이면 체크해 두는 것을 권장 (나중에 터미널에서 <code>cursor</code> 명령으로 폴더를 열 수 있습니다)</li>
+  <li><strong>Install</strong> → 완료 후 <strong>Finish</strong></li>
 </ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">Windows 설치 마법사 화면 (Add to PATH 체크 옵션이 보이는 단계)</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 설치가 끝나고 바탕화면 또는 시작 메뉴에 Cursor 아이콘이 생겼다</div>
 
-<h3>Step 3: VS Code 설정 가져오기 (선택)</h3>
+<p><strong>🍎 Mac의 경우</strong></p>
 <ol>
-  <li>기존 VS Code 사용자라면 설정 임포트 가능</li>
-  <li>커서 첫 실행 시 "Import VS Code Settings" 옵션 선택</li>
-  <li>확장, 키 바인딩, 테마가 자동으로 가져와짐</li>
+  <li>받은 <strong><code>.dmg</code> 파일</strong>을 더블클릭해서 엽니다</li>
+  <li>나타나는 창에서 <strong>Cursor 아이콘을 Applications 폴더로 드래그</strong>합니다</li>
+  <li><strong>응용 프로그램(Applications)</strong> 폴더에서 Cursor를 실행합니다</li>
+  <li>최초 실행 시 "확인되지 않은 개발자" 경고가 뜨면, <strong>시스템 설정 → 개인정보 보호 및 보안</strong>에서 "확인 없이 열기"를 눌러 허용합니다</li>
 </ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">.dmg 창에서 Cursor 아이콘을 Applications 폴더로 드래그하는 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> Launchpad 또는 응용 프로그램 폴더에 Cursor가 보이고, 실행하면 앱 창이 뜬다</div>
+
+<h3>Step 3: 첫 실행 — 로그인</h3>
+<ol>
+  <li>Cursor를 실행하면 환영 화면과 로그인 안내가 나타납니다</li>
+  <li><strong>Google, GitHub, 또는 이메일</strong>로 가입/로그인합니다 (계정이 없으면 그 자리에서 만들 수 있습니다)</li>
+  <li>로그인하면 무료 <strong>Hobby 플랜</strong>이 자동 적용됩니다 (신용카드 불필요, 첫 1주 Pro 체험 제공)</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">Cursor 첫 실행 시 나타나는 로그인 화면 (Google / GitHub / 이메일 버튼)</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 로그인 후 우상단(또는 설정)에서 내 계정과 "Hobby" 플랜 표시가 보인다</div>
+
+<h3>Step 4: VS Code 설정 가져오기 (기존 VS Code 사용자만)</h3>
+<p>커서는 VS Code를 기반으로 만든 에디터라, 쓰던 환경을 거의 그대로 가져올 수 있습니다. (VS Code를 쓴 적이 없으면 이 단계는 건너뛰어도 됩니다.)</p>
+<ol>
+  <li>설정 패널 열기: <strong>⌘+Shift+J</strong> (Mac) / <strong>Ctrl+Shift+J</strong> (Windows)</li>
+  <li>좌측의 <strong>General</strong> 섹션 → <strong>Account</strong> 항목으로 이동</li>
+  <li><strong>"Import from VS Code"</strong> 버튼을 클릭하면 한 번에 옮겨집니다: 확장(Extensions) · 테마(Themes) · 설정(Settings) · 키바인딩(단축키)</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">설정 패널의 General > Account에 있는 "Import from VS Code" 버튼</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 임포트 후 커서의 테마·단축키가 기존 VS Code와 똑같아졌다</div>
+<blockquote>⚠️ <strong>초보자가 가장 많이 막히는 지점 — Open VSX 함정</strong>: 커서는 마이크로소프트 공식 마켓플레이스가 아니라 <strong>Open VSX 레지스트리</strong>에서 확장을 가져옵니다. 확장 대부분은 정상적으로 옮겨지지만, <strong>마이크로소프트 독점 확장</strong>(예: Pylance, 일부 Remote/디버거 확장)은 가져오지 못할 수 있습니다. 또한 <strong>확장의 세부 설정은 자동으로 옮겨지지 않으므로</strong> VS Code의 <code>settings.json</code> 내용을 수동으로 복사해야 합니다. 임포트 후 핵심 확장이 정상 작동하는지 꼭 확인하세요.</blockquote>
 
 <h3>✅ 사전 준비 체크리스트</h3>
 <ul class="checklist">
   <li>이메일 또는 GitHub 계정 준비 완료</li>
-  <li>커서 데스크톱 앱 설치 완료</li>
-  <li>앱 실행 및 로그인 완료</li>
+  <li>커서 데스크톱 앱 설치 완료 (Windows .exe / Mac .dmg)</li>
+  <li>앱 실행 및 로그인 완료 (Hobby 플랜 표시 확인)</li>
+  <li>(해당자) VS Code 설정 임포트 + 핵심 확장 정상 작동 확인</li>
   <li>Node.js 설치 확인 (터미널에서 <code>node -v</code> 입력)</li>
 </ul>
 
@@ -370,26 +397,29 @@ git push -u origin main</code></pre>
 
 <h2 id="s9">9. 요금제 안내</h2>
 
-<h3>요금제 비교 (2026년 3월 기준)</h3>
+<h3>요금제 비교 (2026년 6월 기준, 6단계 구조)</h3>
+<p>2026년 커서는 과거의 "월 요청 횟수" 모델에서 <strong>사용량 크레딧(usage credits)</strong> 모델로 바뀌었습니다. 유료 플랜에서 <strong>Auto 모드는 크레딧을 소모하지 않고 무제한</strong>이며, Claude·GPT 같은 외부 프론티어 모델을 직접 골라 쓸 때만 월 크레딧에서 차감됩니다.</p>
 <table>
-  <tr><th>플랜</th><th>가격</th><th>Tab 자동완성</th><th>Agent 요청</th><th>추천 대상</th></tr>
-  <tr><td><strong>Hobby (무료)</strong></td><td>$0</td><td>제한적</td><td>제한적</td><td>입문자, 체험용</td></tr>
-  <tr><td><strong>Pro</strong></td><td>$20/월</td><td>무제한</td><td>포함</td><td>개인 개발자, 학생</td></tr>
-  <tr><td><strong>Team</strong></td><td>$40/월</td><td>무제한</td><td>포함 + 팀 기능</td><td>소규모 팀</td></tr>
-  <tr><td><strong>Pro Plus</strong></td><td>$60/월</td><td>무제한</td><td>더 많은 요청</td><td>헤비 유저</td></tr>
-  <tr><td><strong>Ultra</strong></td><td>$200/월</td><td>무제한</td><td>최대 요청</td><td>전문 개발팀</td></tr>
+  <tr><th>플랜</th><th>월 요금</th><th>핵심 내용</th><th>추천 대상</th></tr>
+  <tr><td><strong>Hobby (무료)</strong></td><td>$0</td><td>제한된 Tab·Agent, 신용카드 불필요, 1주 Pro 체험</td><td>입문자, 체험용</td></tr>
+  <tr><td><strong>Pro</strong></td><td>$20/월</td><td>무제한 Tab·Auto 모드, 월 $20 사용량 크레딧</td><td>개인 개발자, 학생</td></tr>
+  <tr><td><strong>Pro+</strong></td><td>$60/월</td><td>Pro 기능 + 월 크레딧 약 3배</td><td>헤비 유저</td></tr>
+  <tr><td><strong>Ultra</strong></td><td>$200/월</td><td>Pro 대비 약 20배 사용량, 신기능 우선 접근</td><td>전문가</td></tr>
+  <tr><td><strong>Teams</strong></td><td>$40/인·월</td><td>Pro 기능 + 중앙 결제·관리, 팀 기능, SSO</td><td>소규모 팀</td></tr>
+  <tr><td><strong>Enterprise</strong></td><td>맞춤(영업문의)</td><td>좌석 관리, 접근 제어, 감사 로그 등</td><td>기업</td></tr>
 </table>
+<blockquote><strong>공식 확인</strong>: Pro $20 / Pro+ $60 / Ultra $200 / Teams $40 등의 요금은 여러 출처에서 일치하나, 무료 한도의 정확한 숫자·Ultra 크레딧 규모·학생 무료/연간 할인 여부는 출처에 따라 다르거나 수시로 바뀝니다. 반드시 <a href="https://cursor.com/pricing" target="_blank">cursor.com/pricing</a>에서 최신 수치를 확인하세요.</blockquote>
 
 <h3>Hobby (무료) 플랜 상세</h3>
 <table>
   <tr><th>항목</th><th>내용</th></tr>
-  <tr><td><strong>Tab 자동완성</strong></td><td>하루 제한적 사용 가능</td></tr>
-  <tr><td><strong>Agent 요청</strong></td><td>제한된 횟수</td></tr>
-  <tr><td><strong>사용 가능 모델</strong></td><td>Claude Sonnet, GPT 등 기본 모델</td></tr>
+  <tr><td><strong>Tab 자동완성</strong></td><td>제한된 한도 내 사용 (정확한 숫자는 공식 페이지 확인)</td></tr>
+  <tr><td><strong>Agent 요청</strong></td><td>제한된 한도</td></tr>
+  <tr><td><strong>사용 가능 모델</strong></td><td>Auto 모드 + 기본 모델</td></tr>
   <tr><td><strong>신용카드</strong></td><td>불필요</td></tr>
-  <tr><td><strong>Checkpoint</strong></td><td>사용 가능</td></tr>
+  <tr><td><strong>Pro 체험</strong></td><td>첫 1주 제공</td></tr>
 </table>
-<blockquote><strong>초보자 추천</strong>: 처음에는 <strong>Hobby (무료) 플랜</strong>으로 시작하세요. 무료로 커서의 핵심 기능을 체험한 후, 필요에 따라 Pro 플랜으로 업그레이드하면 됩니다.</blockquote>
+<blockquote><strong>초보자 추천</strong>: 처음에는 <strong>Hobby (무료) 플랜</strong>으로 시작하세요. 무료 한도는 가벼운 체험에 충분하며, 본격적으로 쓰게 되면 Pro($20/월)로 업그레이드하면 됩니다. 학생(.edu 이메일)에게 1년 Pro 무료를 제공한다는 안내도 있으나, 운영 여부는 공식 사이트에서 확인하세요.</blockquote>
 
 <h3>She Builds on Lovable 이벤트와의 관계</h3>
 <blockquote>⚠️ <strong>주의</strong>: She Builds on Lovable 이벤트(2026년 3월)의 혜택(25시간 무료 빌드, $100 API 크레딧 등)은 <strong>러버블 전용</strong>입니다. 커서에는 적용되지 않습니다. 커서는 별도의 Hobby 무료 플랜을 제공합니다.</blockquote>
@@ -536,6 +566,30 @@ build/</code></pre>
   <li><strong>Terminal Cmd+K를 활용하세요</strong>: 터미널 명령어가 기억나지 않을 때 자연어로 입력</li>
 </ol>
 
+<h2 id="learn-more">더 배우려면 (공식·외부 학습자료)</h2>
+<p>빠르게 바뀌는 정보(버전·요금·무료 한도)는 아래 <strong>공식 페이지를 직접 확인</strong>하는 것이 가장 정확합니다.</p>
+
+<h3>공식 자료 (1순위)</h3>
+<table>
+  <tr><th>자료</th><th>설명</th><th>링크</th></tr>
+  <tr><td>Cursor 공식 사이트</td><td>소개·다운로드</td><td><a href="https://cursor.com" target="_blank">cursor.com</a></td></tr>
+  <tr><td>다운로드</td><td>OS별 설치 파일</td><td><a href="https://cursor.com/download" target="_blank">cursor.com/download</a></td></tr>
+  <tr><td>공식 문서(Docs)</td><td>기능별 상세 가이드</td><td><a href="https://cursor.com/docs" target="_blank">cursor.com/docs</a></td></tr>
+  <tr><td>VS Code 마이그레이션 가이드</td><td>설정·확장 가져오기</td><td><a href="https://cursor.com/docs/configuration/migrations/vscode" target="_blank">cursor.com/docs</a></td></tr>
+  <tr><td>가격 페이지</td><td>최신 플랜·요금</td><td><a href="https://cursor.com/pricing" target="_blank">cursor.com/pricing</a></td></tr>
+  <tr><td>변경 이력(Changelog)</td><td>최신 버전·기능 추적</td><td><a href="https://cursor.com/changelog" target="_blank">cursor.com/changelog</a></td></tr>
+  <tr><td>커뮤니티 포럼</td><td>질문·문제 해결</td><td><a href="https://forum.cursor.com" target="_blank">forum.cursor.com</a></td></tr>
+</table>
+
+<h3>외부 표준 자료 (참고용 2순위)</h3>
+<table>
+  <tr><th>자료</th><th>설명</th><th>링크</th></tr>
+  <tr><td>Git 공식 문서</td><td>버전 관리 기초</td><td><a href="https://git-scm.com/doc" target="_blank">git-scm.com/doc</a></td></tr>
+  <tr><td>Node.js 공식</td><td>설치·실행 환경</td><td><a href="https://nodejs.org" target="_blank">nodejs.org</a></td></tr>
+  <tr><td>Vercel 배포 문서</td><td>무료 배포 가이드</td><td><a href="https://vercel.com/docs" target="_blank">vercel.com/docs</a></td></tr>
+  <tr><td>MDN Web Docs</td><td>웹 개발 표준 레퍼런스</td><td><a href="https://developer.mozilla.org" target="_blank">developer.mozilla.org</a></td></tr>
+</table>
+
 <h2 id="s13">13. 다음 단계</h2>
 <p>커서 초보자편을 마치셨습니다! 다음 단계를 선택하세요:</p>
 <table>
@@ -568,7 +622,7 @@ build/</code></pre>
 </div>
 
 <footer>
-  본 교안은 Cursor v2.6(2026.3 기준)을 기반으로 작성되었습니다.
+  본 교안은 Cursor 3.x 세대(2026.6 기준)를 기반으로 작성되었습니다. 최종 검증일 2026-06-26 · 버전·가격은 공식 페이지에서 확인하세요.
 </footer>
 
 <!-- Mobile TOC -->
