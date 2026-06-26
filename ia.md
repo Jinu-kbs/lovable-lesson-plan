@@ -63,14 +63,44 @@
 │   ├── /deployment-intermediate.html ─── 중급자편
 │   └── /deployment-developer.html ─── 개발자편
 │
-├── /ai-compare.html ─── AI 도구 비교 (Claude vs ChatGPT)
-├── /compare.html ─── 도구 비교
+├── 구글 생태계 (Google) — Docs·Sheets·NotebookLM·Gemini
+│   ├── /google-beginner.html ─── 초보자편
+│   ├── /google-intermediate.html ─── 중급자편
+│   └── /google-developer.html ─── 개발자편
 │
-└── 리다이렉트 스텁 (기존 URL 호환)
-    ├── /beginner.html → lovable-beginner.html
-    ├── /intermediate.html → lovable-intermediate.html
-    └── /developer.html → lovable-developer.html
+├── MCP (Model Context Protocol)
+│   ├── /mcp-beginner.html ─── 초급 (서버 설치·사용)
+│   ├── /mcp-intermediate.html ─── 중급 (다중 서버·보안)
+│   └── /mcp-developer.html ─── 개발자 (커스텀 서버 제작)
+│
+├── 단일 페이지 (철학·교육론)
+│   ├── /ai-intro.html ─── AI 교육 철학
+│   └── /ai-science.html ─── AI 과학교육
+│
+├── 비교 페이지
+│   ├── /compare.html ─── 도구 비교
+│   └── /ai-compare.html ─── AI 도구 5종 비교
+│
+├── 심화·리포트
+│   ├── /claude-code-roadmap.html ─── Claude Code 마스터 로드맵
+│   ├── /harness-engineering.html ─── 하네스 엔지니어링
+│   ├── /claude-skills.html ─── 클로드 스킬 가이드
+│   ├── /software-engineering.html ─── 소프트웨어 엔지니어링 (SOLID·Clean Code·TDD·CI/CD)
+│   └── /nvidia-gtc-2025.html ─── NVIDIA GTC 2025 리포트
+│
+├── 리다이렉트 스텁 (기존 URL 호환)
+│   ├── /beginner.html → lovable-beginner.html
+│   ├── /intermediate.html → lovable-intermediate.html
+│   └── /developer.html → lovable-developer.html
+│
+└── [계획·진행중 — 2026.6 정비]
+    ├── 웹·앱 개발 기초 (webdev) — SE 지식배경+실습 3레벨 (신설 예정)
+    └── Claude 생태계 (신설 예정)
+        ├── Claude Cowork — 3레벨 (지식노동 에이전트, 프리뷰)
+        └── Claude Design — 3레벨 (디자인·프로토타입, 프리뷰)
 ```
+
+> **기본기 축(2026.6 정비)**: 도구 교안 이전에 갖춰야 할 불변 기초 — ⓐ터미널·CLI·파일시스템(devinterface) ⓑ웹 3종(HTTP·HTML/CSS/JS·배포 원리) ⓒ버전관리(github) ⓓ문제해결·디버깅(prompt). "기초·인프라" 카테고리가 이 축을 담당한다.
 
 ## 공통 코드
 

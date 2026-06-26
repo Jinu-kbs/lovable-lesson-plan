@@ -1,4 +1,6 @@
-# ERD (Entity Relationship Diagram) — 김선생의 러버블 입문 교안
+# ERD (Entity Relationship Diagram) — 김선생의 바이브코딩 가이드
+
+> 최종 갱신: 2026-06-26 (v3.0)
 
 ## 관련 문서
 
@@ -136,6 +138,39 @@
 | 무료 빌드 | 25시간 무제한 | 이벤트 시간 lovable.dev 접속 |
 | API 크레딧 | $100 Claude API | Lovable 대시보드 내 링크 |
 | Stripe 크레딧 | $250 수수료 면제 | Stripe 연동 시 적용 |
+
+---
+
+### 6. 교안 메타데이터 (LessonsData) — `lessons-data.js`
+
+**저장소**: `lessons-data.js` (전역 `LESSONS` 객체). `common.js`가 이 데이터로 브레드크럼·선수학습·학습경로·관련교안·footer 네비게이션을 자동 생성한다(단일 진실원).
+
+```js
+LESSONS = {
+  tools: {
+    [toolId]: {
+      name, icon, color,                 // 표시 메타
+      beginner:     { url, title, desc }, // 레벨별
+      intermediate: { url, title, desc },
+      developer:    { url, title, desc },
+      related: [toolId, ...],            // 관련교안 카드 생성
+      prereqs: { [level]: ["tool-level", ...] }  // 선수학습 배너 생성
+    }
+  },
+  special: { [id]: { url, title, icon, color } },  // 특별 페이지
+  paths:   { [pathName]: [ { tool, level }, ... ] }, // 추천 학습경로
+  levelNames: { beginner, intermediate, developer }  // UI 라벨
+}
+```
+
+| 컬렉션 | 현재 항목 |
+|--------|-----------|
+| `tools` | lovable, antigravity, cursor, aistudio, claude-code, devinterface, chatgpt, prompt, github, deployment, google, **mcp** (11~12종) |
+| `special` | ai-intro, ai-science, compare, ai-compare, harness-engineering, claude-skills, software-engineering (+ claude-code-roadmap, nvidia-gtc-2025) |
+| `paths` | 입문/중급/개발자 추천 경로 |
+| `levelNames` | 초보자/중급자/개발자 라벨 |
+
+**v3.0 확장 예정**: `tools`에 `webdev`(웹·앱 개발 기초), `claude-cowork`, `claude-design` 추가. 신규 색상 테마 3종.
 
 ---
 
