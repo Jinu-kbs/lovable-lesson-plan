@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹·앱 개발 기초 — 중급자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#7C3AED;--primary-light:#C4B5FD;--blockquote-bg:#F3EEFE;--hover-bg:#F7F4FE}
+</style>
+<script src="lessons-data.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="webdev-beginner.html">초보자편</a>
+  <a href="webdev-intermediate.html" class="active">중급자편</a>
+  <a href="webdev-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>웹·앱 개발 기초 — 중급자편</h1>
+  <div class="meta">대상: 웹의 큰 그림을 한 번 본 분 · 목표: DOM·이벤트·상태·비동기·API로 동적 상호작용의 메커니즘을 설명한다 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#core">핵심 메시지</a>
+  <a href="#vs">도구 vs 나</a>
+  <a href="#s1">1. DOM — 살아 있는 화면</a>
+  <a href="#s2">2. 이벤트와 상태</a>
+  <a href="#s3">3. 비동기와 fetch</a>
+  <a href="#s4">4. API와 JSON</a>
+  <a href="#s5">5. 반응형·접근성 기초</a>
+  <a href="#s6">6. 실습: 동적 상호작용 + API 연동</a>
+  <a href="#more">더 배우려면</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<div class="verify-badge"><strong>최종 검토일</strong> 2026-06-26 · 근거: research/21_webapp-foundations.md(§3 동적 상호작용·§4 백엔드/데이터·§6.2 중급자편 구성안). 권위 출처는 MDN·freeCodeCamp·The Odin Project 공개 문서입니다.</div>
+
+<h2 id="core">핵심 메시지</h2>
+<p>바이브코딩 도구는 <strong>"타이핑"을 대신해 줄 뿐, "생각"을 대신해 주지는 않습니다.</strong> 초보자편이 "웹이 어떻게 말을 주고받는가"의 큰 그림이었다면, 중급자편은 <strong>화면이 어떻게 살아 움직이는가</strong> — 클릭 한 번이 어떻게 화면을 바꾸고, 데이터가 어떻게 서버를 오가는지 — 의 메커니즘입니다.</p>
+<p>이 메커니즘을 알면 "왜 화면이 안 바뀌지?", "왜 데이터가 잠깐 비었다가 채워지지?" 같은 막연한 공포가 <strong>구체적 질문</strong>으로 바뀝니다.</p>
+
+<h2 id="vs">도구가 대신 해주는 것 vs 내가 알아야 하는 것</h2>
+<table>
+  <tr><th>도구가 대신 해주는 것 (타이핑)</th><th>내가 알아야 하는 것 (생각)</th></tr>
+  <tr><td>DOM을 직접 찾고 조작하는 코드 작성</td><td>화면 = DOM이라는 등식, "무엇이 바뀌어야 하는가"</td></tr>
+  <tr><td><code>addEventListener</code> 연결, 핸들러 골격</td><td>어떤 이벤트에 무슨 일이 일어나야 하는가</td></tr>
+  <tr><td>상태 변경 시 화면 자동 재렌더</td><td>"지금 앱이 무엇을 기억해야 하는가"(상태 설계)</td></tr>
+  <tr><td><code>fetch</code>·<code>async/await</code> 문법, 에러 처리 골격</td><td>어떤 API에 무엇을 요청하고 응답을 어떻게 쓸지</td></tr>
+  <tr><td>로딩 스피너·반응형 레이아웃 자동 생성</td><td>로딩/실패/빈 상태를 "보여줄지 말지" 판단</td></tr>
+  <tr><td>미디어 쿼리·<code>alt</code> 속성 자동 삽입</td><td>모든 기기·모든 사용자에게 작동하는지 점검</td></tr>
+</table>
+<blockquote><p>핵심: 도구가 만든 결과를 <strong>검증하고, 막혔을 때 원인을 짚으려면</strong> 오른쪽 열이 머릿속에 있어야 합니다.</p></blockquote>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. DOM — 살아 있는 화면</h2>
+
+<h3>1-1. HTML 파일 vs DOM</h3>
+<p>브라우저는 HTML 텍스트를 읽어 <strong>DOM(Document Object Model)</strong>이라는 나무 구조(tree)의 객체로 메모리에 올립니다.</p>
+<pre><code>document
+└── html
+    ├── head
+    └── body
+        └── article
+            ├── h1  ("제목입니다")
+            ├── p
+            └── button</code></pre>
+<p>핵심 등식: <strong>HTML 파일은 "설계도"이고, DOM은 브라우저 메모리 속에서 살아 움직이는 "실제 건물"입니다.</strong> JavaScript가 화면을 바꾸는 일은 사실상 HTML 파일이 아니라 이 DOM 트리를 조작하는 것입니다.</p>
+
+<h3>1-2. "내가 보는 화면 = DOM"</h3>
+<p>이 등식 하나가 동적 웹의 90%를 이해하게 만듭니다. 버튼을 눌렀더니 글자가 바뀌는 모든 상호작용은 "JS가 DOM의 어떤 노드를 찾아 내용/스타일을 바꿨다"로 설명됩니다.</p>
+<blockquote><p>브라우저 개발자도구(F12)의 <strong>Elements 탭</strong>이 바로 이 DOM을 실시간으로 보여 줍니다. HTML 원본과 달리, JS가 바꾼 결과까지 반영된 "현재의 화면"입니다.</p></blockquote>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">개발자도구(F12) → Elements 탭에서 DOM 트리가 펼쳐진 화면. 버튼을 누르면 특정 노드의 텍스트가 실시간으로 바뀌는 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> F12로 Elements 탭을 열고, 페이지의 버튼/메뉴를 눌렀을 때 트리의 어떤 부분이 하이라이트되며 바뀌는지 한 곳이라도 짚을 수 있으면 OK.</div>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. 이벤트와 상태</h2>
+
+<h3>2-1. 이벤트 — "사용자가 무언가 했다"</h3>
+<p>사용자의 행동(클릭, 입력, 스크롤, 키 누름)을 브라우저는 <strong>이벤트</strong>로 만들어 알려 줍니다. JS는 "이 이벤트가 일어나면 이 함수를 실행해"라고 <strong>이벤트 리스너(listener)</strong>를 걸어 둡니다.</p>
+<pre><code>const button = document.querySelector('button');
+button.addEventListener('click', () =&gt; {
+  alert('버튼이 눌렸습니다!');
+});</code></pre>
+<p>이 <strong>"이벤트 → 핸들러(처리 함수)"</strong> 패턴이 모든 상호작용의 기본 골격입니다. 폼 제출, 좋아요 버튼, 메뉴 토글 전부 이 구조입니다.</p>
+
+<h3>2-2. 상태 — "지금 앱이 기억하고 있는 것"</h3>
+<p><strong>상태(State)</strong>는 앱이 현재 기억하고 있는 데이터입니다. "로그인됨/안 됨", "장바구니에 든 상품 3개", "다크모드 켜짐". 동적 앱의 동작은 이렇게 요약됩니다:</p>
+<pre><code>이벤트 발생 → 상태 변경 → 화면(DOM)을 새 상태에 맞춰 다시 그림</code></pre>
+<p>예: "장바구니 담기"(이벤트) → 장바구니 개수 +1(상태 변경) → 우상단 숫자 갱신(DOM 갱신). React 같은 프레임워크와 바이브코딩 도구가 자동화해 주는 것이 바로 "상태가 바뀌면 화면을 알아서 다시 그리는" 이 루프입니다.</p>
+<blockquote><p><strong>디버깅 직관</strong>: "왜 화면이 새 데이터로 안 바뀌지?"는 거의 항상 둘 중 하나입니다 — (1) 상태가 안 바뀌었거나, (2) 바뀐 상태로 화면을 다시 안 그렸거나. 이 두 가지로 좁히는 것만으로 원인 추적이 절반으로 줍니다.</p></blockquote>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 자기가 쓰는 앱에서 "이벤트 → 상태 변경 → 화면 갱신" 사례를 하나 찾아 세 단계로 말로 설명할 수 있으면 OK. (예: 좋아요 클릭 → 좋아요 수 +1 → 하트 색·숫자 갱신)</div>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. 비동기와 fetch</h2>
+
+<h3>3-1. 비동기 — "기다리는 동안 멈추지 않기"</h3>
+<p>서버에서 데이터를 받아오는 일은 시간이 걸립니다(네트워크 왕복). 이때 프로그램이 멈춰 버리면 화면이 얼어붙습니다. <strong>비동기(Asynchronous) 프로그래밍</strong>은 오래 걸리는 작업을 시작해 놓고, 끝나길 기다리는 대신 다른 일에 계속 응답할 수 있게 하는 기법입니다.</p>
+<p>이를 표현하는 도구가 <strong>프라미스(Promise)</strong>입니다. 프라미스는 비동기 작업의 최종 완료(또는 실패)를 나타내는 객체로, "지금은 결과가 없지만, 나중에 성공하면 이걸, 실패하면 저걸 해 줘"라는 약속입니다.</p>
+<pre><code>fetch('/api/data')                     // 1. 요청을 보낸다 (Promise 반환)
+  .then(response =&gt; response.json())   // 2. 응답이 오면 JSON으로 해석
+  .then(data =&gt; console.log(data))     // 3. 데이터를 사용
+  .catch(error =&gt; console.error(error)); // 4. 실패하면 에러 처리</code></pre>
+<p>요즘은 더 읽기 쉬운 <code>async/await</code> 문법을 씁니다:</p>
+<pre><code>async function loadData() {
+  try {
+    const response = await fetch('/api/data');  // 응답을 기다림
+    const data = await response.json();          // 해석을 기다림
+    console.log(data);
+  } catch (error) {
+    console.error('실패:', error);
+  }
+}</code></pre>
+<blockquote><p><strong>로딩의 정체</strong>: "로딩 스피너가 도는 동안 다른 버튼은 눌리는" 경험이 바로 비동기입니다. "왜 데이터가 잠깐 비어 보였다가 채워지는지"도 비동기로 설명됩니다 — 화면을 먼저 그리고, 데이터가 도착하면 그때 채웁니다.</p></blockquote>
+
+<h3>3-2. fetch — 브라우저의 표준 통신 창구</h3>
+<p><strong>Fetch API</strong>는 HTTP 요청을 보내고 응답을 처리하는 JavaScript 인터페이스입니다. 프라미스 기반이며 현대 웹의 표준 통신 방식입니다.</p>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. API와 JSON</h2>
+
+<h3>4-1. API — 프로그램끼리 대화하는 약속</h3>
+<p><strong>API(Application Programming Interface)</strong>는 한 프로그램이 다른 프로그램에게 "이런 요청을 이렇게 보내면, 이런 형식으로 답해 줄게"라고 정해 둔 약속·창구입니다. 웹에서는 보통 HTTP 요청-응답으로 구현됩니다. 예: 날씨 API에 도시 이름을 보내면 기온을 돌려줍니다.</p>
+
+<h3>4-2. JSON — 프로그램끼리 주고받는 표준 텍스트</h3>
+<p><strong>JSON(JavaScript Object Notation)</strong>은 프로그램끼리 데이터를 주고받을 때 쓰는 표준 텍스트 형식입니다. 사람도 읽을 수 있고 기계도 파싱하기 쉽습니다.</p>
+<pre><code>{
+  "name": "김선생",
+  "level": "intermediate",
+  "courses": ["lovable", "cursor"],
+  "active": true
+}</code></pre>
+<p><code>fetch</code>로 받은 응답을 <code>.json()</code> 메서드로 JS 객체로 바꿉니다. <code>json()</code> 역시 비동기입니다.</p>
+
+<h3>4-3. fetch 7단계 사이클 — 현대 웹 앱 상호작용의 표준</h3>
+<p>전체 그림을 한 번에 묶으면 1~4장이 하나의 흐름으로 꿰어집니다:</p>
+<pre><code>① 사용자가 버튼 클릭 (이벤트)
+   ↓
+② JS가 fetch로 서버에 GET 요청 (비동기 시작)
+   ↓  ← 이 사이 화면은 안 멈춤 (로딩 표시)
+③ 서버가 JSON 응답 (200 OK)
+   ↓
+④ .json()으로 JS 객체로 변환
+   ↓
+⑤ 상태 변경
+   ↓
+⑥ DOM 갱신
+   ↓
+⑦ 사용자에게 결과 표시</code></pre>
+<p>이 7단계가 현대 웹 앱 상호작용의 표준 사이클입니다. 막혔을 때 "몇 번 단계에서 멈췄는가"로 진단하면 원인이 빨리 좁혀집니다.</p>
+<blockquote><p><strong>상태 코드로 1차 진단</strong>: 응답이 <code>4xx</code>로 시작하면 내(요청)가 잘못한 것(주소 오타·로그인 안 됨·권한 없음), <code>5xx</code>로 시작하면 서버 쪽 문제입니다. 개발자도구 Network 탭에서 이 숫자만 읽어도 ③ 단계의 실패를 즉시 가릅니다.</p></blockquote>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 개발자도구 Network 탭을 열고 페이지를 새로고침해, 요청 하나를 골라 상태 코드(200/404 등)와 응답 형식(JSON 여부)을 확인할 수 있으면 OK.</div>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. 반응형·접근성 기초</h2>
+
+<h3>5-1. 반응형 웹 — 모든 기기에서 작동</h3>
+<p><strong>반응형 웹(Responsive Web Design)</strong>은 화면 크기(PC·태블릿·모바일)에 맞춰 레이아웃이 자동으로 바뀌는 설계입니다. 미디어 쿼리(media query)와 유연한 단위(<code>%</code>, <code>rem</code>, <code>fr</code>)를 씁니다. freeCodeCamp의 첫 자격증 이름이 "Responsive Web Design"일 만큼 기본기로 취급됩니다.</p>
+
+<h3>5-2. 접근성(a11y) — 모든 사용자에게 작동</h3>
+<p><strong>접근성(Accessibility, a11y)</strong>은 장애가 있는 사용자, 키보드만 쓰는 사용자, 느린 네트워크 사용자도 쓸 수 있게 만드는 것입니다. 기본 요소:</p>
+<ul>
+  <li>시맨틱 HTML (<code>&lt;button&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> 등 의미 있는 태그)</li>
+  <li>이미지 대체텍스트(<code>alt</code>)</li>
+  <li>충분한 색 대비</li>
+  <li>키보드 포커스(Tab으로 조작 가능)</li>
+</ul>
+<p>법적 요구사항이기도 합니다.</p>
+<blockquote><p><strong>바이브코딩 연결</strong>: 도구가 만든 화면을 휴대폰 크기로 줄여 보고(반응형 점검), 키보드 Tab으로만 조작해 보는(접근성 점검) 습관은 코드를 한 줄도 안 짜도 품질을 올립니다.</p></blockquote>
+
+<!-- SECTION 6 -->
+<h2 id="s6">6. 실습 — 동적 상호작용 + 외부 API 연동 (따라하기)</h2>
+<p>목표: 빈 페이지에 (A) JS로 동적 상호작용을 추가하고, (B) 외부 API에서 데이터를 받아 화면에 표시합니다. 바이브코딩 도구에 시키더라도, 결과물이 아래 흐름대로 움직이는지 검증할 수 있어야 합니다.</p>
+
+<h3>6-1. 실습 A — 클릭 카운터 (이벤트 → 상태 → DOM)</h3>
+<p>가장 작은 "이벤트 → 상태 변경 → 화면 갱신" 루프를 손으로 만듭니다.</p>
+<pre><code>&lt;button id="btn"&gt;클릭&lt;/button&gt;
+&lt;p&gt;클릭 횟수: &lt;span id="count"&gt;0&lt;/span&gt;&lt;/p&gt;
+
+&lt;script&gt;
+  let count = 0;                              // 상태
+  const btn = document.querySelector('#btn');
+  const view = document.querySelector('#count');
+
+  btn.addEventListener('click', () =&gt; {       // 이벤트
+    count = count + 1;                        // 상태 변경
+    view.textContent = count;                 // DOM 갱신
+  });
+&lt;/script&gt;</code></pre>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">버튼을 여러 번 눌러 "클릭 횟수" 숫자가 0 → 1 → 2로 올라가는 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 버튼을 누를 때마다 숫자가 1씩 늘면 OK. 늘지 않으면 (1) 리스너가 안 걸렸거나 (2) <code>textContent</code> 갱신이 빠졌는지 두 곳을 봅니다.</div>
+
+<h3>6-2. 실습 B — 외부 API 연동 (fetch 7단계)</h3>
+<p>무료 공개 API에서 데이터를 받아 화면에 표시합니다. 여기서는 인증이 필요 없는 테스트용 API(<code>jsonplaceholder.typicode.com</code>)를 씁니다.</p>
+<pre><code>&lt;button id="load"&gt;글 불러오기&lt;/button&gt;
+&lt;div id="status"&gt;&lt;/div&gt;
+&lt;ul id="list"&gt;&lt;/ul&gt;
+
+&lt;script&gt;
+  const loadBtn = document.querySelector('#load');
+  const statusBox = document.querySelector('#status');
+  const list = document.querySelector('#list');
+
+  loadBtn.addEventListener('click', async () =&gt; {   // ① 이벤트
+    statusBox.textContent = '불러오는 중...';        // 로딩 상태 표시
+    try {
+      const res = await fetch(                        // ② fetch 요청 (비동기)
+        'https://jsonplaceholder.typicode.com/posts?_limit=5'
+      );
+      if (!res.ok) throw new Error('상태코드 ' + res.status); // ③ 응답 점검
+      const posts = await res.json();                 // ④ JSON → JS 객체
+
+      list.innerHTML = '';                            // ⑤~⑥ 상태 반영 + DOM 갱신
+      posts.forEach(p =&gt; {
+        const li = document.createElement('li');
+        li.textContent = p.title;
+        list.appendChild(li);
+      });
+      statusBox.textContent = '완료!';                 // ⑦ 결과 표시
+    } catch (err) {
+      statusBox.textContent = '실패: ' + err.message;  // 실패 처리
+    }
+  });
+&lt;/script&gt;</code></pre>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">"글 불러오기" 버튼을 누른 직후 "불러오는 중..."이 보이고, 잠시 뒤 제목 5개가 목록으로 채워진 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 버튼을 누르면 (1) 로딩 표시가 잠깐 보였다가 (2) 목록 5개가 채워지면 OK. 실패 시 개발자도구 Network 탭에서 그 요청의 상태 코드를 확인해 ③ 단계 실패인지(4xx/5xx) 가릅니다.</div>
+<blockquote><p><strong>바이브코딩 연결</strong>: 도구에 "버튼을 누르면 외부 API에서 글 목록을 받아 보여 줘"라고 시키면, 내부적으로 위 7단계가 그대로 만들어집니다. 개념을 알면 "로딩 표시가 없다", "에러 처리가 빠졌다" 같은 구체적 보완 지시를 내릴 수 있습니다.</p></blockquote>
+
+<!-- MORE -->
+<h2 id="more">더 배우려면</h2>
+<table>
+  <tr><th>자료</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>MDN — Using the Fetch API</strong></td><td>fetch로 네트워크 요청 보내기</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">developer.mozilla.org</a></td></tr>
+  <tr><td><strong>MDN — Asynchronous JavaScript</strong></td><td>비동기·프라미스 개념 전반(학습 모듈)</td><td><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Async_JS" target="_blank">developer.mozilla.org</a></td></tr>
+  <tr><td><strong>MDN — JavaScript</strong></td><td>DOM·이벤트·언어 레퍼런스</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">developer.mozilla.org</a></td></tr>
+  <tr><td><strong>freeCodeCamp — JavaScript Algorithms and Data Structures</strong></td><td>변수·배열·객체·함수 무료 과정</td><td><a href="https://www.freecodecamp.org/learn/javascript-v9" target="_blank">freecodecamp.org</a></td></tr>
+  <tr><td><strong>The Odin Project — Intermediate HTML and CSS</strong></td><td>반응형·접근성 중급 챕터</td><td><a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/intermediate-html-and-css" target="_blank">theodinproject.com</a></td></tr>
+</table>
+
+<!-- SOURCES -->
+<section id="sources">
+<h2>📚 출처 및 참고자료</h2>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">MDN — Using the Fetch API</a></td><td>fetch·응답 처리·JSON</td></tr>
+  <tr><td><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Async_JS" target="_blank">MDN — Asynchronous JavaScript</a></td><td>비동기·프라미스 학습 모듈</td></tr>
+  <tr><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">MDN — JavaScript</a></td><td>DOM·이벤트·언어 레퍼런스</td></tr>
+  <tr><td><a href="https://www.freecodecamp.org/learn/javascript-v9" target="_blank">freeCodeCamp — JS Algorithms and Data Structures</a></td><td>JavaScript 무료 과정</td></tr>
+  <tr><td><a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/intermediate-html-and-css" target="_blank">The Odin Project — Intermediate HTML and CSS</a></td><td>반응형·접근성 중급 과정</td></tr>
+  <tr><td>research/21_webapp-foundations.md</td><td>KBS Lab 딥리서치(2026-06-26) §3·§4·§6.2</td></tr>
+</table>
+</section>
+
+</main>
+</div>
+
+<footer>본 교안은 웹·앱 개발 기초(동적 상호작용·데이터) 중급 학습을 위해 작성되었습니다.</footer>
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel"><h3>목차</h3></div>
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+<script src="common.js"></script>
+</body>
+</html>

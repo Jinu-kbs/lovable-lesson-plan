@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>웹·앱 개발 기초 — 초보자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#7C3AED;--primary-light:#C4B5FD;--blockquote-bg:#F5F3FF;--hover-bg:#FAF5FF}
+</style>
+<script src="lessons-data.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="webdev-beginner.html" class="active">초보자편</a>
+  <a href="webdev-intermediate.html">중급자편</a>
+  <a href="webdev-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🌱 웹·앱 개발 기초 — 초보자편</h1>
+  <div class="meta">대상: 바이브코딩 도구로 결과물은 만들지만 "왜·어떻게" 작동하는지 모르는 완전 입문자 · 목표: 코드 없이도 웹의 큰 그림(요청-응답, 브라우저·서버, HTML/CSS/JS의 역할)을 그릴 수 있다 · 약 2~3시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#intro">왜 밑의 지식이 필요한가</a>
+  <a href="#s1">1. 요청과 응답의 대화</a>
+  <a href="#s2">2. 주소의 비밀 — URL과 DNS</a>
+  <a href="#s3">3. 상태 코드로 읽는 신호</a>
+  <a href="#s4">4. 화면을 만드는 3형제</a>
+  <a href="#s5">5. 코드가 화면이 되는 과정</a>
+  <a href="#s6">6. 도구가 해주는 것 vs 내가 알 것</a>
+  <a href="#s7">7. 실습 — 첫 정적 페이지</a>
+  <a href="#s8">8. 더 배우려면</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<div class="verify-badge"><strong>최종 검토일</strong> 2026-06-26 · 웹 기초 개념 중심(도구 화면은 자주 바뀜)</div>
+
+<!-- INTRO -->
+<h2 id="intro">왜 "밑의 지식"이 필요한가</h2>
+<p>바이브코딩 도구는 자연어 한 줄로 화면과 버튼, 데이터베이스까지 만들어 줍니다. 그러나 도구가 만들어 준 결과물은 결국 <strong>HTML·CSS·JavaScript·HTTP</strong>라는, 30년 넘게 변하지 않은 웹의 토대 위에서 작동합니다.</p>
+<p>핵심 메시지는 하나입니다. <strong>바이브코딩은 "타이핑"을 대신해 줄 뿐, "생각"을 대신해 주지는 않습니다.</strong> 도구에게 좋은 지시를 내리고, 결과를 검증하고, 막혔을 때 원인을 짚으려면 이 토대가 머릿속에 있어야 합니다.</p>
+<blockquote><p>비유: 자동변속기 차를 몰 때 변속기 톱니바퀴를 직접 조작할 필요는 없습니다. 하지만 "엔진·브레이크·연료·타이어"가 무엇인지는 알아야 안전하게 운전하고, 차가 이상할 때 정비소에 정확히 설명할 수 있습니다. 이 교안은 바이브코딩의 "운전 상식"입니다.</p></blockquote>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. 웹은 요청과 응답의 대화다</h2>
+<p>웹의 모든 것은 <strong>클라이언트(client)가 요청(request)을 보내고, 서버(server)가 응답(response)을 돌려주는</strong> 단순한 대화 구조로 환원됩니다.</p>
+<pre><code>[클라이언트/브라우저]  ──── 요청(Request) ────▶  [서버]
+                       ◀──── 응답(Response) ────</code></pre>
+<ul>
+  <li><strong>클라이언트(Client)</strong>: 사용자가 직접 만지는 쪽. 보통 웹 브라우저(크롬·사파리·엣지)이며, 모바일 앱도 클라이언트입니다. "데이터를 보여 달라"고 요청하는 주체입니다.</li>
+  <li><strong>서버(Server)</strong>: 인터넷 어딘가에 항상 켜져 있는 컴퓨터. 요청을 받아 처리하고 응답을 돌려줍니다.</li>
+</ul>
+<p>클라이언트와 서버는 <strong>물리적으로 떨어진 두 컴퓨터</strong>입니다. 유튜브를 보든, 인스타에 사진을 올리든, 러버블로 만든 앱에서 버튼을 누르든 — 내부에서는 모두 이 요청-응답이 수십·수백 번 오갑니다. 바이브코딩 도구가 "백엔드를 연결했다"고 말할 때, 그것은 곧 "서버 쪽에서 요청을 처리할 코드와 저장소를 붙였다"는 뜻입니다.</p>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> "내 화면(클라이언트)이 서버에 무언가를 요청하고, 서버가 답(응답)을 준다"는 한 문장을 스스로 말로 설명할 수 있다.</div>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. 주소의 비밀 — URL과 DNS</h2>
+<p>사람은 <code>youtube.com</code> 같은 <strong>도메인 이름</strong>을 쓰지만, 컴퓨터는 <code>142.250.x.x</code> 같은 <strong>IP 주소</strong>로만 서로를 찾습니다. 이 둘을 연결해 주는 것이 <strong>DNS(Domain Name System)</strong> — 웹의 전화번호부입니다.</p>
+<p>브라우저가 주소창의 도메인을 IP로 바꾸는 과정(이름 해석):</p>
+<ol>
+  <li>브라우저/OS가 <strong>로컬 DNS 캐시</strong>에 해당 도메인의 IP가 있는지 확인합니다 (이미 방문했으면 여기서 끝).</li>
+  <li>없으면 <strong>DNS 서버</strong>에 "이 도메인의 IP가 뭐냐"고 물어봅니다.</li>
+  <li>DNS 서버가 IP를 알려 주면, 그제서야 브라우저가 그 IP의 웹 서버와 실제 통신을 시작합니다.</li>
+</ol>
+<p><strong>URL(Uniform Resource Locator)</strong> 은 "자원을 어디서 어떻게 가져올지"를 한 줄에 담은 주소입니다.</p>
+<pre><code>https://example.com:443/products/shoes?color=red#reviews
+└─┬─┘   └────┬────┘ └┬┘ └────┬─────┘ └───┬────┘ └──┬──┘
+프로토콜    도메인    포트    경로(path)   쿼리스트링  프래그먼트
+(스킴)                               (?뒤 파라미터)  (#앵커)</code></pre>
+<ul>
+  <li><strong>프로토콜(스킴)</strong>: <code>https://</code> — 어떤 규약으로 통신할지. <code>s</code>는 암호화(보안)를 뜻합니다.</li>
+  <li><strong>도메인</strong>: <code>example.com</code> — 어느 서버인지.</li>
+  <li><strong>포트</strong>: <code>:443</code> — 그 서버의 어느 "문"으로 들어갈지 (HTTPS 기본 443, 생략 가능).</li>
+  <li><strong>경로(path)</strong>: <code>/products/shoes</code> — 서버 안의 어느 자원인지.</li>
+  <li><strong>쿼리스트링</strong>: <code>?color=red</code> — 서버에 넘기는 추가 조건/파라미터.</li>
+  <li><strong>프래그먼트</strong>: <code>#reviews</code> — 한 페이지 안의 특정 위치(앵커). 서버로 전송되지 않고 브라우저가 처리합니다.</li>
+</ul>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 내가 만든 사이트 주소가 <code>https://my-app.lovable.app/dashboard?tab=stats</code>처럼 보일 때, 각 조각(프로토콜·도메인·경로·쿼리)을 가리킬 수 있다.</div>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. 상태 코드로 읽는 신호 — 디버깅 첫걸음</h2>
+<p>서버는 요청에 대해 "결과가 어땠는지"를 숫자(<strong>상태 코드, status code</strong>)로 알려 줍니다.</p>
+<table>
+  <tr><th>범위</th><th>의미</th><th>대표 코드</th></tr>
+  <tr><td>2xx</td><td>성공</td><td><code>200 OK</code>, <code>201 Created</code></td></tr>
+  <tr><td>3xx</td><td>리다이렉트(다른 곳으로)</td><td><code>301</code>, <code>304 Not Modified</code></td></tr>
+  <tr><td>4xx</td><td><strong>클라이언트</strong> 잘못</td><td><code>404 Not Found</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code></td></tr>
+  <tr><td>5xx</td><td><strong>서버</strong> 잘못</td><td><code>500 Internal Server Error</code>, <code>503</code></td></tr>
+</table>
+<p>바이브코딩 중 "왜 안 되지?" 상황의 절반은 이 코드로 1차 진단됩니다. 외울 것은 단 두 가지입니다:</p>
+<ul>
+  <li><strong>4로 시작하면 내가(요청이) 잘못한 것</strong> — 주소 오타, 로그인 안 됨, 권한 없음.</li>
+  <li><strong>5로 시작하면 서버 쪽 문제</strong>.</li>
+</ul>
+<p>도구의 콘솔/네트워크 탭에서 이 숫자를 읽을 줄 아는 것만으로도 막연한 공포가 절반으로 줄어듭니다.</p>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> <code>404</code>와 <code>500</code>을 봤을 때, 각각 "내 쪽 문제"인지 "서버 쪽 문제"인지 구분할 수 있다.</div>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. 화면을 만드는 3형제 — HTML·CSS·JS</h2>
+<p>프론트엔드(눈에 보이는 쪽)는 세 가지 언어의 분업으로 만들어집니다.</p>
+<table>
+  <tr><th>언어</th><th>역할</th><th>집짓기 비유</th><th>한 줄로</th></tr>
+  <tr><td><strong>HTML</strong></td><td>구조(Structure)</td><td>골조·벽·방 배치</td><td>"무엇이 있는가"</td></tr>
+  <tr><td><strong>CSS</strong></td><td>표현(Presentation)</td><td>페인트·벽지·가구 배치</td><td>"어떻게 보이는가"</td></tr>
+  <tr><td><strong>JavaScript</strong></td><td>동작(Behavior)</td><td>전기·수도·자동문</td><td>"어떻게 움직이는가"</td></tr>
+</table>
+<p>이 <strong>관심사의 분리(separation of concerns)</strong> 덕분에, 색을 바꾸려고 글의 내용을 건드리지 않아도 되고, 한 곳을 고쳐도 다른 곳이 안 망가집니다.</p>
+
+<h3>4.1 HTML — 의미를 가진 구조</h3>
+<p>HTML은 <strong>태그(tag)</strong> 로 콘텐츠에 의미를 붙입니다.</p>
+<pre><code class="language-html">&lt;article&gt;
+  &lt;h1&gt;제목입니다&lt;/h1&gt;
+  &lt;p&gt;본문 문단입니다. &lt;a href="/link"&gt;링크&lt;/a&gt;도 있습니다.&lt;/p&gt;
+  &lt;button&gt;클릭&lt;/button&gt;
+&lt;/article&gt;</code></pre>
+<p><code>&lt;div&gt;</code>만 쓰지 않고 <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;button&gt;</code>처럼 <strong>의미가 있는 태그(시맨틱 HTML)</strong> 를 쓰면 검색엔진이 내용을 더 잘 이해하고, 스크린리더가 구조를 읽어 줄 수 있습니다.</p>
+
+<h3>4.2 CSS — 보이는 방식</h3>
+<p>CSS는 "어떤 요소를(선택자) 어떻게 꾸밀지(속성)" 규칙으로 표현합니다.</p>
+<pre><code class="language-css">button {              /* 선택자: 모든 button을 */
+  background: #7C3AED; /* 속성: 보라색 배경 */
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+}</code></pre>
+
+<h3>4.3 JavaScript — 동작</h3>
+<p>JS는 사용자의 행동(클릭·입력)에 반응해 화면을 바꿉니다.</p>
+<pre><code class="language-javascript">const button = document.querySelector('button');
+button.addEventListener('click', () =&gt; {
+  alert('버튼이 눌렸습니다!');
+});</code></pre>
+<blockquote><p><strong>바이브코딩 연결</strong>: 도구에게 "버튼을 만들어"라고 했을 때 결과가 <code>&lt;div onclick&gt;</code>인지 <code>&lt;button&gt;</code>인지는 접근성에 큰 차이를 낳습니다. 의미를 알면 더 좋은 결과를 요구할 수 있습니다.</p></blockquote>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> "구조는 HTML, 꾸미기는 CSS, 움직임은 JS"를 짝지어 말할 수 있다.</div>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. 내가 쓴 코드가 화면이 되는 과정</h2>
+<p>브라우저가 응답으로 받은 HTML·CSS·JS를 화면에 그리는 과정을 <strong>렌더링(rendering)</strong> 이라 합니다. 큰 흐름은 이렇습니다:</p>
+<pre><code>1. 주소 입력 → DNS가 IP를 찾음 (2장)
+2. 브라우저가 서버에 요청 → 서버가 HTML 응답 (200 OK) (1·3장)
+3. 브라우저가 HTML을 위에서부터 읽어 화면 구조(DOM)를 만듦
+4. CSS로 색·여백·배치를 입힘
+5. JS를 실행해 동작을 붙임 → 클릭하면 반응하는 살아 있는 화면</code></pre>
+<p>이 순서를 알면 "왜 이미지가 늦게 뜨는지", "왜 스크립트를 <code>&lt;body&gt;</code> 끝에 두는지" 같은 실전 감각이 생깁니다. 핵심: <strong>내가 쓴 코드(HTML 파일)는 설계도이고, 브라우저가 그것을 읽어 그린 결과가 실제로 보이는 화면입니다.</strong></p>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> "주소 입력 → 요청 → HTML 응답 → 브라우저가 그림"의 4단계 흐름을 순서대로 말할 수 있다.</div>
+
+<!-- SECTION 6 -->
+<h2 id="s6">6. 바이브코딩 도구가 대신 해주는 것 vs 내가 알아야 하는 것</h2>
+<table>
+  <tr><th>도구가 대신 해주는 것 (타이핑)</th><th>내가 알아야 하는 것 (생각)</th></tr>
+  <tr><td>HTML/CSS/JS 코드를 직접 작성</td><td>"이 화면에 무엇이 있어야 하는가" 구조 판단</td></tr>
+  <tr><td>서버·DB 연결 자동 구성</td><td>데이터가 어디에 저장·공유되는지 개념</td></tr>
+  <tr><td>에러 메시지 자동 수정 시도</td><td>4xx(내 잘못)인지 5xx(서버 잘못)인지 읽기</td></tr>
+  <tr><td>반응형·접근성 기본 적용</td><td>휴대폰 크기·키보드로 직접 점검</td></tr>
+  <tr><td>보기 좋은 디자인 제안</td><td>"버튼은 <code>&lt;button&gt;</code>으로" 같은 더 나은 지시</td></tr>
+</table>
+<blockquote><p><strong>도구는 "어떻게 만들지"를 대신하지만, "무엇을·왜 만들지"는 내 몫입니다.</strong> 이 한 줄이 이 교안 전체의 결론입니다.</p></blockquote>
+
+<!-- SECTION 7 -->
+<h2 id="s7">7. 실습 — 아주 작은 정적 페이지 만들기</h2>
+<p>코드 한 줄도 안 무섭습니다. 따라만 하면 됩니다. 결과물은 "내 이름과 버튼이 있고, 버튼을 누르면 인사하는" 한 장짜리 웹페이지입니다.</p>
+
+<h3>7.1 파일 만들기</h3>
+<p>바탕화면에 <code>my-first-page</code> 폴더를 만들고, 그 안에 <code>index.html</code>이라는 파일을 만듭니다. (개발 인터페이스 초보자편의 터미널 실습을 했다면 <code>mkdir</code>/<code>New-Item</code>으로, 아니면 메모장/텍스트 편집기로 만들어도 됩니다.)</p>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">바탕화면에 my-first-page 폴더와 그 안의 index.html 파일이 보이는 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> <code>index.html</code> 파일이 폴더 안에 만들어졌다. 확장자가 <code>.txt</code>가 아니라 <code>.html</code>인지 확인한다.</div>
+
+<h3>7.2 HTML 뼈대 쓰기 (구조)</h3>
+<p><code>index.html</code>을 편집기로 열고 아래를 그대로 입력합니다.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;나의 첫 페이지&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;안녕하세요, 김선생입니다&lt;/h1&gt;
+  &lt;p&gt;이것은 내가 만든 첫 번째 웹페이지입니다.&lt;/p&gt;
+  &lt;button id="hello"&gt;인사하기&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>저장한 뒤, 파일을 더블클릭하거나 브라우저로 끌어다 놓으면 화면이 뜹니다.</p>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">브라우저에 제목·문단·버튼이 꾸밈 없이(검은 글씨) 표시된 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 브라우저에 제목·문단·버튼이 보인다. 아직 색은 없어도 정상이다 — 지금은 구조(HTML)만 있는 단계다.</div>
+
+<h3>7.3 CSS로 꾸미기 (표현)</h3>
+<p><code>&lt;/head&gt;</code> 바로 위에 아래 <code>&lt;style&gt;</code> 블록을 추가합니다.</p>
+<pre><code class="language-html">&lt;style&gt;
+  body { font-family: sans-serif; max-width: 480px; margin: 40px auto; }
+  h1 { color: #7C3AED; }
+  button {
+    background: #7C3AED; color: white;
+    border: none; padding: 12px 24px;
+    border-radius: 8px; cursor: pointer;
+  }
+&lt;/style&gt;</code></pre>
+<p>저장 후 브라우저에서 새로고침(F5)하면 제목이 보라색이 되고 버튼이 예뻐집니다.</p>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">제목이 보라색이고 버튼에 보라색 배경·둥근 모서리가 입혀진 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 새로고침했더니 색과 모양이 바뀌었다. HTML은 그대로인데 CSS만 추가해 "보이는 방식"이 달라졌음을 확인한다.</div>
+
+<h3>7.4 JS로 움직이게 하기 (동작)</h3>
+<p><code>&lt;/body&gt;</code> 바로 위에 아래 <code>&lt;script&gt;</code> 블록을 추가합니다.</p>
+<pre><code class="language-html">&lt;script&gt;
+  const button = document.getElementById('hello');
+  button.addEventListener('click', () =&gt; {
+    alert('반갑습니다! 첫 페이지를 완성했어요.');
+  });
+&lt;/script&gt;</code></pre>
+<p>저장 후 새로고침하고 버튼을 눌러 봅니다. 알림창이 뜨면 성공입니다.</p>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">버튼을 누르자 "반갑습니다! 첫 페이지를 완성했어요." 알림창이 뜬 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 버튼을 눌렀더니 알림창이 떴다. HTML(구조) + CSS(표현) + JS(동작) 3형제가 한 화면에서 함께 일하는 것을 직접 만들었다.</div>
+
+<h3>7.5 개발자도구로 들여다보기</h3>
+<p>브라우저에서 <code>F12</code>(또는 우클릭 → 검사)를 눌러 개발자도구를 엽니다.</p>
+<ul>
+  <li><strong>Elements 탭</strong>: 내가 쓴 HTML이 브라우저 메모리 속 화면 구조(DOM)로 살아 있는 모습이 보입니다.</li>
+  <li><strong>Network 탭</strong>: 새로고침하면 브라우저가 보낸 요청과 받은 응답(상태 코드 <code>200</code>)이 줄줄이 뜹니다 — 1·3장에서 배운 요청-응답이 실제로 보이는 순간입니다.</li>
+</ul>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">개발자도구 Network 탭에 index.html 요청과 상태 코드 200이 표시된 모습</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> Network 탭에서 <code>200</code>을 직접 봤다. 이 사이트의 게시판이 서버 DB 없이 브라우저에만 저장(localStorage)된다는 점도 떠올려, "왜 진짜 서비스는 서버가 필요한가"를 생각해 본다.</div>
+
+<!-- SECTION 8 -->
+<h2 id="s8">8. 더 배우려면</h2>
+<p>아래 셋은 모두 무료이며 웹 개발 입문의 사실상 표준 자료입니다.</p>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>MDN Learn — How the web works</strong></td><td>웹 작동 원리 기본기</td><td><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>MDN Learn — What is a Domain Name?</strong></td><td>도메인·DNS 개념</td><td><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Web_mechanics/What_is_a_domain_name" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>The Odin Project — Foundations</strong></td><td>텍스트 에디터·커맨드라인·HTML/CSS/JS 입문(프로젝트 기반)</td><td><a href="https://www.theodinproject.com/paths/foundations/courses/foundations" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>freeCodeCamp — Responsive Web Design</strong></td><td>HTML·CSS·Flexbox·Grid를 20개 프로젝트로</td><td><a href="https://www.freecodecamp.org/learn/responsive-web-design-v9" target="_blank">바로가기</a></td></tr>
+  <tr><td><strong>MDN — HTTP response status codes</strong></td><td>상태 코드 레퍼런스(디버깅 필수)</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status" target="_blank">바로가기</a></td></tr>
+</table>
+
+<!-- SOURCES -->
+<h2 id="sources">출처</h2>
+<ul>
+  <li>MDN Web Docs — How the web works / What is a Domain Name? / What is a web server? / HTTP response status codes</li>
+  <li>The Odin Project — Foundations</li>
+  <li>freeCodeCamp — Responsive Web Design</li>
+</ul>
+<blockquote><p>본 교안의 개념·인용은 2026-06-26 기준 MDN·The Odin Project·freeCodeCamp 공개 문서를 교차 확인했습니다. 도구 화면 캡처는 버전에 따라 달라질 수 있습니다.</p></blockquote>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 웹·앱이 작동하는 원리(요청-응답·브라우저·서버)와 HTML/CSS/JS의 역할을 이해하기 위해 작성되었습니다.
+</footer>
+
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>

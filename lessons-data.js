@@ -98,6 +98,14 @@ const LESSONS = {
       developer:    { url: 'mcp-developer.html',     title: 'MCP 개발자',   desc: '커스텀 MCP 서버 직접 제작' },
       related: ['claude-code', 'harness-engineering', 'software-engineering'],
       prereqs: { beginner: ['claude-code-beginner'], intermediate: ['mcp-beginner'], developer: ['mcp-intermediate'] }
+    },
+    webdev: {
+      name: '웹·앱 개발 기초', icon: '🧱', color: '#7C3AED',
+      beginner:     { url: 'webdev-beginner.html',     title: '웹·앱 개발 기초 초보자편', desc: '웹이 작동하는 원리와 HTML/CSS/JS' },
+      intermediate: { url: 'webdev-intermediate.html',  title: '웹·앱 개발 기초 중급자편', desc: 'DOM·상태·API·비동기와 데이터' },
+      developer:    { url: 'webdev-developer.html',     title: '웹·앱 개발 기초 개발자편', desc: '아키텍처·데이터 모델링·SE 실천' },
+      related: ['devinterface', 'github', 'deployment', 'lovable'],
+      prereqs: { beginner: [], intermediate: ['webdev-beginner'], developer: ['webdev-intermediate', 'github-beginner'] }
     }
   },
 
