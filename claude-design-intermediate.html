@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Design — 중급자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#C026D3;--primary-light:#F0ABFC;--blockquote-bg:#FAE8FF;--hover-bg:#FDF4FF}
+</style>
+<script src="lessons-data.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="claude-design-beginner.html">초보자편</a>
+  <a href="claude-design-intermediate.html" class="active">중급자편</a>
+  <a href="claude-design-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>🎨 Claude Design — 중급자편</h1>
+  <div class="meta">대상: 자기 브랜드/디자인 시스템을 가진 팀·1인 크리에이터 · 목표: 디자인 시스템 자동 구축부터 익스포트·협업까지 한 바퀴 · 약 3~4시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#diag">자가 진단</a>
+  <a href="#resources">추천 리소스</a>
+  <a href="#s1">1. 디자인 시스템 자동 구축</a>
+  <a href="#s2">2. 실전 활용 (다양한 입력)</a>
+  <a href="#s3">3. 익스포트 9종</a>
+  <a href="#s4">4. 협업</a>
+  <a href="#s5">5. 다음 단계</a>
+  <a href="#learn-more">더 배우려면</a>
+  <a href="#sources">출처</a>
+</aside>
+
+<main class="content">
+
+<div class="verify-badge">
+  <span class="vb-preview">최종 검증 2026-06-26</span>
+  <strong>Claude Design은 리서치 프리뷰라 UI·기능·연동 목록이 자주 바뀝니다.</strong>
+  <span>화면이 교안과 달라 보이면 버튼 이름보다 "동선"을 기준으로 따라오세요.</span>
+</div>
+
+<h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
+<p>이 교안은 <strong>Claude Design으로 프롬프트 한 줄짜리 프로토타입은 만들어봤고, 이제 자기 브랜드를 일관되게 입히고 싶은 분</strong>을 위한 중급 과정입니다.</p>
+<table>
+  <tr><th>나의 상황</th><th>추천 교안</th></tr>
+  <tr><td>Claude Design이 처음이고 접근 방법부터 모른다</td><td>→ <a href="claude-design-beginner.html">초보자편</a></td></tr>
+  <tr><td>프롬프트로 피치덱·랜딩 페이지는 만들어봤다</td><td>→ <strong>이 교안 (중급자편)</strong> ✅</td></tr>
+  <tr><td><code>/design</code>·<code>/design-sync</code>로 코드 라운드트립을 돌리고 싶다</td><td>→ <a href="claude-design-developer.html">개발자편</a></td></tr>
+</table>
+<blockquote><p>선수 학습: <strong><a href="claude-design-beginner.html">Claude Design 초보자편</a></strong>(접근 조건·첫 프로토타입·토큰 절약)을 먼저 보고 오세요.</p></blockquote>
+
+<h3 id="resources">📌 추천 리소스</h3>
+<table>
+  <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
+  <tr><td><strong>Claude Design 제품 페이지</strong></td><td>공식 기능·접근 자격 안내</td><td><a href="https://claude.com/product/design" target="_blank">claude.com/product/design</a></td></tr>
+  <tr><td><strong>6월 업데이트 공식 블로그</strong></td><td>디자인 시스템 임포트·브랜드 통제 설명</td><td><a href="https://claude.com/blog/claude-design-stays-on-brand-for-daily-work" target="_blank">claude.com/blog</a></td></tr>
+  <tr><td><strong>Vercel 배포 가이드</strong></td><td>Claude Design 결과물 Vercel 배포</td><td><a href="https://vercel.com/kb/guide/claude-design" target="_blank">vercel.com/kb</a></td></tr>
+  <tr><td><strong>진입점</strong></td><td>claude.ai/design</td><td><a href="https://claude.ai/design" target="_blank">claude.ai/design</a></td></tr>
+</table>
+<blockquote><p>같은 흐름의 다른 도구: <a href="lovable-intermediate.html">Lovable 중급자편</a>(프로덕션 앱 배포), <a href="cursor-intermediate.html">Cursor 중급자편</a>(에디터 기반 AI 코딩)도 함께 보면 좋습니다.</p></blockquote>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. 디자인 시스템 자동 구축</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>디자인 시스템(색·타이포·컴포넌트)의 개념을 이해한다</li>
+  <li>코드베이스·디자인 파일에서 디자인 시스템을 자동 구축할 수 있다</li>
+  <li>디자인 시스템 버전 관리와 자동 브랜드 정합 원리를 설명할 수 있다</li>
+</ul>
+
+<h3>1-1. 디자인 시스템이란</h3>
+<p>디자인 시스템(design system)은 <strong>색상(colors)·타이포그래피(typography)·컴포넌트(components)</strong>를 하나로 묶은 브랜드 규칙집입니다. Claude Design의 가장 큰 특징은 이 디자인 시스템을 <strong>온보딩 단계에서 자동으로 구축</strong>한다는 점입니다.</p>
+
+<h3>1-2. 무엇을 읽어서 학습하나</h3>
+<p>처음 세팅할 때 Claude는 다음을 읽어 디자인 시스템을 구성합니다.</p>
+<table>
+  <tr><th>입력</th><th>설명</th></tr>
+  <tr><td><strong>코드베이스(codebase)</strong></td><td>연결된 GitHub 저장소를 읽어 실제 쓰이는 색·폰트·컴포넌트 추출</td></tr>
+  <tr><td><strong>디자인 파일(design files)</strong></td><td>업로드한 기존 디자인 자료에서 스타일 추출</td></tr>
+  <tr><td><strong>원본(raw) 업로드</strong></td><td>색상값·폰트 파일 등 원본 자산 직접 업로드</td></tr>
+</table>
+<p>6월 17일 업데이트로 이 부분이 강화되어 <strong>GitHub 저장소·디자인 파일·원본 업로드에서 하나 이상의 디자인 시스템</strong>을 가져올 수 있습니다.</p>
+
+<h4>핸즈온: 디자인 시스템 가져오기</h4>
+<ol>
+  <li>claude.ai/design 진입 → 새 프로젝트 또는 설정에서 "디자인 시스템" 추가</li>
+  <li>GitHub 저장소 연결 또는 디자인 파일 업로드</li>
+  <li>Claude가 색·타이포·컴포넌트를 자동 추출하는 동안 대기</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">디자인 시스템 임포트 화면 (GitHub 연결/파일 업로드 선택)</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 추출된 디자인 시스템에 내 브랜드 색상과 폰트가 카드 형태로 표시됨.</div>
+
+<h3>1-3. 여러 버전 유지·관리</h3>
+<p>디자인 시스템은 시간이 지나며 다듬을 수 있고, <strong>여러 버전(multiple versions)</strong>을 유지할 수 있습니다. 예를 들어 "메인 브랜드", "다크 모드용", "이벤트 캠페인용"을 각각 버전으로 관리합니다.</p>
+
+<h3>1-4. 자동 브랜드 정합 (auto-correct)</h3>
+<p>Claude가 결과물을 만든 뒤 <strong>디자인 시스템에 대조(check)하고 자동 교정(auto-correct)</strong>한 다음 사용자에게 보여줍니다. 즉 승인된 컴포넌트·토큰에 자동으로 맞춰지므로, 결과물이 브랜드에서 벗어나는 일이 줄어듭니다.</p>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 동일 프롬프트로 만든 결과물 두 개가 같은 폰트·색 팔레트를 일관되게 사용함.</div>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. 실전 활용 — 다양한 입력으로 만들기</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>텍스트 외 이미지·문서·웹 캡처 등 다양한 입력을 활용할 수 있다</li>
+  <li>기존 문서를 슬라이드 덱으로 변환할 수 있다</li>
+  <li>토큰을 절약하는 작업 습관을 적용할 수 있다</li>
+</ul>
+
+<h3>2-1. 입력 방식 5종</h3>
+<table>
+  <tr><th>입력 유형</th><th>설명</th><th>중급 활용 예</th></tr>
+  <tr><td>텍스트 프롬프트</td><td>자연어로 무엇을 만들지 설명</td><td>"우리 브랜드 톤으로 채용 공고 랜딩 페이지"</td></tr>
+  <tr><td>이미지 업로드</td><td>참고 이미지·스크린샷</td><td>경쟁사 화면을 참고로 첨부</td></tr>
+  <tr><td>문서 업로드</td><td>DOCX·PPTX·XLSX</td><td>기존 기획서(워드)를 슬라이드로 변환</td></tr>
+  <tr><td>코드베이스 연동</td><td>저장소에서 컴포넌트 추출</td><td>실제 컴포넌트로 프로토타입 구성</td></tr>
+  <tr><td>웹 캡처(web capture)</td><td>웹사이트의 요소를 그대로 가져오기</td><td>기존 사이트 헤더를 잡아와 리디자인</td></tr>
+</table>
+
+<h3>2-2. 핸즈온 — 문서를 슬라이드로</h3>
+<ol>
+  <li>PPTX 또는 DOCX 기획서를 캔버스에 업로드</li>
+  <li>"이 문서를 12장짜리 피치덱으로, 우리 디자인 시스템에 맞춰 만들어줘"라고 지시</li>
+  <li>생성된 덱을 인라인 코멘트·직접 편집·조정 슬라이더로 다듬기</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">문서 업로드 후 슬라이드 덱이 생성된 캔버스</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 원본 문서의 내용이 슬라이드로 재구성되고, 색·폰트가 디자인 시스템과 일치함.</div>
+
+<h3>2-3. 핸즈온 — 웹 캡처로 리디자인</h3>
+<ol>
+  <li>웹 캡처 도구로 참고할 사이트의 요소(헤더·카드 등)를 잡아오기</li>
+  <li>"이 헤더를 우리 브랜드 색으로 바꿔서 다시 그려줘"</li>
+  <li>조정 노브(간격·색·레이아웃)로 미세 조정</li>
+</ol>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 캡처한 요소가 캔버스에 들어오고, 디자인 시스템 색으로 재구성됨.</div>
+
+<h3>2-4. 토큰 절약 팁 (중급에서도 유효)</h3>
+<blockquote><p>6월 업데이트로 토큰 효율이 개선되고 채팅·Cowork·Claude Code와 사용 한도를 공유하게 되었지만, 여전히 <strong>와이어프레임 모드로 초기 반복을 저렴하게 돌리고, 구조가 잡힌 뒤에만 정교한 목업을 저장</strong>하는 절약 습관을 권장합니다.</p></blockquote>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. 익스포트 9종</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>기본 익스포트(HTML·PDF·PPTX)와 커넥터 9종을 구분할 수 있다</li>
+  <li>Vercel로 Git/CLI 없이 배포할 수 있다</li>
+  <li>Lovable·Canva 등 후속 작업 도구로 연결할 수 있다</li>
+</ul>
+
+<h3>3-1. 기본 익스포트</h3>
+<table>
+  <tr><th>익스포트</th><th>용도</th></tr>
+  <tr><td><strong>HTML(단독 파일)</strong></td><td>정적 사이트·랜딩 페이지로 바로</td></tr>
+  <tr><td><strong>PDF</strong></td><td>문서 제출·인쇄</td></tr>
+  <tr><td><strong>PPTX</strong></td><td>발표용 파워포인트</td></tr>
+  <tr><td><strong>내부 URL·폴더·조직 범위 링크</strong></td><td>팀 공유</td></tr>
+</table>
+
+<h3>3-2. 커넥터 9종 (후속 편집·배포)</h3>
+<p>알파벳순: <strong>Adobe · Base44 · Canva · Gamma · Lovable · Miro · Replit · Vercel · Wix</strong> ("더 많은 목적지 추가 예정").</p>
+<table>
+  <tr><th>커넥터</th><th>활용</th></tr>
+  <tr><td><strong>Canva</strong></td><td>디자이너·마케터가 Canva에서 후속 편집</td></tr>
+  <tr><td><strong>Lovable</strong></td><td>온브랜드 앱 디자인 → Lovable에서 프로덕션 앱으로</td></tr>
+  <tr><td><strong>Vercel</strong></td><td>라이브 프로덕션 URL로 배포</td></tr>
+  <tr><td><strong>Replit / Base44 / Wix</strong></td><td>각 플랫폼에서 후속 개발</td></tr>
+  <tr><td><strong>Miro / Gamma / Adobe</strong></td><td>화이트보드·덱·전문 편집</td></tr>
+</table>
+
+<h3>3-3. 핸즈온 — Vercel 배포 (Git/CLI 불필요)</h3>
+<ol>
+  <li>결과물을 Vercel 커넥터로 보내거나, HTML을 .zip으로 익스포트</li>
+  <li>.zip을 Vercel Drop에 끌어다 놓기 (Git·CLI 없이 즉시 배포)</li>
+  <li>발급된 라이브 URL 확인</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">익스포트 메뉴 (커넥터 9종 목록)</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> Vercel이 발급한 https URL로 결과물이 실제 웹에서 열림.</div>
+
+<h3>3-4. 핸즈온 — Lovable 연동</h3>
+<ol>
+  <li>Claude Design에서 온브랜드로 앱 화면을 디자인</li>
+  <li>Lovable 커넥터로 전송</li>
+  <li>Lovable에서 프로덕션 앱으로 이어 작업 (→ <a href="lovable-intermediate.html">Lovable 중급자편</a> 참고)</li>
+</ol>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. 협업</h2>
+
+<h3>학습 목표</h3>
+<ul>
+  <li>조직 범위 공유 권한(private/view-only/edit)을 설정할 수 있다</li>
+  <li>엔터프라이즈 브랜드 통제(관리자 역할) 개념을 이해한다</li>
+</ul>
+
+<h3>4-1. 조직 범위 공유 권한</h3>
+<p>결과물은 <strong>조직 범위(organization-scoped)</strong>로 공유하며 권한을 세분화합니다.</p>
+<table>
+  <tr><th>권한</th><th>설명</th></tr>
+  <tr><td><strong>private</strong></td><td>비공개 (본인만)</td></tr>
+  <tr><td><strong>view-only</strong></td><td>보기 전용</td></tr>
+  <tr><td><strong>edit</strong></td><td>편집 가능</td></tr>
+</table>
+<p>내부 URL·폴더로 팀에 전달합니다.</p>
+
+<h3>4-2. 엔터프라이즈 브랜드 통제</h3>
+<p>6월 업데이트로 새 <strong>관리자 역할(admin role)</strong>이 추가되었습니다. 관리자는 <strong>단일 표준 디자인 시스템을 승인하고 편집을 잠가(lock down)</strong> 모든 결과물이 회사 가이드라인에 부합하도록 강제할 수 있습니다. 팀 규모가 커질수록 브랜드 일관성을 지키는 핵심 장치입니다.</p>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 팀원이 만든 결과물이 관리자가 잠근 표준 디자인 시스템을 따름.</div>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. 다음 단계</h2>
+<ul>
+  <li>디자인→코드 풀루프(<code>/design</code>·<code>/design-sync</code>·핸드오프 번들)가 궁금하다면 → <a href="claude-design-developer.html">Claude Design 개발자편</a></li>
+  <li>프로토타입을 진짜 앱으로 → <a href="lovable-intermediate.html">Lovable 중급자편</a></li>
+  <li>에디터에서 AI 코딩 → <a href="cursor-intermediate.html">Cursor 중급자편</a></li>
+</ul>
+
+<!-- LEARN MORE -->
+<h2 id="learn-more">더 배우려면 (공식 자료)</h2>
+<table>
+  <tr><th>자료</th><th>링크</th></tr>
+  <tr><td>Claude Design 제품 페이지</td><td><a href="https://claude.com/product/design" target="_blank">claude.com/product/design</a></td></tr>
+  <tr><td>6월 업데이트 공식 블로그</td><td><a href="https://claude.com/blog/claude-design-stays-on-brand-for-daily-work" target="_blank">claude.com/blog</a></td></tr>
+  <tr><td>Claude Design 출시 발표</td><td><a href="https://www.anthropic.com/news/claude-design-anthropic-labs" target="_blank">anthropic.com/news</a></td></tr>
+  <tr><td>Vercel 배포 가이드</td><td><a href="https://vercel.com/kb/guide/claude-design" target="_blank">vercel.com/kb</a></td></tr>
+  <tr><td>Claude 가격</td><td><a href="https://claude.com/pricing" target="_blank">claude.com/pricing</a></td></tr>
+</table>
+
+<!-- SOURCES -->
+<section id="sources">
+<h2>📚 출처 및 참고자료</h2>
+<table>
+  <tr><th>출처</th><th>설명</th></tr>
+  <tr><td><a href="https://www.anthropic.com/news/claude-design-anthropic-labs" target="_blank">Anthropic 공식 — Claude Design 발표</a></td><td>anthropic.com/news/claude-design-anthropic-labs</td></tr>
+  <tr><td><a href="https://claude.com/blog/claude-design-stays-on-brand-for-daily-work" target="_blank">Anthropic 공식 — 6월 업데이트 블로그</a></td><td>claude.com/blog/claude-design-stays-on-brand-for-daily-work</td></tr>
+  <tr><td><a href="https://claude.com/product/design" target="_blank">Anthropic 공식 — 제품 페이지</a></td><td>claude.com/product/design</td></tr>
+  <tr><td><a href="https://vercel.com/kb/guide/claude-design" target="_blank">Vercel KB — 배포 가이드</a></td><td>vercel.com/kb/guide/claude-design</td></tr>
+</table>
+<blockquote><p>본 교안 내용은 2026년 6월 26일 기준이며, Claude Design은 리서치 프리뷰라 게시 시점에 공식 페이지 재확인이 필요합니다. 모든 인용은 익명 처리되었습니다.</p></blockquote>
+</section>
+
+</main>
+</div>
+
+<footer>본 교안은 Claude Design 중급 학습을 위해 작성되었습니다.</footer>
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel"><h3>목차</h3></div>
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+<script src="common.js"></script>
+</body>
+</html>

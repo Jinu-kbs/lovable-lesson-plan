@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Design — 초보자편</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#C026D3;--primary-light:#F0ABFC;--blockquote-bg:#FBE8FE;--hover-bg:#FDF4FF}
+</style>
+<script src="lessons-data.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="claude-design-beginner.html" class="active">초보자편</a>
+  <a href="claude-design-intermediate.html">중급자편</a>
+  <a href="claude-design-developer.html">개발자편</a>
+</nav>
+
+<div class="hero">
+  <h1>Claude Design — 초보자편</h1>
+  <div class="meta">대상: 디자인·프로토타입을 빠르게 만들고 싶은 누구나 · 목표: 프롬프트 한 줄로 첫 프로토타입 만들기 · 약 1~2시간</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#s1">1. Claude Design이란?</a>
+  <a href="#s2">2. 접근·자격</a>
+  <a href="#s3">3. 첫 프로토타입 만들기</a>
+  <a href="#s4">4. 기본 편집</a>
+  <a href="#s5">5. 결과물 내보내기</a>
+  <a href="#s6">6. 토큰 절약 주의</a>
+  <a href="#s7">7. 더 배우려면</a>
+</aside>
+
+<main class="content">
+
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-06-26 <span class="vb-preview">프리뷰 — 분기마다 변동 가능</span> · 공식 페이지에서 확인하세요.</div>
+
+<!-- SECTION 1 -->
+<h2 id="s1">1. Claude Design이란?</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>Claude Design이 무엇을 만드는 도구인지 이해한다</li>
+  <li>Figma·Lovable과 어떻게 다른지 한 문장으로 설명할 수 있다</li>
+</ul>
+
+<h3>한 줄 정의</h3>
+<p>Claude Design은 <strong>자연어 프롬프트로 디자인·프로토타입·슬라이드·원페이저 같은 시각 결과물을 Claude와 함께 만드는 협업 도구</strong>입니다. Anthropic의 실험 제품 브랜드인 <strong>Anthropic Labs</strong>에서 내놓았고, 엔진은 Anthropic이 "가장 강력한 비전(vision) 모델"이라 부르는 <strong>Claude Opus 4.7</strong>입니다. 공식 태그라인은 "Your idea, designed with Claude(당신의 아이디어, Claude와 함께 디자인하다)"입니다.</p>
+<p>핵심은 "디자인 전문 도구"라기보다 <strong>아이디어를 시각·인터랙티브 결과물로 바꿔주는 협업 캔버스</strong>라는 점입니다.</p>
+
+<h3>무엇을 넣고, 무엇이 나오나</h3>
+<p>Claude Design은 다양한 입력을 받아 완성도 높은 결과물을 만들어 줍니다.</p>
+<table>
+  <tr><th>입력(넣는 것)</th><th>출력(나오는 것)</th></tr>
+  <tr><td>텍스트 프롬프트 (자연어 설명)</td><td>인터랙티브 프로토타입</td></tr>
+  <tr><td>참고 이미지·스크린샷</td><td>와이어프레임·목업</td></tr>
+  <tr><td>문서 (DOCX·PPTX·XLSX)</td><td>피치덱·프레젠테이션 슬라이드</td></tr>
+  <tr><td>코드베이스(연결된 저장소)</td><td>랜딩 페이지·마케팅 자산</td></tr>
+  <tr><td>웹 캡처(기존 사이트 요소)</td><td>이력서·원페이저 같은 문서</td></tr>
+</table>
+
+<h3>Figma·Lovable과 뭐가 다른가</h3>
+<ul>
+  <li><strong>Figma</strong>처럼 픽셀을 일일이 그리는 전문가 도구가 아닙니다.</li>
+  <li><strong>Lovable</strong>처럼 곧장 풀스택 앱을 배포하는 도구도 아닙니다.</li>
+  <li>그 둘 사이, <strong>"백지에서 시작해 빠르게 보여줄 무언가를 만드는"</strong> 속도 영역을 차지합니다.</li>
+</ul>
+<blockquote><p>결과물의 품질은 "프로덕션 그대로 쓸 디자인"이 아니라 <strong>"의사소통하기에 충분한 품질"</strong>입니다. 즉 디자이너를 대체하는 게 아니라, 비(非)디자이너(교사·PM·창업자·마케터)가 디자이너를 부르기 전에 빠르게 시각화하는 도구입니다.</p></blockquote>
+<blockquote><p>"Figma를 못 다뤄도 머릿속 화면을 30분 만에 보여줄 수 있게 됐다" — 실사용자 후기</p></blockquote>
+
+<!-- SECTION 2 -->
+<h2 id="s2">2. 접근·자격 (누가 쓸 수 있나)</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>Claude Design을 쓰려면 어떤 구독이 필요한지 안다</li>
+  <li>어디에서 시작하는지(진입점) 안다</li>
+</ul>
+
+<h3>자격: 유료 구독 전용</h3>
+<p>Claude Design은 <strong>유료 구독자만</strong> 쓸 수 있습니다. 무료(Free) 플랜에서는 사용할 수 없습니다.</p>
+<table>
+  <tr><th>플랜</th><th>Claude Design</th><th>비고</th></tr>
+  <tr><td>Free</td><td>사용 불가</td><td>일일 한도 제한</td></tr>
+  <tr><td><strong>Pro</strong></td><td>사용 가능</td><td>월 $20 수준</td></tr>
+  <tr><td><strong>Max</strong></td><td>사용 가능</td><td>Pro 대비 사용량 5배·20배</td></tr>
+  <tr><td><strong>Team</strong></td><td>사용 가능</td><td>시트 단위</td></tr>
+  <tr><td><strong>Enterprise</strong></td><td>사용 가능 (관리자 활성 필요)</td><td>기본값 off — 조직 관리자가 켜야 함</td></tr>
+</table>
+<blockquote><p>가격·플랜 구성은 변동될 수 있습니다. 결제 전 반드시 공식 가격 페이지(<a href="https://claude.com/pricing" target="_blank">claude.com/pricing</a>)에서 최신 금액을 확인하세요. Claude Design은 <strong>별도 요금제가 없고</strong> 기존 Claude 구독에 포함됩니다.</p></blockquote>
+
+<h3>어디서 시작하나</h3>
+<ul>
+  <li>웹: <strong>claude.ai/design</strong> 접속</li>
+  <li>데스크톱 앱: <strong>사이드바</strong>에서 Claude Design 진입</li>
+</ul>
+<blockquote><p>2026년 6월 현재 Claude Design은 <strong>리서치 프리뷰(베타)</strong> 단계입니다. 화면 구성·버튼 이름이 바뀔 수 있으니, 본 교안의 스크린샷·명칭과 실제가 다르면 공식 페이지를 우선하세요.</p></blockquote>
+
+<!-- SECTION 3 -->
+<h2 id="s3">3. 첫 프로토타입 만들기 (따라하기)</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>프롬프트 한 줄로 첫 결과물(랜딩 페이지)을 생성할 수 있다</li>
+  <li>생성 화면(협업 캔버스)의 흐름을 이해한다</li>
+</ul>
+
+<h3>단계별 따라하기</h3>
+<p><strong>1단계 — 진입</strong></p>
+<p>브라우저에서 <code>claude.ai/design</code>에 접속하고 로그인합니다. (Pro 이상 구독 필요)</p>
+<div class="screenshot-placeholder">
+  <span class="sp-icon">▢</span>
+  <span class="sp-cap">스크린샷 자리</span>
+  <span class="sp-desc">claude.ai/design 첫 화면 — 프롬프트 입력창</span>
+</div>
+
+<p><strong>2단계 — 프롬프트 입력</strong></p>
+<p>화면 중앙 입력창에 만들고 싶은 것을 자연어로 설명합니다. 처음에는 한 문장이면 충분합니다.</p>
+<pre><code>교사 연수 안내 랜딩 페이지를 만들어줘.
+따뜻한 톤, 상단에 큰 제목, 가운데 일정 안내, 맨 아래 신청 버튼 포함.</code></pre>
+<blockquote><p>팁: "무엇을(랜딩 페이지) + 어떤 느낌으로(따뜻한 톤) + 어떤 요소가 들어가야 하는지(제목·일정·신청 버튼)"를 적으면 결과가 훨씬 좋아집니다.</p></blockquote>
+
+<p><strong>3단계 — 생성 기다리기</strong></p>
+<p>Claude가 협업 캔버스(collaborative canvas)에 초안(draft)을 그립니다. 잠시 기다리면 화면에 실제로 클릭되는 프로토타입이 나타납니다.</p>
+<div class="screenshot-placeholder">
+  <span class="sp-icon">▢</span>
+  <span class="sp-cap">스크린샷 자리</span>
+  <span class="sp-desc">캔버스에 생성된 랜딩 페이지 초안</span>
+</div>
+
+<div class="checkpoint">
+  <strong>체크포인트</strong>
+  <ul class="checklist">
+    <li>✅ claude.ai/design에 접속해 로그인했는가?</li>
+    <li>✅ 프롬프트를 한 문장 입력했는가?</li>
+    <li>✅ 캔버스에 랜딩 페이지 초안이 나타났는가?</li>
+  </ul>
+</div>
+<p>여기까지 됐다면 여러분은 방금 코드 한 줄 없이 첫 프로토타입을 만들었습니다.</p>
+
+<!-- SECTION 4 -->
+<h2 id="s4">4. 기본 편집</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>생성된 결과물을 세 가지 방법으로 다듬을 수 있다</li>
+</ul>
+
+<h3>다듬기 3종</h3>
+<p>Claude Design은 초안을 다듬는 세 가지 쉬운 방법을 제공합니다.</p>
+<table>
+  <tr><th>방법</th><th>어떻게</th><th>언제 쓰나</th></tr>
+  <tr><td>인라인 코멘트</td><td>특정 요소를 콕 집어 코멘트를 남김</td><td>"이 버튼 색을 초록으로" 같이 부분 수정</td></tr>
+  <tr><td>직접 텍스트 편집</td><td>텍스트를 클릭해 바로 수정</td><td>제목·문구 오타 고치기</td></tr>
+  <tr><td>조정 슬라이더</td><td>간격(spacing)·색상(color)·레이아웃을 실시간 미세 조정</td><td>전체 톤·여백 다듬기</td></tr>
+</table>
+
+<h3>따라하기</h3>
+<div class="screenshot-placeholder">
+  <span class="sp-icon">▢</span>
+  <span class="sp-cap">스크린샷 자리</span>
+  <span class="sp-desc">인라인 코멘트로 버튼 색 바꾸기</span>
+</div>
+<ol>
+  <li>바꾸고 싶은 요소(예: 신청 버튼)를 클릭합니다.</li>
+  <li>인라인 코멘트로 "신청 버튼을 더 크고 눈에 띄는 색으로 바꿔줘"라고 입력합니다.</li>
+  <li>제목 텍스트를 직접 클릭해 문구를 고쳐 봅니다.</li>
+  <li>조정 슬라이더로 요소 사이 간격을 살짝 넓혀 봅니다.</li>
+</ol>
+
+<div class="checkpoint">
+  <strong>체크포인트</strong>
+  <ul class="checklist">
+    <li>✅ 인라인 코멘트로 요소 하나를 수정했는가?</li>
+    <li>✅ 텍스트를 직접 편집해 봤는가?</li>
+    <li>✅ 조정 슬라이더로 간격이나 색을 바꿔 봤는가?</li>
+  </ul>
+</div>
+
+<!-- SECTION 5 -->
+<h2 id="s5">5. 결과물 내보내기</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>만든 결과물을 어떤 형식으로 내보낼 수 있는지 안다</li>
+</ul>
+<p>만든 결과물은 용도에 맞게 여러 형식으로 내보낼 수 있습니다.</p>
+<table>
+  <tr><th>내보내기</th><th>용도</th></tr>
+  <tr><td><strong>PDF</strong></td><td>문서 제출·인쇄</td></tr>
+  <tr><td><strong>PPTX</strong> (PowerPoint)</td><td>발표 슬라이드</td></tr>
+  <tr><td><strong>HTML</strong> (단독 파일)</td><td>정적 웹페이지·랜딩 페이지로 바로</td></tr>
+  <tr><td><strong>Canva 연동</strong></td><td>Canva에서 후속 디자인 편집</td></tr>
+</table>
+<blockquote><p>공유도 가능합니다. 조직 범위(organization-scoped)로 비공개(private)·보기 전용(view-only)·편집(edit) 권한을 정해 내부 URL로 팀에 전달할 수 있습니다.</p></blockquote>
+
+<!-- SECTION 6 -->
+<h2 id="s6">6. 토큰 절약 주의</h2>
+<h3>학습 목표</h3>
+<ul>
+  <li>Claude Design이 사용량(토큰)을 많이 쓸 수 있음을 알고 절약 습관을 익힌다</li>
+</ul>
+<p>Claude Design은 결과물을 만들 때 <strong>사용량(토큰)을 꽤 많이 소모</strong>합니다. 출시 초기에는 한 리뷰어가 프로토타입 변형을 만들다가 <strong>약 25분 만에 주간 한도의 80%를 소진</strong>했다는 보도가 여러 매체에 인용될 정도였습니다. (2026년 6월 업데이트로 토큰 효율이 개선되고 채팅·Claude Code 등과 사용 한도를 공유하도록 바뀌었지만, 여전히 절약 습관이 필요합니다.)</p>
+
+<h3>절약 팁</h3>
+<ul>
+  <li><strong>초기 반복은 가볍게</strong>: 구조를 잡는 초기 단계에서는 간단한 와이어프레임 수준으로 빠르게 반복하세요.</li>
+  <li><strong>정교한 작업은 나중에</strong>: 큰 구조가 잡힌 뒤에만 정교한 목업·디테일을 만드세요.</li>
+  <li><strong>프롬프트를 명확하게</strong>: 한 번에 의도를 분명히 적을수록 재생성 횟수가 줄어 토큰을 아낍니다.</li>
+</ul>
+<blockquote><p>"와이어프레임으로 먼저 흐름만 잡고, 마음에 들 때만 예쁘게 다듬으니 한도가 훨씬 오래 갔다" — 실사용자 조언</p></blockquote>
+
+<!-- SECTION 7 -->
+<h2 id="s7">7. 더 배우려면</h2>
+<p>공식 페이지(1순위)에서 최신 정보를 확인하세요. (프리뷰 제품이라 변동이 잦습니다.)</p>
+<ul>
+  <li>Anthropic 공식 발표: <a href="https://www.anthropic.com/news/claude-design-anthropic-labs" target="_blank">anthropic.com/news/claude-design-anthropic-labs</a></li>
+  <li>공식 제품 페이지: <a href="https://claude.com/product/design" target="_blank">claude.com/product/design</a></li>
+  <li>6월 업데이트 블로그: <a href="https://claude.com/blog/claude-design-stays-on-brand-for-daily-work" target="_blank">claude.com/blog/claude-design-stays-on-brand-for-daily-work</a></li>
+  <li>Claude 가격: <a href="https://claude.com/pricing" target="_blank">claude.com/pricing</a></li>
+  <li>진입점: <a href="https://claude.ai/design" target="_blank">claude.ai/design</a></li>
+</ul>
+<p>다음 단계로는 <strong>Claude Design 중급자편</strong>(디자인 시스템·실전 활용)을 권합니다.</p>
+
+</main>
+</div>
+
+<footer>
+  본 교안은 Claude Design 입문 학습을 위해 작성되었습니다. 2026년 6월 기준 리서치 프리뷰 정보이며, 공식 페이지에서 최신 내용을 확인하세요.
+</footer>
+
+<button class="mobile-toc-btn" id="mobileTocBtn" aria-label="목차 열기">☰</button>
+<div class="mobile-toc-overlay" id="mobileTocOverlay"></div>
+<div class="mobile-toc-panel" id="mobileTocPanel">
+  <h3>목차</h3>
+</div>
+
+<button class="back-to-top" id="backToTop" aria-label="맨 위로">↑</button>
+
+<script src="common.js"></script>
+
+</body>
+</html>

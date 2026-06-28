@@ -106,6 +106,22 @@ const LESSONS = {
       developer:    { url: 'webdev-developer.html',     title: '웹·앱 개발 기초 개발자편', desc: '아키텍처·데이터 모델링·SE 실천' },
       related: ['devinterface', 'github', 'deployment', 'lovable'],
       prereqs: { beginner: [], intermediate: ['webdev-beginner'], developer: ['webdev-intermediate', 'github-beginner'] }
+    },
+    'claude-cowork': {
+      name: 'Claude Cowork', icon: '🤝', color: '#B45309',
+      beginner:     { url: 'claude-cowork-beginner.html',     title: 'Claude Cowork 초보자편', desc: '비개발자를 위한 AI 업무 자동화 첫걸음' },
+      intermediate: { url: 'claude-cowork-intermediate.html',  title: 'Claude Cowork 중급자편', desc: '커넥터·플러그인으로 실전 업무 연결' },
+      developer:    { url: 'claude-cowork-developer.html',     title: 'Claude Cowork 개발자편', desc: '커스텀 플러그인과 고급 워크플로우' },
+      related: ['claude-code', 'claude-design', 'mcp', 'prompt'],
+      prereqs: { beginner: [], intermediate: ['claude-cowork-beginner'], developer: ['claude-cowork-intermediate'] }
+    },
+    'claude-design': {
+      name: 'Claude Design', icon: '🎨', color: '#C026D3',
+      beginner:     { url: 'claude-design-beginner.html',     title: 'Claude Design 초보자편', desc: 'AI로 첫 프로토타입·디자인 만들기' },
+      intermediate: { url: 'claude-design-intermediate.html',  title: 'Claude Design 중급자편', desc: '디자인 시스템과 실전 활용' },
+      developer:    { url: 'claude-design-developer.html',     title: 'Claude Design 개발자편', desc: '/design 핸드오프와 코드 라운드트립' },
+      related: ['lovable', 'cursor', 'claude-code', 'claude-cowork'],
+      prereqs: { beginner: [], intermediate: ['claude-design-beginner'], developer: ['claude-design-intermediate'] }
     }
   },
 
