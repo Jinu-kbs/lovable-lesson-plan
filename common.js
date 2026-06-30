@@ -31,6 +31,7 @@
 // Mobile TOC
 (function(){
   var btn=document.getElementById('mobileTocBtn'),overlay=document.getElementById('mobileTocOverlay'),panel=document.getElementById('mobileTocPanel');
+  if(!btn||!overlay||!panel) return; // 해당 요소가 없는 단독 페이지에서는 무시
   document.querySelectorAll('.sidebar a').forEach(function(a){var c=a.cloneNode(true);c.addEventListener('click',function(){panel.classList.remove('open');overlay.style.display='none'});panel.appendChild(c)});
   btn.addEventListener('click',function(){overlay.style.display='block';panel.classList.add('open')});
   overlay.addEventListener('click',function(){panel.classList.remove('open');overlay.style.display='none'});
@@ -39,6 +40,7 @@
 // Back to Top
 (function(){
   var b=document.getElementById('backToTop');
+  if(!b) return; // 백투탑 버튼이 없는 단독 페이지에서는 무시
   window.addEventListener('scroll',function(){b.classList.toggle('visible',window.scrollY>400)});
   b.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
 })();
