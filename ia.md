@@ -82,6 +82,7 @@
 │   └── /ai-compare.html ─── AI 도구 5종 비교
 │
 ├── 심화·리포트
+│   ├── /trend-report.html ─── 2026 바이브코딩 트렌드 (시장·모델 가용성·AI 에이전트·교육 함의)
 │   ├── /claude-code-roadmap.html ─── Claude Code 마스터 로드맵
 │   ├── /harness-engineering.html ─── 하네스 엔지니어링
 │   ├── /claude-skills.html ─── 클로드 스킬 가이드

@@ -16,6 +16,8 @@ Claude Cowork는 Anthropic이 2026년 1월 공개한 **데스크톱 기반 자�
 
 > "목표를 주면 Claude가 당신의 컴퓨터·로컬 파일·애플리케이션에서 작업해 완성된 산출물을 돌려준다." — Anthropic 공식 제품 페이지 요약
 
+> **📎 관련 읽을거리**: Cowork 같은 "AI 에이전트"가 무엇이고 어떻게 발전하고 있는지 더 알고 싶다면 [2026 바이브코딩 트렌드 — AI 에이전트](trend-report.html)를 읽어보세요.
+
 ### Claude Code의 비개발자 버전
 
 Anthropic 내부에서는 Cowork를 **"코딩 외 나머지 업무를 위한 Claude Code(Claude Code for the rest of your work)"**라고 부릅니다. 둘은 같은 기술 기반 위에 서 있지만, 사용 방식이 다릅니다.

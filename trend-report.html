@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 바이브코딩 트렌드 | 바이브코딩 가이드</title>
+<link rel="stylesheet" href="common.css">
+<style>
+:root{--primary:#BE123C;--primary-light:#FDA4AF;--primary-dark:#9F1239;--blockquote-bg:#FFF1F2;--hover-bg:#FFE4E6;--trend-dark:#4C0519;--trend-gradient:linear-gradient(135deg,#4C0519 0%,#9F1239 50%,#BE123C 100%)}
+
+/* HERO OVERRIDE */
+.hero{background:var(--trend-gradient);padding:80px 20px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(190,18,60,.25) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(253,164,175,.14) 0%,transparent 70%);pointer-events:none}
+.hero h1{font-size:2.2rem;position:relative;z-index:1}
+.hero .meta{position:relative;z-index:1}
+.hero-badge{display:inline-block;background:var(--primary);color:#fff;padding:6px 18px;border-radius:20px;font-size:.85rem;font-weight:700;margin-bottom:16px;position:relative;z-index:1}
+.hero-sub{font-size:1rem;opacity:.85;margin-top:8px;position:relative;z-index:1}
+
+/* STAT CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:24px 0 32px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:transform .2s,box-shadow .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(190,18,60,.12)}
+.stat-icon{font-size:2rem;margin-bottom:8px}
+.stat-number{font-size:1.6rem;font-weight:800;color:var(--primary-dark);line-height:1.2}
+.stat-label{font-size:.82rem;color:var(--text-light);margin-top:4px}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px;margin:24px 0 32px}
+.timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--primary),var(--primary-light));border-radius:2px}
+.tl-item{position:relative;margin-bottom:24px;padding:16px 20px;background:#fff;border:1px solid var(--border);border-radius:12px}
+.tl-item::before{content:'';position:absolute;left:-27px;top:20px;width:13px;height:13px;background:var(--primary);border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px var(--primary)}
+.tl-item h4{font-size:1rem;font-weight:700;margin-bottom:4px;color:var(--primary-dark)}
+.tl-item .tl-date{display:inline-block;background:var(--blockquote-bg);color:var(--primary-dark);font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:12px;margin-bottom:6px}
+.tl-item p{font-size:.9rem;margin-bottom:0}
+
+/* PANEL CARDS */
+.panel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:24px 0 32px}
+.panel-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.panel-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--primary)}
+.panel-card h4{font-size:1rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.panel-card p{font-size:.88rem;color:var(--text-light);margin-bottom:8px}
+.panel-card .tag{display:inline-block;background:var(--blockquote-bg);color:var(--primary-dark);font-size:.75rem;font-weight:600;padding:2px 10px;border-radius:12px;margin-right:4px;margin-bottom:4px}
+
+/* QUOTE HIGHLIGHT */
+.quote-highlight{background:var(--trend-gradient);color:#fff;border-radius:12px;padding:24px 28px;margin:24px 0;position:relative}
+.quote-highlight::before{content:'\201C';font-size:4rem;position:absolute;top:-8px;left:12px;opacity:.2;font-family:Georgia,serif}
+.quote-highlight p{font-size:1rem;line-height:1.7;margin-bottom:8px;position:relative;z-index:1}
+.quote-highlight .quote-author{font-size:.85rem;opacity:.7;font-weight:600}
+
+/* AGENTIC LOOP DIAGRAM */
+.loop-diagram{display:flex;align-items:stretch;justify-content:center;flex-wrap:wrap;gap:10px;margin:24px 0;padding:20px;background:var(--blockquote-bg);border-radius:12px}
+.loop-step{flex:1;min-width:160px;background:#fff;border:1px solid var(--border);border-top:4px solid var(--primary);border-radius:10px;padding:16px;text-align:center}
+.loop-step .loop-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;margin-bottom:8px}
+.loop-step.s2 .loop-num{background:#D97706}
+.loop-step.s3 .loop-num{background:#059669}
+.loop-step.s2{border-top-color:#D97706}
+.loop-step.s3{border-top-color:#059669}
+.loop-step h4{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.loop-step p{font-size:.82rem;color:var(--text-light);margin-bottom:0}
+.loop-arrow{display:flex;align-items:center;color:var(--primary);font-size:1.6rem;font-weight:700}
+.loop-back{text-align:center;font-size:.82rem;color:var(--text-light);margin:-8px 0 24px;font-style:italic}
+
+/* TOPIC BADGES */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:24px 0}
+.topic-badge{display:flex;align-items:flex-start;gap:12px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px}
+.topic-emoji{font-size:1.8rem;flex-shrink:0}
+.topic-info h4{font-size:.95rem;font-weight:700;margin-bottom:4px}
+.topic-info p{font-size:.82rem;color:var(--text-light);margin-bottom:0}
+
+/* COMPARISON TABLE */
+.comparison-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;margin:16px 0 24px;border:1px solid var(--border)}
+.comparison-table th{background:var(--trend-dark);color:#fff;padding:12px 16px;font-size:.85rem;font-weight:600;text-align:left}
+.comparison-table td{padding:12px 16px;font-size:.88rem;border-top:1px solid var(--border)}
+.comparison-table tr:nth-child(even) td{background:#FAFAFA}
+.comparison-table tr:hover td{background:var(--hover-bg)}
+.comparison-table .ok{color:#059669;font-weight:700}
+.comparison-table .no{color:#DC2626;font-weight:700}
+
+/* SECTION DIVIDER */
+.section-divider{display:flex;align-items:center;gap:16px;margin:48px 0 24px}
+.section-divider .num{background:var(--primary);color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex-shrink:0}
+.section-divider h2{border-bottom:none;margin:0;padding:0;font-size:1.4rem}
+
+/* CALLOUT BOX */
+.callout{border:2px solid var(--primary);border-radius:12px;padding:20px;margin:20px 0;background:var(--blockquote-bg)}
+.callout h4{color:var(--primary-dark);margin-bottom:8px;font-size:1rem}
+.callout p{margin-bottom:0;font-size:.9rem}
+.callout.warn{border-color:#D97706;background:#FFFBEB}
+.callout.warn h4{color:#92400E}
+.callout.success{border-color:#059669;background:#ECFDF5}
+.callout.success h4{color:#065F46}
+
+/* LEVEL LADDER (autonomy) */
+.layer-stack{margin:24px 0 32px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.layer-item{padding:18px 20px;border-bottom:1px solid var(--border);position:relative}
+.layer-item:last-child{border-bottom:none}
+.layer-item.l1b{background:linear-gradient(90deg,#FFF1F2,#fff)}
+.layer-item.l2b{background:linear-gradient(90deg,#FFE4E6,#fff)}
+.layer-item.l3b{background:linear-gradient(90deg,#FECDD3,#fff)}
+.layer-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-right:8px;color:#fff;background:var(--primary)}
+.layer-title{font-weight:700;font-size:.95rem}
+.layer-desc{font-size:.85rem;color:var(--text-light);margin-top:4px}
+
+/* SAFETY GRID */
+.hook-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:20px 0 28px}
+.hook-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px;border-left:4px solid var(--primary)}
+.hook-name{font-weight:800;font-size:.95rem;margin-bottom:4px;color:var(--primary-dark)}
+.hook-when{font-size:.82rem;color:var(--text-light);margin-bottom:0}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .stat-row{grid-template-columns:1fr 1fr}
+  .panel-grid{grid-template-columns:1fr}
+  .loop-diagram{flex-direction:column}
+  .loop-arrow{transform:rotate(90deg)}
+  .topic-grid{grid-template-columns:1fr}
+  .hook-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .stat-row{grid-template-columns:1fr}
+}
+</style>
+<script src="lessons-data.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="brand">바이브코딩 가이드</a>
+  <a href="claude-code-beginner.html">Claude Code 초보자</a>
+  <a href="harness-engineering.html">하네스 엔지니어링</a>
+  <a href="trend-report.html" class="active">2026 트렌드</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-badge">TREND SNAPSHOT 2026</span>
+  <h1>2026 바이브코딩 트렌드</h1>
+  <div class="meta">대상: 교사·관리자 (비개발자 포함) · 2026년 상반기 스냅샷</div>
+  <div class="hero-sub">모델 지형 · 가격·과금 · AI 에이전트 · 교육 함의</div>
+</div>
+
+<div class="layout">
+<aside class="sidebar">
+  <h3>목차</h3>
+  <a href="#overview">1. 한눈에 보기</a>
+  <a href="#timeline">2. 2026 상반기 타임라인</a>
+  <a href="#models">3. 모델 지형 + 가용성 역설</a>
+  <a href="#cost">4. 가격·과금 + 비용 리터러시</a>
+  <a href="#agents">5. AI 에이전트 기능</a>
+  <a href="#education">6. 교육 함의</a>
+  <a href="#resources">7. 더 배우려면</a>
+</aside>
+
+<main class="content">
+
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-06-28 <span class="vb-preview">트렌드는 변동 빠름 · 공식 재확인</span> · 모델 가용성·가격·정책은 주 단위로 바뀝니다.</div>
+
+<!-- ============ 1. 한눈에 보기 ============ -->
+<div class="section-divider">
+  <div class="num">1</div>
+  <h2 id="overview">한눈에 보기</h2>
+</div>
+
+<p>2026년 상반기 AI 코딩(바이브코딩) 생태계를 5개 지표로 요약합니다. <strong>단일 출처 수치는 "범위·방향성"으로만</strong> 신뢰하세요.</p>
+
+<div class="stat-row">
+  <div class="stat-card">
+    <div class="stat-icon">🧑‍💻</div>
+    <div class="stat-number">약 60% / 0~20%</div>
+    <div class="stat-label">AI 활용 비중 / 완전 위임 가능</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🏆</div>
+    <div class="stat-number">Opus 4.8</div>
+    <div class="stat-label">실제로 살 수 있는 최강 코딩 모델</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">📊</div>
+    <div class="stat-number">30~54%</div>
+    <div class="stat-label">Anthropic 코딩 매출 점유(정의별 범위)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🌐</div>
+    <div class="stat-number">약 100억$</div>
+    <div class="stat-label">전체 시장 규모(2026 글로벌, 방향성)</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon">🔀</div>
+    <div class="stat-number">65~70%</div>
+    <div class="stat-label">멀티툴 병용 비중</div>
+  </div>
+</div>
+
+<div class="callout">
+  <h4>핵심 메시지</h4>
+  <p>2026년의 질문은 "어떤 모델이 더 똑똑한가"에서 <strong>"그 모델을 실제로 쓸 수 있는가 + 그 산출물을 누가 검증하는가"</strong>로 이동했습니다.</p>
+</div>
+
+<!-- ============ 2. 타임라인 ============ -->
+<div class="section-divider">
+  <div class="num">2</div>
+  <h2 id="timeline">2026 상반기 타임라인</h2>
+</div>
+
+<p>6월 한 달 사이, AI 코딩 경쟁의 주전선이 "벤치마크 점수"에서 <strong>"누가 그 모델을 쓸 수 있느냐(접근권·국가안보·인재)"</strong>로 이동했습니다.</p>
+
+<div class="timeline">
+  <div class="tl-item">
+    <span class="tl-date">6/9</span>
+    <h4>Claude Fable 5 / Mythos 5 일반 공개</h4>
+    <p>차세대 플래그십 모델 등장.</p>
+  </div>
+  <div class="tl-item">
+    <span class="tl-date">6/12</span>
+    <h4>美 수출통제 지시로 Fable 5·Mythos 5 전면 차단</h4>
+    <p>프런티어 모델이 "국가안보 자산"으로 취급된 첫 대규모 사례. 6/28 현재 미복구(보도 기준).</p>
+  </div>
+  <div class="tl-item">
+    <span class="tl-date">6/18~24</span>
+    <h4>구글 Gemini 핵심 연구진 다수 이탈</h4>
+    <p>Anthropic·OpenAI로 이동. 알파벳 시총 약 2,700억 달러(보도별 편차) 증발 — "현재 1위"는 고정값이 아닙니다.</p>
+  </div>
+  <div class="tl-item">
+    <span class="tl-date">6/26</span>
+    <h4>OpenAI GPT-5.6(Sol/Terra/Luna) 제한 프리뷰</h4>
+    <p>정부 승인 약 20개사에만 우선 개방(보도에 따르면). 공개 API 미탑재.</p>
+  </div>
+  <div class="tl-item">
+    <span class="tl-date">6/29</span>
+    <h4>Gemini 3.5 Pro 출시 7월로 지연</h4>
+    <p>Flash만 선출시. 차세대 모델 일정 변동.</p>
+  </div>
+  <div class="tl-item">
+    <span class="tl-date">2026.8</span>
+    <h4>EU AI Act 고위험·투명성 의무 발효 임박</h4>
+    <p>교육이 고위험 직접 대상(EU 한정 — 한국은 참고).</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <h4>교육적 함의 — 모델 가용성 리터러시</h4>
+  <p>"내가 쓰던 최신 모델이 어느 날 갑자기 사라질 수 있다"는 새 리스크. 프리미엄 모델 하나에 학습·업무를 의존하지 말고, <strong>대체 모델로 갈아탈 수 있어야</strong> 합니다.</p>
+</div>
+
+<!-- ============ 3. 모델 지형 ============ -->
+<div class="section-divider">
+  <div class="num">3</div>
+  <h2 id="models">모델 지형 + 가용성 역설</h2>
+</div>
+
+<h3>가용성 역설 — 실제로 살 수 있는 최강 = Opus 4.8</h3>
+<p>2026년 6월 말 시점, <strong>가장 강력한 최신 모델 두 개(Fable 5, GPT-5.6)가 일반 사용자에게는 닫혀</strong> 있습니다. 그 결과 <strong>Claude Opus 4.8이 "실제로 살 수 있는" 최강 코딩 모델</strong>이라는 보도가 반복됩니다.</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>모델</th><th>성능 위치</th><th>6/28 실제 가용성</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Claude Fable 5 (Mythos)</td><td>차세대 플래그십</td><td class="no">전면 중단(미복구) — 사용 불가</td></tr>
+    <tr><td><strong>Claude Opus 4.8</strong></td><td>플래그십 현역</td><td class="ok">정상 — 사실상 현행 최강 실사용 코딩 모델</td></tr>
+    <tr><td>GPT-5.5</td><td>현행 플래그십</td><td class="ok">정상</td></tr>
+    <tr><td>GPT-5.6 (Sol/Terra/Luna)</td><td>차세대</td><td class="no">약 20개사 한정 프리뷰 — 일반 사용 불가</td></tr>
+    <tr><td>Gemini 3.1 Pro</td><td>현행</td><td class="ok">정상</td></tr>
+    <tr><td>Gemini 3.5 Pro</td><td>차세대</td><td class="no">7월로 지연(Flash만 선출시)</td></tr>
+  </tbody>
+</table>
+
+<div class="quote-highlight">
+  <p>"성능 1위"와 "지금 쓸 수 있는 1위"는 다릅니다. 비개발자에게 가장 실용적인 정보는 "이 모델을 지금 실제로 켤 수 있나"입니다.</p>
+  <div class="quote-author">— 가용성 역설</div>
+</div>
+
+<h3>작업 난이도에 맞춰 모델 고르기</h3>
+<p>"비싼 모델 = 항상 더 좋다"는 오해입니다. <strong>Sonnet 계열은 Opus 품질의 약 90%를 약 20% 비용에 제공</strong>한다는 권고가 반복됩니다(방향성).</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>상황</th><th>권장 모델</th><th>이유</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>처음 배우는 초보자</td><td>무료 티어 / Gemini Flash</td><td>비용 0~최소, 학습엔 충분</td></tr>
+    <tr><td>일반 학습·프로젝트(중급)</td><td>Sonnet 계열을 기본값으로</td><td>품질/비용비 최고</td></tr>
+    <tr><td>대량·단순 반복</td><td>Gemini Flash</td><td>가장 저렴, 속도</td></tr>
+    <tr><td>복잡한 다단계 추론·모호한 설계</td><td>Opus 계열(또는 Gemini Pro)</td><td>"프리미엄이 필요한 순간"</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h4>흔한 오해 깨기</h4>
+  <p>비싼 모델은 더 똑똑한 게 아니라, <strong>더 어려운 문제용</strong>입니다. 초보 학습엔 Sonnet/Flash로 충분합니다.</p>
+</div>
+
+<!-- ============ 4. 가격·과금 ============ -->
+<div class="section-divider">
+  <div class="num">4</div>
+  <h2 id="cost">가격·과금 동향 + 비용 리터러시</h2>
+</div>
+
+<p>2026년 업계 전체가 <strong>사용량 기반(usage-based) 과금</strong>으로 이동했습니다. Copilot·Cursor·Codex·Claude Code가 12개월 안에 모두 이동했고, "한 번의 에이전트 실행이 구독료를 초과"하는 일이 흔해졌습니다.</p>
+
+<ul>
+  <li>"월 정액 = 무제한"이 아니라 <strong>"월 정액 = 일정 한도 + 초과 시 종량(API rate) 과금"</strong>이 현실입니다.</li>
+  <li>예: Claude Code 실비용은 벤더 엔지니어링 문서 기준 <strong>개발자당 월 $150~250</strong> 수치가 반복 인용됩니다("$20 Pro 구독" 헤드라인과의 간극에 주의).</li>
+  <li>크레딧은 보통 <strong>이월되지 않습니다(no rollover)</strong>. 정책·한도·가격은 월 단위로 바뀝니다 — 게시 시점 공식 페이지 재확인 필수.</li>
+</ul>
+
+<div class="callout warn">
+  <h4>비용 리터러시 박스 — "월 $20 무제한" 환상 경고</h4>
+  <p><strong>"월 $20 무제한" 환상을 버리세요.</strong> 토큰 수학으로 보면 실제 월 지출은 사용량에 따라 $20에서 $1,000+까지 벌어집니다. 비용을 "이해하고 통제하는 것"이 새로운 필수 역량입니다.</p>
+</div>
+
+<h3>수준별 예산 모델 (교육용 가이드)</h3>
+<p>금액은 도구·환율·정책 변동이 빠르므로 <strong>"범위와 구조"로 읽어야</strong> 합니다.</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>레벨</th><th>월 예산(USD)</th><th>권장 구성</th><th>핵심 메시지</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>초보자</strong></td><td>$0 ~ 5</td><td>무료 티어 위주, 필요 시 소액 종량</td><td>"무료로 충분히 배운다. 결제 전 무료 한도부터 소진"</td></tr>
+    <tr><td><strong>중급</strong></td><td>$10 ~ 50</td><td>단일 유료 구독 1개 + 사용량 의식</td><td>"구독 1개로 시작, 한도·소비 패턴 관찰"</td></tr>
+    <tr><td><strong>개발자</strong></td><td>$100 ~ 500+</td><td>프리미엄 구독 + 종량 초과 + 멀티툴</td><td>"두 도구 병용 + 종량 초과를 예산에 반영"</td></tr>
+  </tbody>
+</table>
+
+<!-- ============ 5. AI 에이전트 ============ -->
+<div class="section-divider">
+  <div class="num">5</div>
+  <h2 id="agents">AI 에이전트 기능</h2>
+</div>
+
+<p>2026년 상반기 가장 큰 변화는 <strong>"에이전트가 도구의 부가기능에서 1차 인터페이스로 승격"</strong>된 것입니다. 핵심은 "에이전트에게 일을 시키고 → 감독하고 → 검증하는" 능력입니다.</p>
+
+<h3>5.1 자율성은 스펙트럼 — 5단계</h3>
+<p>에이전트성은 켜고 끄는 스위치가 아니라 연속적인 스펙트럼입니다. <strong>높은 자율성이 항상 좋은 것은 아닙니다</strong> — 자율성이 높아질수록 검증 부담이 커지고, 잘못된 방향으로 멀리 가버릴 위험이 커집니다.</p>
+
+<div class="layer-stack">
+  <div class="layer-item l1b">
+    <span class="layer-badge">L1</span>
+    <span class="layer-title">도구·어시스트</span>
+    <div class="layer-desc">사람이 운전, AI는 보조 · 예: 자동완성, 채팅 Q&amp;A</div>
+  </div>
+  <div class="layer-item l1b">
+    <span class="layer-badge">L2</span>
+    <span class="layer-title">협업(코파일럿)</span>
+    <div class="layer-desc">사람과 AI가 번갈아 · 예: IDE 인라인 편집</div>
+  </div>
+  <div class="layer-item l2b">
+    <span class="layer-badge">L3</span>
+    <span class="layer-title">컨설턴트형 <span style="font-size:.72rem;color:#059669;font-weight:700">← 초보자 권장</span></span>
+    <div class="layer-desc">AI가 초안·계획, 사람이 검토 · 예: "계획 모드" → 승인 후 실행</div>
+  </div>
+  <div class="layer-item l2b">
+    <span class="layer-badge">L4</span>
+    <span class="layer-title">승인 기반 자율</span>
+    <div class="layer-desc">AI가 실행, 사람은 위험한 지점만 승인 · 예: 터미널 명령 직전 승인</div>
+  </div>
+  <div class="layer-item l3b">
+    <span class="layer-badge">L5</span>
+    <span class="layer-title">완전 자율</span>
+    <div class="layer-desc">AI가 트리거·실행·완료까지 · 예: 백그라운드/클라우드 에이전트</div>
+  </div>
+</div>
+
+<h3>5.2 6대 플레이어 비교</h3>
+<table class="comparison-table">
+  <thead>
+    <tr><th>도구</th><th>주 사용자</th><th>자율성 표면</th><th>핵심 메커니즘</th><th>실행 위치</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Claude Code</strong></td><td>개발자</td><td>CLI/터미널</td><td>서브에이전트 + 에이전트 팀(실험) + 백그라운드</td><td>로컬(기본)</td></tr>
+    <tr><td><strong>Cursor</strong></td><td>개발자</td><td>IDE + 에이전트 윈도</td><td>클라우드 에이전트, 이벤트/스케줄 트리거</td><td>격리 클라우드 VM</td></tr>
+    <tr><td><strong>Antigravity</strong></td><td>개발자</td><td>데스크톱/CLI/SDK</td><td>에이전트 매니저(최대 5 병렬) + Browser Subagent</td><td>로컬 + 관리형 브라우저</td></tr>
+    <tr><td><strong>Codex</strong></td><td>개발자</td><td>CLI/IDE/ChatGPT/GitHub</td><td>매니저 + 병렬 워커 서브에이전트</td><td>클라우드 샌드박스</td></tr>
+    <tr><td><strong>Claude Cowork</strong></td><td>지식노동자</td><td>데스크톱 앱</td><td>폴더 접근형 단일 에이전트 + MCP 커넥터</td><td>로컬 데스크톱</td></tr>
+    <tr><td><strong>Devin</strong></td><td>개발팀</td><td>웹/Slack</td><td>자율 SWE 인스턴스(병렬 가능)</td><td>클라우드</td></tr>
+  </tbody>
+</table>
+
+<h3>5.3 멀티에이전트 오케스트레이션</h3>
+<p>여러 에이전트를 함께 쓸 때 프로덕션에서 지배적인 세 가지 구조:</p>
+<div class="panel-grid">
+  <div class="panel-card">
+    <h4>🗂️ 슈퍼바이저/계층형</h4>
+    <p>조율자가 워커를 지휘하는 트리 구조.</p>
+    <span class="tag">중앙 지휘</span>
+  </div>
+  <div class="panel-card">
+    <h4>🎯 오케스트레이터-워커</h4>
+    <p>가장 흔한 형태(프로덕션의 약 70%, 단일 출처 — 방향성). 작업을 분해해 특화 워커에 라우팅 후 결과를 합칩니다.</p>
+    <span class="tag">분해→라우팅→통합</span>
+  </div>
+  <div class="panel-card">
+    <h4>🐝 스웜(swarm)</h4>
+    <p>중앙 통제 없는 동료 에이전트들(예: Claude Code "에이전트 팀").</p>
+    <span class="tag">팀원끼리 직접 통신</span>
+  </div>
+</div>
+
+<div class="callout warn">
+  <h4>비용의 냉정한 진실</h4>
+  <p>멀티에이전트는 공짜가 아닙니다. 독립형은 약 58%, 중앙집중형은 약 285% 추가 토큰 오버헤드가 보고됩니다(방향성). <strong>에이전트 N개를 돌리면 토큰을 N배 빨리 씁니다.</strong> 단순 작업은 단일 세션이 정답입니다.</p>
+</div>
+
+<h3>5.4 에이전틱 감독 3단계 루프</h3>
+<p>수준과 무관하게 학습자의 "감독 루프"는 동일한 형태를 띱니다.</p>
+
+<div class="loop-diagram">
+  <div class="loop-step s1">
+    <div class="loop-num">1</div>
+    <h4>시키기 (Delegate)</h4>
+    <p>명확한 의도·제약·완료 조건을 프롬프트로 전달</p>
+  </div>
+  <div class="loop-arrow">→</div>
+  <div class="loop-step s2">
+    <div class="loop-num">2</div>
+    <h4>실패 디버깅 (Debug)</h4>
+    <p>에러를 읽고 맥락과 함께 AI에 재요청</p>
+  </div>
+  <div class="loop-arrow">→</div>
+  <div class="loop-step s3">
+    <div class="loop-num">3</div>
+    <h4>결과 검증 (Verify)</h4>
+    <p>동작 확인 + 정말 의도대로인지 점검</p>
+  </div>
+</div>
+<p class="loop-back">↺ 통과 못 하면 다시 ①로 — 통과할 때까지 루프를 돕니다.</p>
+
+<div class="callout">
+  <h4>위임 기준 = 검증 가능성 × 위험도</h4>
+  <p>"맞는지 쉽게 냄새만 맡아봐도 되는(sniff-check)" <strong>저위험·검증 쉬운 작업부터</strong> AI에 맡기세요. 동작만 보고 그냥 수용(vibe 수용)하는 습관이 굳으면 보안·품질 사고로 이어집니다.</p>
+</div>
+
+<h3>5.5 HITL 안전 5계명</h3>
+<p>자율성이 높아질수록 안전·감독이 비례해 중요해집니다.</p>
+<div class="hook-grid">
+  <div class="hook-card">
+    <div class="hook-name">① HITL (인간 승인 루프)</div>
+    <div class="hook-when">위험한 행동(터미널·파일 쓰기·결제) 직전에만 승인을 요구하고, 안전한 읽기는 자율로(최소 권한).</div>
+  </div>
+  <div class="hook-card">
+    <div class="hook-name">② 자동화 편향 경계</div>
+    <div class="hook-when">믿을 만해 보일수록 감시가 느슨해집니다. 검증이 사람 몫임을 잊지 마세요.</div>
+  </div>
+  <div class="hook-card">
+    <div class="hook-name">③ 권한·샌드박스</div>
+    <div class="hook-when">쓰기 권한이 필요 없으면 주지 않고, 프로덕션 데이터가 필요 없으면 샌드박스에서.</div>
+  </div>
+  <div class="hook-card">
+    <div class="hook-name">④ 메모리로 망각 다스리기</div>
+    <div class="hook-when">에이전트는 건망증이 심합니다. CLAUDE.md/AGENTS.md에 규칙을 적어 매 세션 자동 주입.</div>
+  </div>
+  <div class="hook-card">
+    <div class="hook-name">⑤ 비용으로 욕심 다스리기</div>
+    <div class="hook-when">멀티/백그라운드 에이전트는 토큰을 빠르게 소모합니다. "공짜 병렬화"가 아닙니다.</div>
+  </div>
+</div>
+
+<!-- ============ 6. 교육 함의 ============ -->
+<div class="section-divider">
+  <div class="num">6</div>
+  <h2 id="education">교육 함의</h2>
+</div>
+
+<h3>6.1 멀티툴 병용이 표준 (65~70%)</h3>
+<p>실무 엔지니어의 약 65%가 매일 2개 에이전트를 사용합니다(자기보고 기반 — 방향성). "도구 하나를 마스터"보다 <strong>"역할이 다른 도구를 조합하는 워크플로"</strong>를 가르치는 것이 현실적입니다.</p>
+
+<table class="comparison-table">
+  <thead>
+    <tr><th>레벨</th><th>추천 조합</th><th>역할 분담</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>초보자</strong></td><td>Lovable + Claude Cowork (또는 단일 도구)</td><td>앱 형태를 빠르게 + 아이디어·기획 정리</td></tr>
+    <tr><td><strong>중급</strong></td><td>Cursor + Claude Code</td><td>편집·자동완성 + 기능 단위 출하</td></tr>
+    <tr><td><strong>개발자</strong></td><td>Cursor/Claude Code + MCP + GitHub</td><td>에디터+에이전트+커넥터+버전관리·CI</td></tr>
+  </tbody>
+</table>
+
+<h3>6.2 EU AI Act — 교육이 고위험 직접 대상</h3>
+<div class="callout warn">
+  <h4>2026년 8월 발효 임박 (EU 한정 · 한국은 참고)</h4>
+  <p>EU AI Act 고위험·투명성 의무가 발효 임박입니다. <strong>교육은 ① 고위험 응용 ② 취약계층 보호가 겹치는 영역</strong>으로 특별 취급되어 학교·대학·EdTech가 직접 규제 대상입니다. 이는 EU 한정이며 한국 사이트 맥락에서는 "참고" 정보이나, 한국도 학운위 심의·개인정보보호 등 가드레일 강화 흐름은 동일합니다.</p>
+</div>
+
+<h3>6.3 사이트 교안 — 어디서 배우나</h3>
+<p>이 트렌드를 실제로 익히려면 사이트의 다음 교안으로 이어가세요.</p>
+<div class="topic-grid">
+  <div class="topic-badge">
+    <div class="topic-emoji">🟠</div>
+    <div class="topic-info">
+      <h4><a href="claude-code-beginner.html">Claude Code</a></h4>
+      <p>서브에이전트·에이전트 팀·백그라운드 실행 (3레벨)</p>
+    </div>
+  </div>
+  <div class="topic-badge">
+    <div class="topic-emoji">🟣</div>
+    <div class="topic-info">
+      <h4><a href="antigravity-beginner.html">AntiGravity</a></h4>
+      <p>에이전트 매니저·Browser Subagent·자율성 4단계 (3레벨)</p>
+    </div>
+  </div>
+  <div class="topic-badge">
+    <div class="topic-emoji">🟤</div>
+    <div class="topic-info">
+      <h4><a href="claude-cowork-beginner.html">Claude Cowork</a></h4>
+      <p>코드를 모르는 교사·연구자용 폴더 접근형 에이전트 (3레벨)</p>
+    </div>
+  </div>
+  <div class="topic-badge">
+    <div class="topic-emoji">🟪</div>
+    <div class="topic-info">
+      <h4><a href="webdev-beginner.html">웹·앱 개발 기초</a></h4>
+      <p>SE 지식·실습 트랙 — 검증·규율 있는 사용 (3레벨)</p>
+    </div>
+  </div>
+</div>
+
+<div class="quote-highlight">
+  <p>"에이전트를 쓰는 법보다, 에이전트를 감독하는 법을 가르쳐라."</p>
+  <div class="quote-author">— 교사용 한 줄 결론</div>
+</div>
+
+<!-- ============ 7. 더 배우려면 ============ -->
+<div class="section-divider">
+  <div class="num">7</div>
+  <h2 id="resources">더 배우려면</h2>
+</div>
+
+<p>외부 출처(새 창으로 열림). 수치·정책은 변동성이 크므로 인용 전 원문을 재확인하세요.</p>
+<ul>
+  <li><a href="https://resources.anthropic.com/2026-agentic-coding-trends-report" target="_blank">Anthropic — 「2026 Agentic Coding Trends Report」</a></li>
+  <li><a href="https://www.anthropic.com/news/fable-mythos-access" target="_blank">Anthropic 공식 성명 — Fable 5 / Mythos 5 접근</a></li>
+  <li><a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank">EU AI Act 규제 프레임워크 (EU 공식)</a></li>
+  <li><a href="https://www.swarmia.com/blog/five-levels-ai-agent-autonomy/" target="_blank">Swarmia — 「Five levels of AI coding agent autonomy」</a></li>
+  <li><a href="https://beam.ai/agentic-insights/multi-agent-orchestration-patterns-production" target="_blank">Beam.ai — 「Multi-Agent Orchestration Patterns for Production (2026)」</a></li>
+  <li><a href="https://www.developersdigest.tech/blog/ai-coding-tools-pricing-june-2026" target="_blank">Developers Digest — 「AI Coding Tools Pricing: June 2026 Reality Check」</a></li>
+</ul>
+
+<div class="callout">
+  <h4>핵심 가정 3줄 (검증은 사람 몫)</h4>
+  <p>
+    1. 본 리포트는 2026-06-28 스냅샷 — 모델 가용성·가격·정책은 매일 바뀝니다(Fable 5 복구, GPT-5.6 공개, Gemini 3.5 GA 등).<br>
+    2. 점유율·시총·실비용·오버헤드는 출처·정의·시점 편차가 커서 "범위·방향성"으로만 신뢰 가능합니다.<br>
+    3. EU AI Act "교육=고위험"은 EU 한정 참고 정보이며, 본 사이트는 공식 평가 도구가 아니라 자기주도 역량 강화 자료입니다.
+  </p>
+</div>
+
+</main>
+</div>
+
+<footer style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:.85rem;border-top:1px solid var(--border);margin-top:48px">
+  <p>김선생의 바이브코딩 가이드 · 2026 바이브코딩 트렌드 (2026-06-28 스냅샷)</p>
+  <p style="margin-top:8px"><a href="index.html" style="color:var(--primary)">← 메인으로 돌아가기</a></p>
+</footer>
+
+<script src="common.js"></script>
+</body>
+</html>

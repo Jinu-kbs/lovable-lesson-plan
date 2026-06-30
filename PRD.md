@@ -127,6 +127,7 @@ Q2: 현재 기술 수준은? (단일 수준 도구는 Q2 생략)
 | F75 | Claude Cowork 교안 3레벨 | 지식노동 에이전트, Claude 생태계 카테고리 | 계획 (v3.0, 승인제) |
 | F76 | Claude Design 교안 3레벨 | 디자인·프로토타입, Claude 생태계 카테고리 | 계획 (v3.0, 승인제) |
 | F77 | 배포 실전 보강 (deployment 트랙) | Replit 올인원·Supabase 실전 연동·방명록 앱 캡스톤(순수JS+supabase-js↔Next.js+Vercel 비교)·플랫폼 조합 선택표·프로덕션(환경분리·커넥션풀·CI/CD) | 완료 (v3.1) |
+| F78 | 트렌드 리포트 공개 페이지 | trend-report.html — 2026 바이브코딩 트렌드(시장·모델 가용성·AI 에이전트 자율성 5단계·비용 리터러시·교육 함의). 터미널 CLI 발견성(terminal-cli.html 스텁)·ai-compare/compare 2026.6 갱신·software-engineering AI 코드리뷰 체크리스트 포함 | 완료 (v3.2) |
 | F05 | 도구별 네비게이션 | 드롭다운 메뉴로 도구별·수준별 교안 이동 + 모바일 햄버거 메뉴 | 완료 |
 | F06 | 섹션 내 목차 | sidebar 좌측 목차로 섹션 내 빠른 이동 | 완료 |
 | F07 | 반응형 레이아웃 | 모바일(≤600px) / 데스크톱(>600px) 대응 | 완료 |

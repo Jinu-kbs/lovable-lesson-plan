@@ -132,7 +132,8 @@ const LESSONS = {
     { id: 'ai-compare',          url: 'ai-compare.html',          title: 'AI 비교',         icon: '🤖', color: '#5A4ED9' },
     { id: 'harness-engineering',  url: 'harness-engineering.html',  title: '하네스 엔지니어링',      icon: '⚙️', color: '#6366F1' },
     { id: 'claude-skills',        url: 'claude-skills.html',        title: '클로드 스킬 가이드',     icon: '🛠️', color: '#D97706' },
-    { id: 'software-engineering', url: 'software-engineering.html', title: '소프트웨어 엔지니어링',  icon: '📐', color: '#0891B2' }
+    { id: 'software-engineering', url: 'software-engineering.html', title: '소프트웨어 엔지니어링',  icon: '📐', color: '#0891B2' },
+    { id: 'trend-report',         url: 'trend-report.html',         title: '2026 바이브코딩 트렌드', icon: '📊', color: '#BE123C' }
   ],
 
   paths: {

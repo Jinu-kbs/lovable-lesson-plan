@@ -41,24 +41,36 @@
 
 <div class="hero">
   <h1>🔍 도구 비교</h1>
-  <div class="meta">5가지 바이브코딩 도구의 특징을 한눈에 비교하고, 나에게 맞는 도구를 찾아보세요</div>
+  <div class="meta">주요 바이브코딩 도구의 특징을 한눈에 비교하고, 나에게 맞는 도구 조합을 찾아보세요 (2026.6 라인업)</div>
 </div>
 
 <div class="layout">
 <aside class="sidebar">
   <h3>목차</h3>
+  <a href="#s0">0. 무엇이 바뀌었나</a>
   <a href="#s1">1. 한눈에 비교</a>
   <a href="#s2">2. 도구별 상세</a>
   <a href="#s3">3. 상황별 추천</a>
-  <a href="#s4">4. 조합 활용</a>
+  <a href="#s4">4. 멀티툴 조합 경로</a>
   <a href="#s5">5. 요금 비교</a>
   <a href="#s6">6. 학습 경로</a>
 </aside>
 
 <main class="content">
 
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-06-28 <span class="vb-preview">신생 제품 변동 가능</span> · 가격·라인업은 공식 페이지에서 확인하세요.</div>
+
+<h2 id="s0">0. 무엇이 바뀌었나 (2026.6 라인업 재편)</h2>
+<p>2026년 3월에 확정한 "5대 도구"를 6월 시장 데이터로 재평가했습니다. 큰 틀(러버블·Claude Code·커서·AI Studio 상위)은 견고하나, 두 가지를 반영했습니다.</p>
+<ul>
+  <li><strong>🚀 안티그래비티는 "심화/얼리어답터"로 강등</strong>: Antigravity 2.0은 병렬 에이전트 등 혁신적이나, 4개월간 무료 쿼터 4회 삭감과 안정성 백래시로 신뢰가 흔들렸습니다. 비개발자·교사 타깃과의 적합성이 낮아 메인 동급에서 후위(심화)로 이동합니다. 콘텐츠는 보존합니다.</li>
+  <li><strong>🤝 Claude Cowork 추가</strong>: 코드 없이 파일 정리·보고서 초안·다단계 업무를 자동화하는 지식노동 에이전트("나머지 우리를 위한 Claude Code"). 비개발자 업무 자동화 적합성이 매우 높아 신규 편입했습니다.</li>
+  <li><strong>🎨 Claude Design 언급(프리뷰)</strong>: 자연어로 디자인·프로토타입·슬라이드를 만드는 협업 캔버스. 아직 리서치 프리뷰라 보조(2차)로 다룹니다.</li>
+</ul>
+<blockquote><strong>💡 "하나만 고르세요"가 아닙니다.</strong> 2026년 실무 엔지니어의 약 65%가 매일 2개 도구를, 약 70%가 2~4개를 병용합니다(자기보고 기반·정의 모호, 방향성으로 해석). 이 페이지는 단일 정답이 아니라 <a href="#s4">역할·수준별 조합 경로</a>를 제시합니다.</blockquote>
+
 <h2 id="s1">1. 한눈에 비교</h2>
-<p>5가지 바이브코딩 도구의 핵심 특징을 비교합니다.</p>
+<p>주요 바이브코딩 도구의 핵심 특징을 비교합니다.</p>
 
 <div class="compare-wrapper">
   <table class="compare-table">
@@ -66,92 +78,92 @@
       <tr>
         <th>항목</th>
         <th>💗 러버블</th>
-        <th>🚀 안티그래비티</th>
         <th>💻 커서</th>
         <th>🧪 AI Studio</th>
         <th>⚡ Claude Code</th>
+        <th>🤝 Claude Cowork</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>유형</td>
         <td>웹 빌더</td>
-        <td>에이전트 IDE</td>
         <td>AI IDE</td>
         <td>웹 빌더</td>
-        <td>CLI 도구</td>
+        <td>CLI 코딩 에이전트</td>
+        <td>업무 자동화 에이전트</td>
       </tr>
       <tr>
         <td>제작사</td>
         <td>Lovable</td>
-        <td>Google</td>
         <td>Anysphere</td>
         <td>Google</td>
+        <td>Anthropic</td>
         <td>Anthropic</td>
       </tr>
       <tr>
         <td>설치</td>
         <td>불필요 (웹)</td>
         <td>필요 (데스크톱)</td>
-        <td>필요 (데스크톱)</td>
         <td>불필요 (웹)</td>
         <td>필요 (터미널)</td>
+        <td>필요 (데스크톱)</td>
       </tr>
       <tr>
         <td>코딩 필요</td>
         <td>불필요</td>
         <td>선택적</td>
-        <td>선택적</td>
         <td>불필요</td>
         <td>필요</td>
+        <td>불필요</td>
       </tr>
       <tr>
         <td>AI 모델</td>
         <td>Claude (Anthropic)</td>
-        <td>Gemini (Google)</td>
         <td>다중 모델 선택</td>
-        <td>Gemini 2.5 Pro</td>
+        <td>Gemini 3</td>
+        <td>Claude Sonnet/Opus</td>
         <td>Claude Sonnet/Opus</td>
       </tr>
       <tr>
         <td>주요 대상</td>
         <td>웹사이트/웹앱</td>
         <td>모든 프로젝트</td>
-        <td>모든 프로젝트</td>
-        <td>프로토타입</td>
+        <td>프로토타입·Android</td>
         <td>개발 프로젝트</td>
+        <td>문서·업무 자동화</td>
       </tr>
       <tr>
         <td>배포 방식</td>
         <td>Publish 원클릭</td>
-        <td>Firebase/Vercel</td>
         <td>터미널 수동</td>
         <td>공유 링크</td>
         <td>터미널 수동</td>
+        <td>산출물 파일</td>
       </tr>
       <tr>
         <td>생태계</td>
         <td>Supabase, Stripe</td>
-        <td>Google Cloud, Firebase</td>
         <td>VS Code 확장</td>
         <td>Google AI</td>
         <td>MCP, GitHub</td>
+        <td>MCP, 파일/앱</td>
       </tr>
       <tr>
         <td>협업 기능</td>
         <td>팀 플랜</td>
-        <td>워크스페이스 공유</td>
         <td>팀/Git 연동</td>
         <td>공유 링크</td>
         <td>Git/PR 자동화</td>
+        <td>업무 위임·공유</td>
       </tr>
       <tr>
         <td>난이도</td>
         <td class="highlight">쉬움</td>
         <td>보통</td>
-        <td>보통</td>
         <td class="highlight">매우 쉬움</td>
         <td>어려움</td>
+        <td class="highlight">쉬움</td>
       </tr>
       <tr>
         <td>무료 사용</td>
@@ -159,15 +171,15 @@
         <td>가능</td>
         <td>가능</td>
         <td>가능</td>
-        <td>가능</td>
+        <td>프리뷰/구독</td>
       </tr>
       <tr>
         <td>추천 대상</td>
         <td class="highlight">비개발자~중급</td>
-        <td>입문자~개발자</td>
         <td>중급~개발자</td>
         <td class="highlight">완전 입문자</td>
         <td>개발자</td>
+        <td class="highlight">비개발자 업무</td>
       </tr>
       <tr>
         <td>교안 수준</td>
@@ -180,6 +192,8 @@
     </tbody>
   </table>
 </div>
+
+<blockquote><strong>🚀 심화/얼리어답터 — 안티그래비티(AntiGravity)</strong>: Google의 에이전트 IDE로 Antigravity 2.0에서 병렬 5에이전트·Browser Subagent 등 혁신을 더했습니다. 다만 4개월간 무료 쿼터 4회 삭감과 안정성 이슈로 얼리어답터용으로 분류합니다. 콘텐츠는 <a href="antigravity-beginner.html">심화 교안</a>으로 보존합니다.</blockquote>
 
 <h2 id="s2">2. 도구별 상세</h2>
 
@@ -211,37 +225,6 @@
     <a href="lovable-beginner.html" style="background:#00B894">🌱 초보자편</a>
     <a href="lovable-intermediate.html" style="background:#0984E3">🚀 중급자편</a>
     <a href="lovable-developer.html" style="background:#E17055">⚙️ 개발자편</a>
-  </div>
-</div>
-
-<div class="tool-detail">
-  <h3><span class="tool-icon">🚀</span> 안티그래비티 (AntiGravity)</h3>
-  <p>Google이 만든 에이전트 기반 IDE입니다. VS Code를 기반으로 AI 에이전트가 자율적으로 코딩·테스트·브라우저 조작까지 수행합니다. Google 생태계와 자연스럽게 통합됩니다.</p>
-  <div class="pros-cons">
-    <div class="pros">
-      <strong>✅ 장점</strong>
-      <ul>
-        <li>에이전트가 자율적으로 작업 수행</li>
-        <li>Google 생태계 통합 (Firebase, Cloud)</li>
-        <li>병렬 에이전트로 동시 작업</li>
-        <li>퍼블릭 프리뷰 무료</li>
-        <li>웹·모바일·데스크톱 모든 프로젝트</li>
-      </ul>
-    </div>
-    <div class="cons">
-      <strong>⚠️ 단점</strong>
-      <ul>
-        <li>데스크톱 앱 설치 필요</li>
-        <li>Google 계정 필수</li>
-        <li>아직 프리뷰 단계</li>
-        <li>영어 UI</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tool-links">
-    <a href="antigravity-beginner.html" style="background:#9C27B0">🌱 초보자편</a>
-    <a href="antigravity-intermediate.html" style="background:#7B1FA2">🚀 중급자편</a>
-    <a href="antigravity-developer.html" style="background:#6A1B9A">⚙️ 개발자편</a>
   </div>
 </div>
 
@@ -278,7 +261,7 @@
 
 <div class="tool-detail">
   <h3><span class="tool-icon">🧪</span> AI Studio (Google)</h3>
-  <p>Google AI Studio의 Build 탭에서 Gemini 2.5 Pro와 대화하며 웹 프로토타입을 만드는 가장 간단한 도구입니다. Google 계정만 있으면 설치 없이 바로 시작할 수 있습니다.</p>
+  <p>Google AI Studio의 Build 탭에서 Gemini 3와 대화하며 웹·Android 프로토타입을 만드는 가장 간단한 도구입니다. Google 계정만 있으면 설치 없이 바로 시작할 수 있고, 무료 접근성이 강점입니다.</p>
   <div class="pros-cons">
     <div class="pros">
       <strong>✅ 장점</strong>
@@ -286,7 +269,7 @@
         <li>가장 쉽고 빠른 시작</li>
         <li>설치 불필요 (웹 브라우저)</li>
         <li>Google 계정으로 무료 사용</li>
-        <li>빠른 프로토타입 제작</li>
+        <li>Android 앱 빌드 지원 (2026 추가)</li>
       </ul>
     </div>
     <div class="cons">
@@ -336,6 +319,64 @@
   </div>
 </div>
 
+<div class="tool-detail">
+  <h3><span class="tool-icon">🤝</span> Claude Cowork (Anthropic) <span style="font-size:.7rem;background:#FCD34D;color:#92400E;padding:2px 8px;border-radius:6px;font-weight:700;vertical-align:middle">신규</span></h3>
+  <p>"나머지 우리를 위한 Claude Code"입니다. 코드 없이 파일 정리·보고서 초안·다단계 업무를 자율적으로 수행하는 데스크톱 지식노동 에이전트로, 비개발자·교사의 업무 자동화에 최적입니다.</p>
+  <div class="pros-cons">
+    <div class="pros">
+      <strong>✅ 장점</strong>
+      <ul>
+        <li>코드 없이 업무 자동화</li>
+        <li>다단계 작업을 자율 수행</li>
+        <li>파일·문서 직접 처리</li>
+        <li>MCP로 외부 서비스 연동</li>
+        <li>비개발자 친화 (가장 강한 모멘텀의 신규 도구)</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <strong>⚠️ 단점</strong>
+      <ul>
+        <li>데스크톱 앱 설치 필요</li>
+        <li>구독/프리뷰 정책 변동</li>
+        <li>"앱 빌더"가 아닌 업무 에이전트 (목적 구분 필요)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tool-links">
+    <a href="claude-cowork-beginner.html" style="background:#B45309">🌱 초보자편</a>
+    <a href="claude-cowork-intermediate.html" style="background:#92400E">🚀 중급자편</a>
+    <a href="claude-cowork-developer.html" style="background:#78350F">⚙️ 개발자편</a>
+  </div>
+</div>
+
+<div class="tool-detail">
+  <h3><span class="tool-icon">🎨</span> Claude Design (Anthropic) <span style="font-size:.7rem;background:#F0ABFC;color:#86198F;padding:2px 8px;border-radius:6px;font-weight:700;vertical-align:middle">프리뷰</span></h3>
+  <p>자연어로 디자인·프로토타입·슬라이드·원페이저를 만드는 협업 캔버스입니다. Figma(전문)와 러버블(풀스택 배포) 사이의 "백지 → 빠른 시각물" 자리를 채웁니다. 아직 리서치 프리뷰라 변동성이 크므로 보조 도구로 다룹니다.</p>
+  <div class="pros-cons">
+    <div class="pros">
+      <strong>✅ 장점</strong>
+      <ul>
+        <li>자연어로 디자인·슬라이드 생성</li>
+        <li>빠른 프로토타입·원페이저</li>
+        <li>비전 모델 기반 협업 캔버스</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <strong>⚠️ 단점</strong>
+      <ul>
+        <li>리서치 프리뷰 (변동성 큼)</li>
+        <li>"앱 만들기" 핵심 줄기와는 인접 영역</li>
+        <li>기능·접근 정책 수시 변경</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tool-links">
+    <a href="claude-design-beginner.html" style="background:#C026D3">🌱 초보자편</a>
+    <a href="claude-design-intermediate.html" style="background:#A21CAF">🚀 중급자편</a>
+    <a href="claude-design-developer.html" style="background:#86198F">⚙️ 개발자편</a>
+  </div>
+</div>
+
 <h2 id="s3">3. 상황별 추천</h2>
 <p>나의 상황에 맞는 도구를 찾아보세요.</p>
 
@@ -352,13 +393,18 @@
   </tr>
   <tr>
     <td><strong>교사·강사</strong></td>
-    <td>💗 러버블</td>
-    <td>수업 자료, 학급 관리 웹앱을 빠르게 제작</td>
+    <td>💗 러버블 + 🤝 Claude Cowork</td>
+    <td>수업 자료·학급앱은 러버블, 문서·업무 자동화는 Cowork</td>
+  </tr>
+  <tr>
+    <td><strong>사무·기획 업무 자동화가 목표</strong></td>
+    <td>🤝 Claude Cowork</td>
+    <td>코드 없이 파일 정리·보고서·반복 업무 위임</td>
   </tr>
   <tr>
     <td><strong>디자이너·기획자</strong></td>
-    <td>💗 러버블 또는 🚀 안티그래비티</td>
-    <td>노코드로 프로토타입, 에이전트에게 작업 위임</td>
+    <td>💗 러버블 또는 🎨 Claude Design(프리뷰)</td>
+    <td>노코드 프로토타입, 자연어 디자인/슬라이드</td>
   </tr>
   <tr>
     <td><strong>창업자·소상공인</strong></td>
@@ -371,11 +417,6 @@
     <td>AI 도움 받으며 코드를 직접 보고 배우기</td>
   </tr>
   <tr>
-    <td><strong>앱 개발이 목표인 분</strong></td>
-    <td>🚀 안티그래비티</td>
-    <td>웹·모바일·데스크톱 모든 플랫폼 지원</td>
-  </tr>
-  <tr>
     <td><strong>프론트엔드 개발자</strong></td>
     <td>💻 커서</td>
     <td>VS Code 환경에서 AI 보조 코딩</td>
@@ -383,18 +424,52 @@
   <tr>
     <td><strong>풀스택 개발자</strong></td>
     <td>💻 커서 + ⚡ Claude Code</td>
-    <td>IDE + CLI 조합으로 최대 생산성</td>
+    <td>편집은 커서, 기능 출하는 Claude Code</td>
   </tr>
   <tr>
     <td><strong>DevOps·인프라 엔지니어</strong></td>
     <td>⚡ Claude Code</td>
     <td>터미널 기반, CI/CD·MCP 자동화</td>
   </tr>
+  <tr>
+    <td><strong>앱 개발·얼리어답터</strong></td>
+    <td>🚀 안티그래비티 (심화)</td>
+    <td>병렬 에이전트·멀티플랫폼. 단 안정성 변동 유의</td>
+  </tr>
 </table>
 
-<h2 id="s4">4. 조합 활용</h2>
-<p>도구를 조합하면 더 효과적으로 작업할 수 있습니다.</p>
+<h2 id="s4">4. 멀티툴 조합 경로</h2>
+<p>2026년 실무 엔지니어의 약 65%가 매일 2개 에이전트를, 약 70%가 2~4개를 병용합니다(자기보고 기반·정의 모호, 방향성으로 해석). 도구 하나를 마스터하기보다 <strong>역할이 다른 도구를 조합</strong>하는 것이 현실적입니다. 인지 모드가 다르기 때문입니다 — "코드 편집"은 빠르고 비침습적이어야 하고, "기능 출하"는 철저하고 자율적이어야 합니다. 한 도구가 둘 다 최적화할 수 없습니다.</p>
 
+<h3>수준별 추천 조합</h3>
+<table>
+  <tr>
+    <th>레벨</th>
+    <th>추천 조합</th>
+    <th>역할 분담</th>
+    <th>비용 의식</th>
+  </tr>
+  <tr>
+    <td><strong>초보자</strong></td>
+    <td>💗 러버블 + 🤝 Claude Cowork</td>
+    <td>러버블로 앱 형태를 만들고, Cowork로 기획·자료·문서 정리</td>
+    <td>무료 한도 위주</td>
+  </tr>
+  <tr>
+    <td><strong>중급</strong></td>
+    <td>💻 커서 + ⚡ Claude Code</td>
+    <td>커서로 편집·자동완성, Claude Code로 기능 단위 출하</td>
+    <td>구독 1~2개</td>
+  </tr>
+  <tr>
+    <td><strong>개발자</strong></td>
+    <td>💻 커서/⚡ Claude Code + 🔌 MCP + 🐙 GitHub</td>
+    <td>에디터+에이전트+커넥터(MCP)+버전관리·CI를 한 워크플로로</td>
+    <td>프리미엄+종량</td>
+  </tr>
+</table>
+
+<h3>대표 조합 레시피</h3>
 <table>
   <tr>
     <th>조합</th>
@@ -407,31 +482,31 @@
     <td>입문자</td>
   </tr>
   <tr>
+    <td><strong>💗 러버블 + 🤝 Claude Cowork</strong></td>
+    <td>러버블로 앱, Cowork로 기획·문서·반복 업무 자동화</td>
+    <td>비개발자·교사</td>
+  </tr>
+  <tr>
     <td><strong>💗 러버블 → 💻 커서</strong></td>
     <td>러버블로 기본 구조 생성 → GitHub 연동 → 커서로 코드 커스터마이징</td>
     <td>중급자</td>
   </tr>
   <tr>
     <td><strong>💻 커서 + ⚡ Claude Code</strong></td>
-    <td>커서로 코딩 + Claude Code로 Git·테스트·배포 자동화</td>
-    <td>개발자</td>
+    <td>커서로 코딩 + Claude Code로 Git·테스트·기능 출하</td>
+    <td>개발자 (가장 높은 자기평가 생산성)</td>
   </tr>
   <tr>
     <td><strong>🚀 안티그래비티 → 💻 커서</strong></td>
     <td>에이전트로 빠르게 생성 → 커서로 세밀한 코드 제어</td>
-    <td>중급~개발자</td>
-  </tr>
-  <tr>
-    <td><strong>💗 러버블 + 🚀 안티그래비티</strong></td>
-    <td>러버블로 웹앱 + 안티그래비티로 모바일 앱</td>
-    <td>다중 플랫폼</td>
+    <td>심화·얼리어답터</td>
   </tr>
 </table>
 
-<blockquote><strong>💡 팁</strong>: 처음이라면 <strong>AI Studio → 러버블</strong> 순서로 시작하세요. AI Studio에서 바이브코딩 감각을 익히고, 러버블에서 본격적인 프로젝트를 만들 수 있습니다.</blockquote>
+<blockquote><strong>💡 팁</strong>: "도구 전쟁(어느 게 최고냐)"에 답을 강요하지 마세요. 핵심은 <strong>역할이 다른 도구를 조합하는 법</strong>입니다. 처음이라면 <strong>AI Studio → 러버블 → Claude Cowork</strong> 순서로 감각을 넓혀가세요.</blockquote>
 
 <h2 id="s5">5. 요금 비교</h2>
-<p>2026년 3월 기준 각 도구의 요금제를 비교합니다.</p>
+<p>2026년 6월 기준입니다. 업계 전반이 사용량 기반 과금으로 이동했습니다. "월 정액 = 무제한"이 아니라 <strong>"월 정액 = 일정 한도 + 초과 시 종량 과금"</strong>이 현실입니다.</p>
 
 <div class="compare-wrapper">
   <table class="compare-table">
@@ -451,12 +526,6 @@
         <td>제한된 빌드 횟수</td>
       </tr>
       <tr>
-        <td>🚀 안티그래비티</td>
-        <td>퍼블릭 프리뷰 무료</td>
-        <td>미정 (프리뷰)</td>
-        <td>프리뷰 기간 무제한</td>
-      </tr>
-      <tr>
         <td>💻 커서</td>
         <td>Hobby 무료</td>
         <td>$20/월 (Pro)</td>
@@ -470,30 +539,42 @@
       </tr>
       <tr>
         <td>⚡ Claude Code</td>
-        <td>API 키 필요</td>
-        <td>$100/월 (Max)</td>
-        <td>API 사용량 기반</td>
+        <td>구독 또는 API 키</td>
+        <td>$20/월 (Pro) ~ $100/월 (Max)</td>
+        <td>한도 + 종량</td>
+      </tr>
+      <tr>
+        <td>🤝 Claude Cowork</td>
+        <td>프리뷰/구독</td>
+        <td>Claude 구독 연동</td>
+        <td>정책 변동 — 공식 확인</td>
+      </tr>
+      <tr>
+        <td>🚀 안티그래비티 (심화)</td>
+        <td>프리뷰 무료</td>
+        <td>$20/월 (Pro)</td>
+        <td>쿼터 변동 (4개월 4회 삭감)</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<blockquote><strong>💡 팁</strong>: 비용 없이 시작하려면 <strong>AI Studio</strong>(완전 무료) 또는 <strong>안티그래비티</strong>(프리뷰 무료)가 가장 좋습니다. 러버블은 She Builds 이벤트 기간에 25시간 무료 빌드를 제공합니다.</blockquote>
+<blockquote><strong>💡 수준별 예산</strong>: 초보 <strong>$0~5</strong>(무료 한도 소진 우선) / 중급 <strong>$10~50</strong>(구독 1개) / 개발자 <strong>$100+</strong>(멀티툴+종량). 비용 없이 시작하려면 <strong>AI Studio</strong>(완전 무료)가 가장 좋습니다. 정확한 금액·한도는 변동성이 높으니 시작 전 공식 페이지에서 확인하세요.</blockquote>
 
 <h2 id="s6">6. 학습 경로</h2>
 <p>나의 수준에 맞는 학습 순서를 확인하세요.</p>
 
 <h3>입문자 경로</h3>
-<div class="path-diagram">🧪 AI Studio 초보자편 → 💗 러버블 초보자편 → 💗 러버블 중급자편
-  (프로토타입 감각)    (웹앱 제작)         (심화 활용)</div>
+<div class="path-diagram">🧪 AI Studio 초보자편 → 💗 러버블 초보자편 → 🤝 Claude Cowork 초보자편
+  (프로토타입 감각)    (웹앱 제작)         (업무 자동화)</div>
 
 <h3>중급자 경로</h3>
-<div class="path-diagram">💗 러버블 중급자편 → 🚀 안티그래비티 초보자편 → 💻 커서 초보자편
-  (기획 문서·심화)      (에이전트 IDE 체험)       (코드 직접 제어)</div>
+<div class="path-diagram">💗 러버블 중급자편 → 💻 커서 초보자편 → ⚡ Claude Code 초보자편
+  (기획 문서·심화)      (코드 직접 제어)     (에이전트 출하)</div>
 
 <h3>개발자 경로</h3>
-<div class="path-diagram">💻 커서 개발자편 → ⚡ Claude Code 개발자편 → 🚀 안티그래비티 개발자편
-  (AI IDE 마스터)    (CLI 자동화)             (에이전트 협업)</div>
+<div class="path-diagram">💻 커서 개발자편 → ⚡ Claude Code 개발자편 → 🔌 MCP 개발자편
+  (AI IDE 마스터)    (CLI 자동화)             (커넥터 연동)</div>
 
 <table>
   <tr>
@@ -506,29 +587,37 @@
     <td><strong>입문자</strong></td>
     <td><a href="aistudio-beginner.html">🧪 AI Studio 초보자</a></td>
     <td><a href="lovable-beginner.html">💗 러버블 초보자</a></td>
-    <td><a href="lovable-intermediate.html">💗 러버블 중급자</a></td>
+    <td><a href="claude-cowork-beginner.html">🤝 Claude Cowork 초보자</a></td>
   </tr>
   <tr>
     <td><strong>중급자</strong></td>
     <td><a href="lovable-intermediate.html">💗 러버블 중급자</a></td>
-    <td><a href="antigravity-beginner.html">🚀 안티그래비티 초보자</a></td>
     <td><a href="cursor-beginner.html">💻 커서 초보자</a></td>
+    <td><a href="claude-code-beginner.html">⚡ Claude Code 초보자</a></td>
   </tr>
   <tr>
     <td><strong>개발자</strong></td>
     <td><a href="cursor-developer.html">💻 커서 개발자</a></td>
     <td><a href="claude-code-developer.html">⚡ Claude Code 개발자</a></td>
-    <td><a href="antigravity-developer.html">🚀 안티그래비티 개발자</a></td>
+    <td><a href="mcp-developer.html">🔌 MCP 개발자</a></td>
   </tr>
 </table>
 
-<blockquote><strong>💡 팁</strong>: 어디서 시작할지 모르겠다면 <a href="index.html">메인 페이지</a>의 <strong>인터랙티브 퀴즈</strong>를 풀어보세요. 2가지 질문으로 나에게 맞는 교안을 추천받을 수 있습니다.</blockquote>
+<blockquote><strong>💡 팁</strong>: 어디서 시작할지 모르겠다면 <a href="index.html">메인 페이지</a>의 <strong>인터랙티브 퀴즈</strong>를 풀어보세요. 더 넓은 흐름은 <a href="trend-report.html">트렌드 리포트</a>와 <a href="ai-compare.html">AI 도구 비교</a>에서 확인할 수 있습니다.</blockquote>
+
+<h3>관련 리포트·교안</h3>
+<div class="tool-links" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+  <a href="trend-report.html" style="display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;color:#FFF;text-decoration:none;background:#5A4ED9">📈 트렌드 리포트</a>
+  <a href="ai-compare.html" style="display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;color:#FFF;text-decoration:none;background:#2196F3">🔍 AI 도구 비교</a>
+  <a href="claude-cowork-beginner.html" style="display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;color:#FFF;text-decoration:none;background:#B45309">🤝 Claude Cowork</a>
+  <a href="claude-design-beginner.html" style="display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;color:#FFF;text-decoration:none;background:#C026D3">🎨 Claude Design</a>
+</div>
 
 </main>
 </div>
 
 <footer>
-  <div style="margin-bottom:10px">본 페이지는 2026년 3월 기준으로 작성되었습니다.</div>
+  <div style="margin-bottom:10px">본 페이지는 2026년 6월 라인업 기준으로 갱신되었습니다. 신생 제품의 가격·접근 자격은 공식 페이지에서 확인하세요.</div>
   <div style="margin-bottom:10px">
     제공: 김선생 |
     <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">쓰레드(Threads)</a> |
