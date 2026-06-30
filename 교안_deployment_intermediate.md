@@ -31,6 +31,7 @@
 | **Vercel 공식 문서** | Vercel 배포 및 설정 가이드 | [바로가기](https://vercel.com/docs) |
 | **Firebase 공식 문서** | Firebase Hosting 가이드 | [바로가기](https://firebase.google.com/docs/hosting) |
 | **Supabase 공식 문서** | 오픈소스 백엔드 서비스 | [바로가기](https://supabase.com/docs) |
+| **Replit 공식 문서** | 올인원 배포·Secrets 가이드 | [바로가기](https://docs.replit.com) |
 | **Cloudflare 러닝 센터** | DNS, SSL, CDN 개념 학습 | [바로가기](https://www.cloudflare.com/learning/) |
 
 ---
@@ -45,8 +46,9 @@
 6. [데이터베이스 연동 배포](#6-데이터베이스-연동-배포)
 7. [도메인과 SSL](#7-도메인과-ssl)
 8. [모니터링과 로깅](#8-모니터링과-로깅)
-9. [실전 프로젝트](#9-실전-프로젝트)
-10. [트러블슈팅 & FAQ](#10-트러블슈팅--faq)
+9. [실전 프로젝트: 방명록 앱 만들고 배포하기](#9-실전-프로젝트-방명록-앱-만들고-배포하기)
+10. [실전 프로젝트: 자동 배포 파이프라인](#10-실전-프로젝트-자동-배포-파이프라인)
+11. [트러블슈팅 & FAQ](#11-트러블슈팅--faq)
 
 ---
 
@@ -774,9 +776,122 @@ Vercel 대시보드 → Settings → Environment Variables
 
 ### 학습 목표
 
+- GitHub Import부터 프로덕션 배포, PR 프리뷰, 롤백까지 Vercel 전 과정을 직접 해본다
+- 환경변수를 Production/Preview로 분리하여 안전하게 관리한다
 - PR별 프리뷰 배포를 활용하여 팀 협업 효율을 높인다
 - Edge Functions를 이해하고 간단한 API를 구현한다
 - Vercel Analytics로 성능을 모니터링한다
+
+> **최종 검증일**: 2026-06-26 · Vercel은 무료(Hobby) 한도·UI가 자주 바뀝니다. 정확한 한도와 화면은 [공식 가격 페이지](https://vercel.com/pricing)에서 확인하세요. **Hobby(무료)는 비상업·개인 용도 전용**이며, 수익형 사이트는 Pro($20/월)가 필요합니다.
+
+### Vercel 풀 핸즈온 (GitHub Import → 프로덕션 → 프리뷰 → 롤백)
+
+여기서는 빈 화면에서 **공개 URL**까지 가는 전 과정을 단계별로 따라 합니다. 빌드 도구(Vite/Next.js)를 쓰는 프로젝트든 정적 HTML이든 흐름은 같습니다.
+
+#### 1단계 — GitHub Import (저장소 연결)
+
+1. [vercel.com](https://vercel.com)에 **GitHub 계정으로 로그인**한다(신용카드 불필요).
+2. 대시보드 → **"Add New… → Project"** 클릭.
+3. 처음이면 **GitHub 앱 권한 승인**(저장소 접근 허용) 화면이 나온다. 전체 저장소 또는 특정 저장소만 허용할 수 있다.
+4. 배포할 저장소를 골라 **"Import"** 클릭.
+5. Vercel이 프레임워크를 자동 감지(Next.js / Vite / 정적 HTML 등)하고 **Build Command·Output Directory**를 채워준다. 정적 HTML이면 빌드 없이 그대로 배포된다.
+
+> [스크린샷 자리] Vercel "Import Git Repository" 화면 — 저장소 목록과 Import 버튼이 보이는 화면
+
+체크포인트:
+- [ ] Vercel 대시보드에 내 GitHub 저장소가 보이고 Import 버튼을 눌렀다
+
+#### 2단계 — 환경변수 입력 (Production / Preview 분리)
+
+Import 화면 또는 배포 후 **Settings → Environment Variables**에서 키-값을 등록한다. 핵심은 **환경(Environment)별로 다른 값**을 줄 수 있다는 점이다.
+
+```
+Vercel → Settings → Environment Variables
+
+┌──────────────────────────┬─────────────────────────────────┬──────────────┐
+│ Name                     │ Value                           │ Environment  │
+├──────────────────────────┼─────────────────────────────────┼──────────────┤
+│ VITE_SUPABASE_URL        │ https://prod-xxx.supabase.co     │ Production   │
+│ VITE_SUPABASE_URL        │ https://staging-xxx.supabase.co  │ Preview      │
+│ VITE_SUPABASE_PUBLISHABLE_KEY │ sb_publishable_(운영 공개 키) │ Production   │
+│ VITE_SUPABASE_PUBLISHABLE_KEY │ sb_publishable_(테스트 공개 키)│ Preview     │
+└──────────────────────────┴─────────────────────────────────┴──────────────┘
+```
+
+CLI로도 같은 작업을 할 수 있습니다.
+
+```bash
+# 환경별로 따로 등록 (development / preview / production)
+vercel env add VITE_SUPABASE_URL production
+# → 값 입력: https://prod-xxx.supabase.co
+
+vercel env add VITE_SUPABASE_URL preview
+# → 값 입력: https://staging-xxx.supabase.co
+```
+
+> **보안 주의**: `VITE_`나 `NEXT_PUBLIC_` 접두사가 붙은 변수는 **빌드 결과에 박혀 브라우저로 노출**됩니다. Supabase 공개 키(publishable/anon)는 노출돼도 RLS로 보호되므로 괜찮지만, **비밀 키(secret/service_role)에는 절대 그 접두사를 붙이지 마세요.** 비밀 키는 서버 사이드 전용 변수로만 둡니다.
+
+> [스크린샷 자리] Vercel Environment Variables 화면 — 같은 Name이 Production/Preview에 각각 다른 값으로 등록된 모습
+
+체크포인트:
+- [ ] 같은 변수 이름을 Production과 Preview에 서로 다른 값으로 등록했다
+- [ ] 클라이언트 노출 접두사(VITE_/NEXT_PUBLIC_)에는 공개 가능한 값만 넣었다
+
+#### 3단계 — 프로덕션 배포
+
+1. Import 화면에서 **"Deploy"** 클릭(또는 main 브랜치에 push).
+2. 수십 초 내 빌드가 끝나고 **`프로젝트명.vercel.app`** 공개 URL이 발급된다.
+3. 이후로는 **main 브랜치에 push하면 자동으로 프로덕션이 갱신**된다(별도 클릭 불필요). 이것이 곧 CI/CD다.
+
+```bash
+# CLI로 즉시 프로덕션 배포
+npm i -g vercel
+vercel --prod
+```
+
+> [스크린샷 자리] 배포 완료 후 "Congratulations" 화면 — Visit 버튼과 *.vercel.app 주소가 보이는 화면
+
+체크포인트:
+- [ ] `*.vercel.app` 주소로 접속해 내 사이트가 인터넷에 떴다
+- [ ] main에 push한 뒤 자동으로 새 배포가 시작되는 것을 확인했다
+
+#### 4단계 — PR 프리뷰 배포
+
+main이 아닌 **다른 브랜치에서 PR을 만들면**, Vercel이 그 PR 코드만으로 **독립된 미리보기 사이트**를 자동 생성한다.
+
+```
+[프리뷰 흐름]
+feature 브랜치 작업 → GitHub PR 생성
+    ↓ (Vercel 자동 감지)
+PR 코드로 별도 배포 → 고유 프리뷰 URL 생성 (예: my-app-git-feature-xxx.vercel.app)
+    ↓
+PR에 프리뷰 URL 코멘트 자동 첨부 → 팀원이 실제 동작을 보고 리뷰
+    ↓
+PR 머지(main) → 프로덕션 자동 반영
+```
+
+이때 프리뷰 배포는 **Preview 환경변수**를 사용하므로, 2단계에서 분리해 둔 스테이징 값이 자동 적용된다(운영 DB를 건드리지 않는다).
+
+> [스크린샷 자리] GitHub PR 하단에 Vercel 봇이 단 프리뷰 URL 코멘트(Visit Preview)가 보이는 화면
+
+체크포인트:
+- [ ] PR을 만들었더니 프리뷰 URL이 자동으로 생성·코멘트됐다
+- [ ] 프리뷰가 Production이 아닌 Preview 환경변수를 쓴다는 점을 이해했다
+
+#### 5단계 — 롤백 (이전 배포로 되돌리기)
+
+잘못 배포했을 때, Vercel은 **클릭 한 번으로 이전 배포로 되돌릴 수 있다**(배포 이력이 전부 보존됨).
+
+1. 프로젝트 → **Deployments** 탭에서 정상 동작하던 이전 배포를 찾는다.
+2. 우측 **⋯ 메뉴 → "Promote to Production"** 클릭.
+3. 즉시 해당 버전이 프로덕션으로 승격된다(다시 빌드하지 않으므로 빠르다).
+4. 이력을 남기고 싶으면 `git revert`로 문제 커밋을 되돌린 뒤 push하는 방법도 있다(권장).
+
+> [스크린샷 자리] Deployments 목록에서 이전 배포의 "Promote to Production" 메뉴가 열린 화면
+
+체크포인트:
+- [ ] 이전 배포를 프로덕션으로 승격(롤백)하는 위치를 찾았다
+- [ ] 안전한 롤백 방법으로 git revert도 있다는 것을 안다
 
 ### 프리뷰 배포 (Preview Deployments)
 
@@ -1195,6 +1310,8 @@ jobs:
 ### 학습 목표
 
 - Supabase, Firebase, PlanetScale의 특징을 비교하고 선택할 수 있다
+- Supabase 프로젝트를 직접 만들고(가입→리전→테이블→RLS→키→연결) 정적 사이트에 붙일 수 있다
+- 2026년 신규 API 키 체계(`sb_publishable_`/`sb_secret_`)의 차이와 노출 규칙을 안다
 - 데이터베이스 마이그레이션과 시딩의 개념을 이해한다
 - DB가 포함된 풀스택 앱을 안전하게 배포할 수 있다
 
@@ -1213,7 +1330,145 @@ jobs:
 | **쿼리 방식** | SQL + REST API | SDK (NoSQL) | SQL |
 | **적합한 프로젝트** | 관계형 데이터, API 중심 | 실시간 앱, 모바일 | 대용량, 복잡한 쿼리 |
 
-### Supabase 연동 배포
+> **최종 검증일**: 2026-06-28 · Supabase는 무료 한도(DB 500MB·이그레스 5GB·MAU 5만)와 키 체계가 바뀝니다. 정확한 수치는 [공식 가격 페이지](https://supabase.com/pricing)에서 확인하세요. 무료 프로젝트는 **1주 비활성 시 자동 정지**되므로 발표 전날 한 번 깨워두세요.
+
+### Supabase 실전 연동 핸즈온 (가입 → 리전 → 테이블 → RLS → 키 → 연결)
+
+"새로고침하면 사라지는 글"을 "DB에 영구 저장되는 데이터"로 바꾸는 전 과정입니다. 여기서 만든 `guestbook` 테이블은 9장 방명록 앱에서 그대로 씁니다.
+
+#### 1단계 — 가입
+
+1. [supabase.com](https://supabase.com) → **"Start your project"**.
+2. **GitHub 계정으로 가입** 권장(배포 연동까지 일관됨).
+3. 개인 작업은 기본 조직(Organization)을 그대로 사용한다.
+
+#### 2단계 — 프로젝트 생성·리전 선택 (★한국 = Asia)
+
+1. 대시보드 → **"New Project"**.
+2. 입력 항목:
+   - **Name**: `guestbook-app`
+   - **Database Password**: DB 비밀번호 — **반드시 안전하게 보관**(재확인이 까다로움)
+   - **Region**: ★ **Northeast Asia (Seoul) / `ap-northeast-2`** — 한국 사용자 대상이면 지연 최소
+   - **Plan**: Free
+3. **★ 리전은 생성 후 변경 불가**입니다. 한국 서비스는 반드시 Seoul을 고르세요.
+4. 생성 후 약 1~2분 프로비저닝을 기다립니다.
+
+> [스크린샷 자리] Supabase "New Project" 화면 — Region 드롭다운에서 Northeast Asia (Seoul)을 선택한 모습
+
+체크포인트:
+- [ ] 리전을 Seoul로 지정해 프로젝트를 생성했다 (생성 후 변경 불가임을 안다)
+- [ ] DB 비밀번호를 안전한 곳에 보관했다
+
+#### 3단계 — 테이블/스키마 만들기
+
+`SQL Editor`에 아래를 붙여넣고 실행합니다(GUI Table Editor로도 가능하지만, SQL 한 덩어리가 재현성이 좋습니다).
+
+```sql
+-- 방명록 테이블
+create table public.guestbook (
+  id          bigint generated always as identity primary key,
+  name        text not null,
+  message     text not null,
+  created_at  timestamptz not null default now()
+);
+```
+
+#### 4단계 — RLS(행 수준 보안) 정책 추가 (★보안 핵심)
+
+**RLS는 "테이블마다 자동으로 WHERE 조건을 붙이는" 보안 장치**입니다. RLS를 켜지 않으면 공개 키만으로 누구나 전체 테이블을 읽고 쓸 수 있어 **사고로 직결**됩니다. 반대로 켜기만 하고 정책을 안 넣으면 아무것도 안 보입니다(빈 배열). **켜되, 정책을 명시**하세요.
+
+```sql
+-- (1) RLS 활성화
+alter table public.guestbook enable row level security;
+
+-- (2) 모두 읽기 허용
+create policy "Anyone can read guestbook"
+  on public.guestbook
+  for select
+  using (true);
+
+-- (3) 모두 작성 허용 (본문만)
+create policy "Anyone can insert guestbook"
+  on public.guestbook
+  for insert
+  with check (true);
+```
+
+원리:
+- RLS를 켜면 **기본은 "모두 거부"**. 정책으로 "허용"을 명시해야 통과합니다.
+- `for select ... using (true)` = 읽기 전부 허용 / `for insert ... with check (true)` = 쓰기 전부 허용.
+- 삭제·수정을 막으려면 `delete`/`update` 정책을 **만들지 않으면 됩니다**(없으면 자동 거부).
+
+> **교안 강조**: "RLS를 끄고 배포 = 현관문 열어두고 외출." 바이브코딩 배포 사고 1순위입니다.
+
+> [스크린샷 자리] Supabase Table Editor에서 guestbook 테이블에 "RLS enabled" 표시와 정책 2개가 보이는 화면
+
+체크포인트:
+- [ ] guestbook 테이블에 RLS를 켰다
+- [ ] select·insert 정책을 추가했고, delete/update 정책은 일부러 안 만들었다
+
+#### 5단계 — API 키 확인 (★2026 신규 체계: publishable / secret)
+
+대시보드 → **Project Settings → API**(또는 API Keys)에서 **프로젝트 URL**과 키를 확인합니다. 2026년에 새로 만든 프로젝트는 옛 `anon`/`service_role`이 아니라 **새 키 형식**을 봅니다.
+
+| 키 | 2026 신규 형식 | 옛(레거시) 형식 | 역할 | 노출 |
+|----|----------------|------------------|------|------|
+| **공개 키** | `sb_publishable_...` | `anon` (JWT) | 브라우저·클라이언트용. **RLS 범위 내**에서만 동작 | **공개 가능** (단 RLS 필수) |
+| **비밀 키** | `sb_secret_...` | `service_role` (JWT) | 서버·엣지 함수용. **RLS 우회** | **절대 노출 금지** |
+
+- **공개 키(publishable/anon)**: 권한이 낮고 RLS가 모든 것을 거릅니다. HTML/JS에 박아도 됩니다.
+- **비밀 키(secret/service_role)**: **모든 RLS를 건너뛰고** DB 전체를 읽고/쓰고/지웁니다. 브라우저·모바일·CLI·**깃허브에 절대 넣지 마세요.** 공식 문구: "Never use in a browser, even on localhost."
+
+> **안전 수칙**: 공개해도 되는 것 = 프로젝트 URL, publishable(anon) 키. **절대 공개 금지** = secret(service_role) 키, DB 비밀번호. 안전의 전제는 **RLS가 켜져 있을 것**. 비밀 키가 깃허브에 올라가면 끝입니다.
+
+> [스크린샷 자리] Supabase API 설정 화면 — Project URL과 sb_publishable_ 키, sb_secret_ 키(가려진 상태)가 보이는 화면
+
+체크포인트:
+- [ ] 프로젝트 URL과 공개 키(publishable/anon)를 복사했다
+- [ ] 비밀 키(secret/service_role)는 코드·깃허브에 절대 넣지 않는다는 것을 안다
+
+#### 6단계 — `@supabase/supabase-js` 클라이언트 연결 (CDN)
+
+정적 HTML이면 빌드 없이 **CDN**으로 바로 붙입니다.
+
+```html
+<!-- supabase-js v2 CDN 로드 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const { createClient } = window.supabase;
+
+  const SUPABASE_URL = 'https://<프로젝트ID>.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_xxxxx'; // 공개 키 (또는 레거시 anon)
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+```
+
+번들러/프레임워크(러버블 export·Vite·Next.js)에서는 npm 설치 + 환경변수로 관리합니다.
+
+```bash
+npm install @supabase/supabase-js
+```
+
+```js
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+)
+```
+
+기본 동작 두 가지를 기억하세요.
+- `insert()`는 기본적으로 넣은 행을 **반환하지 않습니다**. 받으려면 `.select()`를 체이닝합니다.
+- 반환은 항상 `{ data, error }` 구조 → **`error` 체크를 습관화**합니다.
+
+체크포인트:
+- [ ] supabase-js CDN(또는 npm)으로 클라이언트를 초기화했다
+- [ ] insert/select가 `{ data, error }`를 돌려준다는 것을 이해했다
+
+### Supabase 연동 배포 (CLI 마이그레이션)
+
+> 위 핸즈온이 "대시보드에서 직접" 붙이는 길이라면, 아래는 **마이그레이션을 코드로 관리**하는 팀 협업용 흐름입니다.
 
 #### 프로젝트 생성 및 연결
 
@@ -1321,18 +1576,20 @@ INSERT INTO posts (user_id, title, content, published) VALUES
 ```
 
 ```bash
-# .env.development
+# .env.development  (2026 신규 프로젝트는 sb_publishable_ 형식 / 옛 프로젝트는 anon 키)
 VITE_SUPABASE_URL=http://localhost:54321
-VITE_SUPABASE_ANON_KEY=eyJ...local...key
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_local...key
 
 # .env.staging
 VITE_SUPABASE_URL=https://staging-xxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJ...staging...key
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_staging...key
 
 # .env.production
 VITE_SUPABASE_URL=https://prod-xxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJ...prod...key
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_prod...key
 ```
+
+> 공개 키만 클라이언트(`VITE_`)에 둡니다. **비밀 키(`sb_secret_`/service_role)는 절대 `VITE_`/`NEXT_PUBLIC_` 접두사로 노출하지 마세요.**
 
 ### Firebase Firestore 연동
 
@@ -1391,6 +1648,8 @@ service cloud.firestore {
 
 체크포인트:
 - [ ] Supabase, Firebase, PlanetScale의 차이를 비교할 수 있다
+- [ ] Supabase 프로젝트를 직접 만들고 RLS·키·연결까지 이해했다
+- [ ] 2026 신규 키(publishable/secret)의 노출 규칙을 안다
 - [ ] 마이그레이션과 시딩의 개념을 이해했다
 - [ ] 환경별로 DB를 분리하여 관리하는 방법을 알았다
 - [ ] DB 보안 규칙(RLS, Firestore Rules)의 중요성을 이해했다
@@ -1827,7 +2086,221 @@ UptimeRobot (https://uptimerobot.com) 설정:
 
 ---
 
-## 9. 실전 프로젝트
+## 9. 실전 프로젝트: 방명록 앱 만들고 배포하기
+
+### 학습 목표
+
+- 순수 HTML/JS + supabase-js로 방명록(닉네임+메시지)을 insert/select 구현한다
+- 같은 앱을 Vercel과 Replit에 각각 배포해 두 플랫폼의 모델 차이를 몸으로 안다
+- 정적/풀스택 상황에 맞는 플랫폼 조합 선택 기준을 세운다
+
+> **개인정보 보호**: 방명록에는 **닉네임 또는 익명만** 사용하세요. 실명·이메일·전화번호 등 개인정보를 남기지 않도록 안내 문구를 넣습니다.
+
+### 무엇을 만드나
+
+6장에서 만든 `guestbook` 테이블(닉네임 `name` + 메시지 `message`)에, 누구나 글을 남기고 모두가 읽는 **방명록**을 붙입니다. 빌드 도구 없이 **HTML 파일 하나**로 완성되며, 그대로 Vercel에 올립니다.
+
+#### Step 1 — 완성형 방명록 HTML (복붙 가능)
+
+아래 한 파일을 `index.html`로 저장하고, `<프로젝트ID>`와 공개 키만 본인 값으로 바꾸면 동작합니다.
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>방명록</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; }
+    form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    input, textarea, button { padding: 10px; font-size: 1rem; }
+    li { border-bottom: 1px solid #eee; padding: 10px 0; }
+    .meta { color: #888; font-size: .8rem; }
+  </style>
+</head>
+<body>
+  <h1>방명록</h1>
+  <p class="meta">닉네임/익명으로만 남겨 주세요. 실명·연락처 입력 금지.</p>
+
+  <form id="gb-form">
+    <input id="name" placeholder="닉네임" maxlength="20" required />
+    <textarea id="message" placeholder="메시지" maxlength="200" required></textarea>
+    <button type="submit">남기기</button>
+  </form>
+  <ul id="gb-list"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = window.supabase.createClient(
+      'https://<프로젝트ID>.supabase.co',
+      'sb_publishable_xxxxx'   // 공개 키 — RLS로 보호되므로 노출 OK
+    );
+
+    // 1) 목록 불러오기 (최신순)
+    async function loadGuestbook() {
+      const { data, error } = await supabase
+        .from('guestbook')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) { console.error(error); return; }
+      document.getElementById('gb-list').innerHTML = data
+        .map(function (r) {
+          return '&lt;li&gt;&lt;b&gt;' + escapeHtml(r.name) + '&lt;/b&gt;: '
+               + escapeHtml(r.message) + '&lt;/li&gt;';
+        })
+        .join('');
+    }
+
+    // 2) 글 남기기
+    document.getElementById('gb-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const { error } = await supabase
+        .from('guestbook')
+        .insert({ name: name, message: message });
+      if (error) { alert('저장 실패: ' + error.message); return; }
+      e.target.reset();
+      loadGuestbook();
+    });
+
+    // XSS 방지: 사용자 입력을 그대로 innerHTML에 넣지 않도록 이스케이프
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/&lt;/g, '&lt;')
+        .replace(/&gt;/g, '&gt;');
+    }
+
+    loadGuestbook();
+  </script>
+</body>
+</html>
+```
+
+> **보안 메모**: 사용자가 입력한 글을 `innerHTML`에 그대로 넣으면 스크립트 삽입(XSS) 위험이 있으므로 `escapeHtml`로 이스케이프합니다. 공개 키는 노출돼도 RLS가 막아주지만, **비밀 키는 이 파일에 절대 넣지 마세요.**
+
+체크포인트:
+- [ ] 로컬에서 글을 남기면 목록에 바로 뜨고, 새로고침해도 남아 있다
+- [ ] 다른 브라우저(또는 휴대폰)에서 같은 글이 보인다 → "DB에 저장됐다"
+
+#### Step 2 — Vercel에 배포
+
+1. 이 `index.html`을 GitHub 저장소에 push.
+2. 4장 "Vercel 풀 핸즈온" 그대로: **Add New Project → Import → Deploy**.
+3. 정적 HTML이라 빌드 없이 즉시 `*.vercel.app`으로 공개된다.
+4. 공개 URL을 휴대폰으로 열어 글을 남겨 본다.
+
+> [스크린샷 자리] Vercel에 배포된 방명록 화면 — 입력 폼과 남겨진 글 목록이 보이는 모습
+
+#### Step 3 — 같은 앱을 Replit로도 배포 (비교)
+
+같은 앱을 **Replit**에도 올려 두 플랫폼의 모델 차이를 체감합니다.
+
+1. [replit.com](https://replit.com) 가입 → **New project**(정적 HTML 템플릿 또는 GitHub Import).
+   - GitHub Import: 주소창에 `https://replit.com/github.com/<owner>/<repo>` 입력 → 자동 import.
+2. 같은 `index.html`을 두고 **Run**으로 미리보기.
+3. 우상단 **Publish → 배포 유형 선택**: 정적 사이트이므로 **Static**(호스팅 무료) 권장.
+4. **Deploy** → `*.replit.app` 공개 URL 발급.
+5. ⚠️ **배포 실패 1위 원인**: 워크스페이스의 **Secrets는 배포로 자동 복사되지 않습니다.** 비밀값을 쓰는 앱이라면 Deployments 패널에 Secrets를 다시 넣어야 합니다(이 방명록은 공개 키만 쓰므로 해당 없음).
+
+> **참고(검증 필요)**: Replit은 플랜·배포 정책·아시아 리전 노출이 자주 바뀝니다. 무료(Starter)는 공개 앱 1개·약 30일 후 만료·리전 북미 고정 등 제약이 있으니 [공식 문서](https://docs.replit.com)에서 현재 정책을 확인하세요.
+
+#### Step 4 — Replit vs Vercel 비교
+
+| 항목 | **Replit** | **Vercel** |
+|------|-----------|-----------|
+| 정체성 | 올인원 클라우드 IDE + 호스팅 | 프론트엔드/서버리스 배포 플랫폼 |
+| 코드 에디터 | **내장**(브라우저 IDE) | 없음(외부 에디터 + Git 연동) |
+| 백엔드(상시 서버) | **지원**(Reserved VM 등 풀스택) | 서버리스 함수 중심 |
+| 데이터베이스 | **내장 PostgreSQL/KV** + 외부 연동 | 네이티브 DB 없음 → 외부 서비스 필요 |
+| AI 빌더 | **Replit Agent**(자연어→앱) | v0(UI 생성 중심) |
+| 배포 워크플로우 | 에디터에서 즉시 Publish | Git push → 자동 CI/CD |
+| 무료 한도 | 공개 앱 1개·약 30일 만료·북미 고정 | Hobby(개인용)·대역폭/함수 한도 |
+| 강점 | **풀스택을 한 곳에서**, 교육·프로토타입 | 프론트 성능·CDN·서버리스 프로덕션 |
+
+이 방명록은 **데이터를 외부 Supabase에 두므로** 두 플랫폼 모두 "정적 호스팅"만 하면 됩니다. 그래서 차이가 잘 안 느껴질 수 있는데, 핵심은 이렇습니다.
+- **Replit**은 DB·백엔드까지 한 프로젝트 안에서 끝낼 수 있습니다(내장 PostgreSQL을 쓰면 Supabase조차 필요 없음).
+- **Vercel**은 프론트는 빠르게 뜨지만, **데이터 저장은 항상 외부 서비스(Supabase 등)**가 필요합니다.
+- 결론: 둘은 경쟁이라기보다 **용도가 다릅니다.** 교사·초보자의 첫 풀스택은 Replit이 마찰이 적고, 정적/프론트 중심 프로덕션은 Vercel이 유리합니다.
+
+#### 한 단계 위: 같은 방명록을 Next.js + Vercel로
+
+순수 HTML 대신 **Next.js(App Router)**로 만들면 서버에서 데이터를 안전하게 다룰 수 있습니다. 비교만 가볍게 봅니다.
+
+```jsx
+// app/page.jsx  — 서버 컴포넌트에서 목록을 미리 읽어 렌더 (비밀 키를 서버에서만 사용)
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,            // 서버 전용 (NEXT_PUBLIC_ 안 붙임)
+  process.env.SUPABASE_SECRET_KEY      // ★ 비밀 키 — 서버에서만, 절대 클라이언트로 안 감
+);
+
+export default async function Page() {
+  const { data } = await supabase
+    .from('guestbook')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  return (
+    &lt;ul&gt;
+      {data?.map(function (r) {
+        return &lt;li key={r.id}&gt;&lt;b&gt;{r.name}&lt;/b&gt;: {r.message}&lt;/li&gt;;
+      })}
+    &lt;/ul&gt;
+  );
+}
+```
+
+```js
+// app/api/guestbook/route.js — API 라우트(서버)에서 insert 처리
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY
+);
+
+export async function POST(request) {
+  const { name, message } = await request.json();
+  const { error } = await supabase.from('guestbook').insert({ name, message });
+  if (error) return Response.json({ ok: false }, { status: 500 });
+  return Response.json({ ok: true });
+}
+```
+
+| 구분 | 순수 HTML + supabase-js(CDN) | Next.js + Vercel |
+|------|------------------------------|------------------|
+| 키 위치 | 공개 키를 브라우저에 노출(RLS 의존) | **비밀 키를 서버에만** 둘 수 있음 |
+| 데이터 읽기 | 브라우저에서 직접 select | 서버 컴포넌트에서 미리 렌더(빠른 첫 화면) |
+| 데이터 쓰기 | 브라우저에서 직접 insert | **API 라우트(서버)**가 검증 후 insert |
+| 환경변수 | 사실상 없음(파일에 직접) | `SUPABASE_SECRET_KEY`는 `NEXT_PUBLIC_` 없이 서버 전용 |
+| 적합 단계 | 학습·데모·아주 작은 앱 | 검증·권한이 필요한 실서비스 |
+
+> 핵심: 정적 방식은 **RLS가 유일한 방어선**이지만, Next.js 서버 방식은 **비밀 키를 서버에 숨기고** 입력을 한 번 더 검증할 수 있어 더 견고합니다.
+
+### 플랫폼 조합 선택 기준표
+
+"무엇을 만드느냐"에 따라 조합을 고릅니다.
+
+| 상황 | 추천 조합 | 이유 |
+|------|-----------|------|
+| **정적만** (소개·포트폴리오·랜딩) | GitHub Pages / Netlify / Cloudflare(Workers) | 빌드·DB 불필요. 무료·간단. 정적 호스팅은 사실상 무료 |
+| **API + DB 필요** (방명록·게시판·로그인) | Vercel + Supabase / Replit / Lovable | 프론트 + 영구 저장. Vercel은 외부 DB 필요, Replit은 내장 DB로 한 곳에서 |
+| **팀 협업** (PR 리뷰·환경 분리) | Vercel + Supabase + GitHub Actions | PR 프리뷰·Production/Preview 환경 분리·CI/CD |
+| **가장 간단** (코드 한 줄도 부담) | Replit(올인원) 또는 Lovable(자연어→앱) | 에디터+서버+DB+호스팅이 한 화면. 가입 분리 없음 |
+
+체크포인트:
+- [ ] 방명록을 로컬→Vercel→Replit 순으로 배포하고 같은 글이 보이는지 확인했다
+- [ ] Vercel은 외부 DB가 필요하고 Replit은 내장 DB가 있다는 차이를 설명할 수 있다
+- [ ] 내 다음 프로젝트에 맞는 플랫폼 조합을 선택 기준표에서 골랐다
+- [ ] 방명록에 실명/연락처가 들어가지 않도록 안내 문구를 넣었다
+
+---
+
+## 10. 실전 프로젝트: 자동 배포 파이프라인
 
 ### 학습 목표
 
@@ -2144,7 +2617,7 @@ done
 
 ---
 
-## 10. 트러블슈팅 & FAQ
+## 11. 트러블슈팅 & FAQ
 
 ### 자주 발생하는 문제 6가지
 
@@ -2336,6 +2809,18 @@ done
 
 ---
 
+## 더 배우려면
+
+| 자료 | 설명 | 링크 |
+|------|------|------|
+| **Supabase 공식 문서** | DB·RLS·API 키·연동 전체 레퍼런스 | [supabase.com/docs](https://supabase.com/docs) |
+| **Replit 공식 문서** | Deployments·Secrets·배포 유형 | [docs.replit.com](https://docs.replit.com) |
+| **Vercel 공식 문서** | Import·환경변수·프리뷰·롤백 | [vercel.com/docs](https://vercel.com/docs) |
+| Supabase 새 API 키 이해 | publishable/secret 키 체계 | [api-keys 가이드](https://supabase.com/docs/guides/api/api-keys) |
+| Supabase RLS 가이드 | 행 수준 보안 정책 | [Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security) |
+
+---
+
 ## 출처
 
 | 출처 | 설명 |
@@ -2344,6 +2829,8 @@ done
 | [Vercel 공식 문서](https://vercel.com/docs) | Vercel 배포 및 설정 |
 | [Firebase 공식 문서](https://firebase.google.com/docs/hosting) | Firebase Hosting 가이드 |
 | [Supabase 공식 문서](https://supabase.com/docs) | Supabase 가이드 |
+| [Supabase API 키 가이드](https://supabase.com/docs/guides/api/api-keys) | 2026 신규 publishable/secret 키 |
+| [Replit 공식 문서](https://docs.replit.com) | Replit 배포·Secrets |
 | [Cloudflare 러닝 센터](https://www.cloudflare.com/learning/) | DNS, SSL, CDN 학습 |
 | [web.dev](https://web.dev/vitals/) | Core Web Vitals 가이드 |
 | [Sentry 공식 문서](https://docs.sentry.io/) | 에러 모니터링 가이드 |

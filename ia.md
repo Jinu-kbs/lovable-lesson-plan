@@ -58,10 +58,10 @@
 │   ├── /github-intermediate.html ─── 중급자편
 │   └── /github-developer.html ─── 개발자편
 │
-├── 배포 (Deployment) — 웹 공개
-│   ├── /deployment-beginner.html ─── 초보자편
-│   ├── /deployment-intermediate.html ─── 중급자편
-│   └── /deployment-developer.html ─── 개발자편
+├── 배포 (Deployment) — 웹 공개 + 실전(Supabase·Replit·Vercel)
+│   ├── /deployment-beginner.html ─── 초보자편 (+ Replit 올인원, 정적↔동적 브릿지)
+│   ├── /deployment-intermediate.html ─── 중급자편 (+ Vercel·Supabase 핸즈온, 방명록 앱 캡스톤, 조합 선택표)
+│   └── /deployment-developer.html ─── 개발자편 (+ 프로덕션: 환경분리·커넥션풀·CI/CD)
 │
 ├── 구글 생태계 (Google) — Docs·Sheets·NotebookLM·Gemini
 │   ├── /google-beginner.html ─── 초보자편

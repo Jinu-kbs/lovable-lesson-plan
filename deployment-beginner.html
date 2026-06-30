@@ -35,11 +35,13 @@
   <a href="#s3">3. GitHub Pages 배포</a>
   <a href="#s4">4. Vercel 배포</a>
   <a href="#s5">5. Netlify 배포</a>
-  <a href="#s6">6. 도구별 배포 방법</a>
-  <a href="#s7">7. 커스텀 도메인 연결하기</a>
-  <a href="#s8">8. 배포 후 확인하기</a>
-  <a href="#s9">9. 트러블슈팅 &amp; FAQ</a>
-  <a href="#s10">10. 다음 단계</a>
+  <a href="#s6">6. Replit 배포 (올인원)</a>
+  <a href="#s7">7. 정적 vs 동적 앱</a>
+  <a href="#s8">8. 도구별 배포 방법</a>
+  <a href="#s9">9. 커스텀 도메인 연결하기</a>
+  <a href="#s10">10. 배포 후 확인하기</a>
+  <a href="#s11">11. 트러블슈팅 &amp; FAQ</a>
+  <a href="#s12">12. 다음 단계</a>
   <a href="#appendix1">부록: 플랫폼 비교표</a>
   <a href="#appendix2">부록: 용어 사전</a>
   <a href="#appendix3">부록: 배포 체크리스트</a>
@@ -159,7 +161,7 @@ https://my-project.vercel.app  ← 이 주소로 접속 가능!</code></pre></di
   <tr><td><strong>Claude Code</strong></td><td>다양 (설정에 따라)</td><td>보통 (CLI 사용)</td></tr>
   <tr><td><strong>ChatGPT</strong></td><td>코드 조각 (수동 조립 필요)</td><td>보통~어려움</td></tr>
 </table></div>
-<blockquote><p><strong>핵심 포인트</strong>: 이 교안에서 다루는 GitHub Pages, Vercel, Netlify 모두 <strong>정적 사이트 배포에 최적화</strong>된 플랫폼입니다. 바이브코딩으로 만든 프로젝트 대부분을 이 3가지 플랫폼으로 배포할 수 있습니다.</p></blockquote>
+<blockquote><p><strong>핵심 포인트</strong>: 이 교안에서 다루는 GitHub Pages, Vercel, Netlify 모두 <strong>정적 사이트 배포에 최적화</strong>된 플랫폼입니다. 바이브코딩으로 만든 프로젝트 대부분을 이 3가지 플랫폼으로 배포할 수 있습니다. 여기에 더해, <strong>만들기부터 배포까지 한 탭에서 끝내는 올인원 플랫폼 Replit(리플릿)</strong>도 6장에서 다룹니다.</p></blockquote>
 
 <h3>어떤 배포 플랫폼을 선택할까?</h3>
 <div class="code-block"><button class="copy-btn">복사</button><pre><code>                  내 프로젝트는?
@@ -177,6 +179,7 @@ https://my-project.vercel.app  ← 이 주소로 접속 가능!</code></pre></di
 <div class="table-responsive"><table>
   <tr><th>상황</th><th>추천 플랫폼</th><th>이유</th></tr>
   <tr><td>가장 쉬운 방법을 원해요</td><td><strong>Netlify</strong></td><td>파일 드래그&amp;드롭으로 즉시 배포</td></tr>
+  <tr><td>만들기·실행·배포를 한 곳에서 끝내고 싶어요</td><td><strong>Replit</strong></td><td>코드 에디터 + 서버 + DB + 호스팅이 한 탭 안에 (6장)</td></tr>
   <tr><td>GitHub을 이미 쓰고 있어요</td><td><strong>GitHub Pages</strong> 또는 <strong>Vercel</strong></td><td>GitHub과 자연스럽게 연동</td></tr>
   <tr><td>React/Next.js 프로젝트예요</td><td><strong>Vercel</strong></td><td>React 생태계 최적화</td></tr>
   <tr><td>가장 빠르게 결과를 보고 싶어요</td><td><strong>Netlify</strong> (드래그&amp;드롭)</td><td>1분이면 배포 완료</td></tr>
@@ -623,8 +626,136 @@ Scope: All scopes (기본값)</code></pre></div>
 
 <div class="tip-box"><h4>💡 체크포인트</h4><p>Netlify 드래그&amp;드롭으로 가장 빠른 배포를 경험해보세요! 정말 1분이면 됩니다.</p></div>
 
-<!-- SECTION 6 -->
-<section id="s6"><h2>6. 도구별 배포 방법</h2>
+<!-- SECTION 6: Replit -->
+<section id="s6"><h2>6. Replit 배포 — 가장 쉬운 올인원 배포</h2>
+
+<div class="verify-badge">
+  <span class="vb-preview">최종 검증 2026-06-28</span>
+  <strong>Replit은 화면(UI)·메뉴 이름·요금이 자주 바뀝니다.</strong>
+  <span>버튼 이름이 교안과 달라 보이면 이름보다 "동선"을 기준으로 따라오세요.</span>
+</div>
+
+<h3>Replit이 "가장 쉬운" 이유</h3>
+<p>지금까지 본 GitHub Pages / Vercel / Netlify는 모두 <strong>"내 컴퓨터에서 코드를 만들고 → 따로 가입한 배포 플랫폼에 올린다"</strong>는 구조입니다. 즉 만드는 곳과 배포하는 곳이 분리되어 있습니다.</p>
+<p><strong>Replit(리플릿)</strong>은 이 분리를 없앤 <strong>올인원(all-in-one) 플랫폼</strong>입니다. 한 문장으로:</p>
+<blockquote><p><strong>코드 에디터 + 서버 + 데이터베이스 + 호스팅이 브라우저 한 탭 안에 모두 들어 있어, 따로 가입할 서비스가 없습니다. 만들고, 그 자리에서 인터넷에 공개합니다.</strong></p></blockquote>
+<p>설치할 것이 없습니다. 회원가입 후 웹 에디터를 열면 그 자리에서 앱을 만들고, <strong>Publish(게시) 버튼 한 번</strong>으로 <code>*.replit.app</code> 공개 주소가 발급됩니다. 코드를 한 줄도 몰라도 <strong>자연어로 "이런 앱 만들어 줘"</strong> 하고 요청하면 Replit Agent(AI 빌더)가 앱을 만들어 주는 바이브코딩 흐름도 같은 화면 안에 있습니다.</p>
+<div class="table-responsive"><table>
+  <tr><th>구분</th><th>GitHub Pages / Vercel / Netlify</th><th>Replit</th></tr>
+  <tr><td>만드는 곳</td><td>내 PC(에디터) 또는 바이브코딩 도구</td><td><strong>브라우저 안 에디터(같은 곳)</strong></td></tr>
+  <tr><td>배포하는 곳</td><td>따로 가입한 배포 플랫폼</td><td><strong>같은 탭의 Publish 버튼</strong></td></tr>
+  <tr><td>백엔드·DB</td><td>없음(정적) 또는 외부 서비스 연동</td><td><strong>내장 DB·서버 같이 구동</strong></td></tr>
+  <tr><td>AI 빌더</td><td>없음(도구 따로)</td><td><strong>Replit Agent 내장</strong></td></tr>
+  <tr><td>첫 배포 체감</td><td>가입·연동 단계 있음</td><td><strong>한 화면에서 끝</strong></td></tr>
+</table></div>
+
+<h3>무료로 어디까지 되나 (정확히)</h3>
+<p>Replit 무료 플랜(Starter)으로도 <strong>공개 앱을 배포할 수 있습니다.</strong> 단, 아래 제약을 정확히 알아두세요.</p>
+<ul>
+  <li><strong>무료 공개 앱은 1개</strong>까지 운영할 수 있습니다.</li>
+  <li>무료 공개 배포는 <strong>약 30일 후 만료</strong>되며, 만료되면 <strong>다시 게시(re-publish)</strong>해야 유지됩니다.</li>
+  <li>무료 플랜의 배포 지역(리전)은 <strong>북미 고정</strong>(지역 선택 불가)입니다. 한국에서 학습·체험하기엔 문제없으나, 한국 사용자 대상 실서비스라면 약간의 접속 지연이 있을 수 있습니다.</li>
+  <li>커스텀 도메인은 <strong>유료 플랜(Core 이상)</strong>부터입니다. 무료는 <code>*.replit.app</code> 주소만 제공됩니다.</li>
+  <li>학습·체험용 <strong>무료 AI 크레딧</strong>이 매일 소량 제공됩니다.</li>
+</ul>
+<blockquote><p><strong>정적 사이트는 호스팅 무료</strong>: 단순 HTML/CSS/JS 같은 정적 사이트를 Replit의 <strong>Static(정적)</strong> 유형으로 올리면 호스팅 비용 자체가 무료입니다(데이터 전송량만 소량 과금). 포트폴리오·랜딩 페이지 같은 결과물은 사실상 추가비 없이 운영됩니다.</p></blockquote>
+
+<h3>흔한 오해 정정 박스</h3>
+<div class="warning-box"><h4>⚠️ 오해 정정</h4>
+<p><strong>"Replit 앱은 5분 후 잠든다(슬립)?"</strong> → 이 "5분 슬립"은 <strong>개발용 작업공간(Repl) 한정</strong>입니다. 즉 코드를 짜는 에디터가 5분간 활동이 없으면 잠드는 것이지, <strong>공개 배포한 앱이 5분 후 죽는다는 뜻이 아닙니다.</strong> 배포된 앱은 유형에 따라 다릅니다 — Static(정적)은 슬립 개념 자체가 없고(항상 응답), 24시간 무중단이 꼭 필요한 봇·백엔드는 Reserved VM(유료)으로 항상 켜 둡니다.</p>
+<p><strong>"비용은 작업(체크포인트)당 $0.25 정액?"</strong> → <strong>옛날 모델</strong>입니다. 2026년 현재는 <strong>노력 기반(Effort-Based) 과금</strong> — 작업에 들인 시간·연산량에 비례해 <strong>월 크레딧 안에서 차감</strong>됩니다. 작은 변경은 더 싸게, 큰 작업은 그만큼 차감됩니다. (기존 유료 구독자에게는 2026년 7월 1일부터 순차 적용)</p>
+</div>
+<blockquote><p><strong>비용 안심 포인트</strong>: 정적 사이트 호스팅은 무료, 가벼운 앱은 월 크레딧 안에서 사실상 추가비 없이 운영됩니다. "한 번 눌렀다고 큰돈이 빠져나가는" 구조가 아니니, 학습 단계에서는 마음 편히 실습하세요.</p></blockquote>
+
+<h3>Replit 5분 배포 핸즈온</h3>
+<p>빈 화면에서 <strong>공개 URL까지</strong> 5분 만에 가 봅니다. 화면이 교안과 조금 달라 보여도 "동선"은 같습니다.</p>
+
+<h4>(1단계) 계정 만들기</h4>
+<ol>
+  <li><a href="https://replit.com" target="_blank">replit.com</a>에 접속해 무료 회원가입(Google 계정 등으로 가능).</li>
+  <li>로그인하면 대시보드(내 프로젝트 목록)가 열립니다.</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">Replit 가입/대시보드 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 로그인된 상태에서 "Create"(만들기) 버튼이 보이는 대시보드가 나타났나요?</div>
+
+<h4>(2단계) 앱 생성 — 템플릿으로 시작</h4>
+<ol>
+  <li><strong>Create</strong>(또는 "+ Create Repl") 클릭.</li>
+  <li><strong>Template(템플릿)</strong> 목록에서 만들고 싶은 종류를 고릅니다. 가장 쉬운 길은 <strong>"HTML, CSS, JS"</strong> 정적 템플릿입니다(순수 웹페이지).
+    <ul><li>참고: 코드를 직접 안 짜고 싶다면 자연어로 요청하는 <strong>Replit Agent</strong>로 시작할 수도 있습니다("간단한 방명록 웹앱 만들어 줘"). 다만 첫 실습은 정적 템플릿이 가장 군더더기 없습니다.</li></ul>
+  </li>
+  <li>앱 이름을 입력하고 <strong>Create</strong> 클릭.</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">템플릿 선택 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 가운데 코드 에디터, 오른쪽 미리보기(Webview) 영역이 함께 보이는 작업화면이 열렸나요?</div>
+
+<h4>(3단계) 실행(Run)</h4>
+<ol>
+  <li>상단의 <strong>Run(실행)</strong> 버튼을 누릅니다.</li>
+  <li>오른쪽 미리보기에 페이지가 뜹니다. 이때 보이는 주소는 <strong>임시 미리보기 URL</strong>입니다 — 아직 진짜 공개 주소가 아닙니다.</li>
+  <li>(선택) <code>index.html</code>의 글자를 바꿔 보고 다시 미리보기에 반영되는지 확인.</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">Run 후 미리보기 화면</span></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> 오른쪽 미리보기에 내 페이지가 보이나요? 여기까지는 "내 작업공간에서만" 보이는 상태입니다.</div>
+
+<h4>(4단계) Deploy(게시) — 공개 URL 발급</h4>
+<ol>
+  <li>에디터 우상단의 <strong>Publish(게시)</strong> 버튼을 클릭합니다.</li>
+  <li><strong>배포 유형</strong>을 고릅니다. Replit이 프로젝트 성격을 보고 추천 유형을 자동 제시합니다.
+    <ul>
+      <li>정적 사이트(소개·포트폴리오)면 <strong>Static(정적)</strong>을 고르는 것이 가장 싸고 빠릅니다.</li>
+      <li>트래픽이 들쭉날쭉한 일반 웹앱이면 <strong>Autoscale</strong>이 추천됩니다.</li>
+    </ul>
+  </li>
+  <li><strong>Deploy</strong> 클릭 → 잠시 빌드 후 공개됩니다.</li>
+  <li>발급된 <strong><code>&lt;앱이름&gt;.replit.app</code> 주소</strong>가 표시됩니다. 이 주소를 <strong>휴대폰으로 열어</strong> "내가 만든 앱이 인터넷에 떴다"를 체험해 보세요.</li>
+</ol>
+<div class="screenshot-placeholder"><span class="sp-icon">🖼️</span><span class="sp-cap">스크린샷</span><span class="sp-desc">Publish 패널 + 배포 완료 후 공개 URL 화면</span></div>
+<div class="warning-box"><h4>⚠️ 주의 — 배포 실패 1위 원인</h4><p>앱이 API 키 등 <strong>비밀값(Secrets)</strong>을 쓰는 경우, 개발 작업공간에 넣은 Secrets는 <strong>배포로 자동 복사되지 않습니다.</strong> 배포가 "undefined 값"으로 죽으면 십중팔구 이것 — 게시 화면(Deployments)에서 Secrets를 <strong>따로 다시 입력</strong>해야 합니다. (정적 HTML만 올릴 때는 해당 없음)</p></div>
+<div class="checkpoint"><strong>✓ 체크포인트</strong> <code>*.replit.app</code> 공개 주소가 발급되고, 휴대폰·다른 기기에서도 그 주소로 접속되나요? 축하합니다 — 올인원 배포 성공입니다!</div>
+
+<h3>더 배우려면</h3>
+<div class="table-responsive"><table>
+  <tr><th>자료</th><th>용도</th><th>링크</th></tr>
+  <tr><td>Replit 공식 문서</td><td>모든 기능의 1차 출처</td><td><a href="https://docs.replit.com" target="_blank">docs.replit.com</a></td></tr>
+  <tr><td>배포 개요</td><td>배포 유형 선택 가이드</td><td><a href="https://docs.replit.com/cloud-services/deployments/about-deployments" target="_blank">about-deployments</a></td></tr>
+  <tr><td>가격 페이지</td><td>결제 직전 정확 수치 재확인</td><td><a href="https://replit.com/pricing" target="_blank">replit.com/pricing</a></td></tr>
+</table></div>
+</section>
+
+<!-- SECTION 7: Static vs Dynamic -->
+<section id="s7"><h2>7. 정적 사이트 vs 동적 앱 — 언제 백엔드가 필요할까</h2>
+<p>지금까지 배운 배포는 대부분 <strong>정적 사이트(Static)</strong> 배포였습니다. 그런데 사이트를 키우다 보면 "이건 파일만 올려서는 안 되는데?" 싶은 순간이 옵니다. 그 경계를 쉽게 짚어 봅니다.</p>
+
+<h3>한 줄 구분</h3>
+<ul>
+  <li><strong>정적 사이트</strong>: 미리 만들어 둔 HTML/CSS/JS 파일을 <strong>그대로 보여주기만</strong> 하는 사이트. 누가 와도 똑같은 화면. (전단지에 비유)</li>
+  <li><strong>동적 앱</strong>: 사용자마다, 시간마다 <strong>내용이 달라지는</strong> 앱. 데이터를 <strong>저장하고 꺼내 오는</strong> 작업이 필요. (주문을 기억하는 카페 시스템에 비유)</li>
+</ul>
+
+<h3>"그땐 백엔드/DB가 필요하다" — 신호 4가지</h3>
+<p>아래 중 <strong>하나라도</strong> 필요해지면, 정적 사이트만으로는 부족하고 <strong>백엔드(서버) + 데이터베이스(DB)</strong>가 필요해집니다.</p>
+<div class="table-responsive"><table>
+  <tr><th>하고 싶은 것</th><th>왜 정적 사이트로는 안 되나</th></tr>
+  <tr><td><strong>로그인 / 회원가입</strong></td><td>누가 가입했는지 안전하게 <strong>기억(저장)</strong>해야 함</td></tr>
+  <tr><td><strong>글·댓글·예약을 저장</strong></td><td>방문자가 입력한 내용을 <strong>다음에도 남겨 둬야</strong> 함 (새로고침해도 유지)</td></tr>
+  <tr><td><strong>사용자마다 다른 화면</strong></td><td>"내 정보", "내 주문"처럼 사람마다 다른 데이터를 꺼내 와야 함</td></tr>
+  <tr><td><strong>비밀 키로 외부 서비스 호출</strong></td><td>API 키를 화면에 박으면 누구나 보임 → <strong>서버 뒤에 숨겨야</strong> 함</td></tr>
+</table></div>
+<blockquote><p><strong>쉽게 기억하기</strong>: "새로고침하면 사라지면 안 되는 데이터"가 생기는 순간이 곧 백엔드·DB가 필요해지는 순간입니다.</p></blockquote>
+
+<h3>그럼 어떻게 하나 — 두 갈래 길</h3>
+<ol>
+  <li><strong>올인원으로 한 곳에서 끝내기 → Replit (6장)</strong>: Replit은 내장 DB와 서버를 같은 프로젝트에서 함께 구동하므로, "DB를 따로 가입 안 했는데도 글이 저장되는" 풀스택 앱을 한 탭에서 만들 수 있습니다. <strong>가장 마찰이 적은 첫 풀스택 경로</strong>입니다.</li>
+  <li><strong>전문 조합으로 가기 → Supabase + Vercel (중급편)</strong>: 프론트엔드는 Vercel(빠른 CDN·자동 배포)에, 데이터 저장·로그인은 <strong>Supabase</strong>(관리형 PostgreSQL + 인증 + 스토리지)에 맡기는 구성입니다. 이식성·확장성이 좋아 <strong>장기 운영</strong>에 적합합니다.</li>
+</ol>
+<blockquote><p><strong>다음 단계 안내</strong>: 로그인·데이터 저장이 필요한 동적 앱의 배포는 <a href="deployment-intermediate.html">배포 중급자편</a>에서 <strong>Supabase + Vercel</strong> 조합으로 자세히 다룹니다. 지금은 "이런 경계가 있구나"만 이해하면 충분합니다.</p></blockquote>
+
+<div class="tip-box"><h4>💡 체크포인트</h4><p>내가 만들 앱이 "정적"인지 "동적(백엔드 필요)"인지 구분되나요? 동적이라면 Replit(한 곳에서) 또는 Supabase+Vercel(중급편) 두 길이 있다는 것을 기억하세요!</p></div>
+</section>
+
+<!-- SECTION 8 -->
+<section id="s8"><h2>8. 도구별 배포 방법</h2>
 <p>바이브코딩 도구마다 배포 방식이 다릅니다. 내가 사용한 도구에 맞는 배포 방법을 확인하세요.</p>
 
 <h3>6-1. Lovable (러버블) — Publish 버튼 원클릭 배포</h3>
@@ -803,8 +934,8 @@ Step 3: 배포 플랫폼 선택
 <div class="tip-box"><h4>💡 체크포인트</h4><p>내가 사용한 도구의 배포 방법을 확인했나요? 해당 방법으로 배포를 진행해보세요!</p></div>
 </section>
 
-<!-- SECTION 7 -->
-<section id="s7"><h2>7. 커스텀 도메인 연결하기</h2>
+<!-- SECTION 9 -->
+<section id="s9"><h2>9. 커스텀 도메인 연결하기</h2>
 
 <h3>커스텀 도메인이란?</h3>
 <p>배포하면 자동으로 생성되는 URL(예: <code>my-site.vercel.app</code>)을 사용할 수도 있지만, <strong>나만의 주소</strong>(예: <code>www.my-cafe.com</code>)를 연결할 수도 있습니다.</p>
@@ -925,8 +1056,8 @@ docs.my-domain.com    → 문서 사이트</code></pre></div>
 <div class="tip-box"><h4>💡 체크포인트</h4><p>커스텀 도메인은 선택사항입니다. 지금 당장 필요하지 않다면 다음 섹션으로 넘어가세요!</p></div>
 </section>
 
-<!-- SECTION 8 -->
-<section id="s8"><h2>8. 배포 후 확인하기</h2>
+<!-- SECTION 10 -->
+<section id="s10"><h2>10. 배포 후 확인하기</h2>
 <p>배포가 완료되었다면, 아래 항목들을 점검하여 사이트가 제대로 작동하는지 확인합니다.</p>
 
 <h3>8-1. 모바일 테스트</h3>
@@ -1110,8 +1241,8 @@ Sitemap: https://my-site.com/sitemap.xml</code></pre></div>
 </ul></div>
 </section>
 
-<!-- SECTION 9 -->
-<section id="s9"><h2>9. 트러블슈팅 &amp; FAQ</h2>
+<!-- SECTION 11 -->
+<section id="s11"><h2>11. 트러블슈팅 &amp; FAQ</h2>
 
 <h3>자주 발생하는 문제 6가지</h3>
 
@@ -1342,8 +1473,8 @@ GitHub Pages:
 <div class="tip-box"><h4>💡 체크포인트</h4><p>배포 중 문제가 발생했다면 위 트러블슈팅을 참고하여 해결해보세요. 대부분의 문제는 위 6가지 중 하나에 해당합니다!</p></div>
 </section>
 
-<!-- SECTION 10 -->
-<section id="s10"><h2>10. 다음 단계</h2>
+<!-- SECTION 12 -->
+<section id="s12"><h2>12. 다음 단계</h2>
 
 <h3>축하합니다! 첫 배포를 완료했습니다!</h3>
 <p>여러분이 이 교안을 통해 배운 것들을 정리해봅시다:</p>
@@ -1506,11 +1637,13 @@ GitHub Pages:
   <a href="#s3">3. GitHub Pages 배포</a>
   <a href="#s4">4. Vercel 배포</a>
   <a href="#s5">5. Netlify 배포</a>
-  <a href="#s6">6. 도구별 배포 방법</a>
-  <a href="#s7">7. 커스텀 도메인 연결하기</a>
-  <a href="#s8">8. 배포 후 확인하기</a>
-  <a href="#s9">9. 트러블슈팅 &amp; FAQ</a>
-  <a href="#s10">10. 다음 단계</a>
+  <a href="#s6">6. Replit 배포 (올인원)</a>
+  <a href="#s7">7. 정적 vs 동적 앱</a>
+  <a href="#s8">8. 도구별 배포 방법</a>
+  <a href="#s9">9. 커스텀 도메인 연결하기</a>
+  <a href="#s10">10. 배포 후 확인하기</a>
+  <a href="#s11">11. 트러블슈팅 &amp; FAQ</a>
+  <a href="#s12">12. 다음 단계</a>
   <a href="#appendix1">부록: 플랫폼 비교표</a>
   <a href="#appendix2">부록: 용어 사전</a>
   <a href="#appendix3">부록: 배포 체크리스트</a>

@@ -50,6 +50,7 @@
 8. [모니터링과 로깅](#8-모니터링과-로깅)
 9. [보안과 시크릿 관리](#9-보안과-시크릿-관리)
 10. [종합 프로젝트 — 프로덕션 배포 파이프라인 구축](#10-종합-프로젝트--프로덕션-배포-파이프라인-구축)
+11. [프로덕션 백엔드와 풀스택 배포 (Supabase · Next.js · GitHub Actions)](#11-프로덕션-백엔드와-풀스택-배포-supabase--nextjs--github-actions)
 
 ---
 
@@ -2595,4 +2596,376 @@ minikube stop
 
 ---
 
-*이 교안의 후반부(섹션 6~10)에서는 CI/CD 파이프라인 고급, 무중단 배포 전략(Blue-Green, Canary), 모니터링과 로깅(Prometheus, Grafana, ELK), 보안과 시크릿 관리, 그리고 종합 프로젝트를 다룹니다.*
+## 11. 프로덕션 백엔드와 풀스택 배포 (Supabase · Next.js · GitHub Actions)
+
+> **최종 검토일**: 2026-06-28 · 근거: research/23_supabase.md(프로덕션 보안·환경 분리·2026 키 체계), research/22_se-practices.md(CI/CD·비밀키·환경변수), research/09_deployment.md(Vercel 프로덕션·프리뷰). 수치·정책은 분기마다 변동될 수 있으므로 공식 페이지에서 재확인하세요.
+
+### 학습 목표
+
+- Supabase를 프로덕션 수준으로 운영한다 — 환경 분리(dev/staging/prod), 커넥션 풀링, 2026 신규 키 체계
+- Next.js를 Vercel에 프로덕션 배포한다 — 서버 컴포넌트·API 라우트·환경변수(서버/클라이언트 구분), 프리뷰/프로덕션 분리
+- GitHub Actions로 "테스트 → 프리뷰 배포" 파이프라인을 구성한다 — 중급편 방명록 프로젝트를 프로덕션 수준으로 확장
+
+> **이 절의 맥락**: **배포 중급편의 "방명록 앱"**(`교안_deployment_intermediate.md` — Supabase + 정적/번들 프론트)을 출발점으로 삼아, 같은 앱을 (1) 환경이 분리되고 (2) Next.js 풀스택으로 확장되며 (3) 자동 파이프라인으로 배포되는 프로덕션 형태로 끌어올립니다. 앞 섹션(Docker·IaC·K8s)이 "직접 서버를 운영하는 길"이라면, 이 절은 "관리형 백엔드(Supabase) + 관리형 호스팅(Vercel)으로 더 적은 운영부담으로 프로덕션에 가는 길"입니다. 두 경로는 배타적이지 않습니다.
+
+---
+
+### 11.1 프로덕션 백엔드 보강 — Supabase 운영
+
+#### 11.1.1 환경 분리 (dev / staging / prod 프로젝트 분리)
+
+프로덕션에서는 **개발용 데이터와 실사용자 데이터를 절대 같은 곳에 두지 않습니다.** Supabase는 "프로젝트 = 격리된 PostgreSQL 인스턴스 + 키 세트"이므로, **환경마다 별도 프로젝트를 만드는 것**이 표준입니다.
+
+| 환경 | Supabase 프로젝트 | 용도 | 데이터 |
+|------|-------------------|------|--------|
+| **dev** | `myapp-dev` | 로컬 개발·실험 | 마음껏 깨뜨려도 되는 더미 데이터 |
+| **staging** | `myapp-staging` | 배포 전 검증·QA | 프로덕션과 비슷한 구조의 테스트 데이터 |
+| **prod** | `myapp-prod` | 실서비스 | 실사용자 데이터 (백업·RLS 필수) |
+
+핵심 원칙:
+
+- **환경마다 URL·키가 다르다.** 코드에 박지 말고 환경변수로 주입한다(11.2.3).
+- **스키마 변경은 마이그레이션으로.** SQL을 dev에서 직접 만지지 말고 마이그레이션 파일로 관리해 staging → prod로 동일하게 승격(promote)한다.
+
+```bash
+# Supabase CLI — 환경별 프로젝트에 마이그레이션 적용
+npm install -g supabase
+
+# 마이그레이션 파일 생성 (dev에서 작성)
+supabase migration new add_guestbook_table
+
+# 특정 환경 프로젝트에 연결 후 적용 (staging → prod 순서로 승격)
+supabase link --project-ref <staging-project-ref>
+supabase db push
+
+supabase link --project-ref <prod-project-ref>
+supabase db push
+```
+
+> **함정**: "프로젝트 하나로 dev/prod 겸용"은 사고의 지름길입니다. 테스트 중 `delete`나 스키마 변경이 실사용자 데이터를 건드립니다. 무료 플랜은 조직당 활성 프로젝트 2개 제한이 있으므로, prod는 유료(Pro)로 분리하고 dev는 무료를 쓰는 식의 조합을 검토하세요.
+
+#### 11.1.2 커넥션 풀링 (Supavisor / PgBouncer 개념)
+
+PostgreSQL은 **연결(connection) 하나하나가 비싼 자원**입니다. 서버리스(Lambda·Vercel 함수·엣지)는 요청마다 새 연결을 열려는 경향이 있어, 트래픽이 몰리면 **연결 고갈(too many connections)**로 DB가 멈춥니다. 이를 막는 것이 **커넥션 풀러(connection pooler)**입니다.
+
+```
+풀러 없음 (위험):
+  함수 인스턴스 200개 → 각자 DB 직접 연결 200개 → PostgreSQL 연결 한도 초과 → 장애
+
+풀러 사용 (Supavisor):
+  함수 인스턴스 200개 → 풀러가 소수의 실제 연결을 공유·재사용 → DB 안정
+```
+
+| 항목 | 직접 연결 (Direct) | 트랜잭션 풀링 (Transaction) | 세션 풀링 (Session) |
+|------|--------------------|------------------------------|----------------------|
+| 포트(관례) | 5432 | 6543 | 5432(풀러 경유) |
+| 적합 환경 | 장수명 서버(상시 켜진 VM/컨테이너) | **서버리스·엣지(Vercel/Lambda)** | prepared statement가 필요한 경우 |
+| 특징 | 연결 1:1 | 짧은 트랜잭션마다 연결 회수·재사용 | 클라이언트 세션 유지 |
+
+- **Supabase의 풀러 = Supavisor**(과거 PgBouncer를 자체 구현으로 대체). 대시보드 `Project Settings → Database`에서 **Connection string**의 "Transaction" 모드 문자열을 제공한다.
+- **서버리스/엣지에서는 반드시 트랜잭션 풀링 연결 문자열**을 쓴다. 직접 연결을 쓰면 트래픽 급증 시 연결 고갈로 장애가 난다.
+- `@supabase/supabase-js`로 REST(PostgREST)만 호출하면 HTTP 기반이라 풀링 이슈가 작지만, **Prisma·Drizzle 등 직접 TCP로 PostgreSQL에 붙는 ORM**을 서버리스에서 쓸 때는 트랜잭션 풀러 문자열이 필수다.
+
+> **교안 요약**: "서버리스에서 DB에 직접 줄을 200개 꽂지 마라. 풀러(Supavisor)가 소수의 줄을 돌려 쓰게 하라. 포트 6543(트랜잭션 모드)을 기억하라."
+
+#### 11.1.3 비밀키 관리 (2026 sb_secret_ 체계)
+
+2026년 신규 Supabase 프로젝트는 레거시 `anon`/`service_role` 대신 **`sb_publishable_...`(공개 가능) / `sb_secret_...`(비밀)** 키 체계와 비대칭 JWT를 기본으로 씁니다(research/23_supabase.md §2.1). 역할 개념은 동일합니다.
+
+| 키 | 2026 신규 형식 | 레거시 | 역할 | 노출 |
+|----|----------------|--------|------|------|
+| **공개 키** | `sb_publishable_...` | `anon` | 브라우저·클라이언트용. **RLS 범위 내**에서만 동작 | **공개 가능**(단 RLS 필수) |
+| **비밀 키** | `sb_secret_...` | `service_role` | 서버·엣지함수용. **RLS 우회(BYPASSRLS)** | **절대 노출 금지** |
+
+프로덕션 운영 규칙:
+
+1. **secret 키는 서버 전용.** 브라우저·모바일·CLI·깃허브에 절대 넣지 않는다. 공식 문구: "Never use in a browser, even on localhost."
+2. **공개 키의 안전은 RLS가 전제.** RLS(행 수준 보안)를 끄고 배포하면 공개 키만으로 전체 DB가 무방비가 된다 — 바이브코딩 배포 사고 1순위.
+3. **secret 키는 서버 사이드 환경변수·시크릿 매니저에만.** Vercel은 클라이언트 prefix(`NEXT_PUBLIC_`) **없이** 등록(11.2.3), GitHub Actions는 `secrets`로(11.3).
+4. **2026 키 전송 주의**: 새 publishable/secret 키는 JWT가 아니므로 `apikey` 헤더로 보낸다. 최신 `@supabase/supabase-js`는 자동 처리하나 직접 fetch 시 주의.
+5. **키 회전(rotation)**: 비대칭 JWT 서명 키로 전환되어 회전이 쉬워졌다. 노출 의심 시 즉시 회전한다.
+
+```
+공개해도 되는 것 : 프로젝트 URL, sb_publishable_(anon) 키  ← RLS가 검문
+절대 공개 금지   : sb_secret_(service_role) 키, DB 비밀번호  ← 서버 금고에만
+안전의 전제      : RLS가 켜져 있을 것
+```
+
+> **함정**: 서버 컴포넌트에서 편하다고 secret 키를 클라이언트로 흘려보내는 코드를 AI가 생성할 수 있습니다. `NEXT_PUBLIC_` 접두사가 붙은 변수는 브라우저로 새어 나갑니다 — secret 키에는 절대 그 접두사를 붙이지 마세요.
+
+---
+
+### 11.2 Next.js on Vercel 프로덕션
+
+#### 11.2.1 서버 컴포넌트 vs 클라이언트 컴포넌트
+
+Next.js App Router에서 컴포넌트는 기본이 **서버 컴포넌트(Server Component)**입니다. 서버에서 렌더링되어 브라우저로 HTML만 전달되므로, **secret 키·DB 호출을 안전하게 둘 수 있습니다.** 브라우저 상호작용(클릭·상태)이 필요할 때만 `"use client"`로 클라이언트 컴포넌트를 만듭니다.
+
+```tsx
+// app/guestbook/page.tsx — 서버 컴포넌트 (기본)
+// 서버에서 실행되므로 secret 키를 안전하게 사용 가능
+import { createClient } from '@supabase/supabase-js'
+
+export default async function GuestbookPage() {
+  // 서버 전용: NEXT_PUBLIC_ 없는 환경변수 (브라우저로 안 샘)
+  const supabase = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!   // 서버에서만 — 절대 클라이언트로 전달 금지
+  )
+
+  const { data: entries } = await supabase
+    .from('guestbook')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  return (
+    <main>
+      <h1>방명록</h1>
+      <GuestbookForm />        {/* 클라이언트 컴포넌트 */}
+      <ul>
+        {entries?.map((e) => (
+          <li key={e.id}><b>{e.name}</b>: {e.message}</li>
+        ))}
+      </ul>
+    </main>
+  )
+}
+```
+
+```tsx
+// app/guestbook/GuestbookForm.tsx — 클라이언트 컴포넌트
+"use client"
+import { useState } from 'react'
+
+export function GuestbookForm() {
+  const [name, setName] = useState('')
+  const [message, setMessage] = useState('')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    // 서버 API 라우트로 전송 (secret 키는 서버에만 있음)
+    await fetch('/api/guestbook', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, message }),
+    })
+    setName(''); setMessage('')
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="이름" required />
+      <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="메시지" required />
+      <button type="submit">남기기</button>
+    </form>
+  )
+}
+```
+
+#### 11.2.2 API 라우트 (Route Handler)
+
+쓰기·외부 API 호출·secret 키가 필요한 작업은 **API 라우트(Route Handler)**에서 처리합니다. 서버에서만 실행되므로 안전합니다.
+
+```ts
+// app/api/guestbook/route.ts — 서버에서만 실행되는 API 라우트
+import { createClient } from '@supabase/supabase-js'
+import { NextResponse } from 'next/server'
+
+export async function POST(request: Request) {
+  const { name, message } = await request.json()
+
+  // 서버 전용 secret 키 — RLS를 우회하므로 입력 검증을 직접 책임진다
+  if (!name?.trim() || !message?.trim()) {
+    return NextResponse.json({ error: '이름과 메시지는 필수입니다' }, { status: 400 })
+  }
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_SECRET_KEY!
+  )
+
+  const { error } = await supabase
+    .from('guestbook')
+    .insert({ name: name.trim(), message: message.trim() })
+
+  if (error) {
+    return NextResponse.json({ error: '저장 실패' }, { status: 500 })
+  }
+  return NextResponse.json({ ok: true }, { status: 201 })
+}
+```
+
+> **보안 메모**: secret 키는 RLS를 우회하므로 "DB가 알아서 막아주겠지"가 통하지 않습니다. API 라우트가 **입력 검증·인가(authorization)의 최종 책임**을 집니다(research/22_se-practices.md §5.4 입력 검증). 클라이언트에서 직접 Supabase에 쓰는 구조라면 공개 키 + RLS 정책으로 막고, 서버 API를 거치는 구조라면 서버가 검증합니다 — 둘을 섞을 때 가장 사고가 납니다.
+
+#### 11.2.3 환경변수 (서버/클라이언트 구분, 프리뷰/프로덕션 분리)
+
+Next.js 환경변수 규칙은 단 하나로 요약됩니다: **`NEXT_PUBLIC_` 접두사 = 브라우저로 공개, 접두사 없음 = 서버 전용.**
+
+| 변수 | 노출 범위 | 예시 값 |
+|------|-----------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | 브라우저(클라이언트) | `https://<id>.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | 브라우저(클라이언트) | `sb_publishable_...` (RLS로 보호) |
+| `SUPABASE_URL` | 서버 전용 | 위와 동일하나 서버 코드용 |
+| `SUPABASE_SECRET_KEY` | **서버 전용 — 절대 NEXT_PUBLIC_ 금지** | `sb_secret_...` |
+
+Vercel은 **Production / Preview / Development 환경별로 다른 값**을 등록할 수 있습니다. dev/staging/prod Supabase 프로젝트(11.1.1)를 여기에 매핑합니다.
+
+```bash
+# Vercel CLI — 환경별 변수 등록 (프리뷰는 staging 프로젝트, 프로덕션은 prod 프로젝트)
+vercel env add SUPABASE_SECRET_KEY preview      # staging 프로젝트의 secret 키
+vercel env add SUPABASE_SECRET_KEY production    # prod 프로젝트의 secret 키
+
+# 로컬로 환경변수 내려받기 (.env.local 생성)
+vercel env pull --environment=preview
+```
+
+- **대시보드 경로**: Project → Settings → Environment Variables → 값마다 Production/Preview/Development 체크.
+- **프리뷰 = staging 데이터, 프로덕션 = prod 데이터**로 묶으면, PR 프리뷰가 실사용자 데이터를 건드리지 않습니다.
+
+> **함정**: `NEXT_PUBLIC_` 변수는 **빌드 시점에 번들로 구워집니다.** 빌드 후 값을 바꿔도 클라이언트에는 반영되지 않으니 재배포가 필요합니다. 또한 한번 공개로 구워진 값은 브라우저 누구나 볼 수 있으므로, secret을 잠깐이라도 `NEXT_PUBLIC_`으로 올렸다면 즉시 키를 회전하세요.
+
+#### 11.2.4 프리뷰/프로덕션 배포 분리
+
+Vercel은 Git 연동만으로 배포를 자동 분리합니다(research/09_deployment.md §2.2).
+
+```
+main 브랜치 push      → 프로덕션 배포 (myapp.com, prod 환경변수 = prod Supabase)
+다른 브랜치/PR push   → 프리뷰 배포 (랜덤 URL, preview 환경변수 = staging Supabase)
+```
+
+- PR마다 **독립 프리뷰 URL**이 생겨 머지 전에 실물로 확인할 수 있습니다.
+- 잘못 배포해도 **이전 배포로 클릭 한 번에 롤백**(배포 이력 보존).
+- **Hobby(무료)는 비상업·개인용 전용**이며, 수익형 사이트는 Pro($20/월)가 필요합니다.
+
+---
+
+### 11.3 GitHub Actions 파이프라인 (테스트 → 프리뷰 배포 자동화)
+
+중급편 방명록 프로젝트를 **프로덕션 파이프라인**으로 확장합니다: PR이 올라오면 자동으로 (1) 테스트를 돌리고 (2) 통과하면 프리뷰(staging)로 배포해 실물 확인 후 머지합니다. 머지(main)되면 프로덕션으로 승격합니다.
+
+```yaml
+# .github/workflows/deploy.yml
+# 방명록 앱: 테스트 → 프리뷰(PR) → 프로덕션(main) 자동 배포
+name: Test and Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read          # 최소 권한 원칙 (research/22 §4.3)
+
+jobs:
+  # 1) 테스트 — AI가 만든 코드도 여기서 걸러진다 (research/22 §3.4)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@&lt;full-SHA&gt;     # 뮤터블 태그(@v4) 대신 전체 SHA 고정
+      - uses: actions/setup-node@&lt;full-SHA&gt;
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+
+  # 2) 프리뷰 배포 — PR마다 staging 환경으로
+  deploy-preview:
+    needs: test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - uses: actions/checkout@&lt;full-SHA&gt;
+      - name: Deploy Preview to Vercel
+        run: npx vercel deploy --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          # staging Supabase 프로젝트 키 — GitHub Actions secrets에만 보관
+          SUPABASE_SECRET_KEY: ${{ secrets.STAGING_SUPABASE_SECRET_KEY }}
+
+  # 3) 프로덕션 배포 — main 머지 시 prod로 승격
+  deploy-production:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://myapp.com
+    steps:
+      - uses: actions/checkout@&lt;full-SHA&gt;
+      - name: Deploy Production to Vercel
+        run: npx vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.PROD_SUPABASE_SECRET_KEY }}
+```
+
+2026 GitHub Actions 보안 수칙(research/22_se-practices.md §4.3):
+
+1. **모든 액션을 전체 SHA로 고정.** `@v4`·`@main`·`@latest` 같은 뮤터블 태그는 금지(태그 탈취 시 공급망 공격으로 CI에서 악성 코드 실행). 위 예시의 `@<full-SHA>`는 게재 시 실제 커밋 SHA로 대체합니다.
+2. **최소 권한(least-privilege)** — `permissions`를 명시(`contents: read`).
+3. **비밀키는 `secrets`로만.** dev/staging/prod 키를 각각 GitHub Secrets에 등록하고, 환경(Environment)별로 분리한다.
+4. `pull_request_target`로 신뢰할 수 없는 코드를 실행하지 않는다.
+5. **비밀 스캐닝 + push protection을 켠다.** AI 보조 커밋의 비밀키 유출률이 기준선의 2배 이상으로 보고된다(research/22 §1.2).
+
+> **상호링크**: GitHub Actions 보안 7수칙·DORA 5지표·OWASP Top 10:2025의 상세는 [소프트웨어 엔지니어링 가이드](software-engineering.html)에서, Conventional Commits·브랜치 전략은 [Git/GitHub 개발자편](github-developer.html)에서 다룹니다.
+
+---
+
+### 실습: 방명록 앱을 프로덕션 풀스택으로 확장
+
+중급편 방명록(Supabase + 정적 프론트)을 다음 단계로 끌어올립니다.
+
+1. Supabase 프로젝트를 **dev / staging / prod 3개**로 분리하고, 마이그레이션으로 `guestbook` 테이블 + RLS 정책을 세 환경에 동일 적용한다.
+2. 정적 프론트를 **Next.js(App Router)**로 옮긴다 — 목록은 서버 컴포넌트, 폼은 클라이언트 컴포넌트 + API 라우트.
+3. Vercel에 연결하고 **환경변수를 Preview=staging, Production=prod**로 매핑한다(secret 키는 `NEXT_PUBLIC_` 없이).
+4. **GitHub Actions 파이프라인**(테스트 → 프리뷰 → 프로덕션)을 붙인다.
+5. PR을 열어 **프리뷰 URL**에서 staging 데이터로 동작을 확인하고, 머지해 프로덕션 배포를 관찰한다.
+
+```bash
+# 빠른 시작 골격
+npx create-next-app@latest guestbook --typescript --app
+cd guestbook
+npm install @supabase/supabase-js
+
+# Vercel 연결 및 환경변수
+npx vercel link
+vercel env add SUPABASE_SECRET_KEY preview
+vercel env add SUPABASE_SECRET_KEY production
+
+# 서버리스에서는 트랜잭션 풀러(포트 6543) 연결 문자열 사용 (ORM 직결 시)
+```
+
+### 체크포인트
+
+- [ ] Supabase를 dev/staging/prod 프로젝트로 분리하고 마이그레이션으로 스키마를 승격할 수 있다
+- [ ] 서버리스/엣지에서 커넥션 풀러(Supavisor, 트랜잭션 모드 포트 6543)를 써야 하는 이유를 설명할 수 있다
+- [ ] 2026 키 체계(`sb_publishable_`/`sb_secret_`)의 역할과 노출 규칙을 구분하고, RLS가 공개 키 안전의 전제임을 안다
+- [ ] Next.js 서버 컴포넌트·API 라우트에 secret 키를 두고, 클라이언트에는 `NEXT_PUBLIC_` 공개 변수만 노출할 수 있다
+- [ ] Vercel 환경변수를 Preview=staging / Production=prod로 분리할 수 있다
+- [ ] GitHub Actions로 "테스트 → 프리뷰 → 프로덕션" 파이프라인을 구성하고, 액션을 SHA로 고정할 수 있다
+
+---
+
+## 핵심 가정 + 검증 체크리스트 (P6)
+
+### 핵심 가정 3줄
+
+1. 본 11장은 **2026년 신규 Supabase 프로젝트가 `sb_publishable_`/`sb_secret_` 키 체계 + 비대칭 JWT를 기본**으로 한다고 가정했다(research/23_supabase.md §2.1). 2025년 이전 생성 프로젝트는 레거시 `anon`/`service_role`을 쓸 수 있어 학습자 화면과 다를 수 있다.
+2. Vercel·Supabase의 가격·한도·포트 관례(트랜잭션 풀러 6543 등)는 2026-06 시점 기준이며, 분기마다 변동되므로 공식 페이지 재확인이 필요하다.
+3. 실습은 "직접 Supabase 프로젝트 3개 + Next.js on Vercel + GitHub 연동" 시나리오를 전제로 한다. Lovable Cloud로만 작업하는 학습자는 키·대시보드 절차를 그대로 따를 수 없다(러버블이 대행).
+
+### 검증 체크리스트 (PI 김병선 직접 확인)
+
+- [ ] 신규 Supabase 프로젝트 대시보드에 `sb_publishable_`/`sb_secret_` 키가 그대로 노출되는지 실제 가입으로 확인
+- [ ] Supavisor 트랜잭션 모드 연결 문자열(포트 6543) 표현이 현재 Supabase 대시보드와 일치하는지 확인
+- [ ] Vercel 환경변수 Preview/Production 분리 화면이 현행 UI에 그대로 존재하는지 확인
+- [ ] GitHub Actions YAML의 `@<full-SHA>` 자리표시자를 게재 시 실제 SHA 또는 안내 문구로 대체
+- [ ] Next.js 코드 예시(App Router·Route Handler)가 현재 Next.js 버전에서 동작하는지 확인
+- [ ] 상호링크 대상(`software-engineering.html`, `github-developer.html`) 파일 존재 및 앵커 확인
+- [ ] 개인정보 보호 규칙 준수: 실명 인용 없음 / 제작자 크레딧만 허용
+
+---
+
+*이 교안의 섹션 6~10에서는 CI/CD 파이프라인 고급, 무중단 배포 전략(Blue-Green, Canary), 모니터링과 로깅(Prometheus, Grafana, ELK), 보안과 시크릿 관리, 종합 프로젝트를 다루며, 섹션 11에서 관리형 백엔드(Supabase)·풀스택(Next.js on Vercel)·자동 파이프라인(GitHub Actions) 경로를 다룹니다.*
