@@ -45,7 +45,7 @@ const LESSONS = {
     },
     devinterface: {
       name: '개발 인터페이스', icon: '🖥️', color: '#607D8B',
-      beginner:     { url: 'devinterface-beginner.html',     title: '개발 인터페이스 초보자편', desc: 'CLI, 터미널, IDE 기초' },
+      beginner:     { url: 'devinterface-beginner.html',     title: '개발 인터페이스 초보자편', desc: '터미널 CLI 사용법·VS Code·Git 기초' },
       intermediate: { url: 'devinterface-intermediate.html',  title: '개발 인터페이스 중급자편', desc: '셸 스크립트와 자동화' },
       developer:    { url: 'devinterface-developer.html',     title: '개발 인터페이스 개발자편', desc: '컨테이너와 클라우드 개발' },
       related: ['cursor', 'claude-code', 'github', 'deployment'],

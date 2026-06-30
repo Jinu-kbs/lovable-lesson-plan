@@ -49,8 +49,9 @@
 9. [로그 분석과 모니터링](#9-로그-분석과-모니터링)
 10. [개발 작업 자동화 기초](#10-개발-작업-자동화-기초)
 11. [바이브코딩 도구 환경 설정](#11-바이브코딩-도구-환경-설정)
-12. [트러블슈팅 & FAQ](#12-트러블슈팅--faq)
-13. [다음 단계](#13-다음-단계)
+12. [터미널 CLI 실전 빈틈: 패키지 매니저·SSH·셸 커스터마이징](#12-터미널-cli-실전-빈틈-패키지-매니저ssh셸-커스터마이징)
+13. [트러블슈팅 & FAQ](#13-트러블슈팅--faq)
+14. [다음 단계](#14-다음-단계)
 
 ---
 
@@ -2322,7 +2323,380 @@ git config --global user.email
 
 ---
 
-## 12. 트러블슈팅 & FAQ
+## 12. 터미널 CLI 실전 빈틈: 패키지 매니저·SSH·셸 커스터마이징
+
+> **최종 검증 2026-06-26** — 패키지 매니저·SSH 도구는 OS 버전에 따라 명령 옵션이 조금씩 다를 수 있습니다. 화면이 교안과 달라 보이면 명령보다 "흐름(설치 → 확인 → 등록)"을 기준으로 따라오고, 각 도구의 공식 문서(brew.sh, docs.github.com)에서 최신 명령을 재확인하세요.
+
+### 학습 목표
+
+- 패키지 매니저(Homebrew/winget/apt)로 개발 도구를 설치·관리할 수 있다
+- SSH 키를 만들어 원격 서버와 GitHub에 비밀번호 없이 접속할 수 있다
+- 셸 프로파일을 직접 편집하여 자신만의 개발 환경을 구성할 수 있다
+
+> 이 절은 앞선 섹션을 보완합니다. 별칭·함수의 구체 예시는 [10-2](#10-2-alias와-함수-등록), 환경변수 사용은 [10-3](#10-3-환경변수와-env-파일), PowerShell 프로파일 기본은 [3-4](#3-4-프로파일-설정-profile)을 참고하세요. 여기서는 **도구 설치 → 원격 접속 → 프로파일 구조**라는 토대만 다룹니다.
+
+### 12-1. 패키지 매니저로 도구 설치
+
+#### 왜 패키지 매니저인가 (수동 설치 vs)
+
+지금까지 Node.js, Git 등을 설치할 때 공식 사이트에서 설치 파일(.dmg, .exe)을 내려받아 더블클릭했을 것입니다. 이를 **수동 설치(manual install)** 라고 합니다. 도구가 늘어나면 수동 설치는 다음 문제를 만듭니다.
+
+| 항목 | 수동 설치 | 패키지 매니저 |
+|------|----------|--------------|
+| 설치 | 사이트 방문 → 다운로드 → 실행 (도구마다 반복) | `명령 한 줄` |
+| 업데이트 | 새 버전을 다시 받아 재설치 | `upgrade` 한 번에 전체 |
+| 제거 | 앱 삭제 + 잔여 파일 수동 정리 | `uninstall` 깔끔히 |
+| 의존성 | 직접 챙겨야 함 | 자동으로 함께 설치 |
+| 재현성 | 기억에 의존 | 설치 목록을 명령으로 공유 가능 |
+
+> 패키지 매니저는 "앱 스토어의 CLI 버전"이라고 생각하면 됩니다. 설치·업데이트·제거를 명령 한 줄로 일관되게 처리하고, 새 컴퓨터에서도 같은 환경을 빠르게 복원할 수 있습니다.
+
+#### macOS: Homebrew (brew)
+
+macOS의 사실상 표준 패키지 매니저입니다. 먼저 Homebrew 자체를 설치합니다(공식 사이트 [brew.sh](https://brew.sh)의 한 줄 명령).
+
+```bash
+# Homebrew 설치 (공식 설치 스크립트)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 설치 확인
+brew --version
+
+# 도구 설치
+brew install node      # Node.js
+brew install git       # Git
+brew install gh        # GitHub CLI
+
+# 설치된 패키지 목록
+brew list
+
+# 특정 패키지 정보 보기
+brew info node
+
+# 업데이트 (Homebrew 자체 + 설치 가능한 최신 버전 갱신)
+brew update
+
+# 설치된 패키지 업그레이드
+brew upgrade           # 전체 업그레이드
+brew upgrade node      # 특정 패키지만
+
+# 제거
+brew uninstall node
+
+# 더 이상 필요 없는 의존성 정리
+brew cleanup
+```
+
+> **GUI 앱도 설치 가능**: `brew install --cask <앱이름>` (예: `brew install --cask visual-studio-code`, `brew install --cask google-chrome`). `--cask`는 일반 명령행 도구가 아닌 데스크톱 앱(.app)을 설치합니다.
+
+#### Windows: winget
+
+Windows 10(1809+)·11에 기본 내장된 Microsoft 공식 패키지 매니저입니다. 별도 설치 없이 바로 쓸 수 있습니다.
+
+```powershell
+# winget 사용 가능 여부 확인
+winget --version
+
+# 패키지 검색
+winget search node
+
+# 도구 설치 (정확한 ID로 설치 권장)
+winget install OpenJS.NodeJS        # Node.js
+winget install Git.Git              # Git
+winget install GitHub.cli           # GitHub CLI
+
+# 설치된 패키지 목록
+winget list
+
+# 업그레이드
+winget upgrade                       # 업그레이드 가능 목록 표시
+winget upgrade --all                 # 전체 업그레이드
+winget upgrade OpenJS.NodeJS         # 특정 패키지만
+
+# 제거
+winget uninstall OpenJS.NodeJS
+```
+
+> **팁**: `winget search` 결과의 `ID` 열(예: `OpenJS.NodeJS`)을 그대로 `install`에 쓰면 동명이인 패키지로 인한 혼동을 피할 수 있습니다.
+
+#### Linux: apt (간단 비교)
+
+Ubuntu·Debian 계열(WSL 포함)의 표준 패키지 매니저입니다. 시스템 전역에 설치하므로 관리자 권한(`sudo`)이 필요합니다.
+
+```bash
+# 패키지 목록 갱신 (설치 전 항상 권장)
+sudo apt update
+
+# 도구 설치
+sudo apt install nodejs npm    # Node.js + npm
+sudo apt install git           # Git
+
+# 업그레이드
+sudo apt upgrade               # 설치된 패키지 전체 업그레이드
+
+# 제거
+sudo apt remove git
+```
+
+#### 세 패키지 매니저 한눈에 비교
+
+| 작업 | macOS (brew) | Windows (winget) | Linux (apt) |
+|------|--------------|------------------|-------------|
+| 설치 | `brew install 이름` | `winget install ID` | `sudo apt install 이름` |
+| 목록 | `brew list` | `winget list` | `apt list --installed` |
+| 업그레이드 | `brew upgrade` | `winget upgrade --all` | `sudo apt upgrade` |
+| 제거 | `brew uninstall 이름` | `winget uninstall ID` | `sudo apt remove 이름` |
+| 권한 | 불필요 | 불필요 | `sudo` 필요 |
+
+> **참고**: macOS의 `brew`와 Windows의 `winget`은 사용자 권한으로 설치되어 `sudo`가 필요 없지만, Linux의 `apt`는 시스템 전역 설치라 `sudo`가 필요합니다. 이 차이를 모르면 "Permission denied"에서 막히기 쉽습니다.
+
+### 12-2. SSH 원격 접속 기초
+
+배포·서버 작업의 토대가 되는 기술입니다. 클라우드 서버는 화면(GUI)이 없어 SSH로만 들어가며, GitHub도 SSH로 인증하면 매번 비밀번호를 입력하지 않아도 됩니다.
+
+#### SSH란 무엇인가
+
+**SSH(Secure Shell)** 는 네트워크 너머의 다른 컴퓨터(원격 서버)에 **암호화된 통로로 안전하게 접속**해, 마치 그 컴퓨터 앞에 앉은 것처럼 셸 명령을 실행하게 해주는 프로토콜입니다. 내가 친 명령은 암호화되어 전송되므로 중간에서 가로채도 내용을 알 수 없습니다.
+
+#### 키 vs 비밀번호 — 왜 키를 쓰는가
+
+| 방식 | 동작 | 단점/장점 |
+|------|------|----------|
+| **비밀번호** | 접속할 때마다 비밀번호 입력 | 매번 입력 번거로움 · 추측·유출 위험 |
+| **SSH 키(키 쌍)** | 미리 만든 키로 자동 인증 | 입력 불필요 · 훨씬 안전(추측 불가) |
+
+SSH 키는 **한 쌍(key pair)** 으로 만들어집니다.
+
+- **개인키(private key)**: 내 컴퓨터에만 보관. **절대 외부에 공유 금지.** (`id_ed25519`)
+- **공개키(public key)**: 접속하려는 서버/GitHub에 등록. 공개되어도 안전. (`id_ed25519.pub`)
+
+> 비유: 공개키는 "내가 만든 자물쇠", 개인키는 "그 자물쇠를 여는 유일한 열쇠"입니다. 자물쇠(공개키)는 서버 문에 달아두고, 열쇠(개인키)는 나만 가집니다.
+
+#### 1단계: 키 생성 (ssh-keygen, ed25519)
+
+```bash
+# ed25519 알고리즘으로 키 생성 (현재 권장 방식, 짧고 안전)
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# 진행 중 질문 (모두 Enter로 기본값 사용 가능):
+# - 저장 위치: 기본 ~/.ssh/id_ed25519
+# - 암호문(passphrase): 비워도 되지만, 입력하면 개인키에 한 겹 더 보호막
+```
+
+```powershell
+# Windows PowerShell에서도 동일한 명령
+ssh-keygen -t ed25519 -C "your_email@example.com"
+# 키는 C:\Users\사용자\.ssh\ 에 저장됨
+```
+
+> 생성 후 `~/.ssh/` 폴더에 `id_ed25519`(개인키)와 `id_ed25519.pub`(공개키) 두 파일이 생깁니다.
+
+#### 2단계: 공개키 등록 (GitHub SSH 키 포함)
+
+공개키 파일의 **내용**을 접속 대상에 등록합니다.
+
+```bash
+# macOS/Linux: 공개키 내용을 화면에 출력 (복사용)
+cat ~/.ssh/id_ed25519.pub
+
+# macOS: 클립보드로 바로 복사
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+```powershell
+# Windows PowerShell: 클립보드로 바로 복사
+Get-Content ~/.ssh/id_ed25519.pub | Set-Clipboard
+```
+
+GitHub에 등록하기:
+
+1. 복사한 공개키를 GitHub → Settings → **SSH and GPG keys** → **New SSH key** 에 붙여넣고 저장
+2. 등록 후 연결을 확인합니다.
+
+```bash
+# GitHub 연결 테스트
+ssh -T git@github.com
+# 성공 시: "Hi 사용자! You've successfully authenticated..." 메시지가 나옵니다.
+```
+
+> 원격 **서버**에 등록할 때는 공개키 내용을 서버의 `~/.ssh/authorized_keys` 파일에 한 줄로 추가하면 됩니다(`ssh-copy-id 사용자@서버주소` 명령으로 자동 등록도 가능).
+
+#### 3단계: SSH로 원격 서버 접속
+
+```bash
+# 기본 형식: ssh 사용자명@서버주소
+ssh ubuntu@203.0.113.10
+
+# 포트가 기본(22)이 아닐 때
+ssh -p 2222 ubuntu@203.0.113.10
+
+# 특정 키 파일을 지정해 접속
+ssh -i ~/.ssh/id_ed25519 ubuntu@203.0.113.10
+
+# 접속 후에는 그 서버의 셸이므로, 앞서 배운 ls·cd·pwd 등을 그대로 사용
+# 빠져나오기: exit 또는 Ctrl+D
+```
+
+> **GitHub를 SSH로 쓰기**: 키 등록 후 원격 주소를 SSH 형식으로 바꾸면 push/pull 시 비밀번호 입력이 사라집니다. `git remote set-url origin git@github.com:사용자/저장소.git`
+
+> **참고**: SSH 키가 GitHub에서 "Permission denied (publickey)"로 막히는 트러블슈팅은 [13. 트러블슈팅 & FAQ](#13-트러블슈팅--faq)의 SSH 항목을 참고하세요.
+
+### 12-3. 셸 커스터마이징 (주로 macOS zsh)
+
+매번 같은 별칭·환경변수를 손으로 치지 않으려면, 터미널이 시작될 때 자동으로 읽는 **프로파일 파일**에 설정을 저장합니다.
+
+#### 셸 프로파일이란 (~/.zshrc, ~/.bashrc)
+
+셸은 시작될 때 정해진 설정 파일을 자동으로 읽어 들입니다(`source`). 이 파일에 적어둔 별칭·함수·환경변수·PATH는 새 터미널을 열 때마다 자동 적용됩니다.
+
+| 셸 | 프로파일 파일 | 비고 |
+|----|--------------|------|
+| **zsh** (macOS 기본, Catalina 이후) | `~/.zshrc` | 새 맥은 대부분 여기 |
+| **bash** (옛 macOS·Linux·WSL) | `~/.bashrc` | 리눅스/WSL 표준 |
+| **PowerShell** (Windows) | `$PROFILE` | 경로는 `$PROFILE`로 확인 |
+
+```bash
+# 내 셸이 무엇인지 확인
+echo $SHELL          # 예: /bin/zsh 이면 zsh 사용 중
+
+# 프로파일 파일 열기 (없으면 새로 만들어짐)
+code ~/.zshrc        # VS Code로 열기
+# 또는 nano ~/.zshrc
+
+# 편집 후 변경사항을 현재 터미널에 즉시 반영
+source ~/.zshrc
+```
+
+> **핵심**: 프로파일을 수정해도 **이미 열려 있는 터미널에는 자동 반영되지 않습니다.** `source ~/.zshrc`로 다시 읽어 들이거나 터미널을 새로 열어야 적용됩니다. "설정을 바꿨는데 안 먹어요"의 90%는 이 단계를 빠뜨린 경우입니다.
+
+#### 별칭(alias) 만들기
+
+긴 명령을 짧은 이름으로 줄입니다.
+
+```bash
+# ~/.zshrc 에 추가
+alias gs='git status'
+alias ll='ls -alh'
+alias ..='cd ..'
+
+# 적용 후 바로 사용
+source ~/.zshrc
+gs        # → git status 실행
+```
+
+> 별칭·함수의 풍부한 실전 예시(`mkcd`, `acp`, `killport` 등)는 [10-2 alias와 함수 등록](#10-2-alias와-함수-등록)에 정리되어 있습니다. 여기서는 "어느 파일에 적는가"라는 위치만 잡으면 됩니다.
+
+#### PATH에 경로 추가하기
+
+`PATH`는 셸이 명령어 실행 파일을 찾는 폴더 목록입니다. 직접 설치한 도구의 경로를 PATH에 더해주면 어디서든 그 이름만으로 실행할 수 있습니다.
+
+```bash
+# ~/.zshrc 에 추가 — 기존 PATH 뒤에 새 경로를 이어붙임
+export PATH="$HOME/.local/bin:$PATH"
+
+# 확인 (콜론으로 구분된 폴더 목록이 보임)
+echo $PATH
+```
+
+> `$PATH`를 그대로 다시 포함시키는 것이 핵심입니다(`"새경로:$PATH"`). 빼먹으면 기존 명령들을 셸이 못 찾게 됩니다.
+
+#### 환경변수 export
+
+```bash
+# ~/.zshrc 에 추가 — 모든 새 터미널에서 유효
+export EDITOR="code"
+export NODE_ENV="development"
+```
+
+> 환경변수를 코드(`.env`)에서 읽어 쓰는 방법은 [10-3 환경변수와 .env 파일](#10-3-환경변수와-env-파일)을 참고하세요. 여기서는 셸 전역에 영구 등록하는 위치만 다룹니다.
+
+#### 프롬프트 간단 개선
+
+프롬프트(명령 입력 줄 앞의 표시)에 현재 Git 브랜치를 보여주면 작업 맥락을 놓치지 않습니다. zsh 기준 최소 예시입니다.
+
+```bash
+# ~/.zshrc 에 추가 (zsh)
+autoload -Uz vcs_info
+precmd() { vcs_info }
+zstyle ':vcs_info:git:*' formats ' (%b)'
+setopt prompt_subst
+PROMPT='%1~${vcs_info_msg_0_} %# '
+# 예: "my-app (main) %"  ← 현재 폴더와 Git 브랜치가 보임
+```
+
+> 더 화려한 프롬프트·자동완성·구문 강조가 필요하면 [Oh My Zsh](https://ohmyz.sh/) 프레임워크를 쓰면 설정 없이 한 번에 얻을 수 있습니다(FAQ Q8 참조).
+
+#### Windows PowerShell 프로파일 ($PROFILE) 병기
+
+PowerShell에서는 `~/.zshrc` 대신 `$PROFILE` 파일이 같은 역할을 합니다.
+
+```powershell
+# 프로파일 경로 확인
+$PROFILE
+
+# 없으면 생성
+if (!(Test-Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+
+# 편집
+code $PROFILE
+
+# 프로파일 내용 예시
+Set-Alias g git
+function gs { git status }
+$env:EDITOR = "code"
+
+# 편집 후 현재 세션에 즉시 반영 (Bash의 source에 해당)
+. $PROFILE
+```
+
+> PowerShell 프로파일의 모듈 로드·프롬프트 함수 등 더 자세한 활용은 [3-4 프로파일 설정 ($PROFILE)](#3-4-프로파일-설정-profile)에 정리되어 있습니다.
+
+### 실습 과제 12: 도구 설치 → SSH 키 → 프로파일 한 바퀴
+
+OS에 맞춰 다음을 순서대로 수행하세요.
+
+```bash
+# [macOS / Linux / WSL]
+# 1. 패키지 매니저로 GitHub CLI 설치 (macOS는 brew, WSL은 apt)
+brew install gh                # macOS
+# sudo apt install gh          # WSL/Ubuntu
+
+# 2. SSH 키가 없으면 생성
+ls ~/.ssh/id_ed25519.pub 2>/dev/null || ssh-keygen -t ed25519 -C "내이메일@example.com"
+
+# 3. 공개키를 출력하여 GitHub에 등록 후 연결 테스트
+cat ~/.ssh/id_ed25519.pub
+ssh -T git@github.com
+
+# 4. ~/.zshrc에 별칭 1개 + 환경변수 1개를 추가하고 적용
+echo "alias gs='git status'" >> ~/.zshrc
+echo 'export EDITOR="code"' >> ~/.zshrc
+source ~/.zshrc
+gs    # 동작 확인
+```
+
+```powershell
+# [Windows PowerShell]
+# 1. winget으로 GitHub CLI 설치
+winget install GitHub.cli
+
+# 2. SSH 키 생성
+ssh-keygen -t ed25519 -C "내이메일@example.com"
+
+# 3. 공개키를 클립보드로 복사 → GitHub에 등록 후 연결 테스트
+Get-Content ~/.ssh/id_ed25519.pub | Set-Clipboard
+ssh -T git@github.com
+
+# 4. $PROFILE에 별칭 1개 추가하고 적용
+if (!(Test-Path $PROFILE)) { New-Item -ItemType File -Path $PROFILE -Force }
+Add-Content $PROFILE "function gs { git status }"
+. $PROFILE
+gs    # 동작 확인
+```
+
+---
+
+## 13. 트러블슈팅 & FAQ
 
 ### 학습 목표
 
@@ -2578,7 +2952,7 @@ Oh My Zsh는 Zsh 셸의 플러그인/테마 관리 프레임워크입니다. 필
 
 ---
 
-## 13. 다음 단계
+## 14. 다음 단계
 
 ### 이 교안을 마치셨다면
 
@@ -2634,6 +3008,8 @@ Oh My Zsh는 Zsh 셸의 플러그인/테마 관리 프레임워크입니다. 필
 | [PowerShell 공식 문서](https://learn.microsoft.com/ko-kr/powershell/) | Microsoft PowerShell 레퍼런스 |
 | [GNU Bash Manual](https://www.gnu.org/software/bash/manual/) | GNU Bash 공식 매뉴얼 |
 | [Oh My Zsh](https://ohmyz.sh/) | Zsh 프레임워크 |
+| [Homebrew (brew.sh)](https://brew.sh) | macOS 패키지 매니저 공식 사이트 |
+| [GitHub SSH 연결 문서](https://docs.github.com/ko/authentication/connecting-to-github-with-ssh) | SSH 키 생성·등록 공식 가이드 |
 | [Node.js 공식 문서](https://nodejs.org/docs/latest/api/) | Node.js API 레퍼런스 |
 | [gitignore.io](https://www.toptal.com/developers/gitignore) | .gitignore 생성기 |
 | 기획 도우미 Gem (peace 제작/공유) | [Gem 바로가기](https://gemini.google.com/gem/1yC701ZmuJgy_D4hkyNz0t50EqAnBj3kh) |
