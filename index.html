@@ -255,6 +255,25 @@ body{
 .hero-stat .snum{font-size:1.25rem;font-weight:800;color:#FFF;line-height:1}
 .hero-stat .slabel{font-size:.7rem;color:rgba(255,255,255,.55);font-weight:500}
 
+/* Hero 검색창 (구글형) */
+.hero-search{position:relative;max-width:560px;margin:0 auto 24px;display:flex;align-items:center;gap:8px;background:#FFF;border-radius:30px;padding:9px 9px 9px 18px;box-shadow:0 10px 34px rgba(0,0,0,.28)}
+.hero-search .hs-mag{font-size:1.05rem;opacity:.55;flex-shrink:0}
+.hero-search input{flex:1;min-width:0;border:none;outline:none;font-size:1rem;background:transparent;color:#2D3436;font-family:inherit}
+.hero-search input::placeholder{color:#9AA0A6}
+.hero-search .hs-go{border:none;background:var(--primary);color:#FFF;border-radius:22px;padding:9px 18px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit;flex-shrink:0}
+.hero-search .hs-go:hover{filter:brightness(1.08)}
+.hero-search-suggest{display:none;position:absolute;left:0;right:0;top:calc(100% + 8px);background:#FFF;border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.3);overflow:hidden;z-index:200;text-align:left}
+.hs-item{display:flex;align-items:center;gap:12px;padding:11px 16px;text-decoration:none;border-bottom:1px solid #F1F1F6}
+.hs-item:hover{background:#F6F5FF}
+.hs-icon{font-size:1.15rem;width:24px;text-align:center;flex-shrink:0}
+.hs-text{display:flex;flex-direction:column;min-width:0}
+.hs-title{font-weight:600;font-size:.92rem;color:#2D3436;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-badge{font-size:.75rem;color:#8A8F98}
+.hs-all{width:100%;border:none;background:#F6F5FF;color:var(--primary);font-weight:700;padding:12px;cursor:pointer;font-size:.85rem;font-family:inherit}
+.hs-all:hover{background:#ECE9FF}
+.hs-empty{padding:14px 16px;color:#8A8F98;font-size:.88rem}
+@media(max-width:600px){.hero-search{max-width:92%}.hero-search .hs-go{padding:9px 13px}}
+
 /* Track CTA buttons */
 .hero-tracks{
   display:flex;gap:10px;justify-content:center;
@@ -915,6 +934,13 @@ footer a:hover{color:var(--primary)}
   <h1>AI로 만드는<br>내 첫 번째 앱</h1>
 
   <p>러버블, 커서, Claude Code, Claude Cowork·Design 등<br>15종 도구 × 3레벨 맞춤 교안을 무료로 제공합니다</p>
+
+  <form class="hero-search" id="heroSearchForm" role="search" autocomplete="off">
+    <span class="hs-mag" aria-hidden="true">🔍</span>
+    <input type="text" id="heroSearchInput" placeholder="교안 검색 — 러버블, 터미널, 배포, 프롬프트…" aria-label="교안 검색">
+    <button type="submit" class="hs-go">검색</button>
+    <div class="hero-search-suggest" id="heroSearchSuggest"></div>
+  </form>
 
   <div class="hero-stats">
     <div class="hero-stat"><span class="snum">45개</span><span class="slabel">교안</span></div>
@@ -1679,5 +1705,7 @@ form.addEventListener('submit', function(e) {
 
 loadPosts();
 </script>
+<script src="lessons-data.js"></script>
+<script src="search.js"></script>
 </body>
 </html>
