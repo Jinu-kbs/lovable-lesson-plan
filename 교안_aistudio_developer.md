@@ -3,6 +3,7 @@
 > **대상**: 코딩 경험자, AI Studio 빌드를 개발 워크플로우에 통합하려는 개발자
 > **목표**: AI Studio의 기술 아키텍처를 이해하고, Gemini API와 연동하여 프로덕션 프로젝트로 확장하기
 > **소요 시간**: 약 4~5시간
+> **최종 검증**: 2026-07-04 · 모델명은 공식 문서(ai.google.dev)로 확인. 현재 Build 기본 모델은 Gemini 3.5 Flash, 상위 추론은 Gemini 3.1 Pro입니다.
 
 ---
 
@@ -51,12 +52,12 @@
 
 ### AI Studio Build 내부 구조
 
-AI Studio Build는 Google AI Studio의 Build 탭에서 제공하는 웹 기반 코드 생성 파이프라인입니다. Gemini 2.5 Pro 모델이 프롬프트를 분석하여 HTML/CSS/JavaScript 코드를 생성합니다.
+AI Studio Build는 Google AI Studio의 Build 탭에서 제공하는 웹 기반 코드 생성 파이프라인입니다. 2026년 6월 기준 기본 모델은 Gemini 3.5 Flash(2026-05 GA)이며, 복잡한 추론이 필요하면 상위 모델 Gemini 3.1 Pro를 선택할 수 있습니다. 과거에는 Gemini 2.5 Pro가 기본이었으나 현재는 3.5 Flash로 세대가 교체되었습니다. 선택한 모델이 프롬프트를 분석하여 HTML/CSS/JavaScript 코드를 생성합니다. (최신 모델명은 ai.google.dev에서 확인하세요.)
 
 | 계층 | 설명 |
 |------|------|
 | **UI Layer** | 웹 브라우저 기반 에디터 + 프리뷰 패널 + 채팅 인터페이스 |
-| **AI Layer** | Gemini 2.5 Pro — 프롬프트 해석 및 코드 생성 |
+| **AI Layer** | Gemini 3.5 Flash(기본) / Gemini 3.1 Pro(상위) — 프롬프트 해석 및 코드 생성 |
 | **Build Pipeline** | 프롬프트 → 코드 생성 → 실시간 프리뷰 렌더링 |
 | **Export Layer** | 코드 복사, 공유 링크 생성, Deploy |
 | **API Layer** | Gemini API — 외부에서 직접 호출 가능 (REST/SDK) |
@@ -75,7 +76,7 @@ AI Studio Build는 단일 HTML 파일 기반 코드를 생성합니다:
 | 항목 | AI Studio | Lovable | AntiGravity | Cursor | Claude Code |
 |------|-----------|---------|-------------|--------|-------------|
 | **유형** | 웹 프로토타입 빌더 | 풀스택 웹앱 빌더 | 에이전트 IDE | AI 코드 에디터 | CLI 도구 |
-| **AI 모델** | Gemini 2.5 Pro | Claude | Gemini | 멀티 모델 | Claude |
+| **AI 모델** | Gemini 3.5 Flash | Claude | Gemini | 멀티 모델 | Claude |
 | **코드 접근** | 복사/다운로드 | GitHub 연동 | 로컬 파일시스템 | 로컬 파일시스템 | 로컬 파일시스템 |
 | **DB 지원** | 미지원 | Supabase 연동 | 자유 선택 | 자유 선택 | 자유 선택 |
 | **비용** | 무료 | 유료 (이벤트 무료) | 무료 (프리뷰) | $20/월~ | 종량제 |

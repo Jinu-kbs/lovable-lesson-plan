@@ -5,6 +5,8 @@
 > **주요 도구**: Codex, OpenAI API, GitHub, Docker
 > **소요**: 약 5~6시간
 
+> **최종 검증일** 2026-07-04 · 모델·가격은 공식 페이지에서 확인하세요.
+
 ---
 
 ## 어떤 교안을 봐야 할까요? (자가 진단)
@@ -14,7 +16,7 @@
 | 코딩 경험 | 없음 | 약간 | **있음 (1년 이상)** |
 | API 사용 경험 | 없음 | REST API 기초 | **API 설계·운영 가능** |
 | Git/GitHub | 모름 | 기초 커밋 | **PR·브랜치·Actions 능숙** |
-| ChatGPT 활용 | 대화 수준 | Canvas·Codex 체험 | **프롬프트 엔지니어링·API 활용** |
+| ChatGPT 활용 | 대화 수준 | 코드 블록·Codex 체험 | **프롬프트 엔지니어링·API 활용** |
 | 학습 목표 | 첫 코드 생성 | 프로젝트 제작 | **프로덕션 통합·자동화** |
 | 소요 시간 | 3~4시간 | 4~5시간 | **5~6시간** |
 
@@ -62,32 +64,35 @@
 
 ### GPT 모델 패밀리 개요
 
-OpenAI의 모델 라인업은 용도별로 세분화되어 있습니다:
+OpenAI의 2026년 6월 기준 모델 라인업은 GPT-5.5 세대를 기본으로 합니다. (GPT-4o·4.5·4.1·o3·o4-mini 등 구세대 모델은 ChatGPT UI에서 제거되었습니다.)
 
-| 모델 | 컨텍스트 윈도우 | 특징 | 주요 용도 |
-|------|----------------|------|----------|
-| **GPT-4o** | 128K 토큰 | 멀티모달(텍스트+이미지+오디오) | 범용 대화, 분석 |
-| **GPT-4o mini** | 128K 토큰 | 경량·저비용·고속 | 대량 처리, 분류 |
-| **GPT-4.1** | 1M 토큰 | 코딩 특화, 긴 컨텍스트 | 대규모 코드베이스 분석 |
-| **GPT-4.1 mini** | 1M 토큰 | 코딩 특화 경량 | 코드 보조, 자동완성 |
-| **GPT-4.1 nano** | 1M 토큰 | 초경량·초저비용 | 임베디드, 에지 |
-| **o3** | 200K 토큰 | 추론 특화 (사고 체인) | 수학, 논리, 코딩 문제 |
-| **o4-mini** | 200K 토큰 | 추론 경량 | 복잡한 문제 해결 (비용 효율) |
+| 모델 | 특징 | 주요 용도 |
+|------|------|----------|
+| **GPT-5.5 Instant** | 빠른 범용·대화 | 일반 코딩, 대화, 분석 |
+| **GPT-5.5 Thinking** | 심층 추론 | 복잡한 설계·디버깅 |
+| **GPT-5.5 Pro** | 최고 성능 | 고난도 문제 (Pro 티어) |
+| **GPT-5.4 Thinking** | 보조 추론 모델 | 추론 백업 |
+| **GPT-5.4 mini** | 경량·저비용 | 무료 티어·API·Codex |
+| **GPT-5.4 nano** | 초경량 | API 전용, 대량 처리 |
+
+> **Codex 전용 모델 선택지**: GPT-5.5 / GPT-5.4 / GPT-5.4 mini 중에서 고를 수 있습니다.
+
+컨텍스트 윈도우는 표준 대화에서 최대 약 400K 토큰, Pro/Enterprise 티어에서 최대 1M 토큰까지 제공됩니다. 정확한 윈도우 크기는 티어·모델·시점에 따라 달라지므로 반드시 [OpenAI 공식 문서](https://platform.openai.com/docs/models)에서 확인하세요.
 
 ### Codex 에이전트 아키텍처
 
-Codex는 ChatGPT 내에서 동작하는 **자율 코딩 에이전트**입니다. 클라우드 샌드박스에서 코드를 실행하며, GitHub 저장소와 직접 연동됩니다.
+Codex는 **하나의 코딩 에이전트 제품**으로, CLI·IDE 확장·클라우드(Web)·데스크톱 앱·GitHub 봇 등 여러 표면(surface)이 상태를 공유합니다. 클라우드 표면은 격리된 샌드박스에서 코드를 실행하며 GitHub 저장소와 직접 연동됩니다.
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                   ChatGPT UI                         │
-│  ┌───────────┐  ┌──────────┐  ┌──────────────────┐  │
-│  │  대화 모드  │  │  Canvas  │  │  Codex 에이전트   │  │
-│  └─────┬─────┘  └────┬─────┘  └────────┬─────────┘  │
-│        │              │                  │            │
-│  ┌─────▼──────────────▼──────────────────▼─────────┐ │
+│  ┌───────────┐  ┌───────────────┐  ┌─────────────┐  │
+│  │  대화 모드  │  │ 코드 블록(구 Canvas)│  │ Codex 에이전트 │  │
+│  └─────┬─────┘  └───────┬───────┘  └──────┬──────┘  │
+│        │                 │                  │          │
+│  ┌─────▼─────────────────▼──────────────────▼───────┐ │
 │  │              GPT 모델 라우터                      │ │
-│  │   (GPT-4o / GPT-4.1 / o3 / o4-mini 자동 선택)    │ │
+│  │  (GPT-5.5 Instant / Thinking / Pro / GPT-5.4 mini)│ │
 │  └──────────────────────┬──────────────────────────┘ │
 └─────────────────────────┼────────────────────────────┘
                           │
@@ -108,6 +113,8 @@ Codex는 ChatGPT 내에서 동작하는 **자율 코딩 에이전트**입니다.
               │  - 코드 리뷰           │
               └───────────────────────┘
 ```
+
+> 2026년 5월 Canvas는 종료되어 채팅 내 코드 블록(인라인 편집·미리보기·Python 실행)으로 통합되었습니다. HTML/React/SVG/Mermaid/Vega 미리보기와 Python 실행 기능은 코드 블록에서 그대로 사용할 수 있습니다.
 
 ### API 엔드포인트 맵
 
@@ -130,7 +137,7 @@ OpenAI API는 기능별로 여러 엔드포인트를 제공합니다:
 ```python
 import tiktoken
 
-def count_tokens(text: str, model: str = "gpt-4o") -> int:
+def count_tokens(text: str, model: str = "gpt-5.5") -> int:
     """텍스트의 토큰 수를 계산합니다."""
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
@@ -138,19 +145,18 @@ def count_tokens(text: str, model: str = "gpt-4o") -> int:
 def estimate_cost(
     input_tokens: int,
     output_tokens: int,
-    model: str = "gpt-4o"
+    model: str = "gpt-5.5"
 ) -> float:
     """API 호출 비용을 추정합니다."""
+    # 가격은 2026-07-04 기준 추정치이며, 최신 모델명·단가는
+    # OpenAI 공식 API 가격 페이지에서 확인하세요.
     pricing = {
-        "gpt-4o":        {"input": 2.50, "output": 10.00},
-        "gpt-4o-mini":   {"input": 0.15, "output": 0.60},
-        "gpt-4.1":       {"input": 2.00, "output": 8.00},
-        "gpt-4.1-mini":  {"input": 0.40, "output": 1.60},
-        "gpt-4.1-nano":  {"input": 0.10, "output": 0.40},
-        "o3":            {"input": 2.00, "output": 8.00},
-        "o4-mini":       {"input": 1.10, "output": 4.40},
+        "gpt-5.5":       {"input": 2.50, "output": 10.00},
+        "gpt-5.4":       {"input": 2.00, "output": 8.00},
+        "gpt-5.4-mini":  {"input": 0.40, "output": 1.60},
+        "gpt-5.4-nano":  {"input": 0.10, "output": 0.40},
     }
-    rate = pricing.get(model, pricing["gpt-4o"])
+    rate = pricing.get(model, pricing["gpt-5.5"])
     cost = (input_tokens / 1_000_000 * rate["input"] +
             output_tokens / 1_000_000 * rate["output"])
     return round(cost, 6)
@@ -166,12 +172,12 @@ print(f"예상 비용: ${estimate_cost(tokens, 500)}")
 
 | 작업 유형 | 추천 모델 | 이유 |
 |----------|----------|------|
-| 간단한 코드 생성·수정 | GPT-4.1 mini | 코딩 특화, 비용 효율 |
-| 대규모 코드베이스 분석 | GPT-4.1 | 1M 토큰 컨텍스트 |
-| 복잡한 알고리즘·수학 | o3 / o4-mini | 추론 체인 |
-| 멀티모달 (이미지 포함) | GPT-4o | 이미지 입력 지원 |
-| 대량 배치 처리 | GPT-4o mini | 최저 비용 |
-| 실시간 대화형 서비스 | GPT-4o mini | 빠른 응답 |
+| 간단한 코드 생성·수정 | GPT-5.4 mini | 경량·비용 효율 |
+| 대규모 코드베이스 분석 | GPT-5.5 Thinking | 긴 컨텍스트·심층 추론 |
+| 복잡한 알고리즘·수학 | GPT-5.5 Thinking / Pro | 추론 체인 |
+| 멀티모달 (이미지 포함) | GPT-5.5 Instant | 이미지 입력 지원 |
+| 대량 배치 처리 | GPT-5.4 mini | 최저 비용 |
+| 실시간 대화형 서비스 | GPT-5.4 mini | 빠른 응답 |
 
 ### 체크포인트
 
@@ -280,7 +286,7 @@ client = OpenAI()  # OPENAI_API_KEY 환경변수 자동 사용
 
 # Chat Completions API 테스트
 response = client.chat.completions.create(
-    model="gpt-4o-mini",
+    model="gpt-5.4-mini",
     messages=[
         {"role": "system", "content": "당신은 한국어 코딩 도우미입니다."},
         {"role": "user", "content": "Python으로 피보나치 함수를 작성해줘"}
@@ -307,7 +313,7 @@ const openai = new OpenAI();
 
 async function main() {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: 'gpt-5.4-mini',
     messages: [
       { role: 'system', content: '당신은 한국어 코딩 도우미입니다.' },
       { role: 'user', content: 'TypeScript로 간단한 REST API를 만들어줘' }
@@ -408,15 +414,75 @@ Thumbs.db
 
 ### Codex 에이전트 개요
 
-Codex는 ChatGPT 내에서 동작하는 클라우드 기반 코딩 에이전트입니다. GitHub 저장소를 직접 읽고, 코드를 수정하며, PR을 생성합니다.
+Codex는 이제 단일 채팅 기능이 아니라, **여러 표면(surface)이 상태를 공유하는 코딩 에이전트 제품군**입니다. 한 곳에서 시작한 작업을 다른 표면에서 이어받을 수 있습니다.
+
+| 표면(surface) | 실행 위치 | 대표 사용처 |
+|--------------|----------|------------|
+| **CLI** (`codex`) | 로컬 터미널 | 스크립트·자동화·로컬 개발 |
+| **IDE 확장** | VS Code / Cursor / Windsurf | 편집기 내 인라인 작업 |
+| **Cloud / Web** (`chatgpt.com/codex`) | 클라우드 샌드박스 (GitHub 연결) | 병렬 원격 작업, PR 생성 |
+| **데스크톱 앱** | 로컬 앱 | GUI 기반 작업 관리 |
+| **GitHub 봇 / 코드 리뷰** | GitHub | PR 자동 리뷰·응답 |
 
 | 특징 | 설명 |
 |------|------|
-| **실행 환경** | 클라우드 샌드박스 (격리된 컨테이너) |
+| **실행 환경** | 클라우드 샌드박스 (격리된 컨테이너) 또는 로컬 |
 | **코드 접근** | GitHub 저장소 직접 연동 |
 | **결과 제출** | PR 생성 또는 브랜치 푸시 |
 | **병렬 작업** | 여러 작업을 동시에 실행 가능 |
 | **보안** | 네트워크 격리, 읽기 전용 기본값 |
+| **상태 공유** | CLI·IDE·Cloud·데스크톱·GitHub 표면 간 세션 상태 공유 |
+
+#### 장기 자율 작업과 컴팩션(compaction)
+
+**GPT-5.1-Codex-Max** 세대부터 여러 컨텍스트 윈도우에 걸친 **컴팩션(compaction)** 이 도입되었습니다. 컨텍스트가 가득 차면 핵심 정보를 요약·압축해 다음 윈도우로 넘기므로, 24시간 이상 이어지는 매우 긴 자율 작업(대규모 리팩토링·마이그레이션)도 상태를 잃지 않고 수행할 수 있습니다.
+
+참고 벤치마크(공식 발표 기준, 시점에 따라 변동):
+
+| 모델 | 벤치마크 | 점수 |
+|------|----------|------|
+| GPT-5.5 | Terminal-Bench 2.0 | 82.7% |
+| GPT-5.5 | FrontierMath (Tier 1~3) | 51.7% |
+| GPT-5.3-Codex | SWE-Bench Pro (Public) | 56.8% |
+| GPT-5.3-Codex | Terminal-Bench 2.0 | 77.3% |
+| GPT-5.3-Codex | OSWorld-Verified | 64.7% |
+
+#### 설치 방법
+
+Codex CLI는 아래 중 한 가지로 설치합니다:
+
+```bash
+# macOS / Linux (설치 스크립트)
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+
+# npm (Node.js 환경)
+npm install -g @openai/codex
+
+# Homebrew (macOS)
+brew install --cask codex
+```
+
+```powershell
+# Windows (PowerShell)
+irm https://chatgpt.com/codex/install.ps1 | iex
+```
+
+설치 후 `codex` 명령으로 ChatGPT 계정에 로그인하여 사용하거나, ChatGPT 로그인 대신 **OpenAI API 키**를 지정해 실행할 수도 있습니다(팀·CI 환경에서 유용).
+
+#### 요금제와 Codex 번들
+
+Codex는 2026년 6월 기준 **Plus 이상 요금제에 번들로 포함**되며 별도 구독이 필요 없습니다. (API 키로도 실행 가능.)
+
+| 요금제 | 월 가격(추정) | Codex |
+|--------|--------------|-------|
+| Free | $0 | 미포함 |
+| Go | $8 | 미포함 |
+| Plus | $20 | 포함 |
+| Pro | $100 | 포함 |
+| Pro | $200 | 포함 |
+| Business / Enterprise | 별도 문의 | 포함 |
+
+> 가격은 2026년 6월 기준이며 변동 가능합니다. 최신 요금은 OpenAI 공식 요금 페이지에서 확인하세요.
 
 ### 작업 모드 상세
 
@@ -702,7 +768,7 @@ tools = [
 
 # 도구 호출이 포함된 대화
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {"role": "system", "content": "날씨와 DB 검색 도구를 활용하는 비서입니다."},
         {"role": "user", "content": "서울 날씨 알려주고, 최근 주문 3건도 보여줘"}
@@ -749,7 +815,7 @@ class ReviewResult(BaseModel):
 
 # Structured Outputs 사용
 response = client.beta.chat.completions.parse(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {
             "role": "system",
@@ -772,7 +838,7 @@ for issue in review.reviews[0].issues:
 
 ### Vision API (이미지 입력)
 
-GPT-4o는 이미지를 입력으로 받아 분석할 수 있습니다:
+GPT-5.5는 이미지를 입력으로 받아 분석할 수 있습니다:
 
 ```python
 import base64
@@ -789,7 +855,7 @@ def encode_image(image_path: str) -> str:
 image_base64 = encode_image("wireframe.png")
 
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {
             "role": "user",
@@ -901,7 +967,7 @@ file = client.files.create(
 # 3. Fine-tuning 작업 생성
 job = client.fine_tuning.jobs.create(
     training_file=file.id,
-    model="gpt-4o-mini-2024-07-18",  # 베이스 모델
+    model="gpt-5.4-mini",  # 베이스 모델
     hyperparameters={
         "n_epochs": 3,
         "learning_rate_multiplier": 1.8,
@@ -944,7 +1010,7 @@ for i, code in enumerate(code_files):
         "method": "POST",
         "url": "/v1/chat/completions",
         "body": {
-            "model": "gpt-4o-mini",
+            "model": "gpt-5.4-mini",
             "messages": [
                 {"role": "system", "content": "코드 리뷰를 수행합니다."},
                 {"role": "user", "content": f"리뷰:\n```\n{code}\n```"}
@@ -982,7 +1048,7 @@ from openai import OpenAI
 client = OpenAI()
 
 stream = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {"role": "user", "content": "React 컴포넌트를 작성해줘"}
     ],
@@ -1028,7 +1094,7 @@ VS Code에서 OpenAI API를 직접 활용하는 방법:
 // .vscode/settings.json
 {
   "openai.apiKey": "${env:OPENAI_API_KEY}",
-  "openai.defaultModel": "gpt-4o",
+  "openai.defaultModel": "gpt-5.5",
   "editor.inlineSuggest.enabled": true,
   "github.copilot.enable": {
     "*": true,
@@ -1045,9 +1111,9 @@ Cursor IDE에서 OpenAI 모델을 직접 선택할 수 있습니다:
 
 ```
 Cursor Settings → Models → 모델 목록에서:
-- GPT-4o ✅
-- o3 ✅
-- o4-mini ✅
+- GPT-5.5 ✅
+- GPT-5.4 ✅
+- GPT-5.4 mini ✅
 ```
 
 ### CLI 도구 직접 제작
@@ -1073,7 +1139,7 @@ def review_code(file_path: str) -> str:
         code = f.read()
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {
                 "role": "system",
@@ -1102,7 +1168,7 @@ def generate_tests(file_path: str) -> str:
     framework = "pytest" if ext == ".py" else "vitest"
 
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.5",
         messages=[
             {
                 "role": "system",
@@ -1124,7 +1190,7 @@ def explain_code(file_path: str) -> str:
         code = f.read()
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {
                 "role": "system",
@@ -1252,7 +1318,7 @@ if [ -z "$CURRENT_MSG" ] || [ "$CURRENT_MSG" = "wip" ]; then
 from openai import OpenAI
 client = OpenAI()
 response = client.chat.completions.create(
-    model='gpt-4o-mini',
+    model='gpt-5.4-mini',
     messages=[
         {'role': 'system', 'content': 'Git 커밋 메시지를 생성합니다. Conventional Commits 형식으로, 한국어로 작성합니다. 제목은 50자 이내.'},
         {'role': 'user', 'content': '''변경 통계:\n$DIFF\n\n변경 내용:\n$DIFF_CONTENT'''}
@@ -1287,7 +1353,7 @@ client = OpenAI()
 def generate_api_route(spec: dict) -> str:
     """API 스펙에서 라우트 코드를 생성합니다."""
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.5",
         messages=[
             {
                 "role": "system",
@@ -1313,7 +1379,7 @@ def generate_api_route(spec: dict) -> str:
 def generate_component(spec: dict) -> str:
     """컴포넌트 스펙에서 React 컴포넌트를 생성합니다."""
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.5",
         messages=[
             {
                 "role": "system",
@@ -1464,7 +1530,7 @@ jobs:
                   code = f.read()
 
               response = client.chat.completions.create(
-                  model="gpt-4o-mini",
+                  model="gpt-5.4-mini",
                   messages=[
                       {
                           "role": "system",
@@ -1500,7 +1566,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `## 🤖 AI 코드 리뷰\n\n${review}\n\n---\n*Powered by OpenAI GPT-4o-mini*`
+              body: `## 🤖 AI 코드 리뷰\n\n${review}\n\n---\n*Powered by OpenAI GPT-5.4-mini*`
             });
 ```
 
@@ -1561,7 +1627,7 @@ jobs:
                   continue
 
               response = client.chat.completions.create(
-                  model="gpt-4o",
+                  model="gpt-5.5",
                   messages=[
                       {
                           "role": "system",
@@ -1649,7 +1715,7 @@ jobs:
 
           client = OpenAI()
           response = client.chat.completions.create(
-              model="gpt-4o-mini",
+              model="gpt-5.4-mini",
               messages=[
                   {
                       "role": "system",
@@ -1736,7 +1802,7 @@ jobs:
                    │
 ┌──────────────────▼────────────────────────────────┐
 │                OpenAI API                          │
-│    (GPT-4o / GPT-4.1 / o3 / Embeddings)           │
+│    (GPT-5.5 / GPT-5.4 / Embeddings)               │
 └───────────────────────────────────────────────────┘
 ```
 
@@ -1779,7 +1845,7 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, max_length=5000)
-    model: str = Field(default="gpt-4o-mini")
+    model: str = Field(default="gpt-5.4-mini")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)
     max_tokens: int = Field(default=1000, ge=1, le=4000)
 
@@ -1935,7 +2001,7 @@ async function callWithRetry(params, maxRetries = 3) {
 // 채팅 엔드포인트
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, model = 'gpt-4o-mini', temperature = 0.7, max_tokens = 1000 } = req.body;
+    const { message, model = 'gpt-5.4-mini', temperature = 0.7, max_tokens = 1000 } = req.body;
 
     if (!message || message.length > 5000) {
       return res.status(400).json({ error: '메시지는 1~5000자여야 합니다.' });
@@ -2152,19 +2218,20 @@ class APIMonitor:
         return report
 
     def _calculate_cost(self, model, input_tokens, output_tokens):
+        # 가격은 2026-07-04 기준 추정치이며, 최신 단가는 공식 페이지 확인
         pricing = {
-            "gpt-4o":       {"input": 2.50, "output": 10.00},
-            "gpt-4o-mini":  {"input": 0.15, "output": 0.60},
-            "gpt-4.1":      {"input": 2.00, "output": 8.00},
+            "gpt-5.5":       {"input": 2.50, "output": 10.00},
+            "gpt-5.4":       {"input": 2.00, "output": 8.00},
+            "gpt-5.4-mini":  {"input": 0.40, "output": 1.60},
         }
-        rate = pricing.get(model, pricing["gpt-4o-mini"])
+        rate = pricing.get(model, pricing["gpt-5.4-mini"])
         return (input_tokens / 1_000_000 * rate["input"] +
                 output_tokens / 1_000_000 * rate["output"])
 
 # 사용 예시
 monitor = APIMonitor(daily_budget=50.0)
 # API 호출 후:
-# monitor.record_request("gpt-4o-mini", 150, 300, 0.8)
+# monitor.record_request("gpt-5.4-mini", 150, 300, 0.8)
 # print(monitor.get_report())
 ```
 
@@ -2498,11 +2565,11 @@ async def create_task(task: TaskCreate, user=Depends(verify_token)):
 |------|--------------|-------------|--------|---------|
 | **유형** | 웹 에이전트 + API | CLI 에이전트 | GUI IDE | 웹 빌더 |
 | **코드 실행** | 클라우드 샌드박스 | 로컬 터미널 | 로컬 터미널 | 클라우드 |
-| **모델** | GPT-4o/4.1/o3 | Claude Sonnet/Opus | 멀티 모델 | Claude |
+| **모델** | GPT-5.5 세대 | Claude Opus 4.8·Sonnet 4.6 | 멀티 모델 | Claude |
 | **GitHub 연동** | Codex 직접 연동 | Git 네이티브 | GitHub Extension | 내장 |
 | **설정 파일** | AGENTS.md | CLAUDE.md | .cursor/rules | 없음 |
 | **API 제공** | OpenAI API | Anthropic API | 없음 | 없음 |
-| **비용** | Plus $20/월, API 종량제 | Max $100/월 | Pro $20/월 | Free~$20/월 |
+| **비용** | Plus $20/월(Codex 번들), API 종량제 | Max $100/월 | Pro $20/월 | Free~$20/월 |
 
 ### ChatGPT → Claude Code 마이그레이션
 
@@ -2549,7 +2616,7 @@ from openai import OpenAI
 
 openai_client = OpenAI()
 response = openai_client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {"role": "system", "content": "코드 리뷰어입니다."},
         {"role": "user", "content": "이 코드를 리뷰해줘: ..."}
@@ -2646,7 +2713,7 @@ class MultiAIClient:
         messages.append({"role": "user", "content": message})
 
         response = self.openai.chat.completions.create(
-            model=kwargs.get("model", "gpt-4o-mini"),
+            model=kwargs.get("model", "gpt-5.4-mini"),
             messages=messages,
             temperature=kwargs.get("temperature", 0.7),
             max_tokens=kwargs.get("max_tokens", 1000)
@@ -2698,7 +2765,7 @@ print(comparison["anthropic"])
 
 - [ ] AGENTS.md → .cursor/rules/*.mdc 변환
 - [ ] Codex 작업 → Cursor Agent 프롬프트로 변환
-- [ ] 모델 설정 (Cursor에서 GPT-4o 등 OpenAI 모델 선택 가능)
+- [ ] 모델 설정 (Cursor에서 GPT-5.5 등 OpenAI 모델 선택 가능)
 - [ ] GitHub 연동 설정
 
 ### 체크포인트
@@ -2867,7 +2934,7 @@ client = OpenAI()
 handler = OpenAIErrorHandler(client, max_retries=3)
 
 result = handler.safe_call(
-    model="gpt-4o-mini",
+    model="gpt-5.4-mini",
     messages=[{"role": "user", "content": "안녕하세요"}],
     max_tokens=100
 )
@@ -2898,7 +2965,7 @@ import tiktoken
 def smart_truncate(
     text: str,
     max_tokens: int,
-    model: str = "gpt-4o"
+    model: str = "gpt-5.5"
 ) -> str:
     """토큰 한도에 맞게 텍스트를 자릅니다."""
     encoding = tiktoken.encoding_for_model(model)
@@ -2914,7 +2981,7 @@ def chunk_text(
     text: str,
     chunk_size: int = 3000,
     overlap: int = 200,
-    model: str = "gpt-4o"
+    model: str = "gpt-5.5"
 ) -> list[str]:
     """텍스트를 청크로 분할합니다 (오버랩 포함)."""
     encoding = tiktoken.encoding_for_model(model)
@@ -2937,7 +3004,7 @@ chunks = chunk_text(large_code, chunk_size=3000)
 reviews = []
 for i, chunk in enumerate(chunks):
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {"role": "system", "content": "코드 리뷰어입니다."},
             {"role": "user", "content": f"[파트 {i+1}/{len(chunks)}]\n```\n{chunk}\n```"}
@@ -3296,25 +3363,25 @@ def select_model(task_type: str, input_length: int) -> str:
 
     # 간단한 분류/변환 → 최저비용 모델
     if task_type in ["classify", "format", "translate_short"]:
-        return "gpt-4.1-nano"
+        return "gpt-5.4-nano"
 
     # 일반 코드 생성/리뷰 → 중간 모델
     if task_type in ["code_review", "code_generate", "summarize"]:
         if input_length < 5000:
-            return "gpt-4o-mini"
+            return "gpt-5.4-mini"
         else:
-            return "gpt-4.1-mini"
+            return "gpt-5.4-mini"
 
     # 복잡한 분석/추론 → 고급 모델
     if task_type in ["architecture", "debug_complex", "security_audit"]:
-        return "gpt-4o"
+        return "gpt-5.5"
 
     # 수학/논리 문제 → 추론 모델
     if task_type in ["math", "logic", "algorithm"]:
-        return "o4-mini"
+        return "gpt-5.5"
 
     # 기본값
-    return "gpt-4o-mini"
+    return "gpt-5.4-mini"
 ```
 
 ### 데이터 프라이버시
@@ -3442,8 +3509,8 @@ ChatGPT/Codex 개발자편 (현재)
 
 | 전략 | 설명 | 활용 사례 |
 |------|------|----------|
-| **폴백 체인** | 1차 모델 실패 시 2차 모델로 대체 | GPT-4o → Claude → Gemini |
-| **작업별 라우팅** | 작업 유형에 따라 모델 분배 | 코딩→GPT-4.1, 분석→Claude, 검색→Gemini |
+| **폴백 체인** | 1차 모델 실패 시 2차 모델로 대체 | GPT-5.5 → Claude → Gemini |
+| **작업별 라우팅** | 작업 유형에 따라 모델 분배 | 코딩→GPT-5.5, 분석→Claude, 검색→Gemini |
 | **앙상블** | 여러 모델 결과를 종합 | 코드 리뷰를 2개 모델로 수행 후 통합 |
 | **비용 최적화** | 비용 대비 성능 기준 라우팅 | 간단한 작업→mini, 복잡→고급 모델 |
 
@@ -3466,27 +3533,27 @@ class AIRouter:
 
     ROUTING_TABLE = {
         TaskType.CODE_GENERATE: [
-            ("openai", "gpt-4.1"),
+            ("openai", "gpt-5.5"),
             ("anthropic", "claude-sonnet-4-20250514"),
         ],
         TaskType.CODE_REVIEW: [
-            ("openai", "gpt-4o"),
+            ("openai", "gpt-5.5"),
             ("anthropic", "claude-sonnet-4-20250514"),
         ],
         TaskType.ARCHITECTURE: [
             ("anthropic", "claude-opus-4-20250514"),
-            ("openai", "o3"),
+            ("openai", "gpt-5.5"),
         ],
         TaskType.TRANSLATION: [
-            ("openai", "gpt-4o-mini"),
+            ("openai", "gpt-5.4-mini"),
             ("anthropic", "claude-haiku-35-20241022"),
         ],
         TaskType.SUMMARIZE: [
-            ("openai", "gpt-4o-mini"),
+            ("openai", "gpt-5.4-mini"),
         ],
         TaskType.REASONING: [
-            ("openai", "o3"),
-            ("openai", "o4-mini"),
+            ("openai", "gpt-5.5"),
+            ("openai", "gpt-5.4-mini"),
         ],
     }
 
@@ -3494,7 +3561,7 @@ class AIRouter:
         """작업 유형에 맞는 (provider, model) 튜플을 반환합니다."""
         candidates = self.ROUTING_TABLE.get(task_type, [])
         if not candidates:
-            return ("openai", "gpt-4o-mini")
+            return ("openai", "gpt-5.4-mini")
         return candidates[0]
 
     def fallback(self, task_type: TaskType) -> Optional[tuple[str, str]]:

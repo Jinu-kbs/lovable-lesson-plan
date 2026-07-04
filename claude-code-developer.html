@@ -46,6 +46,8 @@
 
 <main class="content">
 
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-07-04 · 기본 모델은 Claude Opus 4.8입니다. 설치 명령·모델·가격은 <a href="https://code.claude.com/docs" target="_blank">공식 문서</a>에서 확인하세요.</div>
+
 <h2 id="diag">어떤 교안을 봐야 할까요?</h2>
 <p>Claude Code는 <strong>터미널 기반 AI 코딩 도구</strong>입니다. 아래 기준을 확인하고 적합한 교안을 선택하세요. CLI가 처음이라면 <a href="claude-code-beginner.html"><strong>초보자편</strong></a>, 기본은 아는데 워크플로우를 최적화하고 싶다면 <a href="claude-code-intermediate.html"><strong>중급자편</strong></a>을 추천합니다.</p>
 <table>
@@ -74,7 +76,7 @@
   <tr><td><strong>유형</strong></td><td>웹 빌더 (노코드)</td><td>에이전트 IDE (GUI)</td><td>AI IDE (GUI)</td><td>웹 IDE (노코드)</td><td><strong>에이전트 CLI (터미널)</strong></td></tr>
   <tr><td><strong>인터페이스</strong></td><td>웹 브라우저</td><td>데스크톱 앱</td><td>데스크톱 앱</td><td>웹 브라우저</td><td><strong>터미널</strong></td></tr>
   <tr><td><strong>대상</strong></td><td>비개발자~개발자</td><td>비개발자~개발자</td><td>개발자 중심</td><td>비개발자~중급자</td><td><strong>개발자 전용</strong></td></tr>
-  <tr><td><strong>AI 모델</strong></td><td>Claude</td><td>Gemini, Claude, GPT</td><td>멀티 모델 선택</td><td>Gemini</td><td><strong>Claude Sonnet 4.6, Opus 4.6</strong></td></tr>
+  <tr><td><strong>AI 모델</strong></td><td>Claude</td><td>Gemini, Claude, GPT</td><td>멀티 모델 선택</td><td>Gemini</td><td><strong>Claude Opus 4.8(기본), Sonnet 4.6·Haiku 4.5</strong></td></tr>
   <tr><td><strong>배포</strong></td><td>원클릭</td><td>내장 배포</td><td>별도 설정</td><td>Firebase 연동</td><td><strong>별도 설정 (유연)</strong></td></tr>
   <tr><td><strong>가격</strong></td><td>무료~$20/월</td><td>무료 (프리뷰)</td><td>$20/월~</td><td>무료~</td><td><strong>Max $100/월 또는 API 종량제</strong></td></tr>
 </table>
@@ -140,10 +142,11 @@ Claude AI 분석 (의도 파악, 계획 수립)
 <h3>지원 모델</h3>
 <table>
   <tr><th>모델</th><th>특징</th><th>용도</th></tr>
-  <tr><td><strong>Claude Sonnet 4.6</strong></td><td>빠르고 정확한 기본 모델</td><td>일반 개발 작업</td></tr>
-  <tr><td><strong>Claude Opus 4.6</strong></td><td>최고 성능, 복잡한 추론</td><td>아키텍처 설계, 대규모 리팩토링</td></tr>
+  <tr><td><strong>Claude Opus 4.8</strong> (기본)</td><td>최고 성능, 복잡한 추론·장기 에이전트 코딩</td><td>아키텍처 설계, 대규모 리팩토링</td></tr>
+  <tr><td><strong>Claude Sonnet 4.6</strong> (보조)</td><td>빠르고 정확</td><td>일반 개발 작업</td></tr>
+  <tr><td><strong>Claude Haiku 4.5</strong> (보조)</td><td>초고속 응답</td><td>코드 포맷팅, 간단한 수정</td></tr>
 </table>
-<blockquote>Sonnet 4.6은 대부분의 코딩 작업에 충분합니다. 모델 전환은 <code>/model</code> 명령으로 가능합니다.</blockquote>
+<blockquote>기본 모델은 Opus 4.8입니다. 일반 코딩은 Sonnet 4.6으로 전환하면 비용을 아낄 수 있으며, 모델 전환은 <code>/model</code> 명령으로 가능합니다.</blockquote>
 
 <h2 id="s3">3. 사전 준비</h2>
 
@@ -502,7 +505,7 @@ claude --debug</code></pre>
 echo "node_modules/" &gt;&gt; .claudeignore
 
 # 빠른 모델로 변경
-&gt; /model  # → Sonnet 4 선택</code></pre>
+&gt; /model  # → Sonnet 4.6 선택</code></pre>
 <blockquote>대부분의 성능 이슈는 <code>.claudeignore</code> 설정으로 해결됩니다.</blockquote>
 
 <h2 id="s11">11. FAQ</h2>

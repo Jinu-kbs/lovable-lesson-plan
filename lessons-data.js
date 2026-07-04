@@ -138,20 +138,44 @@ const LESSONS = {
 
   paths: {
     beginner: [
+      { tool: 'webdev',    level: 'beginner' },
       { tool: 'aistudio',  level: 'beginner' },
       { tool: 'lovable',   level: 'beginner' },
       { tool: 'lovable',   level: 'intermediate' }
     ],
+    foundation: [
+      { tool: 'devinterface', level: 'beginner' },
+      { tool: 'github',       level: 'beginner' },
+      { tool: 'deployment',   level: 'beginner' },
+      { tool: 'webdev',       level: 'intermediate' }
+    ],
     intermediate: [
-      { tool: 'lovable',      level: 'intermediate' },
-      { tool: 'antigravity',  level: 'beginner' },
-      { tool: 'cursor',       level: 'beginner' }
+      { tool: 'prompt',   level: 'beginner' },
+      { tool: 'chatgpt',  level: 'beginner' },
+      { tool: 'google',   level: 'beginner' },
+      { tool: 'cursor',   level: 'beginner' }
+    ],
+    claude: [
+      { tool: 'claude-code',   level: 'beginner' },
+      { tool: 'mcp',           level: 'beginner' },
+      { tool: 'claude-cowork', level: 'beginner' },
+      { tool: 'claude-design', level: 'beginner' }
     ],
     developer: [
       { tool: 'cursor',       level: 'developer' },
       { tool: 'claude-code',  level: 'developer' },
-      { tool: 'antigravity',  level: 'developer' }
+      { tool: 'antigravity',  level: 'developer' },
+      { tool: 'deployment',   level: 'developer' }
     ]
+  },
+
+  // 경로 표시 이름 (common.js 학습경로 배너)
+  pathNames: {
+    beginner: '입문자 경로',
+    foundation: '기본기 경로',
+    intermediate: '중급자 경로',
+    claude: 'Claude 생태계 경로',
+    developer: '개발자 경로'
   },
 
   // 레벨 한국어 매핑

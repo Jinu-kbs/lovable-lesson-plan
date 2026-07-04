@@ -67,8 +67,8 @@ Cursor는 Anysphere가 개발한 VS Code 포크 기반 AI-네이티브 IDE입니
 | 기능 | 역할 | 사용 모델 | 단축키 |
 |------|------|----------|--------|
 | **Tab** | 코드 자동완성 (인라인 제안) | cursor-small (저지연 전용) | `Tab` |
-| **Composer** | 멀티파일 동시 편집 | Claude Sonnet, GPT-4o 등 | `Cmd/Ctrl+I` |
-| **Agent** | 자율 실행 (터미널·파일·브라우저) | Claude Sonnet, Gemini 2.5 Pro 등 | `Cmd/Ctrl+Shift+I` |
+| **Composer** | 멀티파일 동시 편집 | Composer 2.5(자체 기본), Claude Sonnet 4.6 등 | `Cmd/Ctrl+I` |
+| **Agent** | 자율 실행 (터미널·파일·브라우저) | Composer 2.5, Claude Sonnet 4.6, Gemini 3.1 Pro 등 | `Cmd/Ctrl+Shift+I` |
 
 ### 모델 선택 전략
 
@@ -77,10 +77,10 @@ Cursor는 작업 유형에 따라 최적의 모델을 선택해야 합니다:
 | 작업 유형 | 추천 모델 | 이유 |
 |----------|----------|------|
 | 인라인 자동완성 | cursor-small | 50ms 이내 응답, 코드 특화 |
-| 단일 파일 편집 | Claude 4 Sonnet | 정확도와 속도 균형 |
-| 멀티파일 리팩토링 | Claude 4 Sonnet | 긴 컨텍스트, 높은 정확도 |
-| 복잡한 아키텍처 설계 | Gemini 2.5 Pro | 100만 토큰 컨텍스트 |
-| 빠른 프로토타이핑 | GPT-4o | 응답 속도 빠름 |
+| 단일 파일 편집 | Claude Sonnet 4.6 | 정확도와 속도 균형 |
+| 멀티파일 리팩토링 | Claude Sonnet 4.6 | 긴 컨텍스트, 높은 정확도 |
+| 복잡한 아키텍처 설계 | Gemini 3.1 Pro | 100만 토큰 컨텍스트 |
+| 빠른 프로토타이핑 | Composer 2.5 | 응답 속도 빠르고 저렴 |
 
 > 모델 설정은 Cursor Settings → Models에서 변경할 수 있습니다. 프로젝트 특성에 맞는 모델을 기본으로 지정하세요.
 
@@ -115,7 +115,7 @@ Cursor는 작업 유형에 따라 최적의 모델을 선택해야 합니다:
 | **Node.js 18+** | 권장 | 대부분의 웹 프로젝트에서 필요 |
 | **Git** | 필수 | 버전 관리 및 GitHub 연동 |
 | **Python 3.10+** | 선택 | Python 프로젝트 시 |
-| **Cursor v2.6+** | 필수 | 최신 Agent 기능 사용 |
+| **Cursor 3.x (2026.4~)** | 필수 | 최신 Agent 기능 사용 |
 | **GitHub 계정** | 권장 | 코드 관리 및 BugBot 사용 |
 
 ### .cursor/rules 디렉토리 구조
@@ -501,7 +501,7 @@ Cursor Settings에서 JSON 형태로 MCP 서버를 등록합니다:
 
 ### MCP Apps: 인터랙티브 UI
 
-Cursor v2.6에서 추가된 MCP Apps는 Agent 채팅 내에서 인터랙티브 UI를 렌더링합니다:
+Cursor 3.x 세대에 포함된 MCP Apps는 Agent 채팅 내에서 인터랙티브 UI를 렌더링합니다:
 
 | MCP App | 기능 |
 |---------|------|
@@ -665,9 +665,9 @@ Cursor에서 작업한 코드는 표준 프로젝트 구조이므로:
 
 ## 10. 디버깅 가이드
 
-### Debug Mode (v2.6)
+### Debug Mode (Cursor 3.x)
 
-Cursor v2.6에 추가된 Debug Mode는 터미널 에러를 자동 감지하여 수정을 제안합니다:
+Cursor 3.x 세대의 Debug Mode는 터미널 에러를 자동 감지하여 수정을 제안합니다:
 
 | 기능 | 설명 |
 |------|------|
@@ -714,9 +714,9 @@ Cursor는 대화별로 코드 상태를 자동 저장하는 Checkpoint 기능을
 
 | 모델 | 특성 | 디버깅 시 주의점 |
 |------|------|----------------|
-| Claude Sonnet | 정확하지만 보수적 | 과도한 타입 체크, 불필요한 null 검사 |
-| GPT-4o | 빠르지만 간혹 부정확 | 존재하지 않는 API 사용, 환각 가능 |
-| Gemini 2.5 Pro | 긴 컨텍스트 처리 우수 | 응답 시간이 길 수 있음 |
+| Claude Sonnet 4.6 | 정확하지만 보수적 | 과도한 타입 체크, 불필요한 null 검사 |
+| Composer 2.5 | 빠르고 저렴 | 자체 모델, 대부분 작업 30초 이내 |
+| Gemini 3.1 Pro | 긴 컨텍스트 처리 우수 | 응답 시간이 길 수 있음 |
 
 ---
 

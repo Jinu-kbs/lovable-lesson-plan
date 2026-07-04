@@ -121,7 +121,11 @@
       if (!q) { box.style.display = 'none'; box.innerHTML = ''; return; }
       var results = window.searchLessons(q).slice(0, 7);
       if (!results.length) {
-        box.innerHTML = '<div class="hs-empty">검색 결과가 없어요. Enter로 전체 검색을 시도해 보세요.</div>';
+        box.innerHTML = '<div class="hs-empty">검색 결과가 없어요. 이런 검색어는 어때요?<br>' +
+          ['러버블', '터미널', '배포', '프롬프트', '에이전트'].map(function (w) {
+            return '<a class="hs-chip" href="search.html?q=' + encodeURIComponent(w) + '">' + w + '</a>';
+          }).join(' ') +
+          '</div><a class="hs-all" href="index.html#all-cards" style="display:block;text-align:center;text-decoration:none">📚 전체 교안 보기</a>';
         box.style.display = 'block'; return;
       }
       box.innerHTML = results.map(function (r) {
@@ -158,7 +162,18 @@
       var loading = (CONTENT === null) ? ' (본문 인덱스 불러오는 중…)' : '';
       if (countEl) countEl.textContent = '"' + q + '" 검색 결과 ' + list.length + '건' + loading;
       if (!list.length) {
-        results.innerHTML = '<p class="search-hint">"' + esc(q) + '"에 대한 결과가 없습니다.' + (CONTENT === null ? ' 본문 인덱스를 불러오는 중이니 잠시 후 다시 표시됩니다.' : ' 다른 검색어를 시도해 보세요.') + '</p>';
+        var chips = ['러버블', '터미널', '배포', '프롬프트', '에이전트', 'Supabase'].map(function (w) {
+          return '<button type="button" class="sp-chip" data-q="' + esc(w) + '">' + esc(w) + '</button>';
+        }).join(' ');
+        results.innerHTML = '<p class="search-hint">"' + esc(q) + '"에 대한 결과가 없습니다.' +
+          (CONTENT === null ? ' 본문 인덱스를 불러오는 중이니 잠시 후 다시 표시됩니다.' : '') +
+          '</p><p class="search-hint">이런 검색어는 어때요?<br>' + chips +
+          '</p><p class="search-hint"><a href="index.html#all-cards">📚 전체 교안 보기 →</a></p>';
+        results.querySelectorAll('.sp-chip').forEach(function (b) {
+          b.addEventListener('click', function () {
+            if (input) { input.value = b.getAttribute('data-q'); input.dispatchEvent(new Event('input', { bubbles: true })); }
+          });
+        });
         return;
       }
       var ql = q.toLowerCase();

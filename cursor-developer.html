@@ -46,6 +46,8 @@
 
 <main class="content">
 
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-07-04 · Cursor 3.x 세대(2026.4~)·Composer 2.5 기준. 버전·가격은 <a href="https://cursor.com/pricing" target="_blank">공식 페이지</a>에서 확인하세요.</div>
+
 <h2 id="diag">어떤 교안을 봐야 할까요?</h2>
 <table>
   <tr><th>항목</th><th>초보자편</th><th>중급자편</th><th><strong>개발자편 (현재)</strong></th></tr>
@@ -83,8 +85,8 @@
 <table>
   <tr><th>기능</th><th>역할</th><th>사용 모델</th><th>단축키</th></tr>
   <tr><td><strong>Tab</strong></td><td>코드 자동완성 (인라인 제안)</td><td>cursor-small (저지연 전용)</td><td><code>Tab</code></td></tr>
-  <tr><td><strong>Composer</strong></td><td>멀티파일 동시 편집</td><td>Claude Sonnet, GPT-4o 등</td><td><code>Cmd/Ctrl+I</code></td></tr>
-  <tr><td><strong>Agent</strong></td><td>자율 실행 (터미널·파일·브라우저)</td><td>Claude Sonnet, Gemini 2.5 Pro 등</td><td><code>Cmd/Ctrl+Shift+I</code></td></tr>
+  <tr><td><strong>Composer</strong></td><td>멀티파일 동시 편집</td><td>Composer 2.5(자체 기본), Claude Sonnet 4.6 등</td><td><code>Cmd/Ctrl+I</code></td></tr>
+  <tr><td><strong>Agent</strong></td><td>자율 실행 (터미널·파일·브라우저)</td><td>Composer 2.5, Claude Sonnet 4.6, Gemini 3.1 Pro 등</td><td><code>Cmd/Ctrl+Shift+I</code></td></tr>
 </table>
 
 <h3>모델 선택 전략</h3>
@@ -92,10 +94,10 @@
 <table>
   <tr><th>작업 유형</th><th>추천 모델</th><th>이유</th></tr>
   <tr><td>인라인 자동완성</td><td>cursor-small</td><td>50ms 이내 응답, 코드 특화</td></tr>
-  <tr><td>단일 파일 편집</td><td>Claude 4 Sonnet</td><td>정확도와 속도 균형</td></tr>
-  <tr><td>멀티파일 리팩토링</td><td>Claude 4 Sonnet</td><td>긴 컨텍스트, 높은 정확도</td></tr>
-  <tr><td>복잡한 아키텍처 설계</td><td>Gemini 2.5 Pro</td><td>100만 토큰 컨텍스트</td></tr>
-  <tr><td>빠른 프로토타이핑</td><td>GPT-4o</td><td>응답 속도 빠름</td></tr>
+  <tr><td>단일 파일 편집</td><td>Claude Sonnet 4.6</td><td>정확도와 속도 균형</td></tr>
+  <tr><td>멀티파일 리팩토링</td><td>Claude Sonnet 4.6</td><td>긴 컨텍스트, 높은 정확도</td></tr>
+  <tr><td>복잡한 아키텍처 설계</td><td>Gemini 3.1 Pro</td><td>100만 토큰 컨텍스트</td></tr>
+  <tr><td>빠른 프로토타이핑</td><td>Composer 2.5</td><td>응답 속도 빠르고 저렴</td></tr>
 </table>
 <blockquote>모델 설정은 Cursor Settings → Models에서 변경할 수 있습니다. 프로젝트 특성에 맞는 모델을 기본으로 지정하세요.</blockquote>
 
@@ -127,7 +129,7 @@
   <tr><td><strong>Node.js 18+</strong></td><td>권장</td><td>대부분의 웹 프로젝트에서 필요</td></tr>
   <tr><td><strong>Git</strong></td><td>필수</td><td>버전 관리 및 GitHub 연동</td></tr>
   <tr><td><strong>Python 3.10+</strong></td><td>선택</td><td>Python 프로젝트 시</td></tr>
-  <tr><td><strong>Cursor v2.6+</strong></td><td>필수</td><td>최신 Agent 기능 사용</td></tr>
+  <tr><td><strong>Cursor 3.x (2026.4~)</strong></td><td>필수</td><td>최신 Agent 기능 사용</td></tr>
   <tr><td><strong>GitHub 계정</strong></td><td>권장</td><td>코드 관리 및 BugBot 사용</td></tr>
 </table>
 
@@ -453,7 +455,7 @@ alwaysApply: false
 }</code></pre>
 
 <h3>MCP Apps: 인터랙티브 UI</h3>
-<p>Cursor v2.6에서 추가된 MCP Apps는 Agent 채팅 내에서 인터랙티브 UI를 렌더링합니다:</p>
+<p>Cursor 3.x 세대에 포함된 MCP Apps는 Agent 채팅 내에서 인터랙티브 UI를 렌더링합니다:</p>
 <table>
   <tr><th>MCP App</th><th>기능</th></tr>
   <tr><td><strong>Amplitude</strong></td><td>분석 차트를 채팅 내에서 직접 표시</td></tr>
@@ -601,8 +603,8 @@ DNS 설정 방법:
 
 <h2 id="s10">10. 디버깅 가이드</h2>
 
-<h3>Debug Mode (v2.6)</h3>
-<p>Cursor v2.6에 추가된 Debug Mode는 터미널 에러를 자동 감지하여 수정을 제안합니다:</p>
+<h3>Debug Mode (Cursor 3.x)</h3>
+<p>Cursor 3.x 세대의 Debug Mode는 터미널 에러를 자동 감지하여 수정을 제안합니다:</p>
 <table>
   <tr><th>기능</th><th>설명</th></tr>
   <tr><td><strong>자동 에러 감지</strong></td><td>터미널 출력에서 에러를 실시간 감지</td></tr>
@@ -640,9 +642,9 @@ DNS 설정 방법:
 <h3>모델별 동작 차이</h3>
 <table>
   <tr><th>모델</th><th>특성</th><th>디버깅 시 주의점</th></tr>
-  <tr><td>Claude Sonnet</td><td>정확하지만 보수적</td><td>과도한 타입 체크, 불필요한 null 검사</td></tr>
-  <tr><td>GPT-4o</td><td>빠르지만 간혹 부정확</td><td>존재하지 않는 API 사용, 환각 가능</td></tr>
-  <tr><td>Gemini 2.5 Pro</td><td>긴 컨텍스트 처리 우수</td><td>응답 시간이 길 수 있음</td></tr>
+  <tr><td>Claude Sonnet 4.6</td><td>정확하지만 보수적</td><td>과도한 타입 체크, 불필요한 null 검사</td></tr>
+  <tr><td>Composer 2.5</td><td>빠르고 저렴</td><td>자체 모델, 대부분 작업 30초 이내</td></tr>
+  <tr><td>Gemini 3.1 Pro</td><td>긴 컨텍스트 처리 우수</td><td>응답 시간이 길 수 있음</td></tr>
 </table>
 
 <h2 id="s11">11. Background Agent &amp; 병렬 작업</h2>
@@ -783,7 +785,7 @@ TypeScript로 변환해줘. 타입 정의도 추가해줘.</code></pre>
 </div>
 
 <footer>
-  본 교안은 Cursor v2.6(2026.3 기준)을 기반으로 작성되었습니다.
+  본 교안은 Cursor 3.x 세대(2026.4~)를 기반으로 작성되었습니다. 최종 검증일 2026-07-04 · 버전·가격은 공식 페이지에서 확인하세요.
 </footer>
 
 <!-- Mobile TOC -->

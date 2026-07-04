@@ -596,7 +596,7 @@ Claude가 Git 초기화, 파일 추가, GitHub 저장소 생성, Pages 설정까
 
 ### She Builds on Lovable 이벤트와의 관계
 
-> **참고**: She Builds on Lovable 이벤트(2026년 3월)의 혜택(25시간 무료 빌드, $100 API 크레딧 등)은 **러버블 전용**입니다. Claude Code에는 적용되지 않습니다. Claude Code는 별도의 구독 또는 API 키로 이용합니다.
+> **참고**: She Builds on Lovable 이벤트(2026년 3월)의 혜택(25시간 무료 빌드, $100 API 크레딧 등)은 **러버블 전용**이었습니다(이벤트 종료). Claude Code에는 적용되지 않습니다. Claude Code는 별도의 구독 또는 API 키로 이용합니다.
 
 ---
 

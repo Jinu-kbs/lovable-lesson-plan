@@ -37,6 +37,12 @@
 
 <main class="content">
 
+<div class="verify-badge">
+  <span class="vb-preview">최종 검증 2026-07-04</span>
+  <strong>AI 모델 라인업은 자주 바뀝니다.</strong>
+  <span>모델명은 공식 문서로 확인하세요. 2026년 6월 기준 최고 성능은 Claude Opus 4.8, Gemini는 3.1 Pro·3.5 Flash 세대입니다.</span>
+</div>
+
 <h2 id="diag">어떤 교안을 봐야 할까요?</h2>
 <table>
   <tr><th>항목</th><th>초보자편</th><th>중급자편</th><th><strong>개발자편 (현재)</strong></th></tr>
@@ -184,11 +190,12 @@ function estimateCost(inputTokens, outputTokens, model = "claude-sonnet") {
 <h4>주요 모델별 컨텍스트 윈도우 (2026년 기준)</h4>
 <table>
   <tr><th>모델</th><th>컨텍스트 윈도우</th><th>최대 출력</th><th>특징</th></tr>
-  <tr><td><strong>Claude Opus 4.6</strong></td><td>1M</td><td>128K</td><td>최고 성능, 복잡한 추론</td></tr>
+  <tr><td><strong>Claude Opus 4.8</strong></td><td>1M</td><td>128K</td><td>최고 성능, 복잡한 추론</td></tr>
   <tr><td><strong>Claude Sonnet 4.6</strong></td><td>1M</td><td>64K</td><td>성능/비용 균형</td></tr>
   <tr><td><strong>Claude Haiku 4.5</strong></td><td>200K</td><td>64K</td><td>빠른 응답, 저비용</td></tr>
   <tr><td><strong>GPT-4o</strong></td><td>128K</td><td>16K</td><td>멀티모달, 빠른 응답</td></tr>
-  <tr><td><strong>Gemini 2.5 Pro</strong></td><td>1M</td><td>65K</td><td>초대형 컨텍스트</td></tr>
+  <tr><td><strong>Gemini 3.1 Pro</strong></td><td>2M</td><td>65K</td><td>초대형 컨텍스트</td></tr>
+  <tr><td><strong>Gemini 3.5 Flash</strong></td><td>1M</td><td>64K</td><td>빠른 최신 모델, 코딩·에이전트</td></tr>
   <tr><td><strong>DeepSeek R1</strong></td><td>128K</td><td>8K</td><td>오픈소스, 추론 특화</td></tr>
 </table>
 

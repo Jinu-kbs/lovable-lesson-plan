@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="common.css">
 <style>
 :root{--primary:#10A37F;--primary-light:#7DD3B7;--blockquote-bg:#E6F7F1;--hover-bg:#F0FAF6}
+.verify-badge{background:var(--blockquote-bg);border-left:4px solid var(--primary);border-radius:6px;padding:10px 14px;margin:0 0 24px;font-size:.9rem;color:#333}
 </style>
 <script src="lessons-data.js"></script>
 </head>
@@ -33,7 +34,7 @@
   <a href="#s2">2. 심화 워크플로</a>
   <a href="#s3">3. 사전 준비</a>
   <a href="#s4">4. 기획 문서 작성</a>
-  <a href="#s5">5. Canvas 심화 활용</a>
+  <a href="#s5">5. 코드 블록 심화 활용</a>
   <a href="#s6">6. Codex 프로젝트 관리</a>
   <a href="#s7">7. GPTs 제작</a>
   <a href="#s8">8. API 기초 연동</a>
@@ -47,11 +48,13 @@
 
 <main class="content">
 
+<div class="verify-badge"><strong>최종 검증일</strong> 2026-07-04 · 모델·가격은 공식 페이지에서 확인하세요.</div>
+
 <h2 id="diag">어떤 교안을 봐야 할까요? (자가 진단)</h2>
 <ul>
   <li>ChatGPT에게 코드를 요청해서 간단한 프로그램을 만들어본 경험이 있다</li>
   <li>프롬프트로 원하는 결과를 얻는 데 어느 정도 익숙하다</li>
-  <li>Canvas(캔버스)에서 코드를 수정해본 적이 있다</li>
+  <li>코드 블록(구 Canvas)에서 코드를 수정해본 적이 있다</li>
   <li>하지만 체계적인 프로젝트 관리나 API 연동은 해본 적이 없다</li>
   <li>GPTs(커스텀 GPT)를 만들어보고 싶거나, Codex를 활용하고 싶다</li>
 </ul>
@@ -61,7 +64,7 @@
 <table>
   <tr><th>리소스</th><th>설명</th><th>링크</th></tr>
   <tr><td><strong>OpenAI 공식 문서</strong></td><td>API 레퍼런스, 가이드, 모델 목록</td><td><a href="https://platform.openai.com/docs" target="_blank">platform.openai.com/docs</a></td></tr>
-  <tr><td><strong>ChatGPT Canvas 가이드</strong></td><td>Canvas 기능 공식 안내</td><td><a href="https://help.openai.com" target="_blank">help.openai.com</a></td></tr>
+  <tr><td><strong>ChatGPT 릴리스 노트</strong></td><td>코드 블록(구 Canvas)·기능 변경 안내</td><td><a href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes" target="_blank">help.openai.com</a></td></tr>
   <tr><td><strong>Codex 공식 안내</strong></td><td>Codex 클라우드 에이전트 사용법</td><td><a href="https://openai.com/index/codex" target="_blank">openai.com/index/codex</a></td></tr>
   <tr><td><strong>GPTs 빌더 가이드</strong></td><td>커스텀 GPT 제작 가이드</td><td><a href="https://help.openai.com" target="_blank">help.openai.com</a></td></tr>
   <tr><td><strong>OpenAI Cookbook</strong></td><td>실전 API 활용 예제 모음</td><td><a href="https://cookbook.openai.com" target="_blank">cookbook.openai.com</a></td></tr>
@@ -85,9 +88,9 @@
   <tr><td><strong>설치</strong></td><td>불필요 (웹/앱)</td><td>불필요 (웹)</td><td>필요 (데스크톱)</td><td>필요 (데스크톱)</td><td>불필요 (웹)</td><td>필요 (터미널)</td></tr>
   <tr><td><strong>코딩 필요</strong></td><td>불필요~선택적</td><td>불필요</td><td>선택적</td><td>선택적</td><td>불필요</td><td>필요</td></tr>
   <tr><td><strong>난이도</strong></td><td>쉬움</td><td>쉬움</td><td>보통</td><td>보통</td><td>매우 쉬움</td><td>어려움</td></tr>
-  <tr><td><strong>핵심 강점</strong></td><td>범용 AI + Canvas + Codex</td><td>즉시 빌드+배포</td><td>에이전트 위임</td><td>코드 직접 제어</td><td>무료 프로토타입</td><td>터미널 파워</td></tr>
-  <tr><td><strong>코드 관리</strong></td><td>Canvas + Codex(GitHub)</td><td>GitHub 연동</td><td>내장</td><td>완전 제어</td><td>제한적</td><td>Git 완전 통합</td></tr>
-  <tr><td><strong>가격</strong></td><td>무료~Pro ($200)</td><td>유료</td><td>무료+유료</td><td>유료</td><td>무료</td><td>API 종량제</td></tr>
+  <tr><td><strong>핵심 강점</strong></td><td>범용 AI + 코드 블록 + Codex</td><td>즉시 빌드+배포</td><td>에이전트 위임</td><td>코드 직접 제어</td><td>무료 프로토타입</td><td>터미널 파워</td></tr>
+  <tr><td><strong>코드 관리</strong></td><td>코드 블록 + Codex(GitHub)</td><td>GitHub 연동</td><td>내장</td><td>완전 제어</td><td>제한적</td><td>Git 완전 통합</td></tr>
+  <tr><td><strong>가격</strong></td><td>무료~Pro ($100/$200), 진입 Go $8</td><td>유료</td><td>무료+유료</td><td>유료</td><td>무료</td><td>API 종량제</td></tr>
   <tr><td><strong>배포</strong></td><td>수동 내보내기 / Codex</td><td>자체 배포</td><td>내장</td><td>수동</td><td>내장</td><td>수동 (Git)</td></tr>
   <tr><td><strong>추천 대상</strong></td><td>범용 코딩+학습</td><td>빠른 프로토타입</td><td>에이전트 기반 개발</td><td>개발 경험자</td><td>AI 입문자</td><td>터미널 선호 개발자</td></tr>
 </table>
@@ -96,7 +99,7 @@
 <table>
   <tr><th>강점</th><th>설명</th></tr>
   <tr><td><strong>범용성</strong></td><td>코딩뿐 아니라 기획, 문서 작성, 데이터 분석, 이미지 생성까지 한 곳에서 처리</td></tr>
-  <tr><td><strong>Canvas</strong></td><td>대화창 옆에서 코드를 직접 편집·실행·디버깅하는 통합 편집기</td></tr>
+  <tr><td><strong>코드 블록(구 Canvas)</strong></td><td>채팅 응답 안에서 코드를 직접 편집·실행·미리보기하는 통합 코드 블록 (2026년 5월 Canvas가 이 기능으로 통합됨)</td></tr>
   <tr><td><strong>Codex</strong></td><td>GitHub 연동 클라우드 에이전트 — PR 생성, 코드 리뷰, 기능 구현을 자동화</td></tr>
   <tr><td><strong>GPTs</strong></td><td>나만의 맞춤형 AI 도구를 만들어 재사용하거나 공유</td></tr>
   <tr><td><strong>생태계</strong></td><td>가장 큰 사용자 커뮤니티, 풍부한 플러그인과 예제</td></tr>
@@ -106,10 +109,10 @@
 <h3>ChatGPT의 한계</h3>
 <table>
   <tr><th>한계</th><th>보완 방법</th></tr>
-  <tr><td>프로젝트 파일을 직접 관리하지 않음</td><td>Codex로 GitHub 연동, 또는 Canvas에서 코드 내보내기</td></tr>
+  <tr><td>프로젝트 파일을 직접 관리하지 않음</td><td>Codex로 GitHub 연동, 또는 코드 블록에서 코드 내보내기</td></tr>
   <tr><td>빌드/실행 환경이 제한적</td><td>Codex 샌드박스 또는 로컬 환경에서 실행</td></tr>
   <tr><td>긴 대화에서 컨텍스트 유실</td><td>시스템 프롬프트 활용, 대화 분기 전략</td></tr>
-  <tr><td>실시간 미리보기 없음 (Canvas 제외)</td><td>로컬에서 직접 실행하거나 러버블/AI Studio 활용</td></tr>
+  <tr><td>실시간 미리보기 없음 (코드 블록 제외)</td><td>로컬에서 직접 실행하거나 러버블/AI Studio 활용</td></tr>
 </table>
 
 <h3>도구 조합 전략</h3>
@@ -133,7 +136,7 @@
 
 <ul class="checklist">
   <li>✅ 6개 도구의 핵심 차이를 설명할 수 있다</li>
-  <li>✅ ChatGPT의 강점(Canvas, Codex, GPTs)을 이해했다</li>
+  <li>✅ ChatGPT의 강점(코드 블록, Codex, GPTs)을 이해했다</li>
   <li>✅ 프로젝트 단계별 도구 조합 전략을 세울 수 있다</li>
 </ul>
 
@@ -179,21 +182,22 @@
 - 에러 처리 코드 반드시 포함
 - 모범 사례(Best Practice) 기반으로 작성</code></pre>
 
-<h3>GPT-4o와 o3의 차이</h3>
-<p>프로젝트 성격에 따라 모델을 전환하면 효율적입니다.</p>
+<h3>GPT-5.5 Instant · Thinking · Pro의 차이</h3>
+<p>2026년 6월 현재 ChatGPT의 기본 모델은 <strong>GPT-5.5 세대</strong>입니다. 과거 교안의 GPT-4o / o3 대신 GPT-5.5(Instant / Thinking / Pro)를 상황에 맞게 전환하면 효율적입니다. (GPT-5.4 계열은 보조로 공존)</p>
 <table>
-  <tr><th>항목</th><th>GPT-4o</th><th>o3</th></tr>
-  <tr><td><strong>속도</strong></td><td>빠름</td><td>느림 (심층 추론)</td></tr>
-  <tr><td><strong>강점</strong></td><td>일반 코딩, 빠른 반복</td><td>복잡한 로직, 수학, 알고리즘</td></tr>
-  <tr><td><strong>비용</strong></td><td>보통</td><td>높음</td></tr>
-  <tr><td><strong>추천 용도</strong></td><td>UI 컴포넌트, CRUD, 스타일링</td><td>아키텍처 설계, 복잡한 버그 디버깅, 최적화</td></tr>
-  <tr><td><strong>Canvas 지원</strong></td><td>지원</td><td>지원</td></tr>
+  <tr><th>항목</th><th>GPT-5.5 Instant</th><th>GPT-5.5 Thinking</th><th>GPT-5.5 Pro</th></tr>
+  <tr><td><strong>속도</strong></td><td>빠름</td><td>느림 (심층 추론)</td><td>가장 느림 (최고 성능)</td></tr>
+  <tr><td><strong>강점</strong></td><td>일반 코딩, 빠른 반복</td><td>복잡한 로직, 수학, 알고리즘</td><td>고난도 문제, 장문 설계</td></tr>
+  <tr><td><strong>비용/티어</strong></td><td>무료 티어 기본</td><td>Plus 이상</td><td>Pro 티어 ($100/$200)</td></tr>
+  <tr><td><strong>추천 용도</strong></td><td>UI 컴포넌트, CRUD, 스타일링</td><td>아키텍처 설계, 복잡한 버그 디버깅, 최적화</td><td>대규모 리팩터, 심층 연구성 작업</td></tr>
+  <tr><td><strong>코드 블록 지원</strong></td><td>지원</td><td>지원</td><td>지원</td></tr>
 </table>
 
-<pre><code>모델 전환 전략:
-- 일반 코딩/반복 작업: GPT-4o (빠르고 효율적)
-- 복잡한 설계/디버깅: o3 (깊은 추론)
-- 간단한 질문/포맷팅: GPT-4o-mini (빠르고 저렴)</code></pre>
+<pre><code>💡 모델 전환 전략 (2026년 6월 기준):
+- 일반 코딩/반복 작업: GPT-5.5 Instant (빠르고 효율적, 무료 기본)
+- 복잡한 설계/디버깅: GPT-5.5 Thinking (깊은 추론)
+- 고난도/전문 업무: GPT-5.5 Pro (Pro 티어)
+- 간단한 질문/포맷팅·대량 처리: GPT-5.4 mini (빠르고 저렴)</code></pre>
 
 <h3>컨텍스트 관리 전략</h3>
 <table>
@@ -241,13 +245,13 @@
 <ol>
   <li>프롬프트 체이닝으로 "개인 블로그 사이트"를 5단계에 걸쳐 설계해보세요</li>
   <li>커스텀 지침을 설정하고, 설정 전/후의 응답 차이를 비교해보세요</li>
-  <li>같은 요청을 GPT-4o와 o3로 각각 보내고 결과를 비교해보세요</li>
+  <li>같은 요청을 GPT-5.5 Instant와 GPT-5.5 Thinking으로 각각 보내고 결과를 비교해보세요</li>
 </ol>
 
 <ul class="checklist">
   <li>✅ 프롬프트 체이닝 전략을 3단계 이상으로 설계할 수 있다</li>
   <li>✅ 커스텀 지침을 프로젝트에 맞게 설정할 수 있다</li>
-  <li>✅ GPT-4o와 o3를 상황에 맞게 전환할 수 있다</li>
+  <li>✅ GPT-5.5 Instant와 Thinking을 상황에 맞게 전환할 수 있다</li>
   <li>✅ 대화 분기와 재시도를 효과적으로 사용할 수 있다</li>
   <li>✅ 프로젝트 기능을 활용하여 장기 작업을 관리할 수 있다</li>
 </ul>
@@ -262,18 +266,21 @@
   <li>로컬 개발 환경(Node.js, Python)을 설정한다</li>
 </ul>
 
-<h3>구독 플랜별 기능 비교</h3>
+<h3>구독 플랜별 기능 비교 (2026년 6월 기준, 변동 가능)</h3>
+<p>기존 Free/Plus/Pro 구조에 저가 <strong>Go($8)</strong> 티어와 <strong>Pro $100</strong> 중간 티어가 더해져 6티어 체계로 세분화되었습니다.</p>
 <table>
-  <tr><th>기능</th><th>Free</th><th>Plus ($20)</th><th>Pro ($200)</th><th>Team ($30)</th></tr>
-  <tr><td>GPT-4o</td><td>제한적</td><td>무제한</td><td>무제한</td><td>무제한</td></tr>
-  <tr><td>o3</td><td>제한적</td><td>제한적</td><td>무제한</td><td>제한적</td></tr>
-  <tr><td>Canvas</td><td>기본</td><td>전체</td><td>전체</td><td>전체</td></tr>
-  <tr><td>Codex</td><td>미지원</td><td>지원</td><td>고급</td><td>지원</td></tr>
+  <tr><th>기능</th><th>Free</th><th>Go ($8)</th><th>Plus ($20)</th><th>Pro ($100/$200)</th></tr>
+  <tr><td>GPT-5.5 Instant</td><td>기본 (한도 有)</td><td>확대</td><td>무제한 수준</td><td>무제한 수준</td></tr>
+  <tr><td>GPT-5.5 Thinking</td><td>제한적</td><td>제한적</td><td>지원</td><td>지원</td></tr>
+  <tr><td>GPT-5.5 Pro</td><td>미지원</td><td>미지원</td><td>미지원</td><td>지원</td></tr>
+  <tr><td>코드 블록(구 Canvas)</td><td>기본</td><td>전체</td><td>전체</td><td>전체</td></tr>
+  <tr><td>Codex</td><td>미지원</td><td>제한적</td><td>지원</td><td>고급 (사용량 대폭 증가)</td></tr>
   <tr><td>GPTs 제작</td><td>미지원</td><td>지원</td><td>지원</td><td>지원</td></tr>
   <tr><td>API 크레딧</td><td>별도 구매</td><td>별도 구매</td><td>별도 구매</td><td>별도 구매</td></tr>
-  <tr><td>파일 업로드</td><td>제한적</td><td>무제한</td><td>무제한</td><td>무제한</td></tr>
+  <tr><td>파일 업로드</td><td>제한적</td><td>지원</td><td>무제한</td><td>무제한</td></tr>
   <tr><td>프로젝트</td><td>미지원</td><td>지원</td><td>지원</td><td>지원</td></tr>
 </table>
+<blockquote><p><strong>참고</strong>: 이 밖에 Business·Enterprise 티어가 있습니다. Codex는 별도 구독 없이 Plus 이상 플랜에 번들로 포함됩니다. 사용 한도(메시지·Codex 실행량)는 OpenAI가 수시 조정하므로 공식 가격 페이지를 확인하세요.</p></blockquote>
 
 <blockquote><p><strong>참고</strong>: API 크레딧은 ChatGPT 구독과 별도입니다. API를 사용하려면 <a href="https://platform.openai.com" target="_blank">platform.openai.com</a>에서 별도로 결제해야 합니다.</p></blockquote>
 
@@ -481,38 +488,40 @@ PRD와 IA를 기반으로 ERD(데이터 구조)를 작성해줘.
 </ul>
 
 <!-- Section 5 -->
-<h2 id="s5">5. Canvas 심화 활용</h2>
+<h2 id="s5">5. 코드 블록(구 Canvas) 심화 활용</h2>
+
+<blockquote><p><strong>바뀐 점 (2026년 5월 28일)</strong>: 별도 화면이던 <strong>Canvas는 종료</strong>되었고, 그 기능이 채팅 응답 안의 <strong>코드 블록(code block)</strong>으로 통합되었습니다. 인라인 편집, 미리보기(HTML/React/SVG/Mermaid/Vega), Python 실행 등 Canvas가 하던 일은 코드 블록이 그대로 계승합니다. 다만 "Canvas"라는 별도 버튼·메뉴는 더 이상 없으므로, 아래 설명은 모두 <strong>채팅 내 코드 블록</strong> 기준입니다.</p></blockquote>
 
 <h3>학습 목표</h3>
 <ul>
-  <li>Canvas에서 멀티 파일 프로젝트를 효율적으로 관리할 수 있다</li>
+  <li>코드 블록에서 멀티 파일 프로젝트를 효율적으로 관리할 수 있다</li>
   <li>코드 리팩토링, 테스트 코드 생성, 문서화를 자동화할 수 있다</li>
-  <li>Canvas의 고급 기능(실행, 디버그, 포트)을 활용할 수 있다</li>
+  <li>코드 블록의 고급 기능(실행, 미리보기, 인라인 편집)을 활용할 수 있다</li>
 </ul>
 
-<h3>Canvas 기본 이해</h3>
-<p>Canvas는 ChatGPT 안에서 코드를 작성하고 편집할 수 있는 <strong>통합 편집기</strong>입니다.</p>
+<h3>코드 블록 기본 이해</h3>
+<p>코드 블록은 ChatGPT 응답 안에서 코드를 작성·편집·실행할 수 있는 <strong>통합 코드 영역</strong>입니다. (2026년 5월 이전의 코드 블록가 이 기능으로 흡수됨)</p>
 <table>
   <tr><th>기능</th><th>설명</th></tr>
-  <tr><td><strong>코드 작성</strong></td><td>대화 옆에서 코드 편집기 열림</td></tr>
-  <tr><td><strong>직접 편집</strong></td><td>코드를 클릭하여 직접 수정 가능</td></tr>
-  <tr><td><strong>실행</strong></td><td>Python, JavaScript 코드를 Canvas 내에서 실행</td></tr>
+  <tr><td><strong>코드 작성</strong></td><td>응답 안에 편집 가능한 코드 블록이 자동 생성</td></tr>
+  <tr><td><strong>인라인 편집</strong></td><td>블록 안에서 코드를 직접 클릭·수정 가능</td></tr>
+  <tr><td><strong>실행</strong></td><td>Python 코드를 블록 내에서 실행하고 콘솔 출력 확인</td></tr>
+  <tr><td><strong>미리보기</strong></td><td>HTML / React / SVG / Mermaid 다이어그램 / Vega 차트 렌더링</td></tr>
   <tr><td><strong>버전 관리</strong></td><td>이전 버전으로 되돌리기 가능</td></tr>
   <tr><td><strong>제안 반영</strong></td><td>AI의 수정 제안을 원클릭으로 반영/거부</td></tr>
-  <tr><td><strong>댓글</strong></td><td>코드에 인라인 댓글로 질문/요청</td></tr>
 </table>
 
-<h3>Canvas 열기</h3>
-<pre><code>Canvas를 여는 방법:
-1. ChatGPT에 코드 관련 요청을 하면 자동으로 Canvas가 열립니다
-2. 또는 명시적으로 "Canvas에서 코드를 작성해줘"라고 요청
-3. 채팅 입력창 옆의 Canvas 아이콘을 클릭</code></pre>
+<h3>코드 블록 열기</h3>
+<pre><code>코드 블록이 생기는 방법 (2026년 6월 기준):
+1. ChatGPT에 코드/긴 글 관련 요청을 하면 응답 안에 편집 가능한 코드 블록이 자동으로 생성됩니다
+2. 별도의 "Canvas" 진입 버튼은 없어졌습니다 — 요청 내용에 따라 자동으로 나타납니다
+3. HTML·React·Python 등을 요청하면 블록 우측에서 미리보기/실행을 지원합니다</code></pre>
 
 <h3>멀티 파일 프로젝트 관리</h3>
-<p>Canvas에서 여러 파일을 다루는 전략:</p>
+<p>코드 블록에서 여러 파일을 다루는 전략:</p>
 <pre><code>[프롬프트 — 프로젝트 구조 먼저 설계]
 React 할 일 관리 앱의 파일 구조를 설계하고,
-각 파일을 하나씩 Canvas에서 작성해줘.
+각 파일을 하나씩 코드 블록으로 작성해줘.
 
 파일 목록:
 1. src/App.tsx — 메인 앱 컴포넌트
@@ -526,11 +535,11 @@ React 할 일 관리 앱의 파일 구조를 설계하고,
 
 <pre><code>[다음 파일 요청]
 App.tsx가 완성되었어.
-다음 파일 TodoList.tsx를 Canvas에서 작성해줘.
+다음 파일 TodoList.tsx를 코드 블록으로 작성해줘.
 App.tsx에서 사용하는 props 구조에 맞춰줘.</code></pre>
 
 <h3>코드 리팩토링</h3>
-<p>Canvas에서 기존 코드를 개선하는 방법:</p>
+<p>코드 블록에서 기존 코드를 개선하는 방법:</p>
 <pre><code>[프롬프트 — 리팩토링 요청]
 이 코드를 리팩토링해줘. 기준:
 1. 함수를 더 작은 단위로 분리
@@ -538,8 +547,8 @@ App.tsx에서 사용하는 props 구조에 맞춰줘.</code></pre>
 3. 매직 넘버를 상수로 추출
 4. 에러 처리 추가</code></pre>
 
-<p><strong>Canvas 인라인 편집 활용</strong>:</p>
-<pre><code>1. Canvas에서 특정 코드 블록을 선택
+<p><strong>코드 블록 인라인 편집 활용</strong>:</p>
+<pre><code>1. 코드 블록에서 특정 부분을 선택
 2. 인라인 댓글로 "이 함수를 async/await로 변환해줘" 요청
 3. AI가 해당 부분만 수정 제안
 4. 수정 사항을 검토하고 "수락" 또는 "거부" 선택</code></pre>
@@ -598,9 +607,9 @@ describe('TodoList', () =&gt; {
 2. API 문서 — 각 함수/컴포넌트의 Props, 반환값
 3. 인라인 주석 — 복잡한 로직에 한국어 주석 추가</code></pre>
 
-<h3>Canvas에서 코드 실행</h3>
-<p>Canvas는 Python과 JavaScript 코드를 <strong>직접 실행</strong>할 수 있습니다.</p>
-<pre><code class="language-python"># Canvas에서 실행 가능한 Python 예시
+<h3>코드 블록에서 코드 실행</h3>
+<p>코드 블록은 Python 코드를 <strong>직접 실행</strong>하고 콘솔 출력을 보여줍니다. (HTML/React/SVG/Mermaid/Vega는 미리보기로 렌더링)</p>
+<pre><code class="language-python"># 코드 블록에서 실행 가능한 Python 예시
 import json
 
 # API 응답 데이터 파싱 테스트
@@ -619,28 +628,28 @@ content = sample_response["choices"][0]["message"]["content"]
 print(f"응답: {content}")
 # 출력: 응답: 안녕하세요!</code></pre>
 
-<h3>Canvas 활용 팁 정리</h3>
+<h3>코드 블록 활용 팁 정리</h3>
 <table>
   <tr><th>팁</th><th>설명</th></tr>
-  <tr><td><strong>부분 선택 편집</strong></td><td>전체가 아닌 특정 코드 블록만 선택하여 수정 요청</td></tr>
+  <tr><td><strong>부분 선택 편집</strong></td><td>전체가 아닌 특정 부분만 선택하여 수정 요청</td></tr>
   <tr><td><strong>버전 비교</strong></td><td>이전 버전과 현재 버전을 비교하여 변경사항 확인</td></tr>
-  <tr><td><strong>복사하여 활용</strong></td><td>Canvas 코드를 로컬 프로젝트에 복사하여 사용</td></tr>
+  <tr><td><strong>복사하여 활용</strong></td><td>코드 블록의 코드를 로컬 프로젝트에 복사하여 사용</td></tr>
   <tr><td><strong>주석으로 요청</strong></td><td>코드 중간에 <code>// TODO: 여기에 에러 처리 추가</code> 형태로 요청</td></tr>
   <tr><td><strong>점진적 빌드</strong></td><td>한 번에 전체를 요청하지 말고, 파일별/기능별로 점진적 구현</td></tr>
 </table>
 
 <h3>실습 과제</h3>
 <ol>
-  <li>Canvas에서 간단한 React 컴포넌트(카운터)를 작성하고, 인라인 편집으로 기능을 추가해보세요</li>
+  <li>코드 블록에서 간단한 React 컴포넌트(카운터)를 작성하고, 인라인 편집으로 기능을 추가해보세요</li>
   <li>작성한 컴포넌트에 대한 테스트 코드를 자동 생성해보세요</li>
-  <li>Canvas에서 Python 코드를 작성하고 실행해보세요</li>
+  <li>코드 블록에서 Python 코드를 작성하고 실행해보세요</li>
 </ol>
 
 <ul class="checklist">
-  <li>✅ Canvas에서 코드를 작성하고 직접 편집할 수 있다</li>
+  <li>✅ 코드 블록에서 코드를 작성하고 직접 편집할 수 있다</li>
   <li>✅ 멀티 파일을 순서대로 생성하는 전략을 사용할 수 있다</li>
-  <li>✅ 리팩토링, 테스트, 문서화를 Canvas에서 수행할 수 있다</li>
-  <li>✅ Canvas에서 코드를 실행하고 결과를 확인할 수 있다</li>
+  <li>✅ 리팩토링, 테스트, 문서화를 코드 블록에서 수행할 수 있다</li>
+  <li>✅ 코드 블록에서 코드를 실행하고 결과를 확인할 수 있다</li>
 </ul>
 
 <!-- Section 6 -->
@@ -984,7 +993,7 @@ client = OpenAI()
 
 # Chat Completions 호출
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {
             "role": "system",
@@ -1024,7 +1033,7 @@ def chat(user_message: str) -&gt; str:
 
     # API 호출
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5.5",
         messages=conversation,
         temperature=0.7
     )
@@ -1051,7 +1060,7 @@ const openai = new OpenAI();  // 환경변수 OPENAI_API_KEY 자동 사용
 
 async function askChatGPT(question) {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-5.5',
     messages: [
       {
         role: 'system',
@@ -1094,7 +1103,7 @@ app.post('/api/chat', async (req, res) =&gt; {
     ];
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-5.5',
       messages,
       temperature: 0.7
     });
@@ -1128,7 +1137,7 @@ client = OpenAI()
 
 # 스트리밍 요청
 stream = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[
         {"role": "user", "content": "React의 useEffect 훅을 설명해줘"}
     ],
@@ -1149,7 +1158,7 @@ const openai = new OpenAI();
 
 async function streamChat(question) {
   const stream = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-5.5',
     messages: [{ role: 'user', content: question }],
     stream: true  // 스트리밍 활성화
   });
@@ -1167,7 +1176,7 @@ await streamChat('TypeScript의 제네릭을 예제와 함께 설명해줘');</c
 <h3>주요 파라미터 가이드</h3>
 <table>
   <tr><th>파라미터</th><th>기본값</th><th>설명</th><th>추천 값</th></tr>
-  <tr><td><code>model</code></td><td>—</td><td>사용할 모델</td><td><code>gpt-4o</code>, <code>gpt-4o-mini</code>, <code>o3</code></td></tr>
+  <tr><td><code>model</code></td><td>—</td><td>사용할 모델</td><td><code>gpt-5.5</code>, <code>gpt-5.4-mini</code> (최신 모델명은 공식 문서 확인)</td></tr>
   <tr><td><code>temperature</code></td><td>1.0</td><td>창의성 (0~2)</td><td>코드: 0.2~0.5, 글쓰기: 0.7~1.0</td></tr>
   <tr><td><code>max_tokens</code></td><td>모델 기본</td><td>최대 출력 토큰 수</td><td>용도에 맞게 설정</td></tr>
   <tr><td><code>top_p</code></td><td>1.0</td><td>토큰 샘플링 범위</td><td>0.9 (temperature와 동시 조정 비권장)</td></tr>
@@ -1179,10 +1188,8 @@ await streamChat('TypeScript의 제네릭을 예제와 함께 설명해줘');</c
 <h3>비용 관리</h3>
 <table>
   <tr><th>모델</th><th>입력 비용 (1M 토큰)</th><th>출력 비용 (1M 토큰)</th><th>용도</th></tr>
-  <tr><td><strong>gpt-4o</strong></td><td>$2.50</td><td>$10.00</td><td>일반 코딩</td></tr>
-  <tr><td><strong>gpt-4o-mini</strong></td><td>$0.15</td><td>$0.60</td><td>간단한 작업</td></tr>
-  <tr><td><strong>o3</strong></td><td>$10.00</td><td>$40.00</td><td>복잡한 추론</td></tr>
-  <tr><td><strong>o3-mini</strong></td><td>$1.10</td><td>$4.40</td><td>중간 복잡도</td></tr>
+  <tr><td><strong>gpt-5.5</strong></td><td>공식 페이지 확인</td><td>공식 페이지 확인</td><td>일반 코딩·추론 (범용 기본)</td></tr>
+  <tr><td><strong>gpt-5.4-mini</strong></td><td>공식 페이지 확인</td><td>공식 페이지 확인</td><td>간단한 작업·대량 처리 (경량·저비용)</td></tr>
 </table>
 
 <blockquote><p><strong>참고</strong>: 가격은 2026년 3월 기준이며 변동될 수 있습니다. 최신 가격은 <a href="https://platform.openai.com/pricing" target="_blank">platform.openai.com/pricing</a>에서 확인하세요.</p></blockquote>
@@ -1190,13 +1197,13 @@ await streamChat('TypeScript의 제네릭을 예제와 함께 설명해줘');</c
 <p><strong>비용 절약 팁</strong>:</p>
 <pre><code class="language-python"># 1. 모델 선택 최적화 — 간단한 작업에는 mini 모델 사용
 response = client.chat.completions.create(
-    model="gpt-4o-mini",  # 간단한 분류, 포맷팅에 적합
+    model="gpt-5.4-mini",  # 간단한 분류, 포맷팅에 적합
     messages=[{"role": "user", "content": "이 텍스트의 감정을 분석해줘: 오늘 기분이 좋아요"}]
 )
 
 # 2. max_tokens 제한 — 불필요하게 긴 응답 방지
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[{"role": "user", "content": "한 줄로 요약해줘"}],
     max_tokens=100  # 최대 100 토큰으로 제한
 )
@@ -1218,7 +1225,7 @@ messages = [
 <ol>
   <li>Python 또는 JavaScript로 간단한 챗봇을 만들어보세요 (멀티턴 대화)</li>
   <li>스트리밍 응답을 구현하고 일반 응답과 체감 속도를 비교해보세요</li>
-  <li>gpt-4o와 gpt-4o-mini의 응답 품질과 비용을 비교해보세요</li>
+  <li>gpt-5.5와 gpt-5.4-mini의 응답 품질과 비용을 비교해보세요</li>
 </ol>
 
 <ul class="checklist">
@@ -1234,7 +1241,7 @@ messages = [
 
 <h3>학습 목표</h3>
 <ul>
-  <li>Canvas에서 만든 코드를 로컬 프로젝트로 내보내는 방법을 이해한다</li>
+  <li>코드 블록에서 만든 코드를 로컬 프로젝트로 내보내는 방법을 이해한다</li>
   <li>GitHub에 코드를 저장하고 관리할 수 있다</li>
   <li>Vercel 또는 Netlify로 웹앱을 배포할 수 있다</li>
 </ul>
@@ -1242,13 +1249,13 @@ messages = [
 <h3>코드 내보내기 전략</h3>
 <table>
   <tr><th>방법</th><th>설명</th><th>추천 상황</th></tr>
-  <tr><td><strong>Canvas → 복사</strong></td><td>Canvas에서 코드를 복사하여 로컬 파일에 붙여넣기</td><td>단일 파일, 빠른 테스트</td></tr>
+  <tr><td><strong>코드 블록 → 복사</strong></td><td>코드 블록에서 코드를 복사하여 로컬 파일에 붙여넣기</td><td>단일 파일, 빠른 테스트</td></tr>
   <tr><td><strong>Codex → GitHub PR</strong></td><td>Codex가 직접 GitHub에 코드를 Push</td><td>팀 프로젝트, 코드 리뷰 필요</td></tr>
   <tr><td><strong>대화 → 다운로드</strong></td><td>코드 블록을 파일로 다운로드</td><td>여러 파일, 프로젝트 구성</td></tr>
   <tr><td><strong>프로젝트 → 내보내기</strong></td><td>ChatGPT 프로젝트의 코드를 ZIP으로 다운로드</td><td>전체 프로젝트 백업</td></tr>
 </table>
 
-<h3>Canvas 코드를 로컬 프로젝트로 옮기기</h3>
+<h3>코드 블록 코드를 로컬 프로젝트로 옮기기</h3>
 <pre><code class="language-bash"># 1. 프로젝트 디렉토리 생성
 mkdir my-todo-app &amp;&amp; cd my-todo-app
 
@@ -1260,7 +1267,7 @@ npx create-react-app . --template typescript
 # 또는 Vite 사용
 npm create vite@latest . -- --template react-ts
 
-# 4. Canvas에서 만든 코드를 해당 파일에 붙여넣기
+# 4. 코드 블록에서 만든 코드를 해당 파일에 붙여넣기
 # src/App.tsx, src/components/*.tsx 등
 
 # 5. 실행 확인
@@ -1351,13 +1358,13 @@ main 브랜치에 push하면:
 
 <h3>실습 과제</h3>
 <ol>
-  <li>Canvas에서 만든 간단한 웹페이지를 GitHub에 저장해보세요</li>
+  <li>코드 블록에서 만든 간단한 웹페이지를 GitHub에 저장해보세요</li>
   <li>Vercel 또는 Netlify에 프로젝트를 배포하고 URL을 확인해보세요</li>
   <li>코드를 수정하고 push하여 자동 배포가 작동하는지 확인해보세요</li>
 </ol>
 
 <ul class="checklist">
-  <li>✅ Canvas 코드를 로컬 프로젝트로 옮길 수 있다</li>
+  <li>✅ 코드 블록 코드를 로컬 프로젝트로 옮길 수 있다</li>
   <li>✅ GitHub에 코드를 push할 수 있다</li>
   <li>✅ Vercel 또는 Netlify로 프로젝트를 배포할 수 있다</li>
   <li>✅ 자동 배포(Git Push → 배포) 흐름을 이해했다</li>
@@ -1382,7 +1389,7 @@ main 브랜치에 push하면:
 2. 코드를 기능별로 나누어 요청
    → "먼저 TodoList 컴포넌트만 작성해줘"
 3. 시스템 프롬프트에 "코드는 완전한 형태로 제공해줘" 추가
-4. o3 모델은 더 긴 출력을 지원하므로 모델 전환 시도</code></pre>
+4. GPT-5.5 Thinking은 더 긴 출력·심층 추론을 지원하므로 모델 전환 시도</code></pre>
 
 <h4>문제 2: "이전 대화 내용을 잊어버려요"</h4>
 <pre><code>원인: 컨텍스트 윈도우 한계로 오래된 대화가 잘립니다.
@@ -1405,14 +1412,14 @@ main 브랜치에 push하면:
 4. 키 재생성 후 재설정
 5. .env 파일에 키 앞뒤 공백이 없는지 확인</code></pre>
 
-<h4>문제 4: "Canvas에서 코드가 실행되지 않아요"</h4>
+<h4>문제 4: "코드 블록에서 코드가 실행되지 않아요"</h4>
 <pre><code>원인: 외부 패키지 의존성, 네트워크 접근 제한 등
 
 해결 방법:
-1. Canvas는 표준 라이브러리만 지원 — 외부 패키지가 필요한 코드는 로컬에서 실행
-2. API 호출 코드 — 로컬 환경에서 실행 (Canvas에서는 네트워크 제한)
-3. 파일 I/O — Canvas에서는 제한적, 로컬 환경 사용
-4. "이 코드를 Canvas에서 실행 가능하게 수정해줘" 요청</code></pre>
+1. 코드 블록는 표준 라이브러리만 지원 — 외부 패키지가 필요한 코드는 로컬에서 실행
+2. API 호출 코드 — 로컬 환경에서 실행 (코드 블록에서는 네트워크 제한)
+3. 파일 I/O — 코드 블록에서는 제한적, 로컬 환경 사용
+4. "이 코드를 코드 블록에서 실행 가능하게 수정해줘" 요청</code></pre>
 
 <h4>문제 5: "Codex 작업이 실패했어요"</h4>
 <pre><code>원인: 테스트 실패, 권한 부족, 레포지토리 설정 문제 등
@@ -1438,10 +1445,10 @@ main 브랜치에 push하면:
 <h3>FAQ — 8가지 자주 묻는 질문</h3>
 
 <h4>Q1. ChatGPT 무료 버전으로도 코딩할 수 있나요?</h4>
-<p>네, 무료 버전에서도 GPT-4o(제한적)를 사용하여 코드를 작성할 수 있습니다. 다만 Canvas, Codex, GPTs 제작, 프로젝트 기능은 Plus 이상에서 사용 가능합니다. 무료로 시작하고, 필요할 때 업그레이드하는 것을 추천합니다.</p>
+<p>네, 무료 버전에서도 GPT-5.5 Instant(기본, 한도 有)를 사용하여 코드를 작성할 수 있습니다. 다만 GPT-5.5 Thinking, Codex, GPTs 제작 등 고급 기능은 Plus 이상에서 사용 가능합니다. (코드 블록은 무료에서도 기본 사용) 무료로 시작하고, 필요할 때 업그레이드하는 것을 추천합니다.</p>
 
 <h4>Q2. API 비용이 얼마나 드나요?</h4>
-<p>개인 프로젝트 기준 월 $5~20 정도입니다. gpt-4o-mini로 간단한 작업은 월 $1~5, gpt-4o로 본격 개발은 월 $10~30 수준입니다. 사용량 제한(Spending Limit)을 설정하면 예산 초과를 방지할 수 있습니다. 처음에는 $10 정도의 크레딧을 충전하고 사용 패턴을 확인하세요.</p>
+<p>개인 프로젝트 기준 월 $5~20 정도입니다. gpt-5.4-mini로 간단한 작업은 월 $1~5, gpt-5.5로 본격 개발은 월 $10~30 수준입니다. 사용량 제한(Spending Limit)을 설정하면 예산 초과를 방지할 수 있습니다. 처음에는 $10 정도의 크레딧을 충전하고 사용 패턴을 확인하세요.</p>
 
 <h4>Q3. ChatGPT가 만든 코드를 상업적으로 사용해도 되나요?</h4>
 <p>네, OpenAI 이용 약관에 따르면 ChatGPT가 생성한 코드의 저작권은 사용자에게 귀속됩니다. 상업적 사용이 가능합니다. 단, 생성된 코드에 오픈소스 라이브러리가 포함될 수 있으므로 라이선스 확인은 필요합니다.</p>
@@ -1534,7 +1541,7 @@ main 브랜치에 push하면:
 <h3>GPTs 활용 워크플로</h3>
 <table>
   <tr><th>워크플로</th><th>GPTs 구성</th><th>효과</th></tr>
-  <tr><td><strong>기획 → 구현</strong></td><td>기획 도우미 GPT → ChatGPT Canvas</td><td>체계적인 코드 생성</td></tr>
+  <tr><td><strong>기획 → 구현</strong></td><td>기획 도우미 GPT → ChatGPT 코드 블록</td><td>체계적인 코드 생성</td></tr>
   <tr><td><strong>코드 → 리뷰</strong></td><td>코드 리뷰어 GPT → 수정 반복</td><td>코드 품질 향상</td></tr>
   <tr><td><strong>에러 → 해결</strong></td><td>디버거 GPT → 에러 로그 분석</td><td>빠른 문제 해결</td></tr>
   <tr><td><strong>코드 → 문서</strong></td><td>문서 생성 GPT → API 문서 자동화</td><td>문서 최신화</td></tr>
@@ -1545,9 +1552,9 @@ main 브랜치에 push하면:
 <h4>전략 1: 모델 계층화</h4>
 <pre><code>요청 유형별 모델 분배:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-간단한 분류/포맷팅  →  gpt-4o-mini  ($0.15/1M 입력)
-일반 코딩/대화      →  gpt-4o       ($2.50/1M 입력)
-복잡한 추론/설계    →  o3           ($10.00/1M 입력)
+간단한 분류/포맷팅  →  gpt-5.4-mini      (경량·저비용)
+일반 코딩/대화      →  gpt-5.5           (범용 기본)
+복잡한 추론/설계    →  gpt-5.5 Thinking  (심층 추론)
 
 예상 비용 절감: 50~70%</code></pre>
 
@@ -1558,7 +1565,7 @@ import json
 # 간단한 응답 캐시
 cache = {}
 
-def cached_chat(messages: list, model: str = "gpt-4o") -&gt; str:
+def cached_chat(messages: list, model: str = "gpt-5.5") -&gt; str:
     """동일한 요청에 대해 캐싱된 응답 반환"""
     # 캐시 키 생성
     cache_key = hashlib.md5(
@@ -1584,7 +1591,7 @@ def cached_chat(messages: list, model: str = "gpt-4o") -&gt; str:
 <h4>전략 3: 토큰 예산 관리</h4>
 <pre><code class="language-python">import tiktoken
 
-def count_tokens(text: str, model: str = "gpt-4o") -&gt; int:
+def count_tokens(text: str, model: str = "gpt-5.5") -&gt; int:
     """텍스트의 토큰 수를 계산"""
     encoding = tiktoken.encoding_for_model(model)
     return len(encoding.encode(text))
@@ -1647,7 +1654,7 @@ def check_budget(messages: list, max_budget_tokens: int = 5000) -&gt; bool:
 <table>
   <tr><th>ChatGPT 경험</th><th>Cursor에서의 활용</th></tr>
   <tr><td>프롬프트 작성 능력</td><td>Cmd+K (인라인 편집)에 그대로 활용</td></tr>
-  <tr><td>Canvas 코드 편집</td><td>Cursor의 코드 에디터에서 더 강력하게</td></tr>
+  <tr><td>코드 블록 코드 편집</td><td>Cursor의 코드 에디터에서 더 강력하게</td></tr>
   <tr><td>시스템 프롬프트</td><td>.cursorrules 파일로 프로젝트 규칙 설정</td></tr>
   <tr><td>대화형 코딩</td><td>Composer(Chat)에서 동일한 경험</td></tr>
   <tr><td>GPTs 지침</td><td>Cursor Rules로 재사용</td></tr>
@@ -1706,7 +1713,7 @@ def check_budget(messages: list, max_budget_tokens: int = 5000) -&gt; bool:
   <tr><th>ChatGPT 경험</th><th>러버블에서의 활용</th></tr>
   <tr><td>기획 문서 작성</td><td>러버블 프롬프트에 PRD 붙여넣기</td></tr>
   <tr><td>프롬프트 작성</td><td>러버블 Chat 모드에서 활용</td></tr>
-  <tr><td>Canvas 코드</td><td>러버블이 자동 빌드 (직접 편집도 가능)</td></tr>
+  <tr><td>코드 블록 코드</td><td>러버블이 자동 빌드 (직접 편집도 가능)</td></tr>
   <tr><td>배포 경험</td><td>러버블 자체 배포 (더 쉬움)</td></tr>
 </table>
 
@@ -1723,7 +1730,7 @@ def check_budget(messages: list, max_budget_tokens: int = 5000) -&gt; bool:
 <table>
   <tr><th>항목</th><th>OpenAI API</th><th>Anthropic API</th><th>Google AI API</th></tr>
   <tr><td><strong>SDK</strong></td><td><code>openai</code></td><td><code>anthropic</code></td><td><code>@google/generative-ai</code></td></tr>
-  <tr><td><strong>모델</strong></td><td>gpt-4o, o3</td><td>Claude Sonnet 4, Opus 4</td><td>Gemini 2.5 Pro</td></tr>
+  <tr><td><strong>모델</strong></td><td>GPT-5.5</td><td>Claude Opus 4.8·Sonnet 4.6</td><td>Gemini 3.1 Pro·3.5 Flash</td></tr>
   <tr><td><strong>메시지 형식</strong></td><td>messages[]</td><td>messages[]</td><td>contents[]</td></tr>
   <tr><td><strong>스트리밍</strong></td><td>stream=True</td><td>stream=True</td><td>generateContentStream</td></tr>
   <tr><td><strong>가격대</strong></td><td>중간</td><td>중간</td><td>저렴</td></tr>
@@ -1734,7 +1741,7 @@ def check_budget(messages: list, max_budget_tokens: int = 5000) -&gt; bool:
 from openai import OpenAI
 client = OpenAI()
 response = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-5.5",
     messages=[{"role": "user", "content": "안녕하세요"}]
 )
 print(response.choices[0].message.content)
@@ -1793,7 +1800,7 @@ print(response.content[0].text)</code></pre>
 2. 심화 워크플로  → 프롬프트 체이닝, 컨텍스트 관리, 모델 전환
 3. 사전 준비      → API 키 발급, 개발 환경 설정
 4. 기획 문서      → PRD/IA/ERD 체이닝 생성
-5. Canvas 심화    → 멀티파일, 리팩토링, 테스트, 문서화
+5. 코드 블록 심화    → 멀티파일, 리팩토링, 테스트, 문서화
 6. Codex 관리     → GitHub 연동, PR 자동 생성, AGENTS.md
 7. GPTs 제작      → 지침 작성, Knowledge, Actions
 8. API 연동       → Chat Completions, 스트리밍, 비용 관리
@@ -1840,7 +1847,7 @@ print(response.content[0].text)</code></pre>
 
 <h3>최종 체크리스트</h3>
 <ul class="checklist">
-  <li>✅ ChatGPT의 Canvas, Codex, GPTs를 모두 사용해봤다</li>
+  <li>✅ ChatGPT의 코드 블록, Codex, GPTs를 모두 사용해봤다</li>
   <li>✅ API 키를 발급받고 코드에서 호출할 수 있다</li>
   <li>✅ 프롬프트 체이닝으로 복잡한 작업을 분해할 수 있다</li>
   <li>✅ GPTs를 최소 1개 직접 만들어봤다</li>
@@ -1854,7 +1861,7 @@ print(response.content[0].text)</code></pre>
   <tr><th>출처</th><th>설명</th></tr>
   <tr><td>OpenAI 공식 문서</td><td>API 레퍼런스, 가이드, 모범 사례</td></tr>
   <tr><td>OpenAI Cookbook</td><td>실전 API 활용 예제 모음</td></tr>
-  <tr><td>ChatGPT 도움말 센터</td><td>Canvas, Codex, GPTs 가이드</td></tr>
+  <tr><td>ChatGPT 도움말 센터</td><td>코드 블록, Codex, GPTs 가이드</td></tr>
   <tr><td>러버블 바이브코딩 카톡방</td><td>2026.3.8 교사 커뮤니티 대화 참고</td></tr>
   <tr><td>김선생의 바이브코딩 가이드</td><td>프로젝트 내 교안 시리즈</td></tr>
 </table>

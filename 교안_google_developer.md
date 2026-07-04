@@ -5,6 +5,7 @@
 > **목표**: Google API, Cloud Functions, Gemini API, Firebase를 활용한 프로덕션 서비스 구축
 > **주요 도구**: Google Cloud Platform, Google APIs, Apps Script 고급, Gemini API, Cloud Functions, BigQuery, Firebase
 > **소요**: 약 5~6시간
+> **최종 검증**: 2026-07-04 · 모델명은 공식 문서(ai.google.dev)로 확인. 2026년 6월 기준 Gemini 3.5 Flash가 최신 기본 모델, Gemini 3.1 Pro가 상위 추론 모델입니다.
 
 ---
 
@@ -1198,9 +1199,9 @@ AI Studio 워크플로
 │     └── Chat: 대화형 프롬프트                     │
 │                                                  │
 │  2. 모델 선택                                     │
-│     ├── Gemini 2.0 Flash (빠르고 저렴)            │
-│     ├── Gemini 2.0 Pro (균형)                     │
-│     └── Gemini Ultra (최고 성능)                  │
+│     ├── Gemini 3.5 Flash (빠르고 저렴)            │
+│     ├── Gemini 3.1 Pro (복잡 추론·긴 컨텍스트)    │
+│     └── 최신 모델명은 ai.google.dev 확인          │
 │                                                  │
 │  3. 파라미터 조정                                 │
 │     ├── Temperature (0.0 ~ 2.0)                  │
@@ -1228,8 +1229,8 @@ import google.generativeai as genai
 # API 키 설정
 genai.configure(api_key="YOUR_API_KEY")
 
-# 모델 선택
-model = genai.GenerativeModel('gemini-2.0-flash')
+# 모델 선택 (최신 모델 ID는 ai.google.dev 확인)
+model = genai.GenerativeModel('gemini-3.5-flash')
 
 # === 기본 텍스트 생성 ===
 response = model.generate_content("Python의 GIL을 초보자에게 설명해주세요")
@@ -1263,7 +1264,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const genAI = new GoogleGenerativeAI('YOUR_API_KEY');
 
 async function generateText() {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
 
     // 기본 텍스트 생성
     const result = await model.generateContent(
@@ -1273,7 +1274,7 @@ async function generateText() {
 }
 
 async function chatSession() {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
 
     // 대화형 세션
     const chat = model.startChat({
@@ -1298,12 +1299,13 @@ generateText().catch(console.error);
 
 | 모델 | 속도 | 품질 | 비용 | 적합한 용도 |
 |------|------|------|------|------------|
-| **Gemini 2.0 Flash** | 매우 빠름 | 좋음 | 매우 저렴 | 분류, 요약, 간단한 생성 |
-| **Gemini 2.0 Pro** | 보통 | 우수 | 보통 | 복잡한 추론, 코드 생성 |
-| **Gemini Ultra** | 느림 | 최고 | 높음 | 고난도 분석, 멀티모달 |
-| **Gemini Flash Lite** | 가장 빠름 | 기본 | 최저 | 대량 처리, 실시간 응답 |
+| **Gemini 3.5 Flash** | 매우 빠름 | 우수 (코딩·에이전트 벤치 3.1 Pro급) | 보통 (구 Flash 대비 약 3배 인상) | 일반 생성, 코딩, 에이전트 |
+| **Gemini 3.1 Pro** | 보통 | 최고 | 높음 | 복잡한 추론, 긴 컨텍스트(2M) |
+| **Gemini 3.1 Flash-Lite** | 가장 빠름 | 기본 | 최저 | 대량 처리, 실시간 응답 |
 
-> "대부분의 프로덕션 워크로드에는 Flash 모델이면 충분합니다. Pro나 Ultra는 복잡한 추론이 필요한 경우에만 사용하세요. 비용 차이가 10배 이상 납니다" — 실사용자 경험
+> 과거에는 Gemini 2.0 Flash/Pro가 기본 선택지였으나 현재는 3.x 세대로 교체되었습니다. 모델 라인업·단가는 자주 바뀌므로 **최신 모델명·가격은 ai.google.dev에서 확인**하세요. (2026-04-01부터 Pro 계열 무료 한도는 사실상 폐지, 무료는 Flash·Flash-Lite 중심)
+
+> "대부분의 프로덕션 워크로드에는 Flash 모델이면 충분합니다. Pro는 복잡한 추론이 필요한 경우에만 사용하세요. 다만 3.5 Flash는 구 Flash 대비 단가가 약 3배 올랐으니 비용 비교 시 확인하세요" — 실사용자 경험
 
 #### 4.5 멀티모달 — 이미지/비디오/오디오 입력
 
@@ -1312,7 +1314,7 @@ import google.generativeai as genai
 from pathlib import Path
 
 genai.configure(api_key="YOUR_API_KEY")
-model = genai.GenerativeModel('gemini-2.0-flash')
+model = genai.GenerativeModel('gemini-3.5-flash')
 
 # === 이미지 분석 ===
 image_path = Path("screenshot.png")
@@ -1369,7 +1371,7 @@ def search_products(query: str, max_results: int = 5) -> list:
 
 # 2. 모델에 함수 등록
 model = genai.GenerativeModel(
-    model_name='gemini-2.0-flash',
+    model_name='gemini-3.5-flash',
     tools=[get_weather, search_products]
 )
 
@@ -1402,7 +1404,7 @@ class CodeReview(BaseModel):
     summary: str
     suggestions: List[str]
 
-model = genai.GenerativeModel('gemini-2.0-flash')
+model = genai.GenerativeModel('gemini-3.5-flash')
 
 code_snippet = """
 def calc(x,y):
@@ -1434,7 +1436,7 @@ for suggestion in review.suggestions:
 import google.generativeai as genai
 
 genai.configure(api_key="YOUR_API_KEY")
-model = genai.GenerativeModel('gemini-2.0-flash')
+model = genai.GenerativeModel('gemini-3.5-flash')
 
 # 스트리밍 — 토큰 단위로 실시간 출력
 response = model.generate_content(
@@ -1455,7 +1457,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const genAI = new GoogleGenerativeAI('YOUR_API_KEY');
 
 async function streamResponse() {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
 
     const result = await model.generateContentStream(
         'Cloud Functions vs Cloud Run 비교를 해주세요'
@@ -1480,7 +1482,7 @@ genai.configure(api_key="YOUR_API_KEY")
 
 # System Instruction으로 모델 행동 지정
 model = genai.GenerativeModel(
-    model_name='gemini-2.0-flash',
+    model_name='gemini-3.5-flash',
     system_instruction="""당신은 GCP 전문 컨설턴트입니다.
     - 항상 한국어로 답변합니다
     - 비용 최적화를 항상 고려합니다
@@ -1534,7 +1536,7 @@ import json
 genai.configure(api_key="YOUR_API_KEY")
 
 class DocumentSummarizer:
-    def __init__(self, model_name='gemini-2.0-flash'):
+    def __init__(self, model_name='gemini-3.5-flash'):
         self.model = genai.GenerativeModel(
             model_name=model_name,
             system_instruction="당신은 문서 요약 전문가입니다. 핵심 내용을 구조적으로 요약합니다."
@@ -1708,7 +1710,7 @@ def analyze_text(request):
         text = data['text']
         analysis_type = data.get('type', 'summary')
 
-        model = genai.GenerativeModel('gemini-2.0-flash')
+        model = genai.GenerativeModel('gemini-3.5-flash')
 
         prompts = {
             'summary': f'다음 텍스트를 3문장으로 요약해주세요:\n{text}',
@@ -1786,7 +1788,7 @@ functions.http('analyzeText', async (req, res) => {
             return;
         }
 
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-3.5-flash' });
 
         const prompts = {
             summary: `다음 텍스트를 요약해주세요:\n${text}`,
@@ -3006,7 +3008,7 @@ def generate_daily_report(request):
 
     # 2. Gemini API로 리포트 생성
     genai.configure(api_key=get_secret('GEMINI_API_KEY'))
-    model = genai.GenerativeModel('gemini-2.0-flash')
+    model = genai.GenerativeModel('gemini-3.5-flash')
 
     prompt = f"""다음 데이터를 기반으로 일일 비즈니스 리포트를 작성해주세요:
     - 날짜: {yesterday}
@@ -3398,7 +3400,7 @@ def get_secret(secret_id):
 # 초기화
 genai.configure(api_key=get_secret('GEMINI_API_KEY'))
 model = genai.GenerativeModel(
-    'gemini-2.0-flash',
+    'gemini-3.5-flash',
     system_instruction="""당신은 텍스트 분석 전문가입니다.
     항상 JSON 형식으로 응답하며, 다음 필드를 포함합니다:
     - summary: 3문장 이내 요약

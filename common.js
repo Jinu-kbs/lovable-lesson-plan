@@ -176,7 +176,8 @@
       for(const step of steps){
         if(step.tool === currentTool && step.level === currentLevel){
           matchedPath = steps;
-          matchedPathName = pathName === 'beginner' ? '입문자 경로' : pathName === 'intermediate' ? '중급자 경로' : '개발자 경로';
+          matchedPathName = (LESSONS.pathNames && LESSONS.pathNames[pathName]) ||
+            (pathName === 'beginner' ? '입문자 경로' : pathName === 'intermediate' ? '중급자 경로' : '개발자 경로');
           break;
         }
       }

@@ -242,18 +242,15 @@ body{
   flex-wrap:wrap;margin-bottom:32px;
 }
 .hero-stat{
-  background:rgba(255,255,255,0.07);
-  backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:14px;
-  padding:10px 20px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:7px 15px;
   display:flex;flex-direction:column;align-items:center;
   gap:2px;
-  transition:all .2s;
 }
-.hero-stat:hover{background:rgba(255,255,255,0.1);border-color:rgba(196,181,253,0.25)}
-.hero-stat .snum{font-size:1.25rem;font-weight:800;color:#FFF;line-height:1}
-.hero-stat .slabel{font-size:.7rem;color:rgba(255,255,255,.55);font-weight:500}
+.hero-stat .snum{font-size:1.02rem;font-weight:700;color:rgba(255,255,255,.9);line-height:1}
+.hero-stat .slabel{font-size:.66rem;color:rgba(255,255,255,.5);font-weight:500}
 
 /* Hero 검색창 (구글형) */
 .hero-search{position:relative;max-width:560px;margin:0 auto 24px;display:flex;align-items:center;gap:8px;background:#FFF;border-radius:30px;padding:9px 9px 9px 18px;box-shadow:0 10px 34px rgba(0,0,0,.28)}
@@ -272,7 +269,9 @@ body{
 .hero-search-suggest mark{background:#FFE58A;color:#2D3436;border-radius:3px;padding:0 1px}
 .hs-all{width:100%;border:none;background:#F6F5FF;color:var(--primary);font-weight:700;padding:12px;cursor:pointer;font-size:.85rem;font-family:inherit}
 .hs-all:hover{background:#ECE9FF}
-.hs-empty{padding:14px 16px;color:#8A8F98;font-size:.88rem}
+.hs-empty{padding:14px 16px;color:#8A8F98;font-size:.88rem;line-height:2}
+.hs-chip{display:inline-block;background:#F1EFFF;color:var(--primary);border-radius:14px;padding:3px 12px;font-size:.8rem;font-weight:600;text-decoration:none;margin:2px}
+.hs-chip:hover{background:var(--primary);color:#FFF}
 @media(max-width:600px){.hero-search{max-width:92%}.hero-search .hs-go{padding:9px 13px}}
 
 /* Track CTA buttons */
@@ -299,6 +298,10 @@ body{
 .hero-track-btn .t-icon{font-size:1.5rem;margin-bottom:5px}
 .hero-track-btn .t-label{font-weight:700;font-size:.88rem}
 .hero-track-btn .t-sub{font-size:.73rem;color:rgba(255,255,255,.55);margin-top:2px}
+.hero-track-btn.primary{background:var(--primary);border-color:var(--primary);box-shadow:0 8px 26px rgba(90,78,217,.45);transform:scale(1.04)}
+.hero-track-btn.primary:hover{background:#6B5FE8;transform:scale(1.07)}
+.hero-track-btn.primary .t-sub{color:rgba(255,255,255,.75)}
+.hero-fresh{font-size:.72rem;color:rgba(255,255,255,.45);margin:-14px 0 18px;text-align:center}
 
 /* Social links */
 .hero-social{margin-top:8px}
@@ -936,22 +939,8 @@ footer a:hover{color:var(--primary)}
 
   <p>러버블, 커서, Claude Code, Claude Cowork·Design 등<br>15종 도구 × 3레벨 맞춤 교안을 무료로 제공합니다</p>
 
-  <form class="hero-search" id="heroSearchForm" role="search" autocomplete="off">
-    <span class="hs-mag" aria-hidden="true">🔍</span>
-    <input type="text" id="heroSearchInput" placeholder="교안 검색 — 러버블, 터미널, 배포, 프롬프트…" aria-label="교안 검색">
-    <button type="submit" class="hs-go">검색</button>
-    <div class="hero-search-suggest" id="heroSearchSuggest"></div>
-  </form>
-
-  <div class="hero-stats">
-    <div class="hero-stat"><span class="snum">45개</span><span class="slabel">교안</span></div>
-    <div class="hero-stat"><span class="snum">15종</span><span class="slabel">도구</span></div>
-    <div class="hero-stat"><span class="snum">3단계</span><span class="slabel">수준별</span></div>
-    <div class="hero-stat"><span class="snum">무료</span><span class="slabel">전부 공개</span></div>
-  </div>
-
   <div class="hero-tracks">
-    <button class="hero-track-btn" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">
+    <button class="hero-track-btn primary" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">
       <span class="t-icon">🌱</span>
       <span class="t-label">처음 시작하기</span>
       <span class="t-sub">어떤 도구부터?</span>
@@ -967,6 +956,22 @@ footer a:hover{color:var(--primary)}
       <span class="t-sub">리포트 · 포스팅</span>
     </button>
   </div>
+
+  <form class="hero-search" id="heroSearchForm" role="search" autocomplete="off">
+    <span class="hs-mag" aria-hidden="true">🔍</span>
+    <input type="text" id="heroSearchInput" placeholder="교안 검색 — 러버블, 터미널, 배포, 프롬프트…" aria-label="교안 검색">
+    <button type="submit" class="hs-go">검색</button>
+    <div class="hero-search-suggest" id="heroSearchSuggest"></div>
+  </form>
+
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="snum">45개</span><span class="slabel">교안</span></div>
+    <div class="hero-stat"><span class="snum">15종</span><span class="slabel">도구</span></div>
+    <div class="hero-stat"><span class="snum">3단계</span><span class="slabel">수준별</span></div>
+    <div class="hero-stat"><span class="snum">무료</span><span class="slabel">전부 공개</span></div>
+  </div>
+
+  <p class="hero-fresh">최종 검증 2026-07-04 · 45개 교안 상시 업데이트</p>
 
   <div class="hero-social">
     <a href="https://www.threads.net/@byeongseon_jinuchem" target="_blank" rel="noopener noreferrer">Threads</a>
@@ -1123,7 +1128,7 @@ footer a:hover{color:var(--primary)}
             <div class="tool-card-subtitle">Google AI Studio · 웹 빌더</div>
           </div>
         </div>
-        <p class="tool-card-desc">Google AI Studio의 빌드 기능으로 Gemini 2.5 Pro와 대화하며 웹 프로토타입을 빠르게 만들 수 있습니다. 설치 없이 무료 사용.</p>
+        <p class="tool-card-desc">Google AI Studio의 빌드 기능으로 Gemini 3.5 Flash와 대화하며 웹 프로토타입을 빠르게 만들 수 있습니다. 설치 없이 무료 사용.</p>
         <div class="tool-card-levels">
           <a href="aistudio-beginner.html" style="background:var(--aistudio-bg);color:var(--aistudio)">초보자</a>
           <a href="aistudio-intermediate.html" style="background:var(--aistudio-bg);color:var(--aistudio)">중급자</a>
@@ -1249,7 +1254,7 @@ footer a:hover{color:var(--primary)}
             <div class="tool-card-subtitle">OpenAI · AI 코딩 도구</div>
           </div>
         </div>
-        <p class="tool-card-desc">ChatGPT와 Codex를 활용한 코딩 가이드. Canvas 코딩, GPTs 활용, API 연동, Codex 에이전트까지.</p>
+        <p class="tool-card-desc">ChatGPT와 Codex를 활용한 코딩 가이드. 코드 블록(구 Canvas) 코딩, GPTs 활용, API 연동, Codex 에이전트까지.</p>
         <div class="tool-card-levels">
           <a href="chatgpt-beginner.html" style="background:var(--chatgpt-bg);color:var(--chatgpt)">초보자</a>
           <a href="chatgpt-intermediate.html" style="background:var(--chatgpt-bg);color:var(--chatgpt)">중급자</a>
