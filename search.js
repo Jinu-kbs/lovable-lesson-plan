@@ -5,10 +5,16 @@
   'use strict';
 
   var CONTENT = null;              // { url: "본문 텍스트" }
-  var contentReady = fetch('search-content.json', { cache: 'no-cache' })
-    .then(function (r) { return r.ok ? r.json() : {}; })
-    .then(function (d) { CONTENT = d || {}; })
-    .catch(function () { CONTENT = {}; });
+  var contentPromise = null;       // 지연 로딩: 사용자가 검색을 시작할 때만 1.1MB 인덱스를 받는다
+  function loadContent() {
+    if (!contentPromise) {
+      contentPromise = fetch('search-content.json', { cache: 'no-cache' })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (d) { CONTENT = d || {}; return CONTENT; })
+        .catch(function () { CONTENT = {}; return CONTENT; });
+    }
+    return contentPromise;
+  }
 
   // lessons-data.js(LESSONS)에 없는 단독 페이지 보충
   var EXTRA = [
@@ -55,6 +61,24 @@
     return idx;
   }
 
+  // 오타 허용(퍼지): 바이그램 Dice 유사도 — "러벝블"→"러버블", "lovabel"→"lovable"
+  function bigrams(s) { var r = []; for (var i = 0; i < s.length - 1; i++) r.push(s.substr(i, 2)); return r; }
+  function dice(a, b) {
+    if (a.length < 2 || b.length < 2) return 0;
+    var A = bigrams(a), B = bigrams(b), used = new Array(B.length), hit = 0;
+    for (var i = 0; i < A.length; i++) for (var j = 0; j < B.length; j++) {
+      if (!used[j] && A[i] === B[j]) { used[j] = true; hit++; break; }
+    }
+    return (2 * hit) / (A.length + B.length);
+  }
+  function jamo(s) { try { return s.normalize('NFD'); } catch (e) { return s; } } // 한글 자모 분해("러벝블"↔"러버블" 근사 매칭용)
+  function fuzzyScore(it, q) {
+    var words = (it.title + ' ' + it.kw).toLowerCase().split(/[\s·—-]+/);
+    var qj = jamo(q), best = 0;
+    for (var i = 0; i < words.length; i++) { var d = dice(qj, jamo(words[i])); if (d > best) best = d; }
+    return best;
+  }
+
   function scoreItem(it, q, synTerm) {
     var title = it.title.toLowerCase();
     var meta = (it.title + ' ' + it.desc + ' ' + it.badge + ' ' + it.kw).toLowerCase();
@@ -65,6 +89,7 @@
     else if (meta.indexOf(q) !== -1) { s = 45; }
     else if (body.indexOf(q) !== -1) { s = 25; where = 'body'; }   // 본문 일치
     else if (synTerm && (meta.indexOf(synTerm) !== -1 || body.indexOf(synTerm) !== -1)) { s = 15; }
+    else if (q.length >= 3 && fuzzyScore(it, q) >= 0.55) { s = 10; } // 오타 근사 일치
     return { score: s, inBody: where === 'body' };
   }
 
@@ -92,9 +117,8 @@
       .map(function (x) { return x.it; });
   };
 
-  // 콘텐츠가 늦게 로드되어도 현재 검색을 다시 반영할 수 있게 콜백 등록
-  var onReadyCbs = [];
-  window.onSearchContentReady = function (cb) { contentReady.then(cb); };
+  // 콘텐츠가 늦게 로드되어도 현재 검색을 다시 반영할 수 있게 콜백 등록 (호출 시 로딩 시작)
+  window.onSearchContentReady = function (cb) { loadContent().then(cb); };
 
   function esc(str) {
     return String(str).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
@@ -138,8 +162,12 @@
       if (allBtn) allBtn.addEventListener('click', function () { go(q); });
       box.style.display = 'block';
     }
-    input.addEventListener('input', renderSuggest);
-    contentReady.then(function () { if (document.activeElement === input && input.value.trim()) renderSuggest(); });
+    // 지연 로딩: 검색을 실제로 시작할 때만 본문 인덱스 fetch
+    input.addEventListener('focus', function () { loadContent(); }, { once: true });
+    input.addEventListener('input', function () {
+      loadContent().then(function () { if (document.activeElement === input && input.value.trim()) renderSuggest(); });
+      renderSuggest();
+    });
     document.addEventListener('click', function (e) { if (!form.contains(e.target)) box.style.display = 'none'; });
     input.addEventListener('keydown', function (e) { if (e.key === 'Escape') box.style.display = 'none'; });
   }
@@ -201,7 +229,8 @@
       input.focus();
     }
     render(q0);
-    contentReady.then(function () { render(input ? input.value : q0); });   // 본문 로드 후 재검색
+    // 검색 페이지는 검색이 목적이므로 즉시 본문 인덱스 로드 → 로드 후 재검색
+    loadContent().then(function () { render(input ? input.value : q0); });
   }
 
   function init() { initHeroSearch(); initSearchPage(); }

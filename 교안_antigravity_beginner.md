@@ -561,6 +561,14 @@ AI 에이전트 기능은 인터넷 연결이 필요합니다. 하지만 Editor 
 
 ---
 
+### 🧠 이해했는지 확인해 보세요
+
+아래 질문에 스스로 답한 뒤, 펼쳐서 정답을 확인하세요.
+
+<details><summary>Q1. Manager View와 Editor View는 각각 어떤 화면인가요?</summary><p><strong>정답:</strong> Manager View는 에이전트에게 작업을 지시하고 진행 상황을 모니터링하는 화면이고, Editor View는 VS Code처럼 코드를 직접 보고 수정하는 화면입니다.</p></details>
+<details><summary>Q2. 초보자에게 Fast Mode보다 Plan Mode가 권장되는 이유는 무엇인가요?</summary><p><strong>정답:</strong> Plan Mode는 에이전트가 바로 실행하지 않고 먼저 상세한 실행 계획(Plan)을 Artifact로 세웁니다. 그 계획을 검토·수정한 뒤 승인할 수 있어, 에이전트가 엉뚱한 방향으로 가는 것을 미리 막을 수 있기 때문입니다.</p></details>
+<details><summary>Q3. 안티그래비티 로그인에 회사·학교의 Google Workspace 계정을 사용할 수 있나요?</summary><p><strong>정답:</strong> 사용할 수 없습니다. 안티그래비티는 아직 Workspace 계정을 지원하지 않으므로 반드시 개인 Gmail 계정으로 로그인해야 합니다.</p></details>
+
 ## 13. 다음 단계
 
 안티그래비티 초보자편을 마치셨습니다! 다음 단계를 선택하세요:

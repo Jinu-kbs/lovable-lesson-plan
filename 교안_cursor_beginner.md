@@ -583,6 +583,14 @@ Hobby 플랜은 Tab/Agent/Composer 모두 일일 또는 월간 제한이 있습�
 
 ---
 
+### 🧠 이해했는지 확인해 보세요
+
+아래 질문에 스스로 답한 뒤, 펼쳐서 정답을 확인하세요.
+
+<details><summary>Q1. 커서 유료 플랜에서 Auto 모드를 쓰면 월 사용량 크레딧이 차감된다 — 맞을까요?</summary><p><strong>정답:</strong> 아니요. 유료 플랜에서 Auto 모드는 크레딧을 소모하지 않고 무제한입니다. Claude·GPT·Gemini 같은 외부 프론티어 모델을 직접 골라 쓸 때만 월 크레딧에서 차감됩니다. 그래서 초보자는 Auto 모드만 써도 충분합니다.</p></details>
+<details><summary>Q2. 여러 파일에 걸친 변경을 한 번의 지시로 일괄 생성·수정할 때 쓰는 모드의 이름은 무엇인가요?</summary><p><strong>정답:</strong> Composer입니다. Chat은 코드에 대해 질문·설명을 받을 때, Agent는 프로젝트 전체를 자율적으로 빌드할 때 쓰고, 여러 파일을 동시에 만들거나 고칠 때는 Composer를 사용합니다.</p></details>
+<details><summary>Q3. 코드의 특정 부분만 블록으로 선택해 AI에게 수정을 요청하는 기능의 이름과 단축키는 무엇인가요?</summary><p><strong>정답:</strong> Inline Edit이며, 코드 블록을 선택한 뒤 Ctrl+K(Mac: Cmd+K)를 누르고 수정 요청을 입력합니다. 파일 전체가 아니라 선택한 부분만 고칠 때 유용합니다.</p></details>
+
 ## 13. 다음 단계
 
 커서 초보자편을 마치셨습니다! 다음 단계를 선택하세요:

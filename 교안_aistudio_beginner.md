@@ -498,6 +498,14 @@ AI Studio 빌드는 **Google 계정만 있으면 무료**로 사용할 수 있�
 
 ---
 
+### 🧠 이해했는지 확인해 보세요
+
+아래 질문에 스스로 답한 뒤, 펼쳐서 정답을 확인하세요.
+
+<details><summary>Q1. AI Studio 빌드가 현재(2026.6) 기본으로 사용하는 AI 모델은 무엇인가요?</summary><p><strong>정답:</strong> Gemini 3.5 Flash입니다. 2026년 5월에 정식 출시되어 예전 기본이던 Gemini 2.5 Pro를 대신해 현재 기본 모델이 되었으며, 빠르고 무료 한도가 적용됩니다.</p></details>
+<details><summary>Q2. AI Studio 웹 화면에서 Build로 만들고 프리뷰하는 학습·프로토타이핑은 유료인가요, 무료인가요?</summary><p><strong>정답:</strong> 무료입니다. Google 계정만 있으면 AI Studio 웹은 완전 무료이며, 비용이 발생하는 지점은 코드를 내보내 프로덕션용 Gemini API를 본격 호출하거나 Cloud Run 배포 무료 분량을 초과할 때부터입니다.</p></details>
+<details><summary>Q3. AI Studio 빌드를 시작하려면 별도 프로그램 설치가 필요한가요?</summary><p><strong>정답:</strong> 아니요, 설치가 필요 없습니다. 웹 브라우저(Chrome 권장)와 Google 계정(Gmail)만 있으면 aistudio.google.com에서 바로 시작할 수 있습니다.</p></details>
+
 ## 11. 자주 묻는 질문 (FAQ)
 
 ### Q1: AI Studio 빌드는 완전 무료인가요?

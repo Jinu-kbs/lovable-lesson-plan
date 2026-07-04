@@ -2598,7 +2598,7 @@ minikube stop
 
 ## 11. 프로덕션 백엔드와 풀스택 배포 (Supabase · Next.js · GitHub Actions)
 
-> **최종 검토일**: 2026-06-28 · 근거: research/23_supabase.md(프로덕션 보안·환경 분리·2026 키 체계), research/22_se-practices.md(CI/CD·비밀키·환경변수), research/09_deployment.md(Vercel 프로덕션·프리뷰). 수치·정책은 분기마다 변동될 수 있으므로 공식 페이지에서 재확인하세요.
+> **최종 검증일**: 2026-06-28 · 근거: research/23_supabase.md(프로덕션 보안·환경 분리·2026 키 체계), research/22_se-practices.md(CI/CD·비밀키·환경변수), research/09_deployment.md(Vercel 프로덕션·프리뷰). 수치·정책은 분기마다 변동될 수 있으므로 공식 페이지에서 재확인하세요.
 
 ### 학습 목표
 
