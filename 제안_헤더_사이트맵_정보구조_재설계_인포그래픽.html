@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>헤더·사이트맵 정보구조 재설계 제안 — 김선생의 바이브코딩 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --jc-blue:#006BB6; --jc-blue-d:#036EB7; --jc-sky:#2CA6E0; --jc-ink:#333338;
+  --navy:#0B2B45; --bg:#F1F5F9; --card:#FFFFFF; --line:#DCE5EC;
+  --muted:#5E6E7A; --tint:#EBF5FC;
+  --warn:#A6510F; --warn-bg:#FAF3ED; --bad:#C92519; --bad-bg:#FAEEED;
+  --good:#0F7561; --good-bg:#EDFAF8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Pretendard','Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--bg); color:var(--jc-ink); line-height:1.7;
+  -webkit-font-smoothing:antialiased; word-break:keep-all;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+
+/* ── 헤더 ── */
+header.doc{
+  background:linear-gradient(135deg,#00548F 0%,var(--jc-blue) 55%,var(--jc-sky) 100%);
+  color:#fff; padding:56px 20px 44px; margin-bottom:38px;
+}
+header.doc .inner{max-width:1080px;margin:0 auto}
+.eyebrow{
+  display:inline-block;font-size:.76rem;font-weight:700;letter-spacing:.06em;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+  padding:5px 13px;border-radius:20px;margin-bottom:16px;
+}
+header.doc h1{font-size:2.1rem;font-weight:800;line-height:1.3;letter-spacing:-.02em}
+header.doc .verdict{
+  margin-top:18px;padding:16px 20px;border-radius:12px;
+  background:rgba(255,255,255,.13);border-left:4px solid #fff;
+  font-size:1.02rem;font-weight:600;
+}
+header.doc .meta{margin-top:18px;font-size:.83rem;opacity:.86}
+
+/* ── KPI ── */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px}
+.kpi{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:20px 18px;text-align:center;
+}
+.kpi .n{font-size:2.05rem;font-weight:800;color:var(--jc-blue);line-height:1.1;letter-spacing:-.02em}
+.kpi .n small{font-size:1rem;font-weight:700;color:var(--muted);margin-left:2px}
+.kpi .l{font-size:.83rem;font-weight:700;margin-top:6px}
+.kpi .d{font-size:.74rem;color:var(--muted);margin-top:3px;line-height:1.45}
+
+/* ── 섹션 ── */
+section{margin-bottom:44px}
+h2{
+  font-size:1.32rem;font-weight:800;color:var(--jc-blue);
+  padding-bottom:10px;border-bottom:2px solid var(--jc-blue);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+h2 .num{
+  background:var(--jc-blue);color:#fff;width:27px;height:27px;border-radius:8px;
+  display:inline-flex;align-items:center;justify-content:center;font-size:.86rem;flex:none;
+}
+h3{font-size:1.02rem;font-weight:700;margin:22px 0 10px;color:var(--navy)}
+p{margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:16px}
+
+/* ── 헤더 스택 비교 ── */
+.stack-compare{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.stack{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;overflow:hidden}
+.stack .t{font-size:.86rem;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.stack .t .badge{font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:20px}
+.b-bad{background:var(--bad-bg);color:var(--bad)}
+.b-good{background:var(--good-bg);color:var(--good)}
+.band{
+  border-radius:8px;padding:9px 12px;margin-bottom:6px;font-size:.76rem;
+  border:1px solid var(--line);background:#FBFDFE;
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.band .px{font-size:.7rem;color:var(--muted);font-weight:700;flex:none}
+.band.dup{background:var(--bad-bg);border-color:#F0C9C5}
+.band.hero{background:var(--tint);border-color:#BFDDF2}
+.band.new{background:var(--good-bg);border-color:#BEE8DD}
+.stack .total{
+  margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:.82rem;font-weight:800;display:flex;justify-content:space-between;
+}
+.dup-note{font-size:.74rem;color:var(--bad);font-weight:700;margin-top:8px}
+
+/* ── 표 ── */
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin:12px 0 6px;background:var(--card)}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--tint);font-weight:700;color:var(--navy);font-size:.8rem}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+
+/* ── 진단 리스트 ── */
+.finding{
+  background:var(--card);border:1px solid var(--line);border-left:4px solid var(--bad);
+  border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:12px;
+}
+.finding .h{font-weight:800;font-size:.96rem;margin-bottom:6px;color:var(--navy)}
+.finding .h em{font-style:normal;color:var(--bad);font-size:.76rem;font-weight:700;margin-right:8px}
+.finding p{font-size:.86rem;margin-bottom:0;color:var(--muted)}
+.finding .measure{
+  display:inline-block;background:var(--bad-bg);color:var(--bad);
+  font-size:.76rem;font-weight:800;padding:2px 9px;border-radius:6px;margin-top:8px;
+}
+
+/* ── 모바일 깨짐 데모 ── */
+.broken{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;
+  background:var(--bad-bg);border:1px dashed #E5A9A3;border-radius:10px;
+  padding:14px 16px;color:var(--bad);white-space:pre;overflow-x:auto;margin:10px 0;
+}
+
+/* ── 메가패널 목업 ── */
+.mega{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mega .bar{
+  background:var(--navy);color:#fff;padding:11px 18px;font-size:.84rem;font-weight:700;
+  display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+}
+.mega .bar .brand{font-weight:800}
+.mega .bar .item{opacity:.72;font-weight:600}
+.mega .bar .item.on{opacity:1;background:rgba(255,255,255,.16);padding:4px 11px;border-radius:7px}
+.mega .bar .sp{margin-left:auto;opacity:.72;font-weight:600}
+.mega .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+.mega .col{padding:16px 14px;border-right:1px solid var(--line)}
+.mega .col:last-child{border-right:none}
+.mega .col .ct{font-size:.78rem;font-weight:800;color:var(--jc-blue);margin-bottom:10px;
+  padding-bottom:6px;border-bottom:2px solid var(--tint)}
+.mega .col .tool{font-size:.79rem;margin-bottom:7px;line-height:1.4}
+.mega .col .tool b{font-weight:700;display:block}
+.mega .col .tool span{font-size:.7rem;color:var(--muted)}
+.mega .foot{
+  padding:12px 16px;border-top:1px solid var(--line);background:#FAFCFE;
+  font-size:.76rem;color:var(--muted);
+}
+.mega .foot b{color:var(--jc-blue);font-weight:700}
+
+/* ── 경로 카드 ── */
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:12px}
+.path{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.path .pn{font-size:.88rem;font-weight:800;color:var(--jc-blue);margin-bottom:9px}
+.path ol{list-style:none;counter-reset:s}
+.path li{
+  counter-increment:s;font-size:.77rem;color:var(--muted);
+  padding-left:22px;position:relative;margin-bottom:5px;line-height:1.45;
+}
+.path li::before{
+  content:counter(s);position:absolute;left:0;top:2px;
+  width:16px;height:16px;border-radius:5px;background:var(--tint);color:var(--jc-blue);
+  font-size:.64rem;font-weight:800;display:flex;align-items:center;justify-content:center;
+}
+
+/* ── 우선순위 ── */
+.prio{display:flex;flex-direction:column;gap:9px}
+.prio .row{
+  display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 16px;
+}
+.prio .p{
+  background:var(--jc-blue);color:#fff;font-weight:800;font-size:.78rem;
+  padding:5px 0;border-radius:7px;text-align:center;
+}
+.prio .p.p2{background:var(--jc-blue-d)}
+.prio .p.p3{background:var(--jc-sky)}
+.prio .body b{display:block;font-size:.9rem;font-weight:700}
+.prio .body span{font-size:.77rem;color:var(--muted)}
+.prio .eff{font-size:.73rem;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.eff-l{background:var(--good-bg);color:var(--good)}
+.eff-m{background:var(--warn-bg);color:var(--warn)}
+
+/* ── 체크리스트 ── */
+.check{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px}
+.check li{list-style:none;padding-left:30px;position:relative;margin-bottom:11px;font-size:.87rem}
+.check li::before{
+  content:'';position:absolute;left:0;top:4px;width:16px;height:16px;
+  border:2px solid var(--jc-blue);border-radius:4px;
+}
+.assume{background:var(--warn-bg);border:1px solid #E8CDB4;border-radius:12px;padding:18px 22px;margin-bottom:16px}
+.assume .t{font-size:.9rem;font-weight:800;color:var(--warn);margin-bottom:10px}
+.assume ol{padding-left:20px}
+.assume li{font-size:.85rem;margin-bottom:8px;color:#5A3C14}
+
+footer.doc{
+  border-top:1px solid var(--line);margin-top:20px;padding-top:22px;
+  font-size:.79rem;color:var(--muted);text-align:center;
+}
+
+@media(max-width:840px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .stack-compare{grid-template-columns:1fr}
+  .mega .grid{grid-template-columns:repeat(2,1fr)}
+  header.doc h1{font-size:1.55rem}
+}
+@media(max-width:520px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .mega .grid{grid-template-columns:1fr}
+  .prio .row{grid-template-columns:44px 1fr;row-gap:8px}
+  .prio .eff{grid-column:2}
+}
+</style>
+</head>
+<body>
+
+<header class="doc">
+  <div class="inner">
+    <span class="eyebrow">정보구조 진단 · 제안 v1.0</span>
+    <h1>헤더·사이트맵 정보구조 재설계 제안</h1>
+    <div class="verdict">
+      헤더가 정보를 못 주는 게 아니라, 같은 정보를 세 번 주고 정작 필요한 것을 안 준다.
+    </div>
+    <div class="meta">
+      대상: 김선생의 바이브코딩 가이드 &nbsp;·&nbsp; 작성일 2026-09-04 &nbsp;·&nbsp;
+      작성 김병선 (KBS Lab) &nbsp;·&nbsp; 전 수치 로컬 실측
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- KPI -->
+  <div class="kpis">
+    <div class="kpi">
+      <div class="n">431<small>px</small></div>
+      <div class="l">교안 첫 화면 크롬</div>
+      <div class="d">1280×800의 54%<br>본문은 y=535부터</div>
+    </div>
+    <div class="kpi">
+      <div class="n">3<small>회</small></div>
+      <div class="l">도구명 반복</div>
+      <div class="d">topnav · 브레드크럼<br>· 레벨바가 같은 말</div>
+    </div>
+    <div class="kpi">
+      <div class="n">1<small>/15</small></div>
+      <div class="l">교안에서 보이는 도구</div>
+      <div class="d">15종 중 현재 1종만<br>이동은 홈 경유 왕복</div>
+    </div>
+    <div class="kpi">
+      <div class="n">0<small>개</small></div>
+      <div class="l">사이트맵</div>
+      <div class="d">61페이지의 지도가<br>사이트에 없다</div>
+    </div>
+  </div>
+
+  <!-- 1. 헤더 스택 -->
+  <section>
+    <h2><span class="num">1</span>교안 헤더가 같은 말을 세 번 한다</h2>
+    <p>MCP 중급 교안을 1280×800에서 실측했다. 본문이 시작되기 전 네 개 띠가 쌓인다.</p>
+
+    <div class="stack-compare">
+      <div class="stack">
+        <div class="t">현재 <span class="badge b-bad">4단 · 431px</span></div>
+        <div class="band dup"><span>바이브코딩 가이드 · MCP 초급 · MCP 중급 · MCP 개발자</span><span class="px">51</span></div>
+        <div class="band"><span>홈 &gt; MCP &gt; 중급자편</span><span class="px">41</span></div>
+        <div class="band dup"><span>MCP | 초보자 · 중급자 · 개발자</span><span class="px">44</span></div>
+        <div class="band hero"><span>히어로 — 제목 · 부제 · 배지 4 · 소요시간</span><span class="px">295</span></div>
+        <div class="total"><span>본문 시작</span><span>y = 535</span></div>
+        <div class="dup-note">붉은 두 띠는 목적지가 같은 링크 3개다</div>
+      </div>
+
+      <div class="stack">
+        <div class="t">제안 <span class="badge b-good">2단 · 386px</span></div>
+        <div class="band new"><span>전역 — 전체 교안 ▾ · 학습 경로 ▾ · 읽을거리 ▾ · 검색</span><span class="px">51</span></div>
+        <div class="band new"><span>맥락 — 홈 &gt; MCP &gt; 중급자편 · · 초보자 [중급자] 개발자</span><span class="px">40</span></div>
+        <div class="band hero"><span>히어로 (유지)</span><span class="px">295</span></div>
+        <div class="total"><span>본문 시작</span><span>y = 490 &nbsp;(45px 회복)</span></div>
+        <div class="dup-note" style="color:var(--good)">1행은 모든 페이지가 동일 · 2행은 교안에만</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 진단 -->
+  <section>
+    <h2><span class="num">2</span>진단 — 측정값 8건</h2>
+
+    <div class="finding">
+      <div class="h"><em>2.1</em>헤더 3단이 중복이다</div>
+      <p>1행 "MCP 초급·중급·개발자"와 3행 "초보자·중급자·개발자"는 목적지가 같다.
+         2행 브레드크럼이 도구명을 세 번째로 반복한다.</p>
+      <span class="measure">431px · 첫 화면의 54%</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.2</em>교안에서 다른 도구로 갈 수 없다</div>
+      <p>교안 상단 메뉴의 링크는 홈 1개 + 현재 도구 3레벨, 총 4개다.
+         러버블 교안에서 커서 교안으로 가려면 반드시 홈을 경유한다. 45개 교안 전부 같은 구조.</p>
+      <span class="measure">도구 15종 중 1종만 노출</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.3</em>검색이 홈에만 있다</div>
+      <p>search.html은 상단 메뉴 어디에도 링크되지 않는다. 유일한 입구는 홈 히어로의 검색창.
+         전문 검색 인덱스를 만들어 두고 진입로가 한 곳뿐이다.</p>
+      <span class="measure">교안 페이지 검색 입력 0개</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.4</em>모바일 교안 헤더가 깨진다</div>
+      <p>375px에서 링크 4개가 2줄로 접히고 단어 중간에서 잘린다. 교안 페이지에는 햄버거 버튼이 없다.</p>
+      <div class="broken">바이브코딩 가이   MCP 초   MCP 중   MCP 개발
+드                급       급       자</div>
+      <span class="measure">링크 높이 52px (2줄) · 헤더 77px · 햄버거 없음</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.5</em>사이트맵이 존재하지 않는다</div>
+      <p>sitemap.html도 sitemap.xml도 robots.txt도 없다. 푸터 링크는 홈·Threads·Instagram 3개뿐.
+         45개 교안이 홈 카드 그리드 한 곳에서만 링크된다.</p>
+      <span class="measure">61페이지 · 전체 지도 화면 0개</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.6</em>학습 경로 5개가 데이터에만 있다</div>
+      <p>lessons-data.js가 입문자·기본기·중급자·Claude 생태계·개발자 5경로를 이미 정의한다.
+         "어디서 시작하지"에 대한 사이트 자신의 답인데 교안 안쪽 작은 배너로만 나온다.</p>
+      <span class="measure">헤더 노출 0 · 홈 첫 화면 노출 0</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.7</em>분류 이름이 내용과 어긋난다</div>
+      <p>「기초·인프라」에 ChatGPT/Codex와 프롬프트 엔지니어링이 있다. 인프라가 아니다.
+         MCP는 벤더 중립 공개 프로토콜인데 「Claude 생태계」에 있다.</p>
+      <span class="measure">4개 드롭다운 · 링크 56개 · 최대 군이 7도구 21링크</span>
+    </div>
+
+    <div class="finding">
+      <div class="h"><em>2.8</em>드롭다운이 hover 전용이다</div>
+      <p>여는 조건이 CSS hover 한 줄뿐이다. 키보드 Tab으로 열리지 않고 터치 장치에서 열 수단이 없다.
+         aria-expanded 같은 상태 표시도 없다.</p>
+      <span class="measure">키보드 · 터치 접근 불가</span>
+    </div>
+  </section>
+
+  <!-- 3. 우선순위 -->
+  <section>
+    <h2><span class="num">3</span>제안 — 우선순위 7건</h2>
+    <div class="prio">
+      <div class="row"><div class="p">P1</div>
+        <div class="body"><b>교안 헤더 3줄 → 2줄 통합</b><span>진단 2.1 · 첫 화면 45px 회복, 중복 제거</span></div>
+        <div class="eff eff-l">난이도 낮음</div></div>
+      <div class="row"><div class="p p2">P2</div>
+        <div class="body"><b>「전체 교안」 단일 메가패널</b><span>진단 2.2 · 2.7 · 어느 페이지에서든 45개 교안 도달</span></div>
+        <div class="eff eff-m">난이도 중간</div></div>
+      <div class="row"><div class="p p3">P3</div>
+        <div class="body"><b>검색을 전 페이지 헤더 상수로</b><span>진단 2.3 · 이미 만든 검색 인덱스 활용</span></div>
+        <div class="eff eff-l">난이도 낮음</div></div>
+      <div class="row"><div class="p p3">P4</div>
+        <div class="body"><b>사이트맵 페이지 + XML + 푸터 링크맵</b><span>진단 2.5 · 전체 조망과 검색엔진 수집</span></div>
+        <div class="eff eff-l">난이도 낮음</div></div>
+      <div class="row"><div class="p p3">P5</div>
+        <div class="body"><b>분류를 목적 기반 5군으로 재편</b><span>진단 2.7 · 외우지 않아도 찾는다</span></div>
+        <div class="eff eff-m">난이도 중간</div></div>
+      <div class="row"><div class="p p3">P6</div>
+        <div class="body"><b>모바일 교안 헤더 수리</b><span>진단 2.4 · 줄바꿈 깨짐과 햄버거 부재</span></div>
+        <div class="eff eff-l">난이도 낮음</div></div>
+      <div class="row"><div class="p p3">P7</div>
+        <div class="body"><b>드롭다운 클릭·키보드 접근</b><span>진단 2.8 · 접근성</span></div>
+        <div class="eff eff-l">난이도 낮음</div></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <b>공통 원칙</b> — 헤더 마크업을 페이지마다 손으로 쓰지 않는다.
+      lessons-data.js를 단일 원본으로 두고 common.js가 생성한다.
+      지금 홈 상단 메뉴의 링크 56개는 손코딩이라, 교안 하나를 추가할 때마다 사람이 잊지 않고 고쳐야 한다.
+    </div>
+  </section>
+
+  <!-- 4. 메가패널 -->
+  <section>
+    <h2><span class="num">4</span>전체 교안 메가패널</h2>
+    <p>4개 hover 드롭다운을 하나로 합친다. 지금은 "커서 중급자편"을 찾으려면
+       AI 빌더인지 기초·인프라인지 먼저 맞춰야 한다. 한 패널에 펼치면 맞출 필요가 없다.</p>
+    <div class="mega">
+      <div class="bar">
+        <span class="brand">바이브코딩 가이드</span>
+        <span class="item on">전체 교안 ▾</span>
+        <span class="item">학습 경로 ▾</span>
+        <span class="item">읽을거리 ▾</span>
+        <span class="sp">검색 · 온라인 랩</span>
+      </div>
+      <div class="grid">
+        <div class="col">
+          <div class="ct">만들기</div>
+          <div class="tool"><b>러버블</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>AI Studio</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>안티그래비티</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>커서</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>Claude Code</b><span>초보자 · 중급자 · 개발자</span></div>
+        </div>
+        <div class="col">
+          <div class="ct">AI 다루기</div>
+          <div class="tool"><b>프롬프트 엔지니어링</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>ChatGPT / Codex</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>Claude Cowork</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>Claude Design</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>클로드 스킬</b><span>단일 가이드</span></div>
+        </div>
+        <div class="col">
+          <div class="ct">개발 기초</div>
+          <div class="tool"><b>웹·앱 개발 기초</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>개발 인터페이스 · 터미널</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>Git / GitHub</b><span>초보자 · 중급자 · 개발자</span></div>
+        </div>
+        <div class="col">
+          <div class="ct">연결 · 배포</div>
+          <div class="tool"><b>MCP</b><span>초급 · 중급 · 개발자</span></div>
+          <div class="tool"><b>배포</b><span>초보자 · 중급자 · 개발자</span></div>
+          <div class="tool"><b>구글 생태계</b><span>초보자 · 중급자 · 개발자</span></div>
+        </div>
+      </div>
+      <div class="foot">
+        <b>읽을거리</b> &nbsp; 2026 트렌드 리포트 · CC 마스터 로드맵 · NVIDIA GTC 2025 ·
+        하네스 엔지니어링 · 소프트웨어 엔지니어링 · AI 도구 비교
+      </div>
+    </div>
+    <p style="margin-top:14px;font-size:.86rem;color:var(--muted)">
+      이 패널은 홈과 교안이 <b>같은 마크업</b>을 쓴다. 현재는 홈에만 있고 교안에 없어서 진단 2.2가 생겼다.
+    </p>
+  </section>
+
+  <!-- 5. 학습 경로 -->
+  <section>
+    <h2><span class="num">5</span>학습 경로를 1급 시민으로</h2>
+    <p>lessons-data.js에 이미 있는 5개 경로다. 교사가 처음 왔을 때 묻는 질문은
+       "어떤 도구가 있나"가 아니라 <b>"나는 어디서 시작하나"</b>다.
+       사이트는 답을 데이터로 갖고 있으면서 화면에 내놓지 않고 있다.</p>
+    <div class="paths">
+      <div class="path"><div class="pn">입문자 경로</div><ol>
+        <li>웹·앱 개발 기초 초보</li><li>AI Studio 초보</li><li>러버블 초보</li><li>러버블 중급</li></ol></div>
+      <div class="path"><div class="pn">기본기 경로</div><ol>
+        <li>개발 인터페이스 초보</li><li>Git/GitHub 초보</li><li>배포 초보</li><li>웹·앱 개발 중급</li></ol></div>
+      <div class="path"><div class="pn">중급자 경로</div><ol>
+        <li>프롬프트 초보</li><li>ChatGPT 초보</li><li>구글 생태계 초보</li><li>커서 초보</li></ol></div>
+      <div class="path"><div class="pn">Claude 생태계 경로</div><ol>
+        <li>Claude Code 초보</li><li>MCP 초급</li><li>Cowork 초보</li><li>Design 초보</li></ol></div>
+      <div class="path"><div class="pn">개발자 경로</div><ol>
+        <li>커서 개발자</li><li>Claude Code 개발자</li><li>안티그래비티 개발자</li><li>배포 개발자</li></ol></div>
+    </div>
+  </section>
+
+  <!-- 6. 분류 재편 -->
+  <section>
+    <h2><span class="num">6</span>분류 재편 — 출신에서 목적으로</h2>
+    <p>현재 분류는 <b>도구의 출신</b>(누가 만들었나)으로 나뉘어 있다.
+       제안은 <b>학습자의 목적</b>(무엇을 하려는가)으로 나눈다.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>항목</th><th>현재</th><th>제안</th><th>이유</th></tr></thead>
+        <tbody>
+          <tr><td>ChatGPT / Codex</td><td>기초·인프라</td><td>AI 다루기</td><td>인프라가 아니다</td></tr>
+          <tr><td>프롬프트 엔지니어링</td><td>기초·인프라</td><td>AI 다루기</td><td>인프라가 아니다</td></tr>
+          <tr><td>구글 생태계</td><td>기초·인프라</td><td>연결·배포</td><td>외부 서비스 연동</td></tr>
+          <tr><td>MCP</td><td>Claude 생태계</td><td>연결·배포</td><td>벤더 중립 공개 프로토콜</td></tr>
+          <tr><td>Claude Cowork · Design</td><td>Claude 생태계</td><td>AI 다루기</td><td>앱이 아니라 문서·디자인 산출</td></tr>
+          <tr><td>커서</td><td>AI 빌더</td><td>만들기</td><td>유지 — 앱을 만든다</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px;font-size:.87rem">
+      무게 분포: 현재 <b>4 / 5 / 7 / 6</b> → 제안 <b>5 / 5 / 3 / 3 / 6</b>.
+      가장 무거운 군이 7에서 6으로 내려간다.
+      색상은 도구별로 고정이므로 분류가 바뀌어도 그대로 간다.
+    </p>
+  </section>
+
+  <!-- 7. 실행안 -->
+  <section>
+    <h2><span class="num">7</span>단계별 실행안</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>단계</th><th>내용</th><th>건드리는 파일</th></tr></thead>
+        <tbody>
+          <tr><td>1단계</td><td>헤더 2줄 통합 + 모바일 수리 (P1·P6)</td><td>common.js · common.css</td></tr>
+          <tr><td>2단계</td><td>전체 교안 메가패널 생성기 (P2)</td><td>common.js · lessons-data.js</td></tr>
+          <tr><td>3단계</td><td>헤더 검색 + 드롭다운 접근성 (P3·P7)</td><td>common.js · search.js</td></tr>
+          <tr><td>4단계</td><td>사이트맵 3종 (P4)</td><td>sitemap.html · sitemap.xml · 푸터</td></tr>
+          <tr><td>5단계</td><td>분류 재편 (P5)</td><td>lessons-data.js · CLAUDE.md · PRD.md</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px;font-size:.87rem">
+      1~3단계는 서로 독립적이지 않다. 전부 common.js의 헤더 생성부를 건드리므로
+      <b>한 번에 설계하고 순차 적용</b>하는 편이 안전하다.
+    </p>
+  </section>
+
+  <!-- 8. 가정과 검증 -->
+  <section>
+    <h2><span class="num">8</span>핵심 가정과 검증 체크리스트</h2>
+
+    <div class="assume">
+      <div class="t">핵심 가정 3줄 — 이 제안이 딛고 선 전제</div>
+      <ol>
+        <li><b>주 사용자는 교사이고, 도구 이름보다 "무엇을 하려는가"로 찾는다.</b>
+            분류 재편(P5)의 전제다. 도구명을 알고 오는 비율이 높다면 재편의 이득이 줄어든다.</li>
+        <li><b>교안 간 이동 수요가 실재한다.</b> P2의 전제다. 한 도구만 보고 이탈하는 패턴이라면
+            메가패널의 효과가 작다. 현재 사이트에 분석 도구가 없어 측정된 바 없다.</li>
+        <li><b>헤더를 JS 생성으로 옮겨도 검색엔진 수집에 손해가 없다.</b>
+            사이트맵(P4)을 함께 두는 것이 그 보험이다.</li>
+      </ol>
+    </div>
+
+    <div class="check">
+      <div style="font-size:.92rem;font-weight:800;margin-bottom:14px;color:var(--navy)">
+        검증 체크리스트 — PI 김병선 직접 확인
+      </div>
+      <ul>
+        <li>분류 5군의 이름과 소속이 교사 눈높이에 맞는가. 특히 "AI 다루기"가 통하는 말인가</li>
+        <li>MCP를 「Claude 생태계」에서 「연결·배포」로 옮기는 것에 동의하는가</li>
+        <li>홈 히어로 버튼 3개를 학습 경로 5개로 바꿔도 되는가 (현재 버튼은 스크롤 이동이라 기능이 다름)</li>
+        <li>헤더에서 「AI 교육철학」·「AI 과학교육」 상시 노출을 유지할지</li>
+        <li>「온라인 랩」 외부 링크의 헤더 내 위치</li>
+        <li>사이트맵 페이지를 공개 메뉴에 넣을지, 푸터에만 둘지</li>
+        <li>실행 단계 1~5 중 어디까지 이번에 진행할지</li>
+      </ul>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--warn);border-radius:0 14px 14px 0;margin-top:16px">
+      <b style="color:var(--warn)">이번 진단 중 함께 처리한 것</b>
+      <p style="margin-top:8px;font-size:.87rem">
+        직전 색상 작업(커밋 677cfe5)에서 <b>16진수만 치환하고 rgba 표기를 놓쳐</b>
+        헤더·히어로에 구 보라색 25건이 남아 있었다. 이번에 정리했다.
+        index.html 23건, harness-engineering.html 2건이며 대상은 상단 메뉴 테두리·호버 배경,
+        드롭다운 테두리, 히어로 글로우, 아바타 링, 햄버거 호버다.
+        교안 본문 안의 색(예: chatgpt-beginner.html의 "메인 색상: #5052EC")은
+        <b>학습 내용이므로 바꾸지 않았다</b>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="doc">
+    김선생의 바이브코딩 가이드 · 헤더·사이트맵 정보구조 재설계 제안 v1.0 · 2026-09-04<br>
+    전 수치는 로컬 서버 실측값이다. 다음 행동: 체크리스트 회신 후 1단계 착수.
+  </footer>
+
+</div>
+</body>
+</html>
