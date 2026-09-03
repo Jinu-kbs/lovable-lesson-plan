@@ -8,10 +8,10 @@
 <link rel="stylesheet" href="common.css">
 <style>
 /* 색상 오버라이드 */
-:root{--primary:#D97706;--primary-light:#FDE68A;--primary-dark:#92400E;--blockquote-bg:#FFFBEB;--hover-bg:#FEFCE8}
+:root{--primary:#975913;--primary-light:#DC8929;--primary-dark:#814B0E;--blockquote-bg:#FAF4ED;--hover-bg:#FCFAF7}
 
 /* HERO OVERRIDE */
-.hero{background:linear-gradient(135deg,#B45309 0%,#D97706 50%,#F59E0B 100%);padding:80px 20px 60px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,#A6510F 0%,#9B580D 50%,#EEA046 100%);padding:80px 20px 60px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-40%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(253,230,138,.2) 0%,transparent 70%);pointer-events:none}
 .hero h1{font-size:2.2rem;position:relative;z-index:1}
 .hero .meta{position:relative;z-index:1}
@@ -28,20 +28,20 @@
 
 /* 스킬 카드 그리드 */
 .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:16px 0 24px}
-.skill-card{background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:20px;border-left:4px solid #D97706;transition:transform .2s,box-shadow .2s}
+.skill-card{background:#FCF5EE;border:1px solid #FBE2C7;border-radius:12px;padding:20px;border-left:4px solid #9B580D;transition:transform .2s,box-shadow .2s}
 .skill-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(217,119,6,.12)}
-.skill-card-name{font-size:1rem;font-weight:700;color:#D97706;margin-bottom:6px}
-.skill-card-cmd{font-family:'Fira Code',monospace;font-size:.85rem;background:#FEF3C7;padding:2px 8px;border-radius:4px;color:#92400E;display:inline-block;margin-bottom:8px}
+.skill-card-name{font-size:1rem;font-weight:700;color:#9B580D;margin-bottom:6px}
+.skill-card-cmd{font-family:'Fira Code',monospace;font-size:.85rem;background:#FDF1E3;padding:2px 8px;border-radius:4px;color:#814B0E;display:inline-block;margin-bottom:8px}
 .skill-card-desc{font-size:.85rem;color:#555;margin-top:6px;line-height:1.5}
 
 /* 비교 그리드 */
 .compare-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0 24px}
 .compare-col{background:#FFF;border:1px solid #EEE;border-radius:12px;padding:16px;text-align:center}
-.compare-col.active{border-color:#D97706;background:#FFFBEB}
+.compare-col.active{border-color:#9B580D;background:#FCF5EE}
 .compare-col-icon{font-size:1.8rem;margin-bottom:8px}
 .compare-col-title{font-weight:700;font-size:.9rem;margin-bottom:6px;color:#333}
 .compare-col-badge{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:8px}
-.compare-col.active .compare-col-badge{background:#D97706;color:#fff}
+.compare-col.active .compare-col-badge{background:#9B580D;color:#fff}
 .compare-col:not(.active) .compare-col-badge{background:#E5E7EB;color:#6B7280}
 .compare-col-desc{font-size:.8rem;color:#666;line-height:1.5}
 .compare-col ul{text-align:left;font-size:.8rem;color:#555;margin:8px 0 0 16px;line-height:1.7}
@@ -49,21 +49,21 @@
 /* 스텝 타임라인 */
 .steps{margin:16px 0 24px}
 .step-item{display:flex;gap:16px;margin-bottom:20px}
-.step-num{width:32px;height:32px;border-radius:50%;background:#D97706;color:#FFF;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;margin-top:2px}
+.step-num{width:32px;height:32px;border-radius:50%;background:#9B580D;color:#FFF;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;margin-top:2px}
 .step-body h4{font-weight:700;margin-bottom:4px;font-size:.95rem;color:#333}
 .step-body p{font-size:.88rem;color:#555;margin-bottom:0}
-.step-body code{font-family:'Fira Code',monospace;font-size:.82rem;background:#FEF3C7;padding:2px 6px;border-radius:4px;color:#92400E}
+.step-body code{font-family:'Fira Code',monospace;font-size:.82rem;background:#FDF1E3;padding:2px 6px;border-radius:4px;color:#814B0E}
 
 /* 파일 구조 박스 */
-.file-box{background:#FEF3C7;border:1px solid #FDE68A;border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-family:'Fira Code',monospace;font-size:.85rem;line-height:1.8;overflow-x:auto}
-.file-box .comment{color:#92400E;opacity:.7}
-.file-box .key{color:#B45309;font-weight:600}
+.file-box{background:#FDF1E3;border:1px solid #FBE2C7;border-radius:10px;padding:16px 20px;margin:12px 0 24px;font-family:'Fira Code',monospace;font-size:.85rem;line-height:1.8;overflow-x:auto}
+.file-box .comment{color:#814B0E;opacity:.7}
+.file-box .key{color:#A6510F;font-weight:600}
 .file-box .val{color:#065F46}
-.file-box .dir{color:#D97706;font-weight:700}
+.file-box .dir{color:#9B580D;font-weight:700}
 
 /* callout 박스 */
-.callout{border-left:4px solid #D97706;background:#FFFBEB;padding:14px 18px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:.9rem}
-.callout strong{color:#D97706}
+.callout{border-left:4px solid #9B580D;background:#FCF5EE;padding:14px 18px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:.9rem}
+.callout strong{color:#9B580D}
 .callout.info{border-left-color:#3B82F6;background:#EFF6FF}
 .callout.info strong{color:#1D4ED8}
 .callout.success{border-left-color:#059669;background:#ECFDF5}
@@ -72,14 +72,14 @@
 .callout.warn strong{color:#B91C1C}
 
 /* 아키텍처 다이어그램 */
-.arch-diagram{background:#FEF3C7;border:1px solid #FDE68A;border-radius:12px;padding:24px;margin:16px 0 24px}
+.arch-diagram{background:#FDF1E3;border:1px solid #FBE2C7;border-radius:12px;padding:24px;margin:16px 0 24px}
 .arch-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .arch-row:last-child{margin-bottom:0}
-.arch-label{font-size:.8rem;font-weight:700;color:#92400E;width:90px;flex-shrink:0}
-.arch-path{font-family:'Fira Code',monospace;font-size:.82rem;background:#fff;border:1px solid #FDE68A;padding:6px 14px;border-radius:8px;color:#333;flex:1}
+.arch-label{font-size:.8rem;font-weight:700;color:#814B0E;width:90px;flex-shrink:0}
+.arch-path{font-family:'Fira Code',monospace;font-size:.82rem;background:#fff;border:1px solid #FBE2C7;padding:6px 14px;border-radius:8px;color:#333;flex:1}
 .arch-desc{font-size:.8rem;color:#666;margin-left:4px}
-.arch-arrow{color:#D97706;font-weight:700;font-size:1rem}
-.arch-priority{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:8px;background:#D97706;color:#fff;margin-left:6px}
+.arch-arrow{color:#9B580D;font-weight:700;font-size:1rem}
+.arch-priority{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:8px;background:#9B580D;color:#fff;margin-left:6px}
 
 /* 섹션 디바이더 */
 .section-divider{display:flex;align-items:center;gap:16px;margin:48px 0 24px}
@@ -88,18 +88,18 @@
 
 /* 비교 테이블 강화 */
 .compare-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;margin:16px 0 24px;border:1px solid var(--border);font-size:.88rem}
-.compare-table th{background:#92400E;color:#fff;padding:12px 16px;font-weight:600;text-align:center}
+.compare-table th{background:#814B0E;color:#fff;padding:12px 16px;font-weight:600;text-align:center}
 .compare-table td{padding:11px 14px;border-top:1px solid var(--border);text-align:center}
-.compare-table tr:nth-child(even) td{background:#FFFBEB}
-.compare-table tr:hover td{background:#FEF3C7}
+.compare-table tr:nth-child(even) td{background:#FCF5EE}
+.compare-table tr:hover td{background:#FDF1E3}
 .compare-table td:first-child{text-align:left;font-weight:600}
 .badge-y{display:inline-block;background:#D1FAE5;color:#065F46;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:10px}
 .badge-n{display:inline-block;background:#FEE2E2;color:#991B1B;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:10px}
-.badge-m{display:inline-block;background:#FEF3C7;color:#92400E;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:10px}
+.badge-m{display:inline-block;background:#FDF1E3;color:#814B0E;font-size:.75rem;font-weight:700;padding:2px 10px;border-radius:10px}
 
 /* 고급 활용 카드 */
 .advanced-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:16px 0 24px}
-.advanced-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;border-top:4px solid #D97706}
+.advanced-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;border-top:4px solid #9B580D}
 .advanced-card h4{font-size:.95rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .advanced-card p{font-size:.85rem;color:#555;margin-bottom:0;line-height:1.5}
 

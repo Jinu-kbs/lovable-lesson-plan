@@ -18,8 +18,8 @@
 
   // lessons-data.js(LESSONS)에 없는 단독 페이지 보충
   var EXTRA = [
-    { title: 'Claude Code 마스터 로드맵', desc: '탭 기반 학습 로드맵', url: 'claude-code-roadmap.html', icon: '⚡', color: '#FF9800', badge: '심화·리포트', kw: 'claude code roadmap 로드맵 클로드코드' },
-    { title: 'NVIDIA GTC 2025 리포트', desc: '컨퍼런스 완전 리포트', url: 'nvidia-gtc-2025.html', icon: '🎯', color: '#76B900', badge: '심화·리포트', kw: 'nvidia gtc 2025 리포트 엔비디아' }
+    { title: 'Claude Code 마스터 로드맵', desc: '탭 기반 학습 로드맵', url: 'claude-code-roadmap.html', icon: '⚡', color: '#905E12', badge: '심화·리포트', kw: 'claude code roadmap 로드맵 클로드코드' },
+    { title: 'NVIDIA GTC 2025 리포트', desc: '컨퍼런스 완전 리포트', url: 'nvidia-gtc-2025.html', icon: '🎯', color: '#4E730E', badge: '심화·리포트', kw: 'nvidia gtc 2025 리포트 엔비디아' }
   ];
 
   var SYN = {
@@ -155,7 +155,7 @@
       box.innerHTML = results.map(function (r) {
         var sub = r._snippet ? '<span class="hs-badge">본문: ' + highlight(esc(r._snippet), q) + '</span>' : '<span class="hs-badge">' + esc(r.badge) + '</span>';
         return '<a class="hs-item" href="' + esc(r.url) + '">' +
-          '<span class="hs-icon" style="color:' + esc(r.color || '#5A4ED9') + '">' + esc(r.icon || '📄') + '</span>' +
+          '<span class="hs-icon" style="color:' + esc(r.color || '#006BB6') + '">' + esc(r.icon || '📄') + '</span>' +
           '<span class="hs-text"><span class="hs-title">' + esc(r.title) + '</span>' + sub + '</span></a>';
       }).join('') + '<button type="button" class="hs-all" id="hsAllBtn">"' + esc(q) + '" 전체 검색 결과 보기 →</button>';
       var allBtn = document.getElementById('hsAllBtn');
@@ -208,7 +208,7 @@
       results.innerHTML = list.map(function (r) {
         var snip = r._snippet ? '<span class="sr-snippet">' + highlight(esc(r._snippet), ql) + '</span>' : '';
         return '<a class="search-result" href="' + esc(r.url) + '">' +
-          '<span class="sr-icon" style="background:' + esc(r.color || '#5A4ED9') + '22;color:' + esc(r.color || '#5A4ED9') + '">' + esc(r.icon || '📄') + '</span>' +
+          '<span class="sr-icon" style="background:' + esc(r.color || '#006BB6') + '22;color:' + esc(r.color || '#006BB6') + '">' + esc(r.icon || '📄') + '</span>' +
           '<span class="sr-body"><span class="sr-title">' + highlight(esc(r.title), ql) + '</span>' +
           (r.desc ? '<span class="sr-desc">' + esc(r.desc) + '</span>' : '') + snip +
           '<span class="sr-badge">' + esc(r.badge) + '</span></span>' +

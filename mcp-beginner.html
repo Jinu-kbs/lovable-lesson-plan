@@ -6,7 +6,7 @@
 <title>MCP 초급 — 바이브코딩 가이드</title>
 <link rel="stylesheet" href="common.css">
 <style>
-:root{--primary:#0F766E;--primary-light:#99F6E4;--blockquote-bg:#F0FDFA;--hover-bg:#ECFDF5}
+:root{--primary:#0E746C;--primary-light:#1DAFA2;--blockquote-bg:#EDFAF9;--hover-bg:#F7FCFB}
 
 /* MCP 서버 카드 */
 .mcp-server-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:16px 0 24px}
@@ -15,7 +15,7 @@
 .mcp-server-card .s-icon{font-size:1.6rem;margin-bottom:8px}
 .mcp-server-card .s-name{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:4px}
 .mcp-server-card .s-desc{font-size:.82rem;color:#555;line-height:1.5}
-.mcp-server-card .s-pkg{font-family:'Fira Code',monospace;font-size:.78rem;background:#F0FDFA;color:#0F766E;padding:2px 8px;border-radius:4px;margin-top:8px;display:inline-block}
+.mcp-server-card .s-pkg{font-family:'Fira Code',monospace;font-size:.78rem;background:#F1FCFB;color:#0F756C;padding:2px 8px;border-radius:4px;margin-top:8px;display:inline-block}
 
 /* 설치 단계 */
 .install-steps{margin:16px 0 24px}
@@ -28,11 +28,11 @@
 .json-box{background:#1E293B;border-radius:10px;padding:20px;margin:12px 0 20px;overflow-x:auto}
 .json-box code{font-family:'Fira Code',monospace;font-size:.83rem;line-height:1.7;color:#E2E8F0;white-space:pre}
 .json-box .j-key{color:#7DD3FC}
-.json-box .j-str{color:#A5F3FC}
+.json-box .j-str{color:#9BF6EF}
 .json-box .j-comment{color:#64748B}
 
 /* 카테고리 배지 */
-.cat-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-right:4px;background:#F0FDFA;color:#0F766E;border:1px solid #99F6E4}
+.cat-badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.75rem;font-weight:600;margin-right:4px;background:#F1FCFB;color:#0F756C;border:1px solid #9FF5ED}
 .cat-badge.community{background:#FFF7ED;color:#C2410C;border-color:#FED7AA}
 
 /* stat-row */
@@ -45,12 +45,12 @@
 .compare-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0 24px}
 .compare-before,.compare-after{border-radius:12px;padding:18px}
 .compare-before{background:#FEF2F2;border:1px solid #FECACA}
-.compare-after{background:#F0FDFA;border:1px solid #99F6E4}
+.compare-after{background:#F1FCFB;border:1px solid #9FF5ED}
 .compare-before h4{color:#DC2626;font-size:.9rem;margin-bottom:10px}
-.compare-after h4{color:#0F766E;font-size:.9rem;margin-bottom:10px}
+.compare-after h4{color:#0F756C;font-size:.9rem;margin-bottom:10px}
 .compare-before ul,.compare-after ul{list-style:none;margin:0;padding:0;font-size:.85rem}
 .compare-before li::before{content:'✗ ';color:#DC2626}
-.compare-after li::before{content:'✓ ';color:#0F766E}
+.compare-after li::before{content:'✓ ';color:#0F756C}
 .compare-before li,.compare-after li{margin-bottom:6px;line-height:1.5}
 
 /* 다이어그램 */
@@ -62,7 +62,7 @@
 /* 대화 예시 박스 */
 .chat-example{background:var(--code-bg);border:1px solid var(--code-border);border-radius:10px;padding:18px;margin:12px 0 20px}
 .chat-example .chat-line{font-size:.88rem;margin-bottom:8px;line-height:1.6}
-.chat-example .chat-line.user{color:#0F766E;font-weight:600}
+.chat-example .chat-line.user{color:#0F756C;font-weight:600}
 .chat-example .chat-line.ai{color:var(--text)}
 .chat-example .chat-line.ai::before{content:'Claude: ';font-weight:600;color:#64748B}
 .chat-example .chat-line.user::before{content:'나: ';font-weight:700}
@@ -70,21 +70,21 @@
 /* callout 박스 */
 .callout{border-radius:10px;padding:14px 18px;margin:16px 0 20px;font-size:.88rem;line-height:1.6}
 .callout.warn{background:#FFFBEB;border:1px solid #FDE68A;border-left:4px solid #F59E0B}
-.callout.warn::before{content:'⚠️ 주의: ';font-weight:700;color:#B45309}
-.callout.tip{background:#F0FDFA;border:1px solid #99F6E4;border-left:4px solid var(--primary)}
-.callout.tip::before{content:'💡 팁: ';font-weight:700;color:#0F766E}
+.callout.warn::before{content:'⚠️ 주의: ';font-weight:700;color:#A6510F}
+.callout.tip{background:#F1FCFB;border:1px solid #9FF5ED;border-left:4px solid var(--primary)}
+.callout.tip::before{content:'💡 팁: ';font-weight:700;color:#0F756C}
 
 /* 다크모드 대응 */
 @media(prefers-color-scheme:dark){
   .mcp-server-card{background:var(--card-bg)}
   .stat-card{background:var(--card-bg)}
-  .mcp-server-card .s-pkg{background:#134E4A;color:#5EEAD4}
+  .mcp-server-card .s-pkg{background:#0D4E49;color:#55EADD}
   .compare-before{background:#2D1B1B;border-color:#7F1D1D}
-  .compare-after{background:#134E4A;border-color:#115E59}
+  .compare-after{background:#0D4E49;border-color:#0E5F58}
   .compare-before h4{color:#F87171}
-  .compare-after h4{color:#2DD4BF}
+  .compare-after h4{color:#21D3C5}
   .compare-before li::before{color:#F87171}
-  .compare-after li::before{color:#2DD4BF}
+  .compare-after li::before{color:#21D3C5}
   .diag-box{background:var(--card-bg)}
   .chat-example{background:var(--code-bg)}
 }

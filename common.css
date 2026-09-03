@@ -1,17 +1,25 @@
 /* common.css - 바이브코딩 가이드 교안 공통 스타일 */
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#5A4ED9;--primary-light:#C5BFFB;--bg:#FAFAFA;--card-bg:#FFF;--text:#2D3436;--text-light:#636E72;--border:#E0E0E0;--code-bg:#F8F9FA;--code-border:#E9ECEF;--blockquote-bg:#F0F0FF;--hover-bg:#FAFAFF}
+/* ── 지누켐 브랜드 토큰 (출처: JinuChem_Logo.svg 실측) ──
+   --jc-blue  #006BB6  코어 딥블루 (로고 워드마크)
+   --jc-blue-d #036EB7 분자 아이콘
+   --jc-sky   #2CA6E0  스카이 (분자 결합점)
+   --jc-ink   #333338  차콜 (chem 자간)
+   페이지별 테마색은 --primary 4종만 오버라이드하며,
+   전부 흰 배경 대비 5.5:1로 정렬돼 브랜드 블루와 같은 무게를 갖는다. */
+:root{--jc-blue:#006BB6;--jc-blue-d:#036EB7;--jc-sky:#2CA6E0;--jc-ink:#333338;
+--primary:#006BB6;--primary-light:#2CA6E0;--bg:#F7F9FB;--card-bg:#FFF;--text:#333338;--text-light:#5E6E7A;--border:#DCE5EC;--code-bg:#F4F8FB;--code-border:#E1EAF1;--blockquote-bg:#EBF5FC;--hover-bg:#F6FAFC}
 /* 다크모드 */
 @media(prefers-color-scheme:dark){
-  :root{--bg:#18181B;--card-bg:#27272A;--text:#F4F4F5;--text-light:#A1A1AA;--border:#3F3F46;--code-bg:#1E1E2E;--code-border:#3F3F46;--blockquote-bg:#1E1B4B;--hover-bg:#2D2D3A}
-  .topnav{background:#18181B;border-bottom-color:#3F3F46}
+  :root{--bg:#101A22;--card-bg:#1A2831;--text:#F2F5F7;--text-light:#9BAAB5;--border:#2E4250;--code-bg:#0F2029;--code-border:#2E4250;--blockquote-bg:#0B2B45;--hover-bg:#1C2E3A}
+  .topnav{background:#101A22;border-bottom-color:#2E4250}
   .topnav .brand{color:var(--text)}
-  .sidebar{background:#1E1E27;border-right-color:#3F3F46}
-  .breadcrumb{background:#1E1E27;border-bottom-color:#3F3F46}
-  .lesson-topnav-bar{background:#1A1A27 !important;border-bottom-color:#3F3F46 !important}
+  .sidebar{background:#132430;border-right-color:#2E4250}
+  .breadcrumb{background:#132430;border-bottom-color:#2E4250}
+  .lesson-topnav-bar{background:#122230 !important;border-bottom-color:#2E4250 !important}
   footer{background:transparent}
-  pre{background:#1E1E2E !important;border-color:#3F3F46 !important}
-  details{background:#27272A;border-color:#3F3F46}
+  pre{background:#0F2029 !important;border-color:#2E4250 !important}
+  details{background:#1A2831;border-color:#2E4250}
 }
 body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 /* NAV */
@@ -31,7 +39,15 @@ body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-s
 .sidebar h3{font-size:.8rem;text-transform:uppercase;color:var(--text-light);letter-spacing:1px;margin-bottom:12px}
 .sidebar a{display:block;padding:6px 12px;text-decoration:none;color:#4B5563;font-size:.85rem;border-radius:6px;margin-bottom:2px;line-height:1.5}
 .sidebar a:hover{background:var(--bg);color:var(--text)}
-@media(prefers-color-scheme:dark){.sidebar a{color:#A1A1AA}}
+@media(prefers-color-scheme:dark){.sidebar a{color:#9BAAB5}}
+/* 다크모드 테마색 보정 — 페이지 <style>이 common.css보다 뒤에 오므로
+   :root 한 겹으로는 이길 수 없다. html:root 로 특이도를 올려 인용·호버 배경을 되찾고,
+   본문 링크·강조는 밝은 톤으로 바꿔 대비 4.5:1을 확보한다. */
+@media(prefers-color-scheme:dark){
+  html:root{--blockquote-bg:#0B2B45;--hover-bg:#1C2E3A}
+  html .content a,html .content blockquote strong,html .content h2,html .content h3{color:var(--primary-light)}
+  html .content blockquote{border-left-color:var(--primary-light)}
+}
 .sidebar a.s2{padding-left:24px;font-size:.8rem}
 /* CONTENT */
 .content{flex:1;padding:40px;max-width:800px;min-width:0}

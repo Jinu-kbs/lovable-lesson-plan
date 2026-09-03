@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="common.css">
 <style>
-:root{--primary:#0F766E;--primary-light:#99F6E4;--blockquote-bg:#F0FDFA;--hover-bg:#ECFDF5}
+:root{--primary:#0E746C;--primary-light:#1DAFA2;--blockquote-bg:#EDFAF9;--hover-bg:#F7FCFB}
 
 /* 언어 탭 */
 .lang-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:0}
@@ -19,7 +19,7 @@
 /* 파일 탭 코드 블록 */
 .file-tabs{background:#1E293B;border-radius:10px 10px 0 0;display:flex;gap:0;overflow-x:auto}
 .file-tab{padding:8px 16px;font-family:'Fira Code',monospace;font-size:.8rem;color:#94A3B8;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
-.file-tab.active{color:#A5F3FC;border-bottom-color:#A5F3FC;background:#263545}
+.file-tab.active{color:#9BF6EF;border-bottom-color:#9BF6EF;background:#263545}
 .file-content{background:#1E293B;border-radius:0 0 10px 10px;padding:20px;margin-bottom:24px;overflow-x:auto}
 .file-content code{font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.8;color:#E2E8F0;white-space:pre;display:block}
 .file-panel{display:none}.file-panel.active{display:block}
@@ -33,7 +33,7 @@
 
 /* 프로토콜 구조 박스 */
 .protocol-box{background:#F8FAFC;border:1px solid var(--border);border-radius:12px;padding:20px;margin:16px 0 24px;font-family:'Fira Code',monospace;font-size:.82rem;line-height:2;overflow-x:auto}
-.protocol-box .p-root{color:#0F766E;font-weight:700}
+.protocol-box .p-root{color:#0F756C;font-weight:700}
 .protocol-box .p-child{color:#374151;padding-left:20px}
 .protocol-box .p-leaf{color:#6B7280;padding-left:40px}
 .protocol-box .p-comment{color:#9CA3AF;font-style:italic}
@@ -48,7 +48,7 @@
 .code-dark{background:#1E293B;border-radius:10px;padding:20px;margin:12px 0 20px;overflow-x:auto}
 .code-dark code{font-family:'Fira Code',monospace;font-size:.82rem;line-height:1.8;color:#E2E8F0;white-space:pre;display:block}
 .code-dark .c-comment{color:#64748B}
-.code-dark .c-string{color:#A5F3FC}
+.code-dark .c-string{color:#9BF6EF}
 .code-dark .c-keyword{color:#7DD3FC}
 .code-dark .c-fn{color:#A3E635}
 
@@ -61,8 +61,8 @@
 /* callout */
 .callout{border-left:4px solid var(--primary);background:var(--blockquote-bg);padding:14px 18px;margin:16px 0 24px;border-radius:0 8px 8px 0;font-size:.9rem;line-height:1.6}
 .callout strong{color:var(--primary)}
-.callout.warn{border-color:#D97706;background:#FFFBEB}
-.callout.warn strong{color:#D97706}
+.callout.warn{border-color:#9B580D;background:#FFFBEB}
+.callout.warn strong{color:#9B580D}
 
 /* 체크리스트 */
 .checklist{list-style:none;margin:0 0 24px}
@@ -108,7 +108,7 @@
   </div>
 </nav>
 
-<div class="hero" style="background:linear-gradient(135deg,#0F766E 0%,#134E4A 50%,#064E3B 100%)">
+<div class="hero" style="background:linear-gradient(135deg,#0F756C 0%,#0D4E49 50%,#084C47 100%)">
   <div class="hero-inner">
     <div class="hero-badge-row">
       <span class="hero-badge">🐍 Python FastMCP</span>
@@ -928,17 +928,17 @@ CMD [<span class="c-string">"python"</span>, <span class="c-string">"server.py"<
 
       <h3>MCP 시리즈 완료</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:16px">
-        <a href="mcp-beginner.html" style="display:block;background:#F0FDFA;border:2px solid #99F6E4;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+        <a href="mcp-beginner.html" style="display:block;background:#F1FCFB;border:2px solid #9FF5ED;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
           <div style="font-size:1.4rem;margin-bottom:6px">🔌</div>
-          <div style="font-weight:700;font-size:.9rem;color:#0F766E">MCP 초급</div>
+          <div style="font-weight:700;font-size:.9rem;color:#0F756C">MCP 초급</div>
           <div style="font-size:.78rem;color:#777;margin-top:4px">설치 · 기본 사용</div>
         </a>
-        <a href="mcp-intermediate.html" style="display:block;background:#F0FDFA;border:2px solid #99F6E4;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+        <a href="mcp-intermediate.html" style="display:block;background:#F1FCFB;border:2px solid #9FF5ED;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
           <div style="font-size:1.4rem;margin-bottom:6px">⚡</div>
-          <div style="font-weight:700;font-size:.9rem;color:#0F766E">MCP 중급</div>
+          <div style="font-weight:700;font-size:.9rem;color:#0F756C">MCP 중급</div>
           <div style="font-size:.78rem;color:#777;margin-top:4px">다중 서버 · 실전</div>
         </a>
-        <a href="mcp-developer.html" style="display:block;background:#0F766E;border:2px solid #0F766E;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
+        <a href="mcp-developer.html" style="display:block;background:#0F756C;border:2px solid #0F756C;border-radius:12px;padding:16px;text-decoration:none;text-align:center">
           <div style="font-size:1.4rem;margin-bottom:6px">🔧</div>
           <div style="font-weight:700;font-size:.9rem;color:#FFF">MCP 개발자</div>
           <div style="font-size:.78rem;color:#A7F3D0;margin-top:4px">직접 제작 · 배포</div>
